@@ -1,6 +1,6 @@
 -- Consulta: qry_02(03)aProdutosBase
 -- Tipo: SELECT
--- Banco: ControleEstoque 64bits v12g (passando Recd pro form ao abrir JL).accdb
+-- Banco: ControleEstoque 64bits v12h (finalizando form Estoque).accdb
 
 SELECT [tbl_02(03)aProdutosBase].ProdutoBaseID, [tbl_02(03)aProdutosBase].ProdutoBaseDescriçao, [tbl_02(03)aProdutosBase].Inativo
 FROM [tbl_02(03)aProdutosBase]

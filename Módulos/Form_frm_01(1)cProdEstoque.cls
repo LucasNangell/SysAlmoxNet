@@ -52,11 +52,17 @@ Private Sub btnExcluirPrd_Click()
 End Sub
 
 Private Sub Form_Load()
+
 'Stop
+    
     If Not clObjFormOpenParams Is Nothing Then
         Set clObjFormOpenParams.fTrgtForm = Me
         Call FormLoad06a_BackFromFormLoad(clObjFormOpenParams)
     End If
+    
+    Me.lstEstoqueIn.RowSource = ""
+    Me.lstEstoqueSaldo.RowSource = ""
+    
 End Sub
 
 

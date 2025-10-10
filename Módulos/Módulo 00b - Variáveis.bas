@@ -127,8 +127,8 @@ Option Explicit
 '      Public gBbEventFound As Boolean   'retorna se o evento pesquisado existe
       
 ''--  de Rotinas de Filtragem
-            'variáveis globais temporárias pra guardar o Controle e o Form necessários
-            ' pra chamar a rotina de atraso de filtragem durante digitação
+        'variáveis globais temporárias pra guardar o Controle e o Form necessários
+        ' pra chamar a rotina de atraso de filtragem durante digitação
       Public gBcTrggCtrl As Control
       Public gBfTrggCtrlForm As Form
 

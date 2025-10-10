@@ -435,8 +435,15 @@ End Sub
 Private Sub mListBox_AfterUpdate()
     Dim fForM As Form
     
+    '---------------------------------------------------------------
+    ' inicia a filtragem do [ TrgtCtrl ] associado ao mesmo grupo de filtragem do Listbox [ TrggCtrl ]
+    ' que teve um item selecionado
+    ' Esse evento está numa classe diferente dos Targts pois mesmo todo Listbox disparador é um [ TrgtCtrl ]
+    '---------------------------------------------------------------
+    
     Set fForM = mListBox.Parent
     
+Stop
     'Aciona a atualização do [ TargetCtrl ] associado ao controle
     Call pb_TargtCtrlUpdate00_TimerDelay(fForM, mListBox)
 

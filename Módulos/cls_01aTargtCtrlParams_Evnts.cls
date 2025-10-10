@@ -63,20 +63,23 @@ Private Sub mListBox_MouseDown(Button As Integer, Shift As Integer, x As Single,
     Dim cEdtCtrl As Control
     Dim fForM As Form
     
-    Set fForM = mListBox.Parent
+    '---------------------------------------------------------------
+    ' chama pbSub00_CtrlsEnblDsble_GetParams
+    ' pra habilitar/desabilitar os controles depois que um valor é selecionado na Listbox
+    '---------------------------------------------------------------
     
+    Set fForM = mListBox.Parent
+'Stop
     'Quando um item é selecionado na listbox
     ' habilita o botão de Edição de dados do grupo de filtragem indicado
-
-    'Caso a lista esteja liberada pra seleção dos valores
-    ' do contrário nenhuma ação deve ser executada
+    ' se a lista estiver liberada pra seleção dos valores
+    ' Caso contrário nenhuma ação deve ser executada
     If mListBox.Locked = False Then
 
         sForM = mListBox.Parent.Name
 
         'Encontra o grupo de filtragem da lista [ TrgtCtrl ]
         ' verifica se a lista existe no dict [ dictTrgtCtrlsFilterGrps(sForM) ] pra buscar o grupo diretamente
-
         If dictTrgtCtrlsFilterGrps(sForM).Exists(mListBox.Name) Then
             sFilGrp = dictTrgtCtrlsFilterGrps(sForM)(mListBox.Name)
         

@@ -271,9 +271,9 @@
       <Top>8160</Top>
       <Width>3433</Width>
       <Height>2197</Height>
-      <Tag>rgtCtrl.Grp03.RCnt>--HLclr1.OnDrty.Mskd.MSlct0-</Tag>
+      <Tag>TrgtCtrl.Grp12.RCnt>--HLclr1.OnDrty.Mskd.MSlct0-</Tag>
       <Enabled>Verdadeiro</Enabled>
-      <RowSource>qry_05(1)cProdEstoqueSaldoMarcaGrpd(Viw)</RowSource>
+      <RowSource>qry_05(1)cProdEstoqueInSaldoByMarca(Viw)</RowSource>
     </Control>
     <Control>
       <Name>Rótulo269</Name>
@@ -983,8 +983,8 @@ Nova Entrada</Caption>
     <Control>
       <Name>txtSrchDescProd</Name>
       <Type>TextBox</Type>
-      <Left>3345</Left>
-      <Top>1020</Top>
+      <Left>3351</Left>
+      <Top>1049</Top>
       <Width>8616</Width>
       <Height>315</Height>
       <Tag>-Trgg.ProdutoFull.Grp10.Rmv04.WdCrd2.SrchOnChg0.CascUpDt>-HLclr1.OnDrty1.Mskd.MSlct0-RstAr01</Tag>
@@ -995,8 +995,8 @@ Nova Entrada</Caption>
     <Control>
       <Name>Rótulo205</Name>
       <Type>Label</Type>
-      <Left>2205</Left>
-      <Top>765</Top>
+      <Left>2211</Left>
+      <Top>794</Top>
       <Width>1125</Width>
       <Height>570</Height>
       <Tag></Tag>
@@ -1006,8 +1006,8 @@ Nova Entrada</Caption>
     <Control>
       <Name>txtSrchVariaç</Name>
       <Type>TextBox</Type>
-      <Left>3348</Left>
-      <Top>1560</Top>
+      <Left>3358</Left>
+      <Top>1590</Top>
       <Width>2346</Width>
       <Height>315</Height>
       <Tag>-Trgg.Variaçao.Grp10.Rmv04.WdCrd2.SrchOnChg0.CascUpDt>-HLclr1.OnDrty1.Mskd.MSlct0-RstAr01</Tag>
@@ -1018,8 +1018,8 @@ Nova Entrada</Caption>
     <Control>
       <Name>Rótulo207</Name>
       <Type>Label</Type>
-      <Left>2205</Left>
-      <Top>1560</Top>
+      <Left>2215</Left>
+      <Top>1590</Top>
       <Width>1083</Width>
       <Height>315</Height>
       <Tag></Tag>
@@ -1133,8 +1133,8 @@ Nova Entrada</Caption>
     <Control>
       <Name>btnReset2Search</Name>
       <Type>CommandButton</Type>
-      <Left>20760</Left>
-      <Top>2235</Top>
+      <Left>20749</Left>
+      <Top>2239</Top>
       <Width>737</Width>
       <Height>405</Height>
       <Tag>ActType>RstArea02</Tag>
@@ -1317,8 +1317,8 @@ Nova Entrada</Caption>
     <Control>
       <Name>btnTeste</Name>
       <Type>CommandButton</Type>
-      <Left>17640</Left>
-      <Top>11940</Top>
+      <Left>17631</Left>
+      <Top>11962</Top>
       <Width>737</Width>
       <Height>405</Height>
       <Tag>ActType>RstArea03</Tag>
@@ -1343,7 +1343,7 @@ Nova Entrada</Caption>
       <Top>8158</Top>
       <Width>12733</Width>
       <Height>2197</Height>
-      <Tag>TrgtCtrl.Grp11.RCnt>---</Tag>
+      <Tag>TrgtCtrl.Grp11.RCnt>-Trgg.ProdutoFullIDfk.Grp12.Rmv.WdCrd.SrchOnChg0.CascUpDt>--</Tag>
       <Enabled>Verdadeiro</Enabled>
       <RowSource>qry_05(1)aProdEstoqueIn(Viw)</RowSource>
     </Control>

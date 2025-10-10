@@ -85,7 +85,7 @@ Sub PbSubFillFieldsByList(cListBox As Control)
     'Recupera o grupo de filtragem do [ ListBox ]
     ' pra depois recuperar os controles [ cDataFieldCtrl ] do [ Grupo ]
     sFilGrp = dictTrgtCtrlsFilterGrps(sForM)(cListBox.Name)
-    
+Stop
     '-------------------------------------------
     'Inicia a consulta pra exibição dos dados
     '-------------------------------------------

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Form name="frm_00(1)cSysLoadLog">
+  <Properties>
+    <Caption>ALMOX - Controle de Estoque</Caption>
+    <RecordSource></RecordSource>
+    <Width>10896</Width>
+    <Height></Height>
+    <DefaultView>0</DefaultView>
+  </Properties>
+  <Controls>
+    <Control>
+      <Name>lblTitulo</Name>
+      <Type>Label</Type>
+      <Left>510</Left>
+      <Top>120</Top>
+      <Width>9135</Width>
+      <Height>630</Height>
+      <Tag></Tag>
+      <Enabled></Enabled>
+      <Caption>Alertas de carga do sistema</Caption>
+    </Control>
+    <Control>
+      <Name>btnSair</Name>
+      <Type>CommandButton</Type>
+      <Left>9127</Left>
+      <Top>4251</Top>
+      <Width>1200</Width>
+      <Height>483</Height>
+      <Tag>ActType>CloseForm</Tag>
+      <Enabled>Verdadeiro</Enabled>
+      <Caption></Caption>
+      <OnClick>[Event Procedure]</OnClick>
+    </Control>
+    <Control>
+      <Name>txtLoadLog</Name>
+      <Type>TextBox</Type>
+      <Left>737</Left>
+      <Top>566</Top>
+      <Width>9801</Width>
+      <Height>3585</Height>
+      <Tag>rgg.ProdMedida.Grp01.Rmv04.WdCrd2.SrchDlay0.CascUpDt(_)--HLclr1.OnDrty0.Mskd1.MSlct0-RstAr02</Tag>
+      <Enabled>Verdadeiro</Enabled>
+      <ControlSource></ControlSource>
+      <Format></Format>
+    </Control>
+    <Control>
+      <Name>lblTrggForm</Name>
+      <Type>Label</Type>
+      <Left>737</Left>
+      <Top>226</Top>
+      <Width>8325</Width>
+      <Height>315</Height>
+      <Tag></Tag>
+      <Enabled></Enabled>
+      <Caption>Formulário carregado: </Caption>
+    </Control>
+    <Control>
+      <Name>btnCopyText</Name>
+      <Type>CommandButton</Type>
+      <Left>10034</Left>
+      <Top>226</Top>
+      <Width>450</Width>
+      <Height>317</Height>
+      <Tag>NotInDict</Tag>
+      <Enabled>Verdadeiro</Enabled>
+      <Caption></Caption>
+      <OnClick>[Event Procedure]</OnClick>
+    </Control>
+  </Controls>
+</Form>

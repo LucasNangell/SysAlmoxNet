@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Form name="frm_00(1)bSysTimer">
+  <Properties>
+    <Caption></Caption>
+    <RecordSource></RecordSource>
+    <Width>3968</Width>
+    <Height></Height>
+    <DefaultView>0</DefaultView>
+  </Properties>
+  <Controls>
+  </Controls>
+</Form>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Form name="frm_00(1)dSysDialogBox">
+  <Properties>
+    <Caption>ALMOX - Controle de Estoque</Caption>
+    <RecordSource></RecordSource>
+    <Width>9070</Width>
+    <Height></Height>
+    <DefaultView>0</DefaultView>
+  </Properties>
+  <Controls>
+    <Control>
+      <Name>lblTitulo</Name>
+      <Type>Label</Type>
+      <Left>283</Left>
+      <Top>120</Top>
+      <Width>8505</Width>
+      <Height>630</Height>
+      <Tag></Tag>
+      <Enabled></Enabled>
+      <Caption>Cancelamento de Ediçao de Dados</Caption>
+    </Control>
+    <Control>
+      <Name>lblTexto</Name>
+      <Type>Label</Type>
+      <Left>285</Left>
+      <Top>285</Top>
+      <Width>8505</Width>
+      <Height>570</Height>
+      <Tag></Tag>
+      <Enabled></Enabled>
+      <Caption>As alterações realizadas serão perdidas.
+Confirma?</Caption>
+    </Control>
+    <Control>
+      <Name>btnYes</Name>
+      <Type>CommandButton</Type>
+      <Left>5725</Left>
+      <Top>1247</Top>
+      <Width>1419</Width>
+      <Height>454</Height>
+      <Tag>Grp11.ActType>SaveRec.FormMode>StartView.FrmToOpen></Tag>
+      <Enabled>Verdadeiro</Enabled>
+      <Caption>&amp;Sim</Caption>
+      <OnClick>[Event Procedure]</OnClick>
+    </Control>
+    <Control>
+      <Name>btnNo</Name>
+      <Type>CommandButton</Type>
+      <Left>7426</Left>
+      <Top>1247</Top>
+      <Width>1419</Width>
+      <Height>454</Height>
+      <Tag>Grp11.ActType>CancelNew.FormMode>StartView.FrmToOpen></Tag>
+      <Enabled>Verdadeiro</Enabled>
+      <Caption>&amp;Não</Caption>
+      <OnClick>[Event Procedure]</OnClick>
+    </Control>
+  </Controls>
+</Form>

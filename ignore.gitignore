@@ -1,0 +1,7 @@
+echo # Ignorar tudo > .gitignore
+echo * >> .gitignore
+echo # Exceto os arquivos .accdb >> .gitignore
+echo !*.accdb >> .gitignore
+echo # Exceto a pasta Módulos e seu conteúdo >> .gitignore
+echo !/Módulos/ >> .gitignore
+echo !/Módulos/**/* >> .gitignore

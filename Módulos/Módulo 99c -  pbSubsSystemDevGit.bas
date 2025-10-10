@@ -175,7 +175,7 @@ Sub ExportarTodosObjetosVBADetallado()
     x = Shell("cmd.exe /K ""cd /d " & CurrentProject.Path, 1)
     Sleep (500)
     
-    SendKeys ("git add *")
+    SendKeys ("git add *.accdb Módulos/")
     SendKeys ("{ENTER}")
     Sleep (200)
     SendKeys ("git commit -m " & """" & strComand & """")

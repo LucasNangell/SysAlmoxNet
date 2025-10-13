@@ -13,6 +13,7 @@ Option Explicit
 
 
 Private Sub Form_Load()
+    'Call PbSbBuildDictFieldsInQryTrgtCtrl(Me.Name, lstProdsBase, "01")
     Call SysLoad00_SysStartLoad
 
 End Sub

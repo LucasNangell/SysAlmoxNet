@@ -15,7 +15,7 @@ Option Explicit
       Public Const gBsSystemDefaultForm As String = "frm_00(1)aSysStart"   'nome do formulário de início de sistema
       
       'Ativa/Inativa tratamentos de erro
-      Public Const gBbEnableErrorHandler As Boolean = True
+      Public Const gBbEnableErrorHandler As Boolean = False
       
       
       'Carga do sistema: rotina [ SysLoad01_SysDictsLoad ], nível 1

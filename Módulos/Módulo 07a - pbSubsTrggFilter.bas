@@ -411,13 +411,12 @@ Public Sub pb_TargtCtrlUpdate06_BuildWHERE(fForM As Form, sFilGrp As String)
     Dim sModName As String, sSubName As String, sSearchTerm As String
     Dim cTrggCtrL As Control
     Dim vKeyTrggCtrl As Variant
-    Dim vKeyTrgtCtrl As Variant
     
     sForM = fForM.Name
     
 'MsgBox "----- pb_TargtCtrlUpdate06_BuildWHERE ----------------------------------------" & vbCr & vbCr & "Inicia BuildWHERE." & vbCr & " " & vbCr & " "
 If gBbDepurandoLv03a Then Stop
-'Stop
+Stop
 
     '--------------------------------------------------------------------------------------------------------
     ' Passa por cada um dos controles do Grupo de Filtragem  do [ sForM ] e armazena no Dict [ dictTrgg01CtrlsInGrp ]
@@ -468,13 +467,11 @@ If gBbDepurandoLv03a Then Stop
         
         'Recupera o SQL Select do TargtCtrl que está sendo atualizado,
         ' informação necessária para fazer a pesquisa em campos calculados
-        'voltar aqui
-        For Each vA In dictFormFilterGrpsTrgts(sForM)(sFilGrp)
-            Set clObjTargtCtrlParam = dictFormFilterGrpsTrgts(sForM)(sFilGrp)(vA)
-            sTargtCtrlSQLselect = clObjTargtCtrlParam.sClsLstbxSQL_aSELECT
-        Next vA
+        Set clObjTargtCtrlParam = dictFormFilterGrpsTrgts(sForM)(sFilGrp)
+        sTargtCtrlSQLselect = clObjTargtCtrlParam.sClsLstbxSQL_aSELECT
+        
         'Debug.Print sTargtCtrlSQLselect
-'Stop
+Stop
         
         
 If gBbDepurandoLv03a Then MsgBox "----- pb_TargtCtrlUpdate06_BuildWHERE ----------------------------------------" & vbCr & vbCr & "pass bMsked to TextBox filter: [ " & sCtrL & " ]" & vbCr & " " & vbCr & " "
@@ -621,8 +618,8 @@ If gBbDepurandoLv03a Then Stop
             ' É necessário fazer a varredura no Dict pois é possível que
             ' um Grupo de Filtragem tenha mais de um TargtCtrl associado
             
-        For Each vKeyTrgtCtrl In dictFormFilterGrpsTrgts(sForM)(sFilGrp)
-            Set clObjTargtCtrlParam = dictFormFilterGrpsTrgts(sForM)(sFilGrp)(vKeyTrgtCtrl)
+        'For Each vKeyFilterGrp In dictFormFilterGrpsTrgts(sForM) 'dictFormFilterGrpsTrgts
+            Set clObjTargtCtrlParam = dictFormFilterGrpsTrgts(sForM)(sFilGrp)
             sTargtCtrlName = clObjTargtCtrlParam.sTargtCtrlName
             sRecCntCtrlName = clObjTargtCtrlParam.sRecCntCtrlName
 
@@ -644,8 +641,8 @@ If gBbDepurandoLv03a Then Stop
                 vD = vA & vbCr & vB & vbCr & sNewTrgtGrp_WHERE & vbCr & vC
                 If gBbDebugOn Then Debug.Print vD
                 
-'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "Aplica RowSource com a filgragem [ " & sCtrL & " ]"
-'Stop
+MsgBox "teste --------------------------------------------------------------------------" & vbCr & "Aplica RowSource com a filgragem [ " & sCtrL & " ]"
+Stop
                 
                 vA = cCtrL.Name
                 cCtrL.RowSource = vD
@@ -707,7 +704,7 @@ If gBbDepurandoLv03a Then Stop
             '-----------------------------------------------
             '------------------------------
 
-        Next vKeyTrgtCtrl
+'        Next vKeyFilterGrp
         'clObjTargtCtrlParam
 
         End If

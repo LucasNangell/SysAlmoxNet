@@ -31,7 +31,8 @@ Public sClsLstbxSQL_dOrderBy As String  'SQL original do ListBox ou Combo ao car
 
 Public sClsLstbxSQL_eMAIN As String     'SQL original do ListBox ou Combo ao carregar o Form (Select + From)
 
-Public dictQryFields As New Dictionary
+
+
 
 'Public sFilGrp As Integer    ' grupo de filtragem a que pertence o controle, o que permite identificar
                                  ' qual controle deve exibir os resultados da pesquisa e se há outros controles

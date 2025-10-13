@@ -465,7 +465,7 @@ If gBbDepurandoLv02a Then Stop
                 '-----------------------------------------------------------
                 'Atualiza o TargtCtrl e o RecCnt de cada Grupo de Filtragem que tenha [ TriggCtrls ] adicionados ao [ dictFormFilterGrpsTrgts(sForM)(vKeyFilGrp) ]
                 '-----------------------------------------------------------
-                Set clObjTargtCtrlParam = dictFormFilterGrpsTrgts(clObjFormOpenParams.sTrgtForm)(vKeyFilGrp)
+                Set clObjTargtCtrlParam = dictFormFilterGrpsTrgts(clObjFormOpenParams.sTrgtForm)(vKeyFilGrp)(vKeyTrgtCtrl)
                 sTargtCtrl = clObjTargtCtrlParam.sTargtCtrlName
                 sRecCntCtrl = clObjTargtCtrlParam.sRecCntCtrlName
                 
@@ -545,7 +545,7 @@ Public Sub FormLoad07_GenCtrlsEventDictInit(sForM As String)
     
     Dim vA, vB
     Dim cCtrL As Control
-    Dim vKeyEventCtrls As Variant, vKeyFilGrps As Variant
+    Dim vKeyEventCtrls As Variant, vKeyFilGrps As Variant, vKeyTrgtCtrl As Variant
     Dim sTrgtCtrl As String
     
     
@@ -571,17 +571,17 @@ Public Sub FormLoad07_GenCtrlsEventDictInit(sForM As String)
     If Not IsObject(dictFormFilterGrpsTrgts(sForM)) Then Exit Sub
     
     For Each vKeyFilGrps In dictFormFilterGrpsTrgts(sForM)
-
-
-        Set clObjTargtCtrlParam = dictFormFilterGrpsTrgts(sForM)(vKeyFilGrps)
-        sTrgtCtrl = clObjTargtCtrlParam.sTargtCtrlName
+        For Each vKeyTrgtCtrl In dictFormFilterGrpsTrgts(sForM)(vKeyFilGrps)
         
-'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "Init TrgtCtrls events [ " & sTrgtCtrl & "]"
-'Stop
-        
-        Set cCtrL = Forms(sForM).Controls(sTrgtCtrl)
-        If cCtrL.ControlType = acListBox Then Set dictFormFilterGrpsTrgts(sForM)(vKeyFilGrps).InitCtrl = cCtrL
-        
+            Set clObjTargtCtrlParam = dictFormFilterGrpsTrgts(sForM)(vKeyFilGrps)(vKeyTrgtCtrl)
+            sTrgtCtrl = clObjTargtCtrlParam.sTargtCtrlName
+            
+    'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "Init TrgtCtrls events [ " & sTrgtCtrl & "]"
+    'Stop
+            
+            Set cCtrL = Forms(sForM).Controls(sTrgtCtrl)
+            If cCtrL.ControlType = acListBox Then Set dictFormFilterGrpsTrgts(sForM)(vKeyFilGrps)(vKeyTrgtCtrl).InitCtrl = cCtrL
+        Next vKeyTrgtCtrl
     Next vKeyFilGrps
 
 End Sub

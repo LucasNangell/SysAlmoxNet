@@ -131,7 +131,7 @@ Option Explicit
 ' '5- pbSub20_TargtCtrlsDictStartUp
         ' pra cada acListBox, acComboBox do [ Form ] avalia se o controle tem a 2a seção de parâmetros
         ' chama [ pbSub21_TargtCtrlsDictBuild ] pra carregar os parâmetros e
-        ' monta o dicionário [ dictFormFilterGrpsTrgts(sForM) ] com os grupos de filtragem do [ Form ]
+        ' monta o dicionário [ dictFormFilterGrps(sForM) ] com os grupos de filtragem do [ Form ]
 ' '        . inclui no dict o grupo de filtragem associado ao controle ora avaliado
 ' '        . recupera o SQL do TrgtCtrl associado ao grupo
 ' '        . checa a inexistência de TrgtCtrls no form e inclui no dict de Log de Erros
@@ -260,32 +260,32 @@ Option Explicit
 ' '. pbSub20_TargtCtrlsDictStartUp
 ' ' . pbSub21_TargtCtrlsDictBuild
 ' '    Cria uma nova variação do dicionário pro Formulário corrente
-'       Set dictFormFilterGrpsTrgts(sForm) = New Dictionary
-'       Set dDict = dictFormFilterGrpsTrgts(sForm)
+'       Set dictFormFilterGrps(sForm) = New Dictionary
+'       Set dDict = dictFormFilterGrps(sForm)
 ' '
 ' '   Recupera o Grupo de Filtragem pra montar o Dicionário
 ' '   . pbSub06_GetCtrlTagFltrGrp
 ' '
 ' '   Cria um novo objeto [ clObjTargtCtrlParam ] da Classe [ cls_01aTargtCtrlParams_Evnts ]
-' '    pra ser incluído no Dict [ dictFormFilterGrpsTrgts(sForm) ]
+' '    pra ser incluído no Dict [ dictFormFilterGrps(sForm) ]
 '      Set clObjTargtCtrlParam = New cls_01aTargtCtrlParams_Evnts
 ' '
-' '   Adiciona um novo item no dicionário [ dictFormFilterGrpsTrgts ] e guarda nele o objeto [ clObjTargtCtrlParam ]
+' '   Adiciona um novo item no dicionário [ dictFormFilterGrps ] e guarda nele o objeto [ clObjTargtCtrlParam ]
 ' '    com os respectivos parâmetros do targtCtrl definidos na classe [ cls_01aTargtCtrlParams_Evnts ]
 '       dDict.Add sFilGrp, clObjTargtCtrlParam
 ' '
 ' '    Obs: não foi prevista a possibilidade de incluir num Grupo de Filtragem mais de um TargtCtrl
-' '          pra isso funcionar, ao invés de incluir no [ dictFormFilterGrpsTrgts(sForm) ] um objeto de classe
+' '          pra isso funcionar, ao invés de incluir no [ dictFormFilterGrps(sForm) ] um objeto de classe
 ' '          com os parâmetros do Grupo (TargtCtrl, Where, etc), teria que ser incluído um segundo dicionário.
 ' '          Nesse segundo dicionário seriam incluídos cada um dos TargtCtrls associados ao Grupo, e nesse dicionário
 ' '          aí sim seria incluído o [ clObjTargtCtrlParam ]
 ' '
 ' '     Atribui ao Listbox os parâmetros esperados pela Classe [ cls_01aTargtCtrlParams_Evnts ]
 ' '     -------------------------------------------------------------------------------------------
-' '      dictFormFilterGrpsTrgts   - Forms
+' '      dictFormFilterGrps   - Forms
 ' '        Item "frm_01(1)bProdEstoque"
 ' '
-' '        dictFormFilterGrpsTrgts(sForm)     - Grupos de Filtragem
+' '        dictFormFilterGrps(sForm)     - Grupos de Filtragem
 ' '          Item "01"  >  clObjTargtCtrlParam  - parâmetros do Grupo de Filtragem
 ' '                         .sTargtCtrlName
 ' '                         .sClsLstbxSQL_aSELECT
@@ -297,11 +297,11 @@ Option Explicit
 ' '                         .sRecCntCtrlName
 ' '   ---------------------------------------------------------------------------------------------
 ' '   ---------------------------------------------------------------------------------------------
-'      Set clObjTargtCtrlParam = dictFormFilterGrpsTrgts(sForM)("01")
+'      Set clObjTargtCtrlParam = dictFormFilterGrps(sForM)("01")
 '      va = clObjTargtCtrlParam.sTargtCtrlName
 '
-'      For Each vKey In dictFormFilterGrpsTrgts(sForM)
-'          Set clObjTargtCtrlParam = dictFormFilterGrpsTrgts(sForM)(vKey)
+'      For Each vKey In dictFormFilterGrps(sForM)
+'          Set clObjTargtCtrlParam = dictFormFilterGrps(sForM)(vKey)
 '
 '      Next vKey
 '     ---------------------------------------------------------------------------------------------
@@ -437,13 +437,13 @@ Option Explicit
 '                                End If
 '
 '                                'Confirma se [ sTriggCtrl ] é também um [ TrgtCtrl ]
-'                                ' confirma se o dict [ dictFormFilterGrpsTrgts(sForM) ] existe, o que indica que há Grupos de filtragem no [ Form ]
-'                                If IsObject(dictFormFilterGrpsTrgts(sForM)) Then
+'                                ' confirma se o dict [ dictFormFilterGrps(sForM) ] existe, o que indica que há Grupos de filtragem no [ Form ]
+'                                If IsObject(dictFormFilterGrps(sForM)) Then
 '
-'                                    ' confirma se [ sTriggCtrl ] existe no dict [ dictFormFilterGrpsTrgts(sForM) ], o que indica que ele é um [ TargetCtrl ]
-'                                    If dictFormFilterGrpsTrgts(sForM).Exists(sFilGrp) = True Then
+'                                    ' confirma se [ sTriggCtrl ] existe no dict [ dictFormFilterGrps(sForM) ], o que indica que ele é um [ TargetCtrl ]
+'                                    If dictFormFilterGrps(sForM).Exists(sFilGrp) = True Then
 '
-'                                        Set clObjTargtCtrlParam = dictFormFilterGrpsTrgts(sForM)(sFilGrp)
+'                                        Set clObjTargtCtrlParam = dictFormFilterGrps(sForM)(sFilGrp)
 '                                        vA = clObjTargtCtrlParam.sTargtCtrlName
 'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "Trigger é Target"
 'Stop

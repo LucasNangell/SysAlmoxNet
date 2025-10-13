@@ -14,8 +14,6 @@ Option Explicit
       Public Const gBiTypingDelay  As Integer = 250                        'tempo de espera entre a digitação nos campos de filtragem e o disparo da filtragem
       Public Const gBsSystemDefaultForm As String = "frm_00(1)aSysStart"   'nome do formulário de início de sistema
       
-      'Ativa/Inativa tratamentos de erro
-      Public Const gBbEnableErrorHandler As Boolean = True
       
       
       'Carga do sistema: rotina [ SysLoad01_SysDictsLoad ], nível 1
@@ -127,8 +125,8 @@ Option Explicit
 '      Public gBbEventFound As Boolean   'retorna se o evento pesquisado existe
       
 ''--  de Rotinas de Filtragem
-        'variáveis globais temporárias pra guardar o Controle e o Form necessários
-        ' pra chamar a rotina de atraso de filtragem durante digitação
+            'variáveis globais temporárias pra guardar o Controle e o Form necessários
+            ' pra chamar a rotina de atraso de filtragem durante digitação
       Public gBcTrggCtrl As Control
       Public gBfTrggCtrlForm As Form
 
@@ -167,16 +165,15 @@ Option Explicit
        Public clObjUserParams As cls_08aLoggedUserParams   'declaração do objeto de classe
      '----------------
        
-       
-       
      '----------------
      ' dict pra guardar os [ Grupos de filtragem ] do formulário
      '  e os respectivos controles do Grupo
-       Public dictFormFilGrpsEnDsAllCtrls As New Dictionary
+       Public dictFormFilterGrpsCtrls As New Dictionary
        
+     '----------------
      ' dict pra guardar os [ Grupos de filtragem ] do formulário
      '  e o respectivo [ TrgtCtrl ] na classe
-       Public dictFormFilterGrpsTrgts As New Dictionary
+       Public dictFormFilterGrps As New Dictionary
             'key   > Grupo de Filtragem da Listbox
             'valor > Objeto de Classe clObjTargtCtrlParam com todos os parâmetros
     
@@ -192,6 +189,7 @@ Option Explicit
      '----------------
        Public dictTrgg00GrpsInForm As New Dictionary  'dicionário com grupos de filtragem para o formulário
        Public dictTrgg01CtrlsInGrp As New Dictionary  'dicionário com os controles associados a cada grupo de filtragem
+       'Public dictTrgg02Ctrls As New Dictionary           '
        
      ' objeto de classe pra armazenar parâmetros dos TriggCtrls
        Public clObjTriggCtrlParam As cls_02aTrggCtrlParams   'declaração do objeto de classe
@@ -204,8 +202,6 @@ Option Explicit
      ' objeto de classe pra armazenar o Grupo de Filtragem associado aos controles de cada Formulário
        Public clObjFilGrpsByForm As cls_03aCtrlsGrpsByForm   'declaração do objeto de classe
      '----------------
-       
-       
        
        
      '----------------

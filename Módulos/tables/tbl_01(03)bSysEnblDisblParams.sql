@@ -1,5 +1,5 @@
 -- Tabela: tbl_01(03)bSysEnblDisblParams
--- Registros: 73
+-- Registros: 72
 
 CREATE TABLE tbl_01(03)bSysEnblDisblParams (
     EnbleDsbleSetID INTEGER AUTOINCREMENT,

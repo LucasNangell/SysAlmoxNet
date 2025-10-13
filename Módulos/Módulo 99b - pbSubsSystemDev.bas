@@ -169,7 +169,7 @@ Sub ListarControlesDeTodosFormulariosComTag()
 ' .DataHora  (data e hora da criação da tabela)
 
 
-    If gBbEnableErrorHandler Then On Error Resume Next
+    On Error Resume Next
     
     Dim accObj As AccessObject
     Dim frm As Form
@@ -307,7 +307,7 @@ End Function
 
 Function ObterFonteControle(CtrL As Control) As String
     ' Obtém a fonte de dados do controle (se aplicável)
-    If gBbEnableErrorHandler Then On Error Resume Next
+    On Error Resume Next
     Select Case CtrL.ControlType
         Case acTextBox, acComboBox, acListBox, acCheckBox
             ObterFonteControle = Nz(CtrL.ControlSource, "(não vinculado)")
@@ -318,7 +318,7 @@ End Function
 
 Function ObterRotuloControle(CtrL As Control) As String
     ' Obtém o rótulo associado ao controle (se existir)
-    If gBbEnableErrorHandler Then On Error Resume Next
+    On Error Resume Next
     If Not CtrL.Controls(0) Is Nothing Then
         If CtrL.Controls(0).ControlType = acLabel Then
             ObterRotuloControle = Nz(CtrL.Controls(0).Caption, "(sem rótulo)")

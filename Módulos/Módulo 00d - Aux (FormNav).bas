@@ -202,7 +202,7 @@ Public Sub MskdTxtbox02_TextMask(cTxtboxCtrl As Control, sTypedText As String, s
     '--------------------------------------------
     'Identifica se foram digitados apenas números
     ' se tiverem sido digitadas LETRAS dá erro
-    If gBbEnableErrorHandler Then On Error Resume Next
+    On Error Resume Next
     If sTxtboxNrTypedTxt <> "" Then lTxtValue = Val(CLng(sTxtboxNrTypedTxt))
     
     If (Err.Number = 13) Then

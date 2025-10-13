@@ -21,7 +21,7 @@ Public Sub pbSub00_UserPermissionsDictBuild(vLoginStR As Variant)
     Dim sLoadLogWarn As String
 'Stop
 
-    If gBbEnableErrorHandler Then On Error GoTo -1: On Error GoTo FrM_ErrorHandler
+    'On Error GoTo -1: On Error GoTo FrM_ErrorHandler
 
     'Cria o objeto [ clObjUserParams ] da Classe [ cls_08aLoggedUserParams ] pra guardar os dados do Usuário
     Set clObjUserParams = New cls_08aLoggedUserParams
@@ -301,7 +301,7 @@ Public Function pbSub20_TargtCtrlsDictStartUp(fForM As Form) As Boolean
     Dim dDicT As Dictionary
     Dim sStR1 As String, sStR2 As String
 
-    If gBbEnableErrorHandler Then On Error GoTo -1: On Error GoTo FrM_ErrorHandler
+    On Error GoTo -1: On Error GoTo FrM_ErrorHandler
 
 'Stop
     'Passa por todos os objetos e ao encontrar Listbox e Combobox chama
@@ -328,7 +328,7 @@ Public Function pbSub20_TargtCtrlsDictStartUp(fForM As Form) As Boolean
 'Stop
                     
 vA = "----- pbSub20_TargtCtrlsDictStartUp --------------------------------------------" & vbCr & vbCr & "Avalia se [ " & sTrgtCtrl & " ] tem a TAG necessária pra "
-vB = vbCr & "inclusão no dict [ dictFormFilterGrpsTrgts(sForm) ]" & vbCr & vbCr & "TAG [" & Chr(160) & sLstbxTag & Chr(160) & "]"
+vB = vbCr & "inclusão no dict [ dictFormFilterGrps(sForm) ]" & vbCr & vbCr & "TAG [" & Chr(160) & sLstbxTag & Chr(160) & "]"
 If gBbDepurandoLv01b Then MsgBox vA & vB
 If gBbDepurandoLv01b Then Stop
 
@@ -344,8 +344,8 @@ If gBbDepurandoLv01b Then Stop
                         
 'pbSub20_TargtCtrlsDictStartUp
 vA = "----- pbSub20_TargtCtrlsDictStartUp --------------------------------------------" & vbCr & vbCr & "Chama " & "[" & Chr(160) & "pbSub21_TargtCtrlsDictBuild" & Chr(160) & "] pra inclusão de"
-vB = vbCr & "[ " & sTrgtCtrl & "  ] no dict [ dictFormFilterGrpsTrgts(sForm) ]" & vbCr & " " & vbCr & " "
-'MsgBox vA & vB
+vB = vbCr & "[ " & sTrgtCtrl & "  ] no dict [ dictFormFilterGrps(sForm) ]" & vbCr & " " & vbCr & " "
+If gBbDepurandoLv01b Then MsgBox vA & vB
 If gBbDepurandoLv01b Then Stop
 'Stop
                         
@@ -353,7 +353,7 @@ If gBbDepurandoLv01b Then Stop
                         If gBbDebugOn Then Debug.Print "  " & cTrgtCtrl.Name
                         On Error GoTo -1
                         Call pbSub21_TargtCtrlsDictBuild(vSplittedTAG(iTagSection - 1), cTrgtCtrl)
-                        If gBbEnableErrorHandler Then On Error GoTo -1: On Error GoTo FrM_ErrorHandler
+                        On Error GoTo -1: On Error GoTo FrM_ErrorHandler
 'Stop
 
 
@@ -376,7 +376,7 @@ If gBbDepurandoLv01b Then Stop
 
     'Se não tiver encontrado [ TargtCtrls ] define como [ True ] pra que mais adiante
     ' não sejam carregados os dicionários dos [ TriggCtrls ]
-    If IsObject(dictFormFilterGrpsTrgts(sForM)) Then pbSub20_TargtCtrlsDictStartUp = True
+    If IsObject(dictFormFilterGrps(sForM)) Then pbSub20_TargtCtrlsDictStartUp = True
     
 
 'Stop
@@ -443,7 +443,7 @@ Public Sub pbSub21_TargtCtrlsDictBuild(vTagSection As Variant, cListBox As Contr
 If gBbDepurandoLv01b Then Stop
 'Stop
     
-    If gBbEnableErrorHandler Then On Error GoTo -1: On Error GoTo FrM_ErrorHandler
+'    On Error GoTo -1: On Error GoTo FrM_ErrorHandler
     
     
 'Stop '----------------------------
@@ -472,12 +472,12 @@ If gBbDepurandoLv01b Then Stop
 'MsgBox "----- pbSub21_TargtCtrlsDictBuild ---------------------------------------------" & vbCr & vbCr & "Filtergrp: [ " & sFilGrp & " ]" & vbCr & " " & vbCr & " "
 'Stop
 
-        If gBbEnableErrorHandler Then On Error GoTo -1: On Error GoTo FrM_ErrorHandler
+'        On Error GoTo -1: On Error GoTo FrM_ErrorHandler
         If sFilGrp = "" Then Exit Sub
 'Stop
     
     'O Listbox está associado a um Grupo de Filtragem
-    ' então inicia a montagem do dicionário [ dictFormFilterGrpsTrgts ] com parâmetros do TrgtCtrl
+    ' então inicia a montagem do dicionário [ dictFormFilterGrps ] com parâmetros do TrgtCtrl
     
     'Verifica se o Listbox tem um [ cRecCnt ] associado
     sParam = "RCnt>"
@@ -491,8 +491,8 @@ If gBbDepurandoLv01b Then Stop
         On Error GoTo -1
         sRecCntCtrl = GetTagParams(sParam, vTagSectionParams, cListBox, False, "", , , True, sStR1, sStR2, True, "RCntNotFound", cListBox, sLoadLogWarn)
         'sRecCntCtrl = GetTagParams(sParam, vTagSectionParams, , "", , , sStR1, sStR2)
-'Stop
-        If gBbEnableErrorHandler Then On Error GoTo -1: On Error GoTo FrM_ErrorHandler
+        
+        On Error GoTo -1: On Error GoTo FrM_ErrorHandler
     
     On Error GoTo -1
     '-------------------------------------------------------------------------------------------------------
@@ -504,170 +504,88 @@ If gBbDepurandoLv01b Then Stop
 'MsgBox "----- pbSub21_TargtCtrlsDictBuild ---------------------------------------------" & vbCr & vbCr & "Filtergrp: [ " & sFilGrp & " ]" & vbCr & " " & vbCr & " "
 'Stop
     
-    If Not IsObject(dictFormFilterGrpsTrgts(sForM)) Then Set dictFormFilterGrpsTrgts(sForM) = New Dictionary
-    'Set dDicT = dictFormFilterGrpsTrgts(sForM)
+    If Not IsObject(dictFormFilterGrps(sForM)) Then Set dictFormFilterGrps(sForM) = New Dictionary
+    'Set dDicT = dictFormFilterGrps(sForM)
 
 
-'MsgBox "----- pbSub21_TargtCtrlsDictBuild ---------------------------------------------" & vbCr & vbCr & "Avaliando o TrgtCtrl [ " & sTrgtCtrl & " ]" & vbCr & "Inclui o Grupo [ " & sFilGrp & " ] em [ dictFormFilGrpsEnDsAllCtrls(sForm) ]" & vbCr & " " & vbCr & " "
+'MsgBox "----- pbSub21_TargtCtrlsDictBuild ---------------------------------------------" & vbCr & vbCr & "Inclui o Grupo [ " & sFilGrp & " ] em [ dictFormFilterGrpsCtrls(sForm) ]" & vbCr & " " & vbCr & " "
 'If gBbDepurandoLv01c Then Stop
 'Stop
+    If Not IsObject(dictFormFilterGrpsCtrls(sForM)) Then Set dictFormFilterGrpsCtrls(sForM) = New Dictionary
+    If Not IsObject(dictFormFilterGrpsCtrls(sForM)(sFilGrp)) Then Set dictFormFilterGrpsCtrls(sForM)(sFilGrp) = New Dictionary
+    If Not dictFormFilterGrpsCtrls(sForM)(sFilGrp).Exists(cListBox.Name) Then dictFormFilterGrpsCtrls(sForM)(sFilGrp).Add cListBox.Name, sFilGrp
+    
+    'Se o Grupo de Filtragem já tiver sido incluído no [ Dict ] significa que
+    ' mais de um [ TargtCtrl ] está associado a esse Grupo de Filtragem
+    ' nesse caso desconsidera esse último [ TargtCtrl ]
+    If dictFormFilterGrps(sForM).Exists(sFilGrp) = True Then
+'Stop
+        Set clObjTargtCtrlParam = dictFormFilterGrps(sForM)(sFilGrp)
+        
+        vA = clObjTargtCtrlParam.sTargtCtrlName
+        sStR1 = "Formulário:  [ " & sForM & " ]" & vbCr & "Grupo de Filtragem: " & " [ " & sFilGrp & " ]" & vbCr & "-------------------------------------------------------------------------------"
+        sStR2 = "Listbox [ " & sTrgtCtrl & " ]" & " associado como TargtCtrl do Grupo," & vbCr & " em duplicidade com o Listbox [ " & vA & " ]." & vbCr & vbCr & " O Listbox [ " & sTrgtCtrl & " ] será desconsiderado" & vbCr & " e não poderá ser filtrado."
+        vA = " Erro [ " & Err.Number & ": " & Err.Description & " ] "
 
-
-    'Trecho que prepara para execução posterior do [ Enbl/Dsbl ]
-    If Not IsObject(dictFormFilGrpsEnDsAllCtrls(sForM)) Then Set dictFormFilGrpsEnDsAllCtrls(sForM) = New Dictionary
-    If Not IsObject(dictFormFilGrpsEnDsAllCtrls(sForM)(sFilGrp)) Then Set dictFormFilGrpsEnDsAllCtrls(sForM)(sFilGrp) = New Dictionary
-    If Not dictFormFilGrpsEnDsAllCtrls(sForM)(sFilGrp).Exists(cListBox.Name) Then dictFormFilGrpsEnDsAllCtrls(sForM)(sFilGrp).Add cListBox.Name, sFilGrp
-    
-'Stop
-    'Verifica se já foi criado um dict do [ sFilGrp ] ora avaliado
-    If Not IsObject(dictFormFilterGrpsTrgts(sForM)) Then Set dictFormFilterGrpsTrgts(sForM) = New Dictionary
-    If Not IsObject(dictFormFilterGrpsTrgts(sForM)(sFilGrp)) Then Set dictFormFilterGrpsTrgts(sForM)(sFilGrp) = New Dictionary
-    
-''------------------------------------------------------------------------------------------------------
-''parei aqui: checar por que o item sFilGrp é incluído no dictFormFilterGrpsTrgts quando passa pelo If
-'    If dictFormFilterGrpsTrgts.Exists(sForM) And dictFormFilterGrpsTrgts(sForM).Exists(sFilGrp) Then
-'
-'Stop
-'    End If
-'
-'
-'    For Each vA In dictFormFilterGrpsTrgts(sForM)
-'
-'Stop
-'    Next vA
-    
-'Stop
-    '-------------------------------------------------------------------------------------------------------
-    '-------------------------------------------------------------------------------------------------------
-    'Inicia a criação do dictFormFilterGrpsTrgts(sForM) e simultaneamente a criação do
-    ' "sub dicionário"  [ dictFormFilterGrpsTrgts(sForM)(sFilGrp) ] pra inclusão
-    ' dos [ TrgtCtrls ] associados ao Grupo
-    If dictFormFilterGrpsTrgts(sForM)(sFilGrp).Exists(sTrgtCtrl) = True Then
-        Set clObjTargtCtrlParam = dictFormFilterGrpsTrgts(sForM)(sFilGrp)(sTrgtCtrl)
-    
+        Call msgboxErrorAlert(sStR1, sStR2, vbExclamation, vA)
+        
+        'Inclui o erro no dict de Logs de Carga do sistema
+        sLoadLogWarn = "Os seguintes Listboxes foram associados como TargtCtrl do Grupo [ " & sFilGrp & " ] em duplicidade com o Listbox [ " & vA & " ]." & vbCrLf & " Esses Listboxes serão desconsiderados e não poderão ser filtrados."
+        Call FormStatusBar01_Bld(sForM, "DupTargtsIn" & "_" & sFilGrp, sLoadLogWarn, sTrgtCtrl)
+        
+Stop
     Else
         'Cria um novo objeto [ clObjTargtCtrlParam ] da Classe [ cls_01aTargtCtrlParams_Evnts ] pra ser incluído no Dict
         Set clObjTargtCtrlParam = New cls_01aTargtCtrlParams_Evnts
 
-        'Adiciona um novo item no dicionário [ dictFormFilterGrpsTrgts(sForM)(sFilGrp) ] e guarda nele o objeto [ clObjTargtCtrlParam ]
-        ' com os respectivos parâmetros do [ TrgtCtrl ] definidos na classe [ cls_01aTargtCtrlParams_Evnts ]
-        dictFormFilterGrpsTrgts(sForM)(sFilGrp).Add sTrgtCtrl, clObjTargtCtrlParam
+        'Adiciona um novo item no dicionário [ dictFormFilterGrps ] e guarda nele o objeto [ clObjTargtCtrlParam ]
+        ' com os respectivos parâmetros do Grupo de Filtragem definidos na classe [ cls_01aTargtCtrlParams_Evnts ]
+        dictFormFilterGrps(sForM).Add sFilGrp, clObjTargtCtrlParam
         
         If Not IsObject(dictTrgtCtrlsFilterGrps(sForM)) Then Set dictTrgtCtrlsFilterGrps(sForM) = New Dictionary
         dictTrgtCtrlsFilterGrps(sForM).Add cListBox.Name, sFilGrp
         
-        'Construção do dicionário [ clObjTargtCtrlParam.dictQryFields ] com os campos da consulta do [ TrgtCtrl ]
-        Call PbSbBuildDictFieldsInQryTrgtCtrl(sForM, cListBox, sFilGrp)
-    
+'MsgBox "build"
+'Stop
+        With clObjTargtCtrlParam
+            'Atribui ao Listbox os parâmetros do Listbox esperados pela Classe [ cls_01aTargtCtrlParams_Evnts ]
+            .sTargtCtrlName = cListBox.Name
+            .sRecCntCtrlName = sRecCntCtrl
+            .sFilGrp = sFilGrp
+            
+'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "Get SQL"
+'Stop
+            'Chama a rotina pra recuperar o SQL do [ cListbox ]
+            On Error GoTo -1
+            sGbQrySQLstr = pbSub22_GetTargtCtrlsSQL(cListBox)
+'Stop
+'pbSub21_TargtCtrlsDictBuild
+If gBbDepurandoLv01c Then MsgBox "----- pbSub21_TargtCtrlsDictBuild ---------------------------------------------" & vbCr & vbCr & "Retorna de [ pbSub22_GetTargtCtrlsSQL ] e salva o SQL" & vbCr & "de [ " & sTrgtCtrl & " ] em [ dictFormFilterGrps(sForM) ]" & vbCr & " " & vbCr & " "
+If gBbDepurandoLv01c Then Stop
+            On Error GoTo -1
+            .sClsLstbxSQL_aSELECT = sGbQrySQLstr.sLstbxSQL_aSELECT
+            .sClsLstbxSQL_bFROM = sGbQrySQLstr.sLstbxSQL_bFROM
+            .sClsLstbxSQL_cWHERE = sGbQrySQLstr.sLstbxSQL_cWHERE
+            .sClsLstbxSQL_dOrderBy = sGbQrySQLstr.sLstbxSQL_dOrderBy
+            .sClsLstbxSQL_eMAIN = sGbQrySQLstr.sLstbxSQL_eMAIN
+        
+        End With
+        
     End If
 'Stop
 
-    'Chama a rotina pra recuperar o SQL do [ cListbox ]
-    On Error GoTo -1
-    sGbQrySQLstr = pbSub22_GetTargtCtrlsSQL(cListBox)
-'Stop
-    With clObjTargtCtrlParam
-        'Atribui ao Listbox os parâmetros do Listbox esperados pela Classe [ cls_01aTargtCtrlParams_Evnts ]
-        .sTargtCtrlName = cListBox.Name
-        .sRecCntCtrlName = sRecCntCtrl
-        .sFilGrp = sFilGrp
-        
-        'dictFormFilterGrpTrgts
-        
-        
-'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "Get SQL"
-'Stop
-
-'pbSub21_TargtCtrlsDictBuild
-If gBbDepurandoLv01c Then MsgBox "----- pbSub21_TargtCtrlsDictBuild ---------------------------------------------" & vbCr & vbCr & "Retorna de [ pbSub22_GetTargtCtrlsSQL ] e salva o SQL" & vbCr & "de [ " & sTrgtCtrl & " ] em [ dictFormFilterGrpsTrgts(sForM) ]" & vbCr & " " & vbCr & " "
-If gBbDepurandoLv01c Then Stop
-        On Error GoTo -1
-        .sClsLstbxSQL_aSELECT = sGbQrySQLstr.sLstbxSQL_aSELECT
-        .sClsLstbxSQL_bFROM = sGbQrySQLstr.sLstbxSQL_bFROM
-        .sClsLstbxSQL_cWHERE = sGbQrySQLstr.sLstbxSQL_cWHERE
-        .sClsLstbxSQL_dOrderBy = sGbQrySQLstr.sLstbxSQL_dOrderBy
-        .sClsLstbxSQL_eMAIN = sGbQrySQLstr.sLstbxSQL_eMAIN
-    
-    End With
-    
-'    'ANTIGO
-'    '-------------------------------------------------------------------------------------------------------
-'    '-------------------------------------------------------------------------------------------------------
-'    'Se o Grupo de Filtragem já tiver sido incluído no [ Dict ] significa que
-'    ' mais de um [ TargtCtrl ] está associado a esse Grupo de Filtragem
-'    ' nesse caso desconsidera esse último [ TargtCtrl ]
-'    If dictFormFilterGrpsTrgts(sForM).Exists(sFilGrp) = True Then
-''Stop
-'        Set clObjTargtCtrlParam = dictFormFilterGrpsTrgts(sForM)(sFilGrp)
-'
-'        vA = clObjTargtCtrlParam.sTargtCtrlName
-'        sStR1 = "Formulário:  [ " & sForM & " ]" & vbCr & "Grupo de Filtragem: " & " [ " & sFilGrp & " ]" & vbCr & "-------------------------------------------------------------------------------"
-'        sStR2 = "Listbox [ " & sTrgtCtrl & " ]" & " associado como TargtCtrl do Grupo," & vbCr & " em duplicidade com o Listbox [ " & vA & " ]." & vbCr & vbCr & " O Listbox [ " & sTrgtCtrl & " ] será desconsiderado" & vbCr & " e não poderá ser filtrado."
-'        vA = " Erro [ " & Err.Number & ": " & Err.Description & " ] "
-'
-'        Call msgboxErrorAlert(sStR1, sStR2, vbExclamation, vA)
-'
-'        'Inclui o erro no dict de Logs de Carga do sistema
-'        sLoadLogWarn = "Os seguintes Listboxes foram associados como TargtCtrl do Grupo [ " & sFilGrp & " ] em duplicidade com o Listbox [ " & vA & " ]." & vbCrLf & " Esses Listboxes serão desconsiderados e não poderão ser filtrados."
-'        Call FormStatusBar01_Bld(sForM, "DupTargtsIn" & "_" & sFilGrp, sLoadLogWarn, sTrgtCtrl)
-'
-'Stop
-'    Else
-'        'Cria um novo objeto [ clObjTargtCtrlParam ] da Classe [ cls_01aTargtCtrlParams_Evnts ] pra ser incluído no Dict
-'        Set clObjTargtCtrlParam = New cls_01aTargtCtrlParams_Evnts
-'
-'        'Adiciona um novo item no dicionário [ dictFormFilterGrpsTrgts ] e guarda nele o objeto [ clObjTargtCtrlParam ]
-'        ' com os respectivos parâmetros do Grupo de Filtragem definidos na classe [ cls_01aTargtCtrlParams_Evnts ]
-'        dictFormFilterGrpsTrgts(sForM).Add sFilGrp, clObjTargtCtrlParam
-'
-'        If Not IsObject(dictTrgtCtrlsFilterGrps(sForM)) Then Set dictTrgtCtrlsFilterGrps(sForM) = New Dictionary
-'        dictTrgtCtrlsFilterGrps(sForM).Add cListBox.Name, sFilGrp
-'
-''MsgBox "build"
-''Stop
-'        With clObjTargtCtrlParam
-'            'Atribui ao Listbox os parâmetros do Listbox esperados pela Classe [ cls_01aTargtCtrlParams_Evnts ]
-'            .sTargtCtrlName = cListBox.Name
-'            .sRecCntCtrlName = sRecCntCtrl
-'            .sFilGrp = sFilGrp
-'
-''MsgBox "teste --------------------------------------------------------------------------" & vbCr & "Get SQL"
-''Stop
-'            'Chama a rotina pra recuperar o SQL do [ cListbox ]
-'            On Error GoTo -1
-'            sGbQrySQLstr = pbSub22_GetTargtCtrlsSQL(cListBox)
-''Stop
-''pbSub21_TargtCtrlsDictBuild
-'If gBbDepurandoLv01c Then MsgBox "----- pbSub21_TargtCtrlsDictBuild ---------------------------------------------" & vbCr & vbCr & "Retorna de [ pbSub22_GetTargtCtrlsSQL ] e salva o SQL" & vbCr & "de [ " & sTrgtCtrl & " ] em [ dictFormFilterGrpsTrgts(sForM) ]" & vbCr & " " & vbCr & " "
-'If gBbDepurandoLv01c Then Stop
-'            On Error GoTo -1
-'            .sClsLstbxSQL_aSELECT = sGbQrySQLstr.sLstbxSQL_aSELECT
-'            .sClsLstbxSQL_bFROM = sGbQrySQLstr.sLstbxSQL_bFROM
-'            .sClsLstbxSQL_cWHERE = sGbQrySQLstr.sLstbxSQL_cWHERE
-'            .sClsLstbxSQL_dOrderBy = sGbQrySQLstr.sLstbxSQL_dOrderBy
-'            .sClsLstbxSQL_eMAIN = sGbQrySQLstr.sLstbxSQL_eMAIN
-'
-'        End With
-'
-'    End If
-'    '-------------------------------------------------------------------------------------------------------
-'    '-------------------------------------------------------------------------------------------------------
-
-
-'Stop
-
         ''Teste de acesso aos parâmetros armazenados
-        '' .atribui a [ dictFormFilterGrpsTrgts(sForM) ] o dicionário [ dictListboxParams("frm_01(1)cProdEstoque") ]
-        'Set dictFormFilterGrpsTrgts(sForM) = dictListboxParams(fForm.Name)
+        '' .atribui a [ dictFormFilterGrps(sForM) ] o dicionário [ dictListboxParams("frm_01(1)cProdEstoque") ]
+        'Set dictFormFilterGrps(sForM) = dictListboxParams(fForm.Name)
         '
         '' .verificar se o item já existe no dicionário
         'bBol = dictListboxParams(fForm.Name).Exists(cListbox.Name)
         '
         '' .define o objeto de Classe [ clObjTargtCtrlParam ] como sendo o [ lstTeste2 ] pra exibir seus parâmetros
-        'Set clObjTargtCtrlParam = dictFormFilterGrpsTrgts(sForM)(cListbox.Name)
+        'Set clObjTargtCtrlParam = dictFormFilterGrps(sForM)(cListbox.Name)
         '' .retorna o parâmetro
         'vA = clObjTargtCtrlParam.sClsLstbxSQL_aSELECT
-'Stop
+
 FrM_Error_SaiR:
     On Error GoTo -1
     Exit Sub
@@ -905,7 +823,7 @@ Public Sub pbSub30_TriggCtrlDictStartUp(fForM As Form)
     Dim lngEvalFormCtrls As Long, lngEvalTAGedCtrls As Long, lngCtrlsInDict As Long
     Dim bFoundParams As Boolean
     Dim sLoadLogWarn As String
-    Dim vKeyFilGrp As Variant, vKeyTrgtCtrls As Variant  'vKeyTrggCtrls As Variant
+    Dim vKeyFilGrp As Variant ' , vKeyTrggCtrls As Variant, vKeyTrgtCtrls As Variant,
     Dim iCtrlType As Integer
     Dim sCtrlType As String
     Dim sFilGrp As String
@@ -918,7 +836,7 @@ Public Sub pbSub30_TriggCtrlDictStartUp(fForM As Form)
 
     sForM = fForM.Name
 
-    If gBbEnableErrorHandler Then On Error GoTo -1: On Error GoTo FrM_ErrorHandler
+'    On Error GoTo -1: On Error GoTo FrM_ErrorHandler
 
 'Stop
     'vA = 1 / 0
@@ -929,7 +847,7 @@ Public Sub pbSub30_TriggCtrlDictStartUp(fForM As Form)
         sTriggCtrl = cTriggCtrl.Name
 'Stop
 
-'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "Formulário [ " & sForM & " ]" & vbCr & "[ " & sTriggCtrl & " ] está na categoria de [ Triggers ]?"
+'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "[ " & sTriggCtrl & " ] está na categoria de [ Triggers ]?"
 'If gBbDepurandoLv01c Then Stop
 'Stop
                
@@ -1003,11 +921,8 @@ If gBbDepurandoLv01b Then MsgBox vA & vB
 If gBbDepurandoLv01b Then Stop
                             If gBbDebugOn Then Debug.Print " " & cTriggCtrl.Name
                             On Error GoTo -1
-                            
-'MsgBox "erro vazio"
-'Stop
                             Call pbSub31_TriggCtrlDictBuild(vSplittedTAG(iTagSection - 1), cTriggCtrl)
-                            If gBbEnableErrorHandler Then On Error GoTo -1: On Error GoTo FrM_ErrorHandler
+'                            On Error GoTo -1: On Error GoTo FrM_ErrorHandler
                             
 'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "back from Triggers Dict build"
 'Stop
@@ -1063,7 +978,7 @@ If gBbDepurandoLv01b Then Stop
                         If gBbDebugOn Then Debug.Print " " & cTriggCtrl.Name
                         On Error GoTo -1
                         Call pbSub51_RstAreaDictBuild(vSplittedTAG(iTagSection - 1), cTriggCtrl)
-                        If gBbEnableErrorHandler Then On Error GoTo -1: On Error GoTo FrM_ErrorHandler
+'                        On Error GoTo -1: On Error GoTo FrM_ErrorHandler
 'Stop
                     End If
                 
@@ -1124,7 +1039,7 @@ If gBbDepurandoLv01b Then Stop
                         If gBbDebugOn Then Debug.Print " " & cTriggCtrl.Name
                         On Error GoTo -1
                         Call pbSub71_DataFieldDictBuild(vSplittedTAG(iTagSection - 1), cTriggCtrl)
-                        If gBbEnableErrorHandler Then On Error GoTo -1: On Error GoTo FrM_ErrorHandler
+'                        On Error GoTo -1: On Error GoTo FrM_ErrorHandler
 'Stop
                     End If
 
@@ -1210,37 +1125,25 @@ If gBbDepurandoLv01b Then Stop
                                     Set clObjFilGrpsByForm = dictTrggCtrlsInForm(sForM)(sTriggCtrl)
                                     sFilGrp = clObjFilGrpsByForm.sFilGrp
                                     bCtrlIsTrgg = True
-
-'parei aqui: checar por que [ bCtrlIsTrgg ] e [ bCtrlIsTrgt ] não estão sendo usados em outros trechos
-
+                                    
                                 End If
                             
                             End If
                         
                             'Confirma se [ sTriggCtrl ] é um [ TrgtCtrl ]
-                            ' confirma se o dict [ dictFormFilterGrpsTrgts(sForM) ] existe, o que indica que há Grupos de filtragem no [ Form ]
-                            If IsObject(dictFormFilterGrpsTrgts(sForM)) Then
+                            ' confirma se o dict [ dictFormFilterGrps(sForM) ] existe, o que indica que há Grupos de filtragem no [ Form ]
+                            If IsObject(dictFormFilterGrps(sForM)) Then
                             
                                 
-'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "Loop pelos Grupos de Trigg [ " & sTriggCtrl & " ]"
+'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "Loop pelos Grupos [ " & sTriggCtrl & " ]"
 'Stop
-On Error GoTo -1
-                                'Passa por todos os [ Grupos de Filtragem ] do [ dictFormFilterGrpsTrgts(sForM) ] e verifica se
-                                ' o [ sTriggCtrl ] ora avaliado já foi também associado ao [ Grupo ] como [ TargetCtrl ]
-                                For Each vKeyFilGrp In dictFormFilterGrpsTrgts(sForM)
+                                'Passa por todos os [ Grupos de Filtragem ] do [ dictFormFilterGrps(sForM) ] e verifica se
+                                ' [ sTriggCtrl ] é um dos [ TargetCtrls ] atribuídos ao [ Grupo ]
+                                For Each vKeyFilGrp In dictFormFilterGrps(sForM)
                                     
-                                    For Each vKeyTrgtCtrls In dictFormFilterGrpsTrgts(sForM)(vKeyFilGrp)
-                                        
-                                        If Not IsEmpty(vKeyTrgtCtrls) And Not vKeyTrgtCtrls = "" Then
-                                        
-                                            Set clObjTargtCtrlParam = dictFormFilterGrpsTrgts(sForM)(vKeyFilGrp)(vKeyTrgtCtrls)
-                                            vA = clObjTargtCtrlParam.sTargtCtrlName
-                                            If vA = sTriggCtrl Then bCtrlIsTrgt = True
-                                        
-                                        End If
-                                        
-                                    Next vKeyTrgtCtrls
-                                    
+                                    Set clObjTargtCtrlParam = dictFormFilterGrps(sForM)(vKeyFilGrp)
+                                    vA = clObjTargtCtrlParam.sTargtCtrlName
+                                    If vA = sTriggCtrl Then bCtrlIsTrgt = True
                                     
                                 Next vKeyFilGrp
     
@@ -1271,7 +1174,7 @@ On Error GoTo -1
                         '-------------------------------------------------------------------------------------------------------------
                         '----------------------------------------------
                         
-                        If gBbEnableErrorHandler Then On Error GoTo -1: On Error GoTo FrM_ErrorHandler
+'                        On Error GoTo -1: On Error GoTo FrM_ErrorHandler
                         If vSplittedTAG(iTagSection - 1) <> "" Then
 'vA = vSplittedTag(2)
 If gBbDepurandoLv01b Then MsgBox "----- pbSub30_TriggCtrlDictStartUp ---------------------------------------------" & vbCr & vbCr & "Chama [ pbSub41_CtrlsBehvrDictBuild ] pra" & vbCr & "inclusão de [ " & sTriggCtrl & " ] no dict [ dictCtrlBehvrParams(sForM) ]" & vbCr & " " & vbCr & " "
@@ -1283,7 +1186,7 @@ If gBbDepurandoLv01b Then Stop
                             '-------------------------------------------------------------
                             On Error GoTo -1
                             bFoundParams = pbSub41_CtrlsBehvrDictBuild(vSplittedTAG(iTagSection - 1), cTriggCtrl)
-                            If gBbEnableErrorHandler Then On Error GoTo -1: On Error GoTo FrM_ErrorHandler
+'                            On Error GoTo -1: On Error GoTo FrM_ErrorHandler
                             
 'MsgBox "----- pbSub30_TriggCtrlDictStartUp ---------------------------------------------" & vbCr & vbCr & "Retorna de [ pbSub41_CtrlsBehvrDictBuild ]" & vbCr & " " & vbCr & " "
 If gBbDepurandoLv01b Then Stop
@@ -1348,7 +1251,7 @@ If gBbDepurandoLv01c Then Stop
 
 '    Set vA = dictTrggCtrlsInForm(sForM)
 
-'    'Set dictFormFilterGrpsTrgts(sForM) = dictTrggCtrlsInForm(sForM)
+'    'Set dictFormFilterGrps(sForM) = dictTrggCtrlsInForm(sForM)
 '
 '    For Each vKey In dictTrggCtrlsInForm(sForM)
 'Stop
@@ -1375,16 +1278,16 @@ If gBbDepurandoLv01b Then Stop
     
     'Confirma se há [ Grupos de Filtragem ] com [ TargtCtrls ] mas sem [ Triggers ] no [ Form ]
 
-    On Error GoTo -1
+On Error GoTo -1
 
-    'vA = dictFormFilterGrpsTrgts(sForM)("01")
+    'vA = dictFormFilterGrps(sForM)("01")
     
     'Se verdadeiro significa que no [ Form ] há pelo menos um [ Grupo de Filtragem ] com seu respectivo [ TargetCtrl ]
-    If IsObject(dictFormFilterGrpsTrgts(sForM)) Then
+    If IsObject(dictFormFilterGrps(sForM)) Then
         
         'Passa por todos os [ Grupos de Filtragem ] do [ Form ]
         ' e confirma se todos têm [ TriggCtrls ] associados
-        For Each vKeyFilGrp In dictFormFilterGrpsTrgts(sForM)
+        For Each vKeyFilGrp In dictFormFilterGrps(sForM)
             
             'Se o [ Grupo de Filtragem ] ora avaliado não tiver [ TriggCtrls ] informa o erro no log de carga do sistema
             If Not IsObject(dictTrgg01CtrlsInGrp(vKeyFilGrp)) Then
@@ -1393,7 +1296,7 @@ If gBbDepurandoLv01b Then Stop
                 
                 On Error GoTo -1
                 Call FormStatusBar01_Bld(sForM, "Targts_NoTriggers", sLoadLogWarn)
-                If gBbEnableErrorHandler Then On Error GoTo -1: On Error GoTo FrM_ErrorHandler
+'                On Error GoTo -1: On Error GoTo FrM_ErrorHandler
                 
                 'vA = dictTrgg01CtrlsInGrp(vKeyFilGrp).Count
             
@@ -1434,7 +1337,7 @@ FrM_ErrorHandler:
         sLoadLogWarn = "Os seguintes controles não tem todos os parâmetros de configuração e portanto poderão se comportar de forma inesperada."
         On Error GoTo -1
         Call FormStatusBar01_Bld(sForM, "CtrlMissingParams", sLoadLogWarn, sTriggCtrl)
-        If gBbEnableErrorHandler Then On Error GoTo -1: On Error GoTo FrM_ErrorHandler
+'        On Error GoTo -1: On Error GoTo FrM_ErrorHandler
 
 'Stop
         GoTo NextCtrl
@@ -1486,11 +1389,11 @@ Public Sub pbSub31_TriggCtrlDictBuild(vTagSection As Variant, cTriggCtrl As Cont
     Dim sRecCntCtrl As String
     Dim cRecCnt As Control
     Dim vKey As Variant
-    Dim vKeyGrp As Variant, vKeyTrgt As Variant
+    Dim vKeyGrp As Variant, vKeyCtrl As Variant
     Dim sLoadLogWarn As String
     Dim sSQLtablesString As String
     
-    If gBbEnableErrorHandler Then On Error GoTo -1: On Error GoTo FrM_ErrorHandler
+    On Error GoTo -1: On Error GoTo FrM_ErrorHandler
     
     sTrggCtrL = cTriggCtrl.Name
     sForM = cTriggCtrl.Parent.Name
@@ -1500,8 +1403,8 @@ Public Sub pbSub31_TriggCtrlDictBuild(vTagSection As Variant, cTriggCtrl As Cont
     '-------------------------------------------------------------------------------------------------------
     'Recupera os parâmetros do controle informados na TAG
     '-------------------------------------------------------------------------------------------------------
-'Stop
-'MsgBox "----- pbSub31_TriggCtrlDictBuild -----------------------------------------------" & vbCr & vbCr & "Recupera os parâmetros de [ " & sTrggCtrL & " ] pra inclusão em [" & Chr(160) & "dictTrgg01CtrlsInGrp" & Chr(160) & "]" & vbCr & " " & vbCr & " "
+
+'MsgBox "----- pbSub31_TriggCtrlDictBuild -----------------------------------------------" & vbCr & vbCr & "Recupera os parâmetros de [ " & sTrggCtrL & " ] pra inclusão em [" & chr(160) & "dictTrgg01CtrlsInGrp" & chr(160) & "]" & vbCr & " " & vbCr & " "
 If gBbDepurandoLv01c Then Stop
 'Stop
     
@@ -1510,6 +1413,9 @@ If gBbDepurandoLv01c Then Stop
     'Verifica se foi identificado o parâmetro [ sFilGrp ] contendo o [ Grupo de Filtragem ] do TrggCtrl
     sParam = "Grp"
         
+'MsgBox "----- pbSub31_TriggCtrlDictBuild -----------------------------------------------" & vbCr & vbCr & "Avalia grupo do Trigger [ " & sTrggCtrL & " ] [ " & sFilGrp & " ]" & vbCr & " " & vbCr & " "
+'If gBbDepurandoLv01c Then Stop
+'Stop
         
         'Mensagem de erro a ser incluída no Log de carga
         sLoadLogWarn = "O TrggCtrl [ " & sTrggCtrL & " ] não está associado a" & vbCrLf & "nenhum grupo  de filtragem e não poderá ser pesquisado."
@@ -1522,25 +1428,22 @@ If gBbDepurandoLv01c Then Stop
         sFilGrp = GetTagParams(sParam, vTagSectionParams, , True, "", 1, , True, sStR1, sStR2, True, "MissingTrggFilGrp", cTriggCtrl, sLoadLogWarn)
 'Stop
         'sFilGrp = GetTagParams(sParam, vTagSectionParams, , "", 1, , sStR1, sStR2)
-        If gBbEnableErrorHandler Then On Error GoTo -1: On Error GoTo FrM_ErrorHandler
+        On Error GoTo -1: On Error GoTo FrM_ErrorHandler
         
-'MsgBox "----- pbSub31_TriggCtrlDictBuild -----------------------------------------------" & vbCr & vbCr & "Avalia grupo do Trigger [ " & sTrggCtrL & " ] [ " & sFilGrp & " ]" & vbCr & " " & vbCr & " "
-'If gBbDepurandoLv01c Then Stop
-'Stop
         
         
         If sFilGrp = "" Then Exit Sub
-        'vA = dictFormFilterGrpsTrgts(sForM)
+        'vA = dictFormFilterGrps(sForM)
         
         
-'If IsObject(dictFormFilterGrpsTrgts(sForM)(sFilGrp)) Then
+'If IsObject(dictFormFilterGrps(sForM)(sFilGrp)) Then
 'parei aqui
         
-        'dictFormFilterGrpsTrgts (sForM)
+        'dictFormFilterGrps (sForM)
         
-        If Not IsObject(dictFormFilGrpsEnDsAllCtrls(sForM)) Then Set dictFormFilGrpsEnDsAllCtrls(sForM) = New Dictionary
-        If Not IsObject(dictFormFilGrpsEnDsAllCtrls(sForM)(sFilGrp)) Then Set dictFormFilGrpsEnDsAllCtrls(sForM)(sFilGrp) = New Dictionary
-        If Not dictFormFilGrpsEnDsAllCtrls(sForM)(sFilGrp).Exists(sTrggCtrL) Then dictFormFilGrpsEnDsAllCtrls(sForM)(sFilGrp).Add sTrggCtrL, sFilGrp
+        If Not IsObject(dictFormFilterGrpsCtrls(sForM)) Then Set dictFormFilterGrpsCtrls(sForM) = New Dictionary
+        If Not IsObject(dictFormFilterGrpsCtrls(sForM)(sFilGrp)) Then Set dictFormFilterGrpsCtrls(sForM)(sFilGrp) = New Dictionary
+        If Not dictFormFilterGrpsCtrls(sForM)(sFilGrp).Exists(sTrggCtrL) Then dictFormFilterGrpsCtrls(sForM)(sFilGrp).Add sTrggCtrL, sFilGrp
     '-----------------------------------------------------------------------------------
     'O Grupo de Filtragem do TrggCtrl foi identificado. Continua o procedimento
     '-----------------------------------------------------------------------------------
@@ -1550,25 +1453,16 @@ If gBbDepurandoLv01c Then Stop
     'Identifica na Tag do controle, o [ Campo da Consulta ] a ser usado na filtragem
     sQryField = vTagSectionParams(1)
 
-    If gBbEnableErrorHandler Then On Error Resume Next
+    On Error Resume Next
     
-    
-    'Se [ sFilGrp ] não existir no dict [ dictFormFilterGrpsTrgts(sForM) ] significa que não há [ TrgtCtrls ]
-    ' associados a esse grupo
-    ' Nesse caso desconsidera o [ TrggCtrl ] pra filtragem
-    vA = dictFormFilterGrpsTrgts(sForM).Exists(sFilGrp)
-    
-
     '*Erro aqui
     'Ao executar a linha abaixo o [ sFilGrp ] é adicionado ao dicionário mesmo gerando o erro 424
     'A solução encontrada foi remover o item criado caso tenha gerado o erro 424, o que significa que este grupo não deve ser adicionado ao dicionário
-
-'    Set clObjTargtCtrlParam = dictFormFilterGrpsTrgts(sForM)(sFilGrp).Key(0)
-'
-'    If (Err.Number = 424) Then  'object required  Grupo informado no Trigger não consta no dicionário de [ Grupos de Filtragem ]
+    Set clObjTargtCtrlParam = dictFormFilterGrps(sForM)(sFilGrp)
     
-    If Not vA Then
-        'If dictFormFilterGrpsTrgts(sForM).Exists(sFilGrp) Then dictFormFilterGrpsTrgts(sForM).Remove (sFilGrp)
+    If (Err.Number = 424) Then  'object required  Grupo informado no Trigger não consta no dicionário de [ Grupos de Filtragem ]
+'Stop
+        If dictFormFilterGrps(sForM).Exists(sFilGrp) Then dictFormFilterGrps(sForM).Remove (sFilGrp)
         sStR1 = "Formulário:  [ " & sForM & " ]" & vbCr & "TriggerCtrl: " & "  [ " & sTrggCtrL & " ]" & vbCr & "-------------------------------------------------------------------------------"
         sStR2 = " O TriggerCtrl está associado ao Grupo de Filtragem [ " & sFilGrp & " ]" & vbCr & "  que não foi carregado na inicialização do sistema." & vbCr & "  Esse TriggerCtrl não poderá ser pesquisado."
         vA = " Erro [ " & Err.Number & ": " & Err.Description & " ] "
@@ -1578,46 +1472,174 @@ If gBbDepurandoLv01c Then Stop
         sLoadLogWarn = "O TriggerCtrl está associado ao Grupo de Filtragem [ " & sFilGrp & " ]" & vbCrLf & "  que não foi carregado na inicialização do sistema." & vbCrLf & "  Esse TriggerCtrl não poderá ser pesquisado."
         On Error GoTo -1
         Call FormStatusBar01_Bld(sForM, "FilGrpError", sLoadLogWarn, sTrggCtrL)
-        If gBbEnableErrorHandler Then On Error GoTo -1: On Error GoTo FrM_ErrorHandler
+        On Error GoTo -1: On Error GoTo FrM_ErrorHandler
         
 'Stop
         Exit Sub
     
     End If
-    If gBbEnableErrorHandler Then On Error GoTo -1: On Error GoTo FrM_ErrorHandler
+    On Error GoTo -1: On Error GoTo FrM_ErrorHandler
     
-'MsgBox "varredura de trgctrls"
+    'Tendo confirmado a existência do [ Grupo de Filtragem ] no formulário recupera o [ TargetCtrl ] do grupo
+    sTrgtCtrl = clObjTargtCtrlParam.sTargtCtrlName
+
+
+'If gBbDepurandoLv01b Then MsgBox "Teste - Confirma se o campo de consulta informado na TAG do TriggerCtrl [ " & sTrggCtrL & " ] existe"
 'Stop
 
-    'Percorre todos os [ trgtCtrls ] do [ dictFormFilterGrpsTrgts(sForM) ] e verifica no dicionário [ clObjTargtCtrlParam.dictQryFields ]
-    ' se o campo informado na TAG do [ TrggCtrl ] existe na consulta do [ TrgtCtrl ] correspondente
-    For Each vKeyTrgt In dictFormFilterGrpsTrgts(sForM)(sFilGrp)
-        
-        If Not IsEmpty(vKeyTrgt) And vKeyTrgt <> "" Then Set clObjTargtCtrlParam = dictFormFilterGrpsTrgts(sForM)(sFilGrp)(vKeyTrgt)
-        sTrgtCtrl = clObjTargtCtrlParam.sTargtCtrlName
-        
-        'Caso o campo [ sQryField ] não exista no dicionário, exibe o alerta e carrega no Log de Carga
-        If Not clObjTargtCtrlParam.dictQryFields.Exists(sQryField) Then
-            
-            vA = "O campo de tabela [ " & sQryField & " ] indicado nos parâmetros" & vbCr & " do TriggerCtrl não foi localizado na consulta"
-            vB = vbCr & " [ " & "" & " ], base de dados do TrgtCtrl." & vbCr & vbCr & " Não será possível filtrar por esse TriggCtrl."
-            sStR1 = "Formulário:  [ " & sForM & " ]" & vbCr & "TriggerCtrl: " & "  [ " & sTrggCtrL & " ]" & vbCr & "TargetCtrl: " & "   [ " & sTrgtCtrl & " ]" & vbCr & "-------------------------------------------------------------------------------"
-            sStR2 = vA & vB
-            vC = " Erro [ " & Err.Number & ": " & Err.Description & " ] "
-            
-            Call msgboxErrorAlert(sStR1, sStR2, vbExclamation, vC)
-            
-            sLoadLogWarn = "O campo de tabela indicado no TriggCtrl não foi localizado." & vbNewLine & "Não será possível filtrar por esse campo."
-            On Error GoTo -1
-            Call FormStatusBar01_Bld(sForM, "QryFieldNotFound", sLoadLogWarn, sTrggCtrL)
-            If gBbEnableErrorHandler Then On Error GoTo -1: On Error GoTo FrM_ErrorHandler
-            
-            Exit Sub
-        End If
-            
-    Next vKeyTrgt
- 
+
+    '----------------------------------------------------------------------------------------------
+    'Checar se o campo [ sQryField ] indicado no TriggCtrl [ sTrggCtrL ] existe na consulta do TargtCtrl [ sTrgtCtrl ]
+    On Error GoTo -1
+    NstdVarQryFld = GetFldInQry(sForM, sTrgtCtrl, sQryField)
+    On Error GoTo -1: On Error GoTo FrM_ErrorHandler
+    '-----------------------------------------------------------------------------------
     
+    '----------------------------------------------------------------------------------------------
+    'Se o campo não for encontrado no grid da consulta, procura em todas as tabelas e Queries usadas na consulta
+    If Not NstdVarQryFld.bFoundQryFld Then
+        '-----------------------------------------------------------------------------------
+        'Checar se o campo [ sQryField ] indicado no TriggCtrl [ sTrggCtrL ] existe em alguma das tabelas
+        ' da consulta do TargtCtrl [ sTrgtCtrl ]
+        ' se não existir exibe alerta e remove o Controle do dicionário do Grupo de Filtragem
+        sSQLtablesString = clObjTargtCtrlParam.sClsLstbxSQL_aSELECT & " " & clObjTargtCtrlParam.sClsLstbxSQL_bFROM
+        On Error GoTo -1
+        NstdVarQryFld = GetFldInQryTbls(sForM, sTrgtCtrl, sSQLtablesString, sQryField)
+        On Error GoTo -1: On Error GoTo FrM_ErrorHandler
+    
+    End If
+    '----------------------------------------------------------------------------------------------
+    
+
+
+'Stop
+    'Se o campo da consulta não tiver sido encontrado na tabela de dados exibe o alerta
+    ' e não inclui o controle no dicionário [ dictTrgg01CtrlsInGrp(sFilGrp) ]
+    If Not NstdVarQryFld.bFoundQryFld Then
+
+        vA = "O campo de tabela [ " & sQryField & " ] indicado nos parâmetros" & vbCr & " do TriggerCtrl não foi localizado na consulta"
+        vB = vbCr & " [ " & NstdVarQryFld.sQry & " ], base de dados do TrgtCtrl." & vbCr & vbCr & " Não será possível filtrar por esse TriggCtrl."
+        sStR1 = "Formulário:  [ " & sForM & " ]" & vbCr & "TriggerCtrl: " & "  [ " & sTrggCtrL & " ]" & vbCr & "TargetCtrl: " & "   [ " & sTrgtCtrl & " ]" & vbCr & "-------------------------------------------------------------------------------"
+        sStR2 = vA & vB
+        vC = " Erro [ " & Err.Number & ": " & Err.Description & " ] "
+
+        Call msgboxErrorAlert(sStR1, sStR2, vbExclamation, vC)
+
+        sLoadLogWarn = "O campo de tabela indicado no TriggCtrl não foi localizado." & vbNewLine & "Não será possível filtrar por esse campo."
+        On Error GoTo -1
+        Call FormStatusBar01_Bld(sForM, "QryFieldNotFound", sLoadLogWarn, sTrggCtrL)
+        On Error GoTo -1: On Error GoTo FrM_ErrorHandler
+'Stop
+        Exit Sub
+Stop
+    End If
+    '-----------------------------------------------------------------------------------
+    
+    'Se o campo da consulta não tiver sido informado suspende a carga do controle no sistema
+    If sQryField = "" Then
+        sStR1 = "Formulário:  [ " & sForM & " ]" & vbCr & "TriggerCtrl: " & "  [ " & sTrggCtrL & " ]" & vbCr & "-------------------------------------------------------------------------------"
+        sStR2 = "O TriggerCtrl não possui a indicação do campo de tabela" & vbCr & " pra consultas e não poderá ser pesquisado."
+        vA = " Erro [ " & Err.Number & ": " & Err.Description & " ] "
+        
+        Call msgboxErrorAlert(sStR1, sStR2, vbExclamation, vA)
+        
+        sLoadLogWarn = "O TriggerCtrl não possui a indicação do campo de tabela" & vbNewLine & " pra consultas e não poderá ser pesquisado."
+        On Error GoTo -1
+        Call FormStatusBar01_Bld(sForM, "MissingQryField", sLoadLogWarn, sTrggCtrL)
+        On Error GoTo -1: On Error GoTo FrM_ErrorHandler
+Stop
+        Exit Sub
+'Stop
+    Else
+        '-----------------------------------------------------------------------------------
+        'Avalia se deve ser usado o Nome de Campo [ sQryField ] informado ou o respectivo Campo Calculado
+        '-----------------------------------------------------------------------------------
+'Stop
+        On Error Resume Next
+        'Recupera, no dict [ dictFormFilterGrps ] o SQL Select do TargtCtrl associado ao Grupo de Filtragem ora avaliado
+        Set clObjTargtCtrlParam = dictFormFilterGrps(sForM)(sFilGrp)
+        
+        'Se o [ FiltGrp ] informado para o [ TrggCtrl ] não constar no dicionário de Grupos de Filtragem
+        ' significa que o Grupo não existe ou não foi carregado corretamente o que indica
+        ' que o [ Grupo de Filtragem ] não tem um TargtCtrl também associado
+        ' Nesse caso desconsidera o [ TrggCtrl ] pra filtragem
+        If (Err.Number = 424) Then  'object required  Grupo informado no Trigger não consta no dicionário de [ Grupos de Filtragem ]
+'Stop
+            sStR1 = "Formulário:  [ " & sForM & " ]" & vbCr & "TriggerCtrl: " & "  [ " & sTrggCtrL & " ]" & vbCr & "-------------------------------------------------------------------------------"
+            sStR2 = " O TriggerCtrl está associado ao Grupo de Filtragem [ " & sFilGrp & " ]" & vbCr & "  que não foi carregado na inicialização do sistema." & vbCr & "  Esse TriggerCtrl não poderá ser pesquisado."
+            vA = " Erro [ " & Err.Number & ": " & Err.Description & " ] "
+            
+            Call msgboxErrorAlert(sStR1, sStR2, vbExclamation, vA)
+            
+            sLoadLogWarn = "O TriggerCtrl está associado ao Grupo de Filtragem [ " & sFilGrp & " ]" & vbCrLf & "  que não foi carregado na inicialização do sistema." & vbCrLf & "  Esse TriggerCtrl não poderá ser pesquisado."
+            On Error GoTo -1
+            Call FormStatusBar01_Bld(sForM, "FilGrpError", sLoadLogWarn, sTrggCtrL)
+            On Error GoTo -1: On Error GoTo FrM_ErrorHandler
+            
+Stop
+            Exit Sub
+        
+        End If
+        On Error GoTo -1: On Error GoTo FrM_ErrorHandler
+        
+        'Não foi localizado um [ TargtCtrl ] associado ao grupo de filtragem do [ TriggCtrl ]
+        ' quando possível confirmar quando ocorre esse erro
+        If (Err.Number = 13) Then  'type mismatch
+            sStR1 = "Formulário:  [ " & sForM & " ]" & vbCr & "TriggerCtrl: " & "  [ " & sTrggCtrL & " ]" & vbCr & "Grupo de Filtragem: [ " & sFilGrp & " ]" & vbCr & "-------------------------------------------------------------------------------"
+            sStR2 = " Não foi localizado no Formulário nenhum TargtCtrl" & vbCr & "  associado ao Grupo de Filtragem." & vbCr & "  Não será possível filtrar por esse TriggCtrl. Checar Erro --"
+            vA = " Erro [ " & Err.Number & ": " & Err.Description & " ] "
+            Call msgboxErrorAlert(sStR1, sStR2, vbExclamation, vA)
+Stop
+            Exit Sub
+        
+        End If
+        
+        
+        On Error GoTo -1: On Error GoTo FrM_ErrorHandler
+        
+        sTargtCtrlSQLselect = clObjTargtCtrlParam.sClsLstbxSQL_aSELECT
+        
+        '-----------------------------------------------------------------------------------
+        'Inicia a avaliação do campo calculado
+        '-----------------------------------------------------------------------------------
+        
+        'Verifica se o sQryField informado no parâmetro está associado à expressão "AS" no SQL
+        ' Isso indica que é um campo calculado o que exije um tratamento diferenciado
+        ' para ser recuperado
+        vA = " AS " & sQryField
+        iWhere = InStr(sTargtCtrlSQLselect, vA)
+
+'If gBbDepurandoLv01b Then MsgBox "----- pbSub31_TriggCtrlDictBuild -----------------------------------------------" & vbCr & "teste " & sTrggCtrL
+'stop
+        If iWhere > 0 Then
+            'Chama a função pra montar o Campo Calculado
+            ' O nome de campo de filtragem [ sQryField ] identificado nos parâmetros do controle
+            ' é substituído pelo respectivo campo calculado
+            vB = sGetClcltdField(sTargtCtrlSQLselect, " AS " & sQryField)
+'Stop
+            sQryField = vB
+            
+            If vC = "SELECT NotFound" Then
+                sStR1 = "Formulário:  [ " & sForM & " ]" & vbCr & "TriggerCtrl: " & "  [ " & sTrggCtrL & " ]" & vbCr & "-------------------------------------------------------------------------------"
+                vA = vbCr & "  localizar o trecho do SELECT, impedindo a montagem da" & vbCr & "  fórmula associada ao campo pra uso no SQL." & vbCr & "  O TriggerCtrl não poderá ser pesquisado."
+                sStR2 = " É possível que o TriggerCtrl seja um campo calculado," & vbCr & "  mas os parâmetros informados no controle não permitiram" & vA
+                vB = " Erro [ " & Err.Number & ": " & Err.Description & " ] "
+                Call msgboxErrorAlert(sStR1, sStR2, vbExclamation, vB)
+Stop
+                Exit Sub
+                
+            End If
+            
+            bBolClctd = True
+            
+        Else
+            bBolClctd = False
+        
+        End If
+    
+    End If
+    '-------------------------------
+    '-----------------------------------------------------------------------------------
     
 'MsgBox "----- pbSub31_TriggCtrlDictBuild -----------------------------------------------" & vbCr & vbCr & "Recupera os parâmetros de [ " & sTrggCtrL & " ] pra inclusão em" & vbCr & "[ dictTrgg01CtrlsInGrp ]" & vbCr & " " & vbCr & " "
 If gBbDepurandoLv01c Then Stop
@@ -1638,15 +1660,17 @@ If gBbDepurandoLv01c Then Stop
         
         On Error GoTo -1
         iSrchWildCard = GetTagParams(sParam, vTagSectionParams, , False, 0, 0, 2, , , , True, "MissingWdCrd", cTriggCtrl)
-        If gBbEnableErrorHandler Then On Error GoTo -1: On Error GoTo FrM_ErrorHandler
+        On Error GoTo -1: On Error GoTo FrM_ErrorHandler
         
         'iSrchWildCard = GetTagParams(sParam, vTagSectionParams, , 0, 0, 2, sStR1, sStR2)
-        If gBbEnableErrorHandler Then On Error GoTo -1: On Error GoTo FrM_ErrorHandler
+        On Error GoTo -1: On Error GoTo FrM_ErrorHandler
     
     '--------------------------------------------------------------------------------------------
     'Nesse trecho se houver erro de falta de parâmetros é assumido o valor padrão
     ' portanto não é necessário gerar mensagem de erro
     '--------------------------------------------------------------------------------------------
+    
+'    On Error Resume Next
     
 'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "erro na carga do RecCnt de [ " & sTrggCtrL & " ]"
 'Stop
@@ -1659,7 +1683,7 @@ If gBbDepurandoLv01c Then Stop
         
         On Error GoTo -1
         iQryFldRmvCharCpt = GetTagParams(sParam, vTagSectionParams, , False, 0, 0)
-        If gBbEnableErrorHandler Then On Error GoTo -1: On Error GoTo FrM_ErrorHandler
+        On Error GoTo -1: On Error GoTo FrM_ErrorHandler
 
     'Identifica o texto a ser exibido no controle de contagem de Registros
     vA = vTagSectionParams(1)
@@ -1683,7 +1707,7 @@ If gBbDepurandoLv01c Then Stop
         
         On Error GoTo -1
         iSrchOnChange = GetTagParams(sParam, vTagSectionParams, , False, 0, 0, 1, , , , True, "MissingSrchOnChge", cTriggCtrl, sLoadLogWarn)
-        If gBbEnableErrorHandler Then On Error GoTo -1: On Error GoTo FrM_ErrorHandler
+        On Error GoTo -1: On Error GoTo FrM_ErrorHandler
 
     'A existência do parâmetro [ CascUpDt ] indicando um eventual TargtCtrl secundário
     ' que deva ser atualizado em cascata NÃO PRECISA SER TESTADA pois se estiver vazio
@@ -1699,13 +1723,13 @@ If gBbDepurandoLv01c Then Stop
         On Error GoTo -1
         sCascUpDtTrgCtrl = GetTagParams(sParam, vTagSectionParams, cTriggCtrl, False, "", , , True, sStR1, sStR2, True, "CascdNotFound", cTriggCtrl, sLoadLogWarn)
         'sCascUpDtTrgCtrl = GetTagParams(sParam, vTagSectionParams, cTriggCtrl, "", , , sStR1, sStR2)
-        If gBbEnableErrorHandler Then On Error GoTo -1: On Error GoTo FrM_ErrorHandler
+        On Error GoTo -1: On Error GoTo FrM_ErrorHandler
 
 'Stop
     vA = cTriggCtrl.Name
     'Se o controle for um Listbox ou Combobox reativa o tratamento de erro
     If cTriggCtrl.ControlType = 110 Or cTriggCtrl.ControlType = 111 Then
-        If gBbEnableErrorHandler Then On Error GoTo -1: On Error GoTo FrM_ErrorHandler
+        On Error GoTo -1: On Error GoTo FrM_ErrorHandler
         
 'If gBbDepurandoLv01b Then MsgBox ".TxtClmn --------------------------------------------------------------------------"
 'Stop
@@ -1724,12 +1748,12 @@ If gBbDepurandoLv01c Then Stop
             iListboxTxtClmn = GetTagParams(sParam, vTagSectionParams, , False, 0, 0, , , , , True, "MissingTxtClmn", cTriggCtrl, sLoadLogWarn)
             
             'iListboxTxtClmn = GetTagParams(sParam, vTagSectionParams, , 1, 0, , sStR1, sStR2)
-            If gBbEnableErrorHandler Then On Error GoTo -1: On Error GoTo FrM_ErrorHandler
+            On Error GoTo -1: On Error GoTo FrM_ErrorHandler
 
     End If
     
     'A partir daqui o tratamento de erro deve ser retomado
-    If gBbEnableErrorHandler Then On Error GoTo -1: On Error GoTo FrM_ErrorHandler
+    On Error GoTo -1: On Error GoTo FrM_ErrorHandler
     
 'End If
     
@@ -1860,12 +1884,12 @@ If gBbDepurandoLv01c Then Stop
 '    For Each vKeyGrp In dictTrgg00GrpsInForm(sForm)
 '        vA = vKeyGrp
 '
-'        For Each vKeyTrgt In dictTrgg01CtrlsInGrp(vKeyGrp)
-'            vB = vKeyTrgt
-'            Set clObjTriggCtrlParam = dictTrgg01CtrlsInGrp(vKeyGrp)(vKeyTrgt)
+'        For Each vKeyCtrl In dictTrgg01CtrlsInGrp(vKeyGrp)
+'            vB = vKeyCtrl
+'            Set clObjTriggCtrlParam = dictTrgg01CtrlsInGrp(vKeyGrp)(vKeyCtrl)
 '            vC = clObjTriggCtrlParam.sQryField
 '
-'        Next vKeyTrgt
+'        Next vKeyCtrl
 '
 '    Next vKeyGrp
 
@@ -1918,13 +1942,6 @@ Stop
 End Sub
 
 
-Public Sub pbSub32_TriggCtrlDictBuild(vTagSection As Variant, cTriggCtrl As Control)
-
-
-End Sub
-
-
-
 Public Function pbSub41_CtrlsBehvrDictBuild(vTagSection As Variant, cCtrL As Control)
 
     Dim vA, vB, vC
@@ -1942,7 +1959,7 @@ Public Function pbSub41_CtrlsBehvrDictBuild(vTagSection As Variant, cCtrL As Con
     Dim sTmP As String
     Dim sModName As String, sSubName As String, sSearchTerm As String
     
-    If gBbEnableErrorHandler Then On Error GoTo -1: On Error GoTo FrM_ErrorHandler
+    On Error GoTo -1: On Error GoTo FrM_ErrorHandler
     
     sForM = cCtrL.Parent.Name
     sCtrL = cCtrL.Name
@@ -1985,7 +2002,7 @@ If gBbDepurandoLv01c Then Stop
         
         On Error GoTo -1
         sOnDrty = GetTagParams(sParam, vTagSectionParams, , False, 0, 0, 1, , , , True, "MissingOnDrty", cCtrL)
-        If gBbEnableErrorHandler Then On Error GoTo -1: On Error GoTo FrM_ErrorHandler
+        On Error GoTo -1: On Error GoTo FrM_ErrorHandler
 
         
         
@@ -2021,7 +2038,7 @@ If gBbDepurandoLv01c Then Stop
 'Stop
             On Error GoTo -1
             Call FormStatusBar01_Bld(sForM, "DirtyTrue_NoTrgg", sLoadLogWarn, sCtrL)
-            If gBbEnableErrorHandler Then On Error GoTo -1: On Error GoTo FrM_ErrorHandler
+            On Error GoTo -1: On Error GoTo FrM_ErrorHandler
         
         End If
 'Stop
@@ -2043,7 +2060,7 @@ If gBbDepurandoLv01c Then Stop
         On Error GoTo -1
         sMskd = GetTagParams(sParam, vTagSectionParams, , False, 0, 0, 1, , , , True, "MissingMskd", cCtrL)
         'sMskd = GetTagParams(sParam, vTagSectionParams, , 0, , 1, sStR1, sStR2, cCtrL, "MskdParamError")
-        If gBbEnableErrorHandler Then On Error GoTo -1: On Error GoTo FrM_ErrorHandler
+        On Error GoTo -1: On Error GoTo FrM_ErrorHandler
     '------------------------------------------------------------------------------------------------------------------------
     
     
@@ -2066,7 +2083,7 @@ If gBbDepurandoLv01c Then Stop
         'Cria um novo objeto [ clObjCtrlBehvrParams ] da Classe [ cls_11aCtrlBehvrParams ] pra ser incluído no Dict
         Set clObjCtrlBehvrParams = New cls_11aCtrlBehvrParams
 
-        'Adiciona um novo item no dicionário [ dictFormFilterGrpsTrgts ] e guarda nele o objeto [ clObjCtrlBehvrParams ]
+        'Adiciona um novo item no dicionário [ dictFormFilterGrps ] e guarda nele o objeto [ clObjCtrlBehvrParams ]
         ' com os respectivos parâmetros do Grupo de Filtragem definidos na classe [ cls_11aCtrlBehvrParams ]
         dictCtrlBehvrParams(sForM).Add sCtrL, clObjCtrlBehvrParams
 'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "build [ " & sCtrL & " ]" & vbCr & "" & vbCr & "" & vbCr & "" & vbCr & ""
@@ -2314,7 +2331,7 @@ If gBbDepurandoLv01c Then Stop
         sBTNresetArea = GetTagParams(sParam, vTagSectionParams, , False, "", 0, , , , , True, "NoResetArForBtn", cCtrL, sLoadLogWarn)
         'sBTNresetArea = GetTagParams(sParam, vTagSectionParams, , "", , , sStR1, sStR2)
 'Stop
-        'If gBbEnableErrorHandler Then On Error GoTo -1: On Error GoTo FrM_ErrorHandler
+        'On Error GoTo -1: On Error GoTo FrM_ErrorHandler
         
         If sBTNresetArea = "" Then Exit Sub
         
@@ -2777,8 +2794,8 @@ Public Sub pbSub71_DataFieldDictBuild(vTagSection As Variant, cDataField As Cont
         
         dictFormDataFlds01Grps(sForM)(sDataFieldGrp).Add sCtrlDataField, clObjCtrlDataFieds
         
-        If Not IsObject(dictFormFilGrpsEnDsAllCtrls(sForM)(sDataFieldGrp)) Then Set dictFormFilGrpsEnDsAllCtrls(sForM)(sDataFieldGrp) = New Dictionary
-        If Not dictFormFilGrpsEnDsAllCtrls(sForM)(sDataFieldGrp).Exists(sCtrlDataField) Then dictFormFilGrpsEnDsAllCtrls(sForM)(sDataFieldGrp).Add sCtrlDataField, sDataFieldGrp
+        If Not IsObject(dictFormFilterGrpsCtrls(sForM)(sDataFieldGrp)) Then Set dictFormFilterGrpsCtrls(sForM)(sDataFieldGrp) = New Dictionary
+        If Not dictFormFilterGrpsCtrls(sForM)(sDataFieldGrp).Exists(sCtrlDataField) Then dictFormFilterGrpsCtrls(sForM)(sDataFieldGrp).Add sCtrlDataField, sDataFieldGrp
     End If
 
 End Sub
@@ -2822,7 +2839,7 @@ If gBbDepurandoLv01c Then Stop
 'Stop
         On Error GoTo -1
         Call FormStatusBar01_Bld(sForM, "commBtn-NoParams", sLoadLogWarn, sCommButton)
-        'If gBbEnableErrorHandler Then On Error GoTo -1: On Error GoTo FrM_ErrorHandler
+        'On Error GoTo -1: On Error GoTo FrM_ErrorHandler
         
         Exit Sub
     
@@ -2922,7 +2939,7 @@ Stop
 'Stop
                 On Error GoTo -1
                 Call FormStatusBar01_Bld(sForM, "commBtn-MissingFilGrp", sLoadLogWarn, sCommButton)
-                'If gBbEnableErrorHandler Then On Error GoTo -1: On Error GoTo FrM_ErrorHandler
+                'On Error GoTo -1: On Error GoTo FrM_ErrorHandler
                 
                 Exit Sub
             
@@ -2941,7 +2958,7 @@ Stop
 'Stop
                 On Error GoTo -1
                 Call FormStatusBar01_Bld(sForM, "commBtn-MissingForm", sLoadLogWarn, sCommButton)
-                'If gBbEnableErrorHandler Then On Error GoTo -1: On Error GoTo FrM_ErrorHandler
+                'On Error GoTo -1: On Error GoTo FrM_ErrorHandler
                 
                 Exit Sub
                 
@@ -2960,7 +2977,7 @@ Stop
 'Stop
                     On Error GoTo -1
                     Call FormStatusBar01_Bld(sForM, "commBtn-MissingFrmMode", sLoadLogWarn, sCommButton)
-                    'If gBbEnableErrorHandler Then On Error GoTo -1: On Error GoTo FrM_ErrorHandler
+                    'On Error GoTo -1: On Error GoTo FrM_ErrorHandler
                     
                     Exit Sub
 
@@ -2981,7 +2998,7 @@ Stop
 'Stop
                 On Error GoTo -1
                 Call FormStatusBar01_Bld(sForM, "commBtn-MissingRstArea", sLoadLogWarn, sCommButton)
-                'If gBbEnableErrorHandler Then On Error GoTo -1: On Error GoTo FrM_ErrorHandler
+                'On Error GoTo -1: On Error GoTo FrM_ErrorHandler
                 
                 Exit Sub
             
@@ -3000,7 +3017,7 @@ Stop
 'Stop
             On Error GoTo -1
             Call FormStatusBar01_Bld(sForM, "commBtn-MissingActType", sLoadLogWarn, sCommButton)
-            'If gBbEnableErrorHandler Then On Error GoTo -1: On Error GoTo FrM_ErrorHandler
+            'On Error GoTo -1: On Error GoTo FrM_ErrorHandler
             
             Exit Sub
             
@@ -3039,8 +3056,8 @@ Stop
     'Chama a rotina pra incluir o controle no dict [ dictCtrlsEvents(sForM) ]
     Call pbSub10_EventsDictBuild(sForM, sCommButton)
     '-----------------------------------------------------
-    If Not IsObject(dictFormFilGrpsEnDsAllCtrls(sForM)) Then Set dictFormFilGrpsEnDsAllCtrls(sForM) = New Dictionary
-    If Not IsObject(dictFormFilGrpsEnDsAllCtrls(sForM)(sFilGrp)) Then Set dictFormFilGrpsEnDsAllCtrls(sForM)(sFilGrp) = New Dictionary
-    If Not dictFormFilGrpsEnDsAllCtrls(sForM)(sFilGrp).Exists(sCommButton) Then dictFormFilGrpsEnDsAllCtrls(sForM)(sFilGrp).Add sCommButton, sFilGrp
+    If Not IsObject(dictFormFilterGrpsCtrls(sForM)) Then Set dictFormFilterGrpsCtrls(sForM) = New Dictionary
+    If Not IsObject(dictFormFilterGrpsCtrls(sForM)(sFilGrp)) Then Set dictFormFilterGrpsCtrls(sForM)(sFilGrp) = New Dictionary
+    If Not dictFormFilterGrpsCtrls(sForM)(sFilGrp).Exists(sCommButton) Then dictFormFilterGrpsCtrls(sForM)(sFilGrp).Add sCommButton, sFilGrp
     
 End Sub

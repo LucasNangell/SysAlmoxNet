@@ -11,18 +11,16 @@ Sub PbSubFillFieldsByList(cListBox As Control)
     Dim sDefQuerY As String
     Dim sForM As String
     Dim sDataFieldCtrl As String
-    Dim cDataFieldCtrl As Control
     Dim sFilGrp As String
     Dim sQryIDfield As String
     Dim sFieldCmb As String
     Dim sFilterCmb As String
     Dim bBoL As Boolean
     Dim qDef As QueryDef
-    Dim sSQLtablesString As String
-    Dim sLoadLogWarn As String
     
     Dim fForM As Form
 
+    Dim cDataFieldCtrl As Control
     
     Dim vKeyDataFieldCtrl As Variant
     Dim vWdthsCol As Variant
@@ -86,7 +84,6 @@ Sub PbSubFillFieldsByList(cListBox As Control)
     ' pra depois recuperar os controles [ cDataFieldCtrl ] do [ Grupo ]
     sFilGrp = dictTrgtCtrlsFilterGrps(sForM)(cListBox.Name)
     
-'Stop
     '-------------------------------------------
     'Inicia a consulta pra exibição dos dados
     '-------------------------------------------
@@ -143,145 +140,128 @@ Sub PbSubFillFieldsByList(cListBox As Control)
         'Confirma se o controle [ vKeyDataFieldCtrl ] de fato existe no [ Form ]
         If ControlExists(sDataFieldCtrl, fForM) Then
             Set cDataFieldCtrl = fForM.Controls(sDataFieldCtrl)
-            
-            Set clObjTargtCtrlParam = dictFormFilterGrpsTrgts(sForM)(sFilGrp)(cListBox.Name)
-            
-            'Confirma se [ clObjCtrlDataFieds.sDataField ] é um dos campos da consulta de [ cListBox.Name ]
-            If clObjTargtCtrlParam.dictQryFields.Exists(clObjCtrlDataFieds.sDataField) Then
-                vA = clObjTargtCtrlParam.dictQryFields(clObjCtrlDataFieds.sDataField)
-                
-                'Verifica se o campo está no grid da consulta
-                If vA = "Grid" Then
-                    'Atribui à variável tipo Field [ rstFieldDataField ] o campo da consulta da Listbox [ cListBox ],
-                    ' indicado em [ clObjCtrlDataFieds.sDataField ] recuperado da TAG do controle [ vKeyDataFieldCtrl ] ora analisado
-                    ' e retorna o valor armazenado na tabela de dados
-                    Set rstFieldDataField = rsTbE.Fields(clObjCtrlDataFieds.sDataField)
-                    
-                    'Exibe no controle ora analisado, o valor recuperado na tabela de dados
-                    cDataFieldCtrl.Value = rstFieldDataField
 
-                Else
-                    
-                    'Confirma se o controle é uma combobox
-                    If cDataFieldCtrl.ControlType = acComboBox Then
+            'Verifica se o campo da consulta indicado na TAG do controle ora analisado consta no grid da consulta,
+            ' caso positivo exibe, no controle, o valor referente à coluna de dados armazenado na tabela
+            ' caso negativo significa que é um campo multiselect e, nesse caso, faz o tratamento
+            ' pra recuperar quais valores devem ser exibidos no controle
+            NstdVarQryFld = GetFldInQry(sForM, cListBox.Name, clObjCtrlDataFieds.sDataField)
+'MsgBox ""
+'Stop
+
+
+            'Se o campo foi localizado no Grid da consulta
+            If NstdVarQryFld.bFoundQryFld Then '2
+                
+                'Atribui à variável tipo Field [ rstFieldDataField ] o campo da consulta da Listbox [ cListBox ],
+                ' indicado em [ clObjCtrlDataFieds.sDataField ] recuperado da TAG do controle [ vKeyDataFieldCtrl ] ora analisado
+                ' e retorna o valor armazenado na tabela de dados
+                Set rstFieldDataField = rsTbE.Fields(clObjCtrlDataFieds.sDataField)
+                
+                'Exibe no controle ora analisado, o valor recuperado na tabela de dados
+                cDataFieldCtrl.Value = rstFieldDataField
             
-                        'Descobre qual a coluna do controle contém os dados a serem pesquisados
-                        ' para isso, verifica os [ Widths ] das colunas e atribui a [ iColIDCmb ] o número da coluna que possui width ZERO
-                        vWdthsCol = Split(cDataFieldCtrl.ColumnWidths, ";")
-                        For iCont = 0 To UBound(vWdthsCol)
-                            If vWdthsCol(iCont) = "0" Then iColIDCmb = iCont
-                        Next iCont
-    
-                        'Recupera o SQL da consulta que alimenta o controle no [ dictFormQrysCtrls(sForm)(cCtrl) ]
-                        If InStr(dictFormQrysCtrls(sForM)(sDataFieldCtrl), "SELECT") = 0 Then '4
-                            Set qDef = CurrentDb.QueryDefs(dictFormQrysCtrls(sForM)(sDataFieldCtrl))
-                            sDefQuerY = qDef.sql
+            Else
+                'Confirma se o controle é uma combobox
+                If cDataFieldCtrl.ControlType = acComboBox Then
+        
+                    'Descobre qual a coluna do controle contém os dados a serem pesquisados
+                    ' para isso, verifica os [ Widths ] das colunas e atribui a [ iColIDCmb ] o número da coluna que possui width ZERO
+                    vWdthsCol = Split(cDataFieldCtrl.ColumnWidths, ";")
+                    For iCont = 0 To UBound(vWdthsCol)
+                        If vWdthsCol(iCont) = "0" Then iColIDCmb = iCont
+                    Next iCont
+
+                    'Recupera o SQL da consulta que alimenta o controle no [ dictFormQrysCtrls(sForm)(cCtrl) ]
+                    If InStr(dictFormQrysCtrls(sForM)(sDataFieldCtrl), "SELECT") = 0 Then '4
+                        Set qDef = CurrentDb.QueryDefs(dictFormQrysCtrls(sForM)(sDataFieldCtrl))
+                        sDefQuerY = qDef.sql
+                    Else
+                        sDefQuerY = cDataFieldCtrl.RowSource
+                    End If
+            
+                    'Abre o recordset da consulta para capturar os valores que são exibidos por padrão em [ cDataFieldCtrl ]
+                    Set rsDefQry = CurrentDb.OpenRecordset(sDefQuerY, dbOpenDynaset, dbReadOnly)
+                    rsDefQry.MoveLast: rsDefQry.MoveFirst
+                    
+                    'Captura o nome do campo referente ao item buscado
+                    sFieldCmb = rsDefQry.Fields(iColIDCmb).Name
+                    
+                    'Insere os dados da consulta na [ vDefItemsCmb ]
+                    ReDim vDefItemsCmb(rsDefQry.RecordCount - 1)
+                    For iItem = 0 To UBound(vDefItemsCmb)
+                        vDefItemsCmb(iItem) = rsDefQry.Fields(iColIDCmb)
+                        rsDefQry.MoveNext
+                    Next iItem
+                    
+                    rsDefQry.Close
+                    
+                    'variável usada para redimensionar [ vDefItemsCmb ]
+                    iCont = 0
+                    
+                    bBoL = False
+                    'Percorre cada item de [ vDefItemsCmb ] para verificar se o setor é atribuído ao produto selecionado na lista
+                    For iItem = 0 To UBound(vDefItemsCmb)
+            
+                        'Monta o WHERE da consulta
+                        vA = "([" & clObjCtrlDataFieds.sDataField & "]" & " = " & vDefItemsCmb(iItem) & ") AND ([" & sQryIDfield & "]" & " = " & iQryID & ")"
+            
+                        'Modifica consulta da lista filtrando pelo [ sQryIDfield ] e pelo valor do RecordSet do campo
+                        If InStr(sQuerY, "WHERE") > 0 Then sQuerY = Split(sQuerY, "WHERE")(0)
+                        If InStr(sQuerY, "ORDER BY") > 0 Then
+                            vB = "ORDER BY " & Split(sQuerY, "ORDER BY")(1) & ";"
+                            sQuerY = Split(sQuerY, "ORDER BY")(0)
+                            sQuerY = sQuerY & " WHERE " & vA & vB
                         Else
-                            sDefQuerY = cDataFieldCtrl.RowSource
+                            sQuerY = Replace(sQuerY, ";", "") & " WHERE " & vA & ";"
                         End If
-                
-                        'Abre o recordset da consulta para capturar os valores que são exibidos por padrão em [ cDataFieldCtrl ]
-                        Set rsDefQry = CurrentDb.OpenRecordset(sDefQuerY, dbOpenDynaset, dbReadOnly)
-                        rsDefQry.MoveLast: rsDefQry.MoveFirst
                         
-                        'Captura o nome do campo referente ao item buscado
-                        sFieldCmb = rsDefQry.Fields(iColIDCmb).Name
+                        'Abre um RecordSet com o filtro
+                        Set rsTbECmb = CurrentDb.OpenRecordset(sQuerY, dbOpenDynaset, dbReadOnly)
                         
-                        'Insere os dados da consulta na [ vDefItemsCmb ]
-                        ReDim vDefItemsCmb(rsDefQry.RecordCount - 1)
-                        For iItem = 0 To UBound(vDefItemsCmb)
-                            vDefItemsCmb(iItem) = rsDefQry.Fields(iColIDCmb)
-                            rsDefQry.MoveNext
+                        'Caso o [ rsTbECmb ] retorne algum valor, indica que o setor está atribuído
+                        ' armazena os setores atribuídos na [ vDefItemsCmb ]
+                        If rsTbECmb.RecordCount > 0 Then
+                            ReDim Preserve vSrchItemsCmb(iCont)
+                            vSrchItemsCmb(iCont) = vDefItemsCmb(iItem)
+                            iCont = iCont + 1
+                            bBoL = True
+                        End If
+                        
+                        'Fecha o RecordSet
+                        rsTbECmb.Close
+                        
+                    Next iItem
+
+                    sFilterCmb = ""
+                    'Percorre [ vDefItemsCmb ] para buscar quais itens deverão ser inclusos em [ cDataFieldCtrl ]
+                    If bBoL Then
+                        For iItem = 0 To UBound(vSrchItemsCmb)
+                            sFilterCmb = sFilterCmb & "([" & sFieldCmb & "]" & " = " & vSrchItemsCmb(iItem) & ")"
+                            'Caso ainda não seja o último item adiciona [ OR ] ao final para continuar a montagem do filtro
+                            If iItem < UBound(vSrchItemsCmb) Then sFilterCmb = sFilterCmb & " OR "
                         Next iItem
-                        
-                        rsDefQry.Close
-                        
-                        'variável usada para redimensionar [ vDefItemsCmb ]
-                        iCont = 0
-                        
-                        bBoL = False
-                        'Percorre cada item de [ vDefItemsCmb ] para verificar se o setor é atribuído ao produto selecionado na lista
-                        For iItem = 0 To UBound(vDefItemsCmb)
-                
-                            'Monta o WHERE da consulta
-                            vA = "([" & clObjCtrlDataFieds.sDataField & "]" & " = " & vDefItemsCmb(iItem) & ") AND ([" & sQryIDfield & "]" & " = " & iQryID & ")"
-                
-                            'Modifica consulta da lista filtrando pelo [ sQryIDfield ] e pelo valor do RecordSet do campo
-                            If InStr(sQuerY, "WHERE") > 0 Then sQuerY = Split(sQuerY, "WHERE")(0)
-                            If InStr(sQuerY, "ORDER BY") > 0 Then
-                                vB = "ORDER BY " & Split(sQuerY, "ORDER BY")(1) & ";"
-                                sQuerY = Split(sQuerY, "ORDER BY")(0)
-                                sQuerY = sQuerY & " WHERE " & vA & vB
-                            Else
-                                sQuerY = Replace(sQuerY, ";", "") & " WHERE " & vA & ";"
-                            End If
-                            
-                            'Abre um RecordSet com o filtro
-                            Set rsTbECmb = CurrentDb.OpenRecordset(sQuerY, dbOpenDynaset, dbReadOnly)
-                            
-                            'Caso o [ rsTbECmb ] retorne algum valor, indica que o setor está atribuído
-                            ' armazena os setores atribuídos na [ vDefItemsCmb ]
-                            If rsTbECmb.RecordCount > 0 Then
-                                ReDim Preserve vSrchItemsCmb(iCont)
-                                vSrchItemsCmb(iCont) = vDefItemsCmb(iItem)
-                                iCont = iCont + 1
-                                bBoL = True
-                            End If
-                            
-                            'Fecha o RecordSet
-                            rsTbECmb.Close
-                            
-                        Next iItem
-    
-                        sFilterCmb = ""
-                        'Percorre [ vDefItemsCmb ] para buscar quais itens deverão ser inclusos em [ cDataFieldCtrl ]
-                        If bBoL Then
-                            For iItem = 0 To UBound(vSrchItemsCmb)
-                                sFilterCmb = sFilterCmb & "([" & sFieldCmb & "]" & " = " & vSrchItemsCmb(iItem) & ")"
-                                'Caso ainda não seja o último item adiciona [ OR ] ao final para continuar a montagem do filtro
-                                If iItem < UBound(vSrchItemsCmb) Then sFilterCmb = sFilterCmb & " OR "
-                            Next iItem
-                        End If
-                        'sFilterCmb = Left(sFilterCmb, Len(sFilterCmb) - 3)
-                        
-                        'Remonta a [ sDefQuerY ] aplicando o filtro dos items que devem ser exibidos
-                        If InStr(sDefQuerY, "WHERE") > 0 Then sDefQuerY = Split(sDefQuerY, "WHERE")(0)
-                        If InStr(sDefQuerY, "ORDER BY") > 0 Then '4
-                            vB = "ORDER BY " & Split(sDefQuerY, "ORDER BY")(1) & ";"
-                            sDefQuerY = Split(sDefQuerY, "ORDER BY")(0)
-                            sDefQuerY = sDefQuerY & " WHERE " & sFilterCmb & vB
-                            sDefQuerY = Replace(sDefQuerY, ";", "")
-                        Else
-                            sDefQuerY = Replace(sDefQuerY, ";", "") & " WHERE " & sFilterCmb & ";"
-                        End If
-                        
-                        'Atribui a nova [ sDefQuerY ] ao [ cDataFieldCtrl ]
-                        cDataFieldCtrl.RowSource = sDefQuerY
-                        'Seleciona o primeiro item
-                        cDataFieldCtrl.Value = cDataFieldCtrl.ItemData(0)
-                
+                    End If
+                    'sFilterCmb = Left(sFilterCmb, Len(sFilterCmb) - 3)
+                    
+                    'Remonta a [ sDefQuerY ] aplicando o filtro dos items que devem ser exibidos
+                    If InStr(sDefQuerY, "WHERE") > 0 Then sDefQuerY = Split(sDefQuerY, "WHERE")(0)
+                    If InStr(sDefQuerY, "ORDER BY") > 0 Then '4
+                        vB = "ORDER BY " & Split(sDefQuerY, "ORDER BY")(1) & ";"
+                        sDefQuerY = Split(sDefQuerY, "ORDER BY")(0)
+                        sDefQuerY = sDefQuerY & " WHERE " & sFilterCmb & vB
+                        sDefQuerY = Replace(sDefQuerY, ";", "")
+                    Else
+                        sDefQuerY = Replace(sDefQuerY, ";", "") & " WHERE " & sFilterCmb & ";"
                     End If
                     
+                    'Atribui a nova [ sDefQuerY ] ao [ cDataFieldCtrl ]
+                    cDataFieldCtrl.RowSource = sDefQuerY
+                    'Seleciona o primeiro item
+                    cDataFieldCtrl.Value = cDataFieldCtrl.ItemData(0)
+            
                 End If
-                
-                
-            Else
-                'Inclui o erro no dict de Logs de Carga do sistema
-                vA = "Na TAG dos seguintes DataFields foi indicada uma coluna de dados não localizada na consulta fonte do [ TargtCtrl ] associado ao controle."
-                vB = vbCrLf & "Esses DataFields não exibirão dados."
-                sLoadLogWarn = vA & vB
-                
-                Call FormStatusBar01_Bld(sForM, "MissingDataFieldQryField", sLoadLogWarn, sDataFieldCtrl)
-
             End If
-        
-'Stop
-            '----------------------------------------------------------------------------------------------
-            '----------------------------------------------------------------------------------------------
-
-
-
-
         End If
         
         'Esvazia [ vDefItemsCmb ]
@@ -336,7 +316,7 @@ Public Sub PbSubRecDataFields(cBtnSaveRec As Control)
     sActType = clObjCommButtons.sActType
     
     Set clObjCommButtons = dictFormCommButtons(sForM)(sBtnSaveRec)
-    Set clObjTargtCtrlParam = dictFormFilterGrpsTrgts(sForM)(sFilGrp)
+    Set clObjTargtCtrlParam = dictFormFilterGrps(sForM)(sFilGrp)
 
     Set cLstBox = Forms(sForM).Controls(clObjTargtCtrlParam.sTargtCtrlName)
     

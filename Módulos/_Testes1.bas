@@ -23,7 +23,7 @@ Private Sub PrSubCtrlChange(vClassCtrl As Variant, sTgtCtrlToUpdt As String)
     sStR = cCtrL.Name & "_AfterUpdate"
     bgbAftUpdtEvntFound = False
 'Stop
-    If gBbEnableErrorHandler Then On Error Resume Next
+    On Error Resume Next
     bgbCallingByName = True
     CallByName fForM, sStR, VbMethod   'o evento AfterUpdate deve ser público, do contrário não será localizado
     bgbCallingByName = False

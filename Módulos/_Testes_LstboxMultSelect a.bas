@@ -133,8 +133,8 @@ Stop
             If sFilGrp = "" Then Exit Sub
         
         'Identifica o [ TrgtCtrl ] de [ sFilGrp ]
-        If IsObject(dictFormFilterGrpsTrgts(sForM)(sFilGrp)) Then
-            Set clObjTargtCtrlParam = dictFormFilterGrpsTrgts(sForM)(sFilGrp)
+        If IsObject(dictFormFilterGrps(sForM)(sFilGrp)) Then
+            Set clObjTargtCtrlParam = dictFormFilterGrps(sForM)(sFilGrp)
             vA = clObjTargtCtrlParam.sTargtCtrlName
         
         End If

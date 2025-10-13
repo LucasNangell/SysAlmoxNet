@@ -128,7 +128,7 @@ Public Sub pbSub00_CtrlsEnblDsble_GetParams(fForM As Form, sSysFormMode As Strin
                 ' verifica se o controle pertence ao grupo, caso positivo prossegue com o Enable/Disable do controle
                 If sFilGrp <> "" Then
 'Stop
-                    If dictFormFilGrpsEnDsAllCtrls(sForM)(sFilGrp).Exists(sTweakableCtrL) Then
+                    If dictFormFilterGrpsCtrls(sForM)(sFilGrp).Exists(sTweakableCtrL) Then
                         Call pbSub01_CtrlsEnblDsble_Confirm(fForM, cTweakableCtrL, dictCtrlTypeShort(cTweakableCtrL.ControlType), bEnable, bVisible, bLockCombo, sCtrlNewTipText)
                     End If
                 Else
@@ -140,7 +140,8 @@ Public Sub pbSub00_CtrlsEnblDsble_GetParams(fForM As Form, sSysFormMode As Strin
                 Call FormStatusBar01_Bld(sForM, "MissingEnblDsblCtrls", sLoadLogWarn, sTweakableCtrL)
 
 'Stop
-            
+
+                        
             End If
 'Stop
 'MyNextRecord:
@@ -235,7 +236,6 @@ Public Sub pbSub02_CtrlsEnblDsbl_Apply(ByVal fForM As Form, cTweakableCtrL As Co
     'apenas esses tipos de controle podem ser alvo de Enable/Disable
     Select Case sCtrlType
         Case "btn", "chk", "opb", "txt", "lst", "cmb"
-            
             Set clObjLckdStatusParam = dictCtrlEnblDsblParams(sForM)(sCtrL).dictParamByLckdStatus(sCtrlStatus)
         
             'recupera no Dict [ dictCtrlEnblDsblParams(sForM) ] os valores para os parâmetros do controle
@@ -297,7 +297,6 @@ Public Sub pbSub02_CtrlsEnblDsbl_Apply(ByVal fForM As Form, cTweakableCtrL As Co
                 ' se for um Check, OptionGrp, CommandButton ou Combo põe Enabled como False, se for outro tipo de controle põe Locked como True
                 '----------------------------------------------------
 'Stop
-                'Linha crida pra garantir que bEnable não seja Null
                 If Not IsEmpty(bEnable) Then
                     If sCtrlType = "opt" Or sCtrlType = "btn" Then
                         .Enabled = bEnable
@@ -313,7 +312,7 @@ Public Sub pbSub02_CtrlsEnblDsbl_Apply(ByVal fForM As Form, cTweakableCtrL As Co
                         ' uma Combo ela fique bloqueada, evitando que usuário selecione itens, já que neste caso a edição não será na combo mas sim num pop-up auxliar
                         .Locked = IIf(bLocked, bLocked, Not bEnable)
                         '.Locked = Not bEnable
-                    
+                        
                     Else
                         .Locked = Not bEnable
                      

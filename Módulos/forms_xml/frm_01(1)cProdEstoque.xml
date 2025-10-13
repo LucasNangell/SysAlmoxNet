@@ -221,6 +221,17 @@
       <OnClick>[Event Procedure]</OnClick>
     </Control>
     <Control>
+      <Name>Rótulo243</Name>
+      <Type>Label</Type>
+      <Left>2040</Left>
+      <Top>3061</Top>
+      <Width>16828</Width>
+      <Height>340</Height>
+      <Tag></Tag>
+      <Enabled></Enabled>
+      <Caption>.</Caption>
+    </Control>
+    <Control>
       <Name>imgSolicitante</Name>
       <Type>Image</Type>
       <Left>18992</Left>
@@ -271,9 +282,9 @@
       <Top>8160</Top>
       <Width>3433</Width>
       <Height>2197</Height>
-      <Tag>TrgtCtrl.Grp11.RCnt>--HLclr1.OnDrty.Mskd.MSlct0-</Tag>
+      <Tag>rgtCtrl.Grp03.RCnt>--HLclr1.OnDrty.Mskd.MSlct0-</Tag>
       <Enabled>Verdadeiro</Enabled>
-      <RowSource>qry_05(1)dProdEstoqueInSaldoByMarca(Viw)</RowSource>
+      <RowSource>qry_05(1)cProdEstoqueSaldoMarcaGrpd(Viw)</RowSource>
     </Control>
     <Control>
       <Name>Rótulo269</Name>
@@ -505,7 +516,7 @@
       <Top>11633</Top>
       <Width>260</Width>
       <Height>240</Height>
-      <Tag>DataField>Multiplo.Grp11--HLclr.OnDrty.Mskd.MSlct-RstAr03</Tag>
+      <Tag>--HLclr.OnDrty.Mskd.MSlct-RstAr03</Tag>
       <Enabled>Verdadeiro</Enabled>
     </Control>
     <Control>
@@ -663,7 +674,7 @@ Nova Entrada</Caption>
       <Top>11569</Top>
       <Width>711</Width>
       <Height>315</Height>
-      <Tag>DataField>UnProdRtTxt.Grp11---RstAr03</Tag>
+      <Tag>DataField>ProdUnidadeMedida.Grp11---RstAr03</Tag>
       <Enabled>Verdadeiro</Enabled>
       <ControlSource></ControlSource>
       <Format></Format>
@@ -774,13 +785,24 @@ Nova Entrada</Caption>
       <Enabled></Enabled>
     </Control>
     <Control>
+      <Name>lstEstoqueIn</Name>
+      <Type>ListBox</Type>
+      <Left>2125</Left>
+      <Top>8158</Top>
+      <Width>12733</Width>
+      <Height>2197</Height>
+      <Tag>TrgtCtrl.Grp11.RCnt>---</Tag>
+      <Enabled>Verdadeiro</Enabled>
+      <RowSource>qry_05(1)aProdEstoqueIn(Viw)</RowSource>
+    </Control>
+    <Control>
       <Name>txtStkUnEmb</Name>
       <Type>TextBox</Type>
       <Left>16158</Left>
       <Top>12160</Top>
       <Width>711</Width>
       <Height>315</Height>
-      <Tag>DataField>UnDaEmbRtTxt.Grp11---RstAr03</Tag>
+      <Tag>DataField>ProdUnProd.Grp11---RstAr03</Tag>
       <Enabled>Verdadeiro</Enabled>
       <ControlSource></ControlSource>
       <Format></Format>
@@ -1240,7 +1262,7 @@ Nova Entrada</Caption>
       <Top>1501</Top>
       <Width>2676</Width>
       <Height>1192</Height>
-      <Tag>TrgtCtrl.Grp01.RCnt>- Trgg.CategIDfk.Grp10.Rmv02.WdCrd2.SrchOnChg0.CascUpDt>.TxtClmn01  -HLclr1.OnDrty1.Mskd.MSlct0-RstAr02</Tag>
+      <Tag>TrgtCtrl.Grp21.RCnt>- Trgg.CategIDfk.Grp10.Rmv02.WdCrd2.SrchOnChg0.CascUpDt>.TxtClmn01  -HLclr1.OnDrty1.Mskd.MSlct0-RstAr02</Tag>
       <Enabled>Verdadeiro</Enabled>
       <RowSource>qry_02(08)aProdCateg</RowSource>
     </Control>
@@ -1290,7 +1312,7 @@ Nova Entrada</Caption>
       <Tag>Grp11.ActType>CancelNew.FormMode>StartView.FrmToOpen></Tag>
       <Enabled>Verdadeiro</Enabled>
       <Caption>Cancelar</Caption>
-      <OnClick>[Event Procedure]</OnClick>
+      <OnClick></OnClick>
     </Control>
     <Control>
       <Name>Imagem514</Name>
@@ -1309,7 +1331,7 @@ Nova Entrada</Caption>
       <Top>11031</Top>
       <Width>711</Width>
       <Height>315</Height>
-      <Tag>DataField>UnMedConsRtTxt.Grp11---RstAr03</Tag>
+      <Tag>DataField>ProdUnCons.Grp11---RstAr03</Tag>
       <Enabled>Verdadeiro</Enabled>
       <ControlSource></ControlSource>
       <Format></Format>
@@ -1335,28 +1357,6 @@ Nova Entrada</Caption>
       <Height>0</Height>
       <Tag></Tag>
       <Enabled></Enabled>
-    </Control>
-    <Control>
-      <Name>lstEstoqueIn</Name>
-      <Type>ListBox</Type>
-      <Left>2125</Left>
-      <Top>8158</Top>
-      <Width>12733</Width>
-      <Height>2197</Height>
-      <Tag>TrgtCtrl.Grp11.RCnt>---</Tag>
-      <Enabled>Verdadeiro</Enabled>
-      <RowSource>qry_05(1)aProdEstoqueIn(Viw)</RowSource>
-    </Control>
-    <Control>
-      <Name>Rótulo243</Name>
-      <Type>Label</Type>
-      <Left>2040</Left>
-      <Top>3061</Top>
-      <Width>16828</Width>
-      <Height>340</Height>
-      <Tag></Tag>
-      <Enabled></Enabled>
-      <Caption>.</Caption>
     </Control>
   </Controls>
 </Form>

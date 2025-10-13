@@ -284,7 +284,7 @@ pro incício do sistema</Caption>
       <Height>2302</Height>
       <Tag>-TrgtCtrl.Grp01.RCnt>lblRegs1-HLclr1.OnDrty0.Mskd1.MSlct0-</Tag>
       <Enabled>Verdadeiro</Enabled>
-      <RowSource>qry_04(01)bProdutosFull_Setor(Viw-Lst)</RowSource>
+      <RowSource></RowSource>
     </Control>
   </Controls>
 </Form>

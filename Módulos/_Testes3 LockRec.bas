@@ -115,7 +115,7 @@ Stop
     If bBoL Then
         DoCmd.SelectObject acQuery, sTbE, True
         
-        If gBbEnableErrorHandler Then On Error Resume Next
+        On Error Resume Next
         DoCmd.Requery
     
     End If

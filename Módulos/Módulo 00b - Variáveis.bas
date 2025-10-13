@@ -15,7 +15,7 @@ Option Explicit
       Public Const gBsSystemDefaultForm As String = "frm_00(1)aSysStart"   'nome do formulário de início de sistema
       
       'Ativa/Inativa tratamentos de erro
-      Public Const gBbEnableErrorHandler As Boolean = True
+      Public Const gBbEnableErrorHandler As Boolean = False
       
       
       'Carga do sistema: rotina [ SysLoad01_SysDictsLoad ], nível 1
@@ -190,19 +190,23 @@ Option Explicit
        
        
      '----------------
+     ' dict pra guardar os [ TriggCtrls ] de cada Formulário indicando o Grupo de Filtragem associado
+       Public dictTrggCtrls_FilGrp As New Dictionary
+       
+     ' dict pra guardar os [ Grupos de Filtragem ] de [ TrggCtrls ] de cada Formulário, como referência
+     ' pro armazenamento dos parâmetros numa segunda etapa
+       Public dictTrggGrpsInForm As New Dictionary
+
+
        Public dictTrgg00GrpsInForm As New Dictionary  'dicionário com grupos de filtragem para o formulário
+       
        Public dictTrgg01CtrlsInGrp As New Dictionary  'dicionário com os controles associados a cada grupo de filtragem
        
      ' objeto de classe pra armazenar parâmetros dos TriggCtrls
        Public clObjTriggCtrlParam As cls_02aTrggCtrlParams   'declaração do objeto de classe
-     '----------------
-       
-     '----------------
-     ' dict pra guardar os [ TriggCtrls ] de cada Formulário indicando o Grupo de Filtragem associado
-       Public dictTrggCtrlsInForm As New Dictionary
 
-     ' objeto de classe pra armazenar o Grupo de Filtragem associado aos controles de cada Formulário
-       Public clObjFilGrpsByForm As cls_03aCtrlsGrpsByForm   'declaração do objeto de classe
+     '' objeto de classe pra armazenar o Grupo de Filtragem associado aos [ TrggCtrls ] de cada Formulário
+     '  Public clObjFilGrpsByForm As cls_02bTrggCtrlGrpsByForm   'declaração do objeto de classe
      '----------------
        
        

@@ -443,7 +443,7 @@ Private Sub mListBox_AfterUpdate()
     
     Set fForM = mListBox.Parent
     
-'Stop
+Stop
     'Aciona a atualização do [ TargetCtrl ] associado ao controle
     'Call pb_TargtCtrlUpdate00_TimerDelay(fForM, mListBox)
     Call pb_TargtCtrlUpdate03_UNIQUEupdate(fForM, mListBox)

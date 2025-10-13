@@ -85,8 +85,7 @@ Sub PbSubFillFieldsByList(cListBox As Control)
     'Recupera o grupo de filtragem do [ ListBox ]
     ' pra depois recuperar os controles [ cDataFieldCtrl ] do [ Grupo ]
     sFilGrp = dictTrgtCtrlsFilterGrps(sForM)(cListBox.Name)
-    
-'Stop
+Stop
     '-------------------------------------------
     'Inicia a consulta pra exibição dos dados
     '-------------------------------------------
@@ -143,25 +142,71 @@ Sub PbSubFillFieldsByList(cListBox As Control)
         'Confirma se o controle [ vKeyDataFieldCtrl ] de fato existe no [ Form ]
         If ControlExists(sDataFieldCtrl, fForM) Then
             Set cDataFieldCtrl = fForM.Controls(sDataFieldCtrl)
-            
-            Set clObjTargtCtrlParam = dictFormFilterGrpsTrgts(sForM)(sFilGrp)(cListBox.Name)
-            
-            'Confirma se [ clObjCtrlDataFieds.sDataField ] é um dos campos da consulta de [ cListBox.Name ]
-            If clObjTargtCtrlParam.dictQryFields.Exists(clObjCtrlDataFieds.sDataField) Then
-                vA = clObjTargtCtrlParam.dictQryFields(clObjCtrlDataFieds.sDataField)
-                
-                'Verifica se o campo está no grid da consulta
-                If vA = "Grid" Then
-                    'Atribui à variável tipo Field [ rstFieldDataField ] o campo da consulta da Listbox [ cListBox ],
-                    ' indicado em [ clObjCtrlDataFieds.sDataField ] recuperado da TAG do controle [ vKeyDataFieldCtrl ] ora analisado
-                    ' e retorna o valor armazenado na tabela de dados
-                    Set rstFieldDataField = rsTbE.Fields(clObjCtrlDataFieds.sDataField)
-                    
-                    'Exibe no controle ora analisado, o valor recuperado na tabela de dados
-                    cDataFieldCtrl.Value = rstFieldDataField
 
-                Else
+
+
+
+
+    
+            
+            '----------------------------------------------------------------------------------------------
+            '----------------------------------------------------------------------------------------------
+            'Checar se o campo [ clObjCtrlDataFieds.sDataField ] indicado no DataField [ sDataFieldCtrl ] existe no grid da consulta do TargtCtrl [ cListBox ]
+            ' caso positivo exibe, no controle, o valor referente à coluna de dados armazenado na tabela
+            
+            ' caso negativo procura em todas as tabelas e Queries usadas na consulta
+            ' se mesmo assim não tiver localizado indica o erro no Log de Carga do sistema
+            ' se por outro lado encontrar significa que é um campo multiselect e, nesse caso, faz o tratamento
+            ' pra recuperar quais valores devem ser exibidos no controle
+            NstdVarQryFld = GetFldInQryGrid(sForM, cListBox.Name, clObjCtrlDataFieds.sDataField)
+            '-----------------------------------------------------------------------------------
+            
+'MsgBox "Avalia DataField: [ " & sDataFieldCtrl & " ]"
+'Stop
+            '----------------------------------------------------------------------------------------------
+            If NstdVarQryFld.bFoundQryFld Then
+                'Atribui à variável tipo Field [ rstFieldDataField ] o campo da consulta da Listbox [ cListBox ],
+                ' indicado em [ clObjCtrlDataFieds.sDataField ] recuperado da TAG do controle [ vKeyDataFieldCtrl ] ora analisado
+                ' e retorna o valor armazenado na tabela de dados
+                Set rstFieldDataField = rsTbE.Fields(clObjCtrlDataFieds.sDataField)
+                
+                'Exibe no controle ora analisado, o valor recuperado na tabela de dados
+                cDataFieldCtrl.Value = rstFieldDataField
+                
+            'Se o campo não for encontrado no grid da consulta, procura em todas as tabelas e Queries usadas na consulta
+            Else
+                '-----------------------------------------------------------------------------------
+                'Checar se o campo [ clObjCtrlDataFieds.sDataField ] indicado no DataField [ sDataFieldCtrl ] existe em alguma das tabelas
+                ' se não existir carrega no log de carga do sistema
+                
+                
+                If IsObject(dictFormFilterGrpsTrgts(sForM)) Then
+                
+                    If dictFormFilterGrpsTrgts(sForM).Exists(sFilGrp) = True Then
+'Stop
+                        Set clObjTargtCtrlParam = dictFormFilterGrpsTrgts(sForM)(sFilGrp)
                     
+                        sSQLtablesString = clObjTargtCtrlParam.sClsLstbxSQL_aSELECT & " " & clObjTargtCtrlParam.sClsLstbxSQL_bFROM
+                        NstdVarQryFld = GetFldInQryGridTbls(sForM, cListBox.Name, sSQLtablesString, clObjCtrlDataFieds.sDataField)
+'Stop
+                        vA = NstdVarQryFld.bFoundQryFld
+                    End If
+                End If
+                    
+                'Se o campo da consulta não tiver sido encontrado na tabela de dados exibe o alerta
+                ' e não inclui o controle no dicionário [ dictTrgg01CtrlsInGrp(sFilGrp) ]
+                If Not NstdVarQryFld.bFoundQryFld Then
+                    
+                    'Inclui o erro no dict de Logs de Carga do sistema
+                    vA = "Na TAG dos seguintes DataFields foi indicada uma coluna de dados não localizada na consulta fonte do [ TargtCtrl ] associado ao controle."
+                    vB = vbCrLf & "Esses DataFields não exibirão dados."
+                    sLoadLogWarn = vA & vB
+                    
+                    Call FormStatusBar01_Bld(sForM, "MissingDataFieldQryField", sLoadLogWarn, sDataFieldCtrl)
+'                    Exit Sub
+                
+                Else
+                
                     'Confirma se o controle é uma combobox
                     If cDataFieldCtrl.ControlType = acComboBox Then
             
@@ -263,16 +308,7 @@ Sub PbSubFillFieldsByList(cListBox As Control)
                     End If
                     
                 End If
-                
-                
-            Else
-                'Inclui o erro no dict de Logs de Carga do sistema
-                vA = "Na TAG dos seguintes DataFields foi indicada uma coluna de dados não localizada na consulta fonte do [ TargtCtrl ] associado ao controle."
-                vB = vbCrLf & "Esses DataFields não exibirão dados."
-                sLoadLogWarn = vA & vB
-                
-                Call FormStatusBar01_Bld(sForM, "MissingDataFieldQryField", sLoadLogWarn, sDataFieldCtrl)
-
+            
             End If
         
 'Stop

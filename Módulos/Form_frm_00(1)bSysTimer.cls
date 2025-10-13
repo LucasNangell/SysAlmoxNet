@@ -16,7 +16,7 @@ Private dictFormsPosition As New Dictionary
 
 Private Sub Form_Timer()
     
-    On Error Resume Next
+    If gBbEnableErrorHandler Then On Error Resume Next
     
 'parei aqui1: confirmar a necessidade desse Resume Next e se o tratamento de erro no final deve permanecer. estava comentado
 
@@ -24,7 +24,7 @@ Private Sub Form_Timer()
     Dim clFormCords As cls_09zOpndFormsPositions
     Dim iInT As Integer
     Dim sTrgtForm As String
-    Dim sTrggForm As String
+    Dim sTrggForM As String
     Dim lngDeslocHoriz As Long
     Dim lngDeslocVert As Long
     Dim bIsTrggForm As Boolean
@@ -96,7 +96,7 @@ Back:
                         
                         
                         If fForM.Name = clObjFormsParams.sTrggFormName Or fForM.Name = clObjFormsParams.sTrgtFormName Then
-                            .sTrggForm = clObjFormsParams.sTrggFormName
+                            .sTrggForM = clObjFormsParams.sTrggFormName
                             .sTrgtForm = clObjFormsParams.sTrgtFormName
                             
                             'Caso o botão de ancoragem esteja pressionado
@@ -105,7 +105,7 @@ Back:
                                 'Verifica se [ fForm ] é um [ TrggForm ] ou um [ TrgtForm ]
                                 '  e atualiza os dados da classe [ clObjFormsParams ]
                                 
-                                If fForM.Name = .sTrggForm Then
+                                If fForM.Name = .sTrggForM Then
                                     clObjFormsParams.lngTrggLeft = fForM.WindowLeft
                                     clObjFormsParams.lngTrggTop = fForM.WindowTop
                                     
@@ -131,7 +131,7 @@ Back:
                                     On Error GoTo -1
                                     
                                     'Executa a mudança de posição do [ TrggForm ] vinculado
-                                    Set clObjTimerFrmParams.fTrgtForm = Forms(clObjTimerFrmParams.sTrggForm)
+                                    Set clObjTimerFrmParams.fTrgtForm = Forms(clObjTimerFrmParams.sTrggForM)
                                     Call FormLoad08_SetFormPosition(clObjTimerFrmParams)
                                     
                                 End If

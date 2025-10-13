@@ -13,13 +13,14 @@ Option Explicit
 
 
 Private Sub Form_Load()
-    'Call SysLoad00_SysStartLoad(tglDockingTrgtFrm)
+    'Call pbSub22_TargtCtrlsQryFieldsBuild(Me.Name, lstProdsBase, "01")
+    Call SysLoad00_SysStartLoad
 
 End Sub
 
 Private Sub btnSysStart_Click()
 'Stop
-    Call SysLoad00_SysStartLoad(tglDockingTrgtFrm)
+    Call SysLoad00_SysStartLoad
     
 End Sub
 
@@ -34,56 +35,14 @@ End Sub
 
 
 Private Sub bTest_Click()
+   Dim vA, vB, vC
+   Dim sTitulo As String, sTexto As String, sTrggForM As String
+   sTrggForM = Me.Name
 
-    Dim vA, vB, vC, vD, vE, vF
-    Dim vCmb1 As Variant, vLst1 As Variant, vTxt1 As Variant, vGrp1 As Variant, vChk1 As Variant
-    Dim vCmb2 As Variant, vLst2 As Variant, vTxt2 As Variant, vGrp2 As Variant, vChk2 As Variant
-    Dim cCmb As Control, cLst As Control, cTxt As Control, cGrp As Control, cChk As Control
-
-MsgBox bTest.ControlType
-
-    'cCtrL = IIf(cCtrL.DefaultValue = "", Null, Replace(cCtrL.DefaultValue, """", ""))
-    'Call HighlightClrChange(Int(cCtrL.ControlType), cCtrL, True)
-
-
-    Set cGrp = Me.grpSrcCor
-    Set cChk = Me.chkSaldo
-    Set cCmb = Me.cmbSrcCateg
-    Set cLst = Me.lstProdsBase
-    Set cTxt = Me.txtSrchMed
-Stop
-    vGrp1 = Me.grpSrcCor.Value
-    vChk1 = Me.chkSaldo.Value
-    vCmb1 = Me.cmbSrcCateg.Value
-    vLst1 = Me.lstProdsBase.Value
-    vTxt1 = Me.txtSrchMed.Value
-Stop
-    cGrp = 3
-    cChk = False
-    cCmb = 1
-    cLst = 1
-    cTxt = "texto novo"
-    
-    
-'    cgrp =
-'    chk =
-'    ccmb=
-'    clst=
-'    ctxt =
-    
-'    Me.grpSrcCor.Value = Me.grpSrcCor.DefaultValue
-'    Me.chkSaldo.Value = Me.chkSaldo.DefaultValue
-'    Me.cmbSrcCateg.Value = Me.cmbSrcCateg.DefaultValue
-'    Me.lstProdsBase.Value = Me.lstProdsBase.DefaultValue
-'
-'
-'    Me.grpSrcCor.Value = Me.grpSrcCor.DefaultValue
-'    Me.chkSaldo.Value = Me.chkSaldo.DefaultValue
-'    Me.cmbSrcCateg.Value = Me.cmbSrcCateg.DefaultValue
-'    Me.lstProdsBase.Value = Me.lstProdsBase.DefaultValue
-    
-    
-Stop
+'Stop
+    sTitulo = "Cancelamento de Ediçao de Dados"
+    sTexto = "As alterações realizadas serão perdidas." & vbCrLf & "Confirma?"
+    vA = DialogBoxReply(sTitulo, sTexto, sTrggForM)
 
 End Sub
 
@@ -95,7 +54,6 @@ Private Sub btnCheckColor_Click()
     'Dim cColorValuesLabel As Control
 'Stop
     
-'    On Error Resume Next
     Set cTrgtCtrl = Screen.PreviousControl
     
     'Se tiver havido o erro [ 2483 ] indicando que não foi selecionado nenhum controle pra testar a cor
@@ -126,10 +84,12 @@ Private Sub btnCheckColor_Click()
 End Sub
 
 
+Private Sub lstProdsBase_AfterUpdate()
+    Dim vA
+Stop
+    vA = lstProdsBase.ItemsSelected.Count
 
-
-
-
+End Sub
 
 'Private Sub btnInitEvents_Click()
 '    Dim vA, vB, vC
@@ -196,7 +156,7 @@ Private Sub btnProdEstoque_Click()
         .lngFormTop = GbLngTrgtTop
         '.lngRecID = 30
         .sFormMode = "ProdView"
-        .sTrggForm = Me.Name
+        .sTrggForM = Me.Name
         .sTrgtForm = "frm_01(1)cProdEstoque"
     
     End With

@@ -15,20 +15,20 @@ Sub ListarTabelasECampos()
 ' .Tipo de dados
 ' .Sequência
     
-    Dim db As Database
+    Dim Db As Database
     Dim tdf As TableDef
     Dim fld As Field
     Dim I As Integer
     Dim strResultado As String
     
     ' Referência ao banco de dados atual
-    Set db = CurrentDb()
+    Set Db = CurrentDb()
     
     ' Cria uma string para armazenar o resultado
     strResultado = "Lista de Tabelas e Campos:" & vbCrLf & vbCrLf
     
     ' Loop através de todas as tabelas
-    For Each tdf In db.TableDefs
+    For Each tdf In Db.TableDefs
         ' Ignora tabelas do sistema (começam com "MSys" ou "~")
         If Left(tdf.Name, 4) <> "MSys" And Left(tdf.Name, 1) <> "~" Then
             strResultado = strResultado & "Tabela: " & tdf.Name & vbCrLf
@@ -55,7 +55,7 @@ Sub ListarTabelasECampos()
     ' Limpa objetos
     Set fld = Nothing
     Set tdf = Nothing
-    Set db = Nothing
+    Set Db = Nothing
     
     MsgBox "Listagem concluída! Verifique o arquivo ou tabela de resultados.", vbInformation
 End Sub
@@ -122,22 +122,22 @@ Sub GravarResultadoEmTabela(conteudo As String)
     CurrentDb.Execute "DELETE FROM EstruturaBancoDados", dbFailOnError
     
     ' Insere os dados na tabela
-    Dim db As Database
+    Dim Db As Database
     Dim tdfSource As TableDef
     Dim fld As Field
     Dim I As Integer
     Dim sql As String
     
-    Set db = CurrentDb()
+    Set Db = CurrentDb()
     
-    For Each tdfSource In db.TableDefs
+    For Each tdfSource In Db.TableDefs
         If Left(tdfSource.Name, 4) <> "MSys" And Left(tdfSource.Name, 1) <> "~" Then
             I = 0
             For Each fld In tdfSource.Fields
                 sql = "INSERT INTO EstruturaBancoDados (DataHora, Tabela, Campo, TipoCampo, OrdemCampo) " & _
                       "VALUES (#" & Now() & "#, '" & Replace(tdfSource.Name, "'", "''") & "', " & _
                       "'" & Replace(fld.Name, "'", "''") & "', '" & TipoCampoParaTexto(fld.Type) & "', " & I + 1 & ")"
-                db.Execute sql, dbFailOnError
+                Db.Execute sql, dbFailOnError
                 I = I + 1
             Next fld
         End If
@@ -146,7 +146,7 @@ Sub GravarResultadoEmTabela(conteudo As String)
     ' Limpa objetos
     Set fld = Nothing
     Set tdfSource = Nothing
-    Set db = Nothing
+    Set Db = Nothing
     Set tdf = Nothing
 End Sub
 
@@ -169,21 +169,21 @@ Sub ListarControlesDeTodosFormulariosComTag()
 ' .DataHora  (data e hora da criação da tabela)
 
 
-    On Error Resume Next
+    If gBbEnableErrorHandler Then On Error Resume Next
     
     Dim accObj As AccessObject
     Dim frm As Form
     Dim CtrL As Control
     Dim strLista As String
     Dim intContador As Integer
-    Dim db As DAO.Database
+    Dim Db As DAO.Database
     Dim rst As DAO.Recordset
     
-    Set db = CurrentDb()
+    Set Db = CurrentDb()
     
     ' Cria uma tabela temporária para armazenar os resultados (se não existir)
     If Not TabelaExiste("TempControlesComTag") Then
-        db.Execute "CREATE TABLE TempControlesComTag (" & _
+        Db.Execute "CREATE TABLE TempControlesComTag (" & _
                    "ID AUTOINCREMENT PRIMARY KEY, " & _
                    "NomeFormulario TEXT(255), " & _
                    "NomeControle TEXT(255), " & _
@@ -200,10 +200,10 @@ Sub ListarControlesDeTodosFormulariosComTag()
                    "DataHora DATETIME)"
     Else
         ' Limpa a tabela se já existir
-        db.Execute "DELETE FROM TempControlesComTag"
+        Db.Execute "DELETE FROM TempControlesComTag"
     End If
     
-    Set rst = db.OpenRecordset("TempControlesComTag")
+    Set rst = Db.OpenRecordset("TempControlesComTag")
     
     intContador = 0
     strLista = "LISTA DE CONTROLES DE TODOS OS FORMULÁRIOS (COM TAG)" & vbCrLf & vbCrLf
@@ -271,7 +271,7 @@ Sub ListarControlesDeTodosFormulariosComTag()
     
     ' Limpeza
     Set rst = Nothing
-    Set db = Nothing
+    Set Db = Nothing
     Set CtrL = Nothing
     Set frm = Nothing
 End Sub
@@ -307,7 +307,7 @@ End Function
 
 Function ObterFonteControle(CtrL As Control) As String
     ' Obtém a fonte de dados do controle (se aplicável)
-    On Error Resume Next
+    If gBbEnableErrorHandler Then On Error Resume Next
     Select Case CtrL.ControlType
         Case acTextBox, acComboBox, acListBox, acCheckBox
             ObterFonteControle = Nz(CtrL.ControlSource, "(não vinculado)")
@@ -318,7 +318,7 @@ End Function
 
 Function ObterRotuloControle(CtrL As Control) As String
     ' Obtém o rótulo associado ao controle (se existir)
-    On Error Resume Next
+    If gBbEnableErrorHandler Then On Error Resume Next
     If Not CtrL.Controls(0) Is Nothing Then
         If CtrL.Controls(0).ControlType = acLabel Then
             ObterRotuloControle = Nz(CtrL.Controls(0).Caption, "(sem rótulo)")

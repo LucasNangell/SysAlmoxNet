@@ -10,80 +10,35 @@ Attribute VB_Exposed = False
 Option Compare Database
 Option Explicit
 
-Private Sub btnCopyText_Click()
-    Dim vA, vB
-    Dim cCtrL As Control
-'Stop
-    'Seleciona todo o texto de [ txtLoadLog ] pra permitir
-    ' que o texto seja copiado
-    Set cCtrL = Me.txtLoadLog
-    cCtrL.SetFocus
-    cCtrL.SelStart = 0
-    cCtrL.SelLength = Len(cCtrL.Text)
+Private Sub btnClose_Click()
+
+    DoCmd.Close acForm, Me.Name, acSaveYes
     
 End Sub
 
-Private Sub btnSair_Click()
-    DoCmd.Close
+Private Sub btnNo_Click()
+    TempVars("SysDialogBox") = False
+    DoCmd.Close acForm, Me.Name, acSaveYes
     
+End Sub
+
+Private Sub btnYes_Click()
+    TempVars("SysDialogBox") = True
+    DoCmd.Close acForm, Me.Name, acSaveYes
 End Sub
 
 Private Sub Form_Load()
+    lblTitulo.Caption = Split(Me.OpenArgs, "|")(0)
+    lblTexto.Caption = Split(Me.OpenArgs, "|")(1)
+    '------------------------------------------------------------
+    'Define posição do formulário centralizado sobre o formulário que acionou o [ SysDialogBox ]
+    '------------------------------------------------------------
     
-Stop
-    If Not clObjFormOpenParams Is Nothing Then
+    clObjFormOpenParams.bSetPosition = True
+    clObjFormOpenParams.bCentralizeForm = True
+    clObjFormOpenParams.sTrgtForm = Me.Name
+    Set clObjFormOpenParams.fTrgtForm = Me
     
-        If clObjFormOpenParams.vOpenArgs <> "" Then
-            Me.lblTrggForm.Caption = "[ " & clObjFormOpenParams.sTrggForm & " ]"
-            Me.txtLoadLog = clObjFormOpenParams.vOpenArgs
-                    
-            Call TextboxScrollWhenNeeded(Me.txtLoadLog)
-        End If
-    'Stop
-        Set clObjFormOpenParams.fTrgtForm = Me
-        
-        On Error GoTo -1
-        Call FormLoad06a_BackFromFormLoad(clObjFormOpenParams)
-        On Error GoTo -1
-    
-'Stop
-    End If
-    
-End Sub
-Private Sub Form_MouseWheel(ByVal Page As Boolean, ByVal nline As Long) 'ByVal Page As Boolean, ByVal Count As Long)
-    
-'    'código antigo
-'    If txtLoadLog.ScrollBars Then txtLoadLog.SetFocus
-'    txtLoadLog.SelStart = IIf(txtLoadLog.SelStart + Count * 25 < 0, 0, txtLoadLog.SelStart + Count * 25)
-    
-    'código novo
-    'Dim vA, vB
-    Dim Hcntrl As Long
-    Dim n As Long
-    Dim fActualForm As Form
-    
-    Set fActualForm = Me
-'Stop
-    'vA = fActualForm.ActiveControl.Name
-'    Debug.Print vA
-    
-    'rotina pra rolar textboxes de múltiplas linhas pela Roda do Mouse
-    If fActualForm.ActiveControl.ControlType = acTextBox Then
-    'If ActiveControl.Properties.Item("controltype") = acTextBox Then
-        Hcntrl = Fun_handler(fActualForm.ActiveControl)
-        'Hcntrl = Fun_handler(Screen.ActiveControl)
-        For n = 1 To Abs(nline)
-            trans_msg Hcntrl, WM_VSCROLL, IIf(nline < 0, SB_LINEUP, SB_LINEDOWN), 0&
-
-        Next
-
-    End If
-    
-
-End Sub
-
-Private Sub lblStatusBar_DblClick(Cancel As Integer)
-'Stop
-    Call FormStatusBar04_OpnLogForm(Me)
+    Call FormLoad08_SetFormPosition(clObjFormOpenParams)
     
 End Sub

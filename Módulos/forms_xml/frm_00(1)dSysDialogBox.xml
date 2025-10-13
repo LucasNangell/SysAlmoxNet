@@ -3,7 +3,7 @@
   <Properties>
     <Caption>ALMOX - Controle de Estoque</Caption>
     <RecordSource></RecordSource>
-    <Width>10896</Width>
+    <Width>9070</Width>
     <Height></Height>
     <DefaultView>0</DefaultView>
   </Properties>
@@ -11,59 +11,48 @@
     <Control>
       <Name>lblTitulo</Name>
       <Type>Label</Type>
-      <Left>510</Left>
+      <Left>283</Left>
       <Top>120</Top>
-      <Width>9135</Width>
+      <Width>8505</Width>
       <Height>630</Height>
       <Tag></Tag>
       <Enabled></Enabled>
-      <Caption>Alertas de carga do sistema</Caption>
+      <Caption>Cancelamento de Ediçao de Dados</Caption>
     </Control>
     <Control>
-      <Name>btnSair</Name>
+      <Name>lblTexto</Name>
+      <Type>Label</Type>
+      <Left>285</Left>
+      <Top>285</Top>
+      <Width>8505</Width>
+      <Height>570</Height>
+      <Tag></Tag>
+      <Enabled></Enabled>
+      <Caption>As alterações realizadas serão perdidas.
+Confirma?</Caption>
+    </Control>
+    <Control>
+      <Name>btnYes</Name>
       <Type>CommandButton</Type>
-      <Left>9127</Left>
-      <Top>4251</Top>
-      <Width>1200</Width>
-      <Height>483</Height>
-      <Tag>ActType>CloseForm</Tag>
+      <Left>5725</Left>
+      <Top>1247</Top>
+      <Width>1419</Width>
+      <Height>454</Height>
+      <Tag>Grp11.ActType>SaveRec.FormMode>StartView.FrmToOpen></Tag>
       <Enabled>Verdadeiro</Enabled>
-      <Caption></Caption>
+      <Caption>&amp;Sim</Caption>
       <OnClick>[Event Procedure]</OnClick>
     </Control>
     <Control>
-      <Name>txtLoadLog</Name>
-      <Type>TextBox</Type>
-      <Left>737</Left>
-      <Top>566</Top>
-      <Width>9801</Width>
-      <Height>3585</Height>
-      <Tag>rgg.ProdMedida.Grp01.Rmv04.WdCrd2.SrchDlay0.CascUpDt(_)--HLclr1.OnDrty0.Mskd1.MSlct0-RstAr02</Tag>
-      <Enabled>Verdadeiro</Enabled>
-      <ControlSource></ControlSource>
-      <Format></Format>
-    </Control>
-    <Control>
-      <Name>lblTrggForm</Name>
-      <Type>Label</Type>
-      <Left>737</Left>
-      <Top>226</Top>
-      <Width>8325</Width>
-      <Height>315</Height>
-      <Tag></Tag>
-      <Enabled></Enabled>
-      <Caption>Formulário carregado: </Caption>
-    </Control>
-    <Control>
-      <Name>btnCopyText</Name>
+      <Name>btnNo</Name>
       <Type>CommandButton</Type>
-      <Left>10034</Left>
-      <Top>226</Top>
-      <Width>450</Width>
-      <Height>317</Height>
-      <Tag>NotInDict</Tag>
+      <Left>7426</Left>
+      <Top>1247</Top>
+      <Width>1419</Width>
+      <Height>454</Height>
+      <Tag>Grp11.ActType>CancelNew.FormMode>StartView.FrmToOpen></Tag>
       <Enabled>Verdadeiro</Enabled>
-      <Caption></Caption>
+      <Caption>&amp;Não</Caption>
       <OnClick>[Event Procedure]</OnClick>
     </Control>
   </Controls>

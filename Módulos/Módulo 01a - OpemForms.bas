@@ -117,7 +117,7 @@ If gBbDepurandoLv02a Then Stop
     
     'Se houver um [ TriggForm ] que disparou a abertura do [ TrgtForm ]
     ' chama rotina pra recuperar dados do [ TrggForm ]
-    If clObjFormOpenParams.sTrggForm <> "" Then
+    If clObjFormOpenParams.sTrggForM <> "" Then
         
 If gBbDepurandoLv02a Then MsgBox "----- FormLoad01_FormLoadingStart ---------------------------------------------" & vbCr & vbCr & "[ " & clObjFormOpenParams.sTrgtForm & " ] foi aberto pelo usuário" & vbCr & "por um [ TriggerForm ]" & vbCr & "chama [ FormLoad02a_SetFormPositionDict ]" & vbCr & " "
 If gBbDepurandoLv02a Then Stop
@@ -156,7 +156,7 @@ Public Sub FormLoad02a_SetFormPositionDict(clObjFormOpenParams As cls_09cParamsT
     Dim lngTrgtHorizOffset As Long
     Dim lngTrgtVertOffset As Long
 
-    Set fTrggForm = Forms(clObjFormOpenParams.sTrggForm)
+    Set fTrggForm = Forms(clObjFormOpenParams.sTrggForM)
 
     
 'MsgBox "FormLoad02a_SetFormPositionDict ------------------------------------------------" & vbCr & "load dictFormsParams"
@@ -164,22 +164,22 @@ Public Sub FormLoad02a_SetFormPositionDict(clObjFormOpenParams As cls_09cParamsT
     'Monta o dicionário com parâmetros do [ sTrggForm ]
     ' .coordenadas de posição
     ' . ...
-    If dictFormsParams.Exists(clObjFormOpenParams.sTrggForm) Then
-        Set clObjFormsParams = dictFormsParams(clObjFormOpenParams.sTrggForm)
+    If dictFormsParams.Exists(clObjFormOpenParams.sTrggForM) Then
+        Set clObjFormsParams = dictFormsParams(clObjFormOpenParams.sTrggForM)
 
         lngTrgtHorizOffset = clObjFormsParams.lngTrgtHorizOffset
         lngTrgtVertOffset = clObjFormsParams.lngTrgtVertOffset
 
     Else
         Set clObjFormsParams = New cls_09aFormsParams
-        dictFormsParams.Add clObjFormOpenParams.sTrggForm, clObjFormsParams
+        dictFormsParams.Add clObjFormOpenParams.sTrggForM, clObjFormsParams
         
         lngTrgtHorizOffset = fTrggForm.Width + GbLngTrgtHorizOffset
         lngTrgtVertOffset = GbLngTrgtVertOffset
 
     End If
         
-    clObjFormsParams.sTrggFormName = clObjFormOpenParams.sTrggForm
+    clObjFormsParams.sTrggFormName = clObjFormOpenParams.sTrggForM
     clObjFormsParams.sTrgtFormName = clObjFormOpenParams.sTrgtForm
     clObjFormsParams.lngTrggLeft = fTrggForm.WindowLeft
     clObjFormsParams.lngTrggTop = fTrggForm.WindowTop
@@ -222,19 +222,19 @@ Public Sub FormLoad02b_UpdateFormPositionDict(clObjFormOpenParams As cls_09cPara
                 'Verifica se o dicionário possui a classe com os parâmetros
                 If IsObject(dictFormsParams(.sTrgtForm)) Then
                     Set clObjFormsParams = dictFormsParams(.sTrgtForm)
-                    .sTrggForm = clObjFormsParams.sTrggFormName
+                    .sTrggForM = clObjFormsParams.sTrggFormName
                     .sTrgtForm = clObjFormsParams.sTrgtFormName
-                    If .sTrggForm = "" Then .sTrggForm = .sTrgtForm
+                    If .sTrggForM = "" Then .sTrggForM = .sTrgtForm
                 Else
                     'Caso o dicionário esteja vazio, apenas o botão do TrggForm será alterado
-                    .sTrggForm = .sTrgtForm
+                    .sTrggForM = .sTrgtForm
                     .sTrgtForm = ""
                 
                 End If
             'Se o dicionário não existe, indica que apenas o [TrggForm] está aberto
             '   sendo assim, apenas o formulário aberto sofrerá alterações
             Else
-                .sTrggForm = .sTrgtForm
+                .sTrggForM = .sTrgtForm
                 .sTrgtForm = ""
             End If
             
@@ -243,7 +243,7 @@ Public Sub FormLoad02b_UpdateFormPositionDict(clObjFormOpenParams As cls_09cPara
             'Atribui a variável [ sTrgtForm ] o valor de [ sForm ]
             .sTrgtForm = .sTrgtForm
             'Exclui valores possivelmente armazenados em [ sTrggForm ]
-            .sTrggForm = ""
+            .sTrggForM = ""
             
             'Faz uma varredura nos itens do dicionário para encontrar qual é o [TrggForm]
             For iInT = 0 To dictFormsParams.Count - 1
@@ -251,7 +251,7 @@ Public Sub FormLoad02b_UpdateFormPositionDict(clObjFormOpenParams As cls_09cPara
                     Set clObjFormsParams = dictFormsParams(dictFormsParams.Keys(iInT))
                     'Se o parâmetro [sTrgtFormName] for igual ao nome do formulário que o botão foi pressionado
                     '   a variável [ sTrggForm ] recebe o valor armazenado na classe
-                    If clObjFormsParams.sTrgtFormName = .sTrgtForm Then .sTrggForm = clObjFormsParams.sTrggFormName
+                    If clObjFormsParams.sTrgtFormName = .sTrgtForm Then .sTrggForM = clObjFormsParams.sTrggFormName
                 End If
             Next iInT
             
@@ -274,14 +274,14 @@ Public Sub FormLoad02b_UpdateFormPositionDict(clObjFormOpenParams As cls_09cPara
             
         End If
         'Verifica se existe um [ TrggForm ]
-        If .sTrggForm <> "" Then
+        If .sTrggForM <> "" Then
         '       Verifica se o [ TrggForm ] está aberto
-            If CurrentProject.AllForms(.sTrggForm).IsLoaded Then
+            If CurrentProject.AllForms(.sTrggForM).IsLoaded Then
                 bTrggFormIsOpen = True
                 'Verifica a existência do botão no [ TrggForm ]
                 'Caso exista o botão seta a variável [ cTglDockingTrgtFrm ]
-                If ControlExists("tglDockingTrgtFrm", Forms(.sTrggForm)) Then
-                    Set cTglDockingTrgtFrm = Forms(.sTrggForm).Controls("tglDockingTrgtFrm")
+                If ControlExists("tglDockingTrgtFrm", Forms(.sTrggForM)) Then
+                    Set cTglDockingTrgtFrm = Forms(.sTrggForM).Controls("tglDockingTrgtFrm")
                 Else
                     Set cTglDockingTrgtFrm = Nothing
                 End If
@@ -317,14 +317,14 @@ Public Sub FormLoad02b_UpdateFormPositionDict(clObjFormOpenParams As cls_09cPara
         'Atualiza as posições dos formulários na tela caso [ bFormIsDocked ] seja True
         
         'Verifica se existe um dicionário para atualizar
-        If dictFormsParams.Exists(.sTrggForm) = True Then
-            If IsObject(dictFormsParams(.sTrggForm)) Then
-                Set clObjFormsParams = dictFormsParams(.sTrggForm)
+        If dictFormsParams.Exists(.sTrggForM) = True Then
+            If IsObject(dictFormsParams(.sTrggForM)) Then
+                Set clObjFormsParams = dictFormsParams(.sTrggForM)
                 'Se o [ TrggForm ] estiver aberto atualiza as posições no dicionário
-                If .sTrggForm <> "" Then
-                    If CurrentProject.AllForms(.sTrggForm).IsLoaded Then
-                        clObjFormsParams.lngTrggLeft = Forms(.sTrggForm).WindowLeft
-                        clObjFormsParams.lngTrggTop = Forms(.sTrggForm).WindowTop
+                If .sTrggForM <> "" Then
+                    If CurrentProject.AllForms(.sTrggForM).IsLoaded Then
+                        clObjFormsParams.lngTrggLeft = Forms(.sTrggForM).WindowLeft
+                        clObjFormsParams.lngTrggTop = Forms(.sTrggForM).WindowTop
                     End If
                 End If
                 'Se o [ TrgtForm ] estiver aberto atualiza as posições no dicionário
@@ -406,7 +406,7 @@ Sub FormLoad06a_BackFromFormLoad(clObjFormOpenParams As cls_09cParamsToOpenForms
     Dim cTargtCtrl As Control, cRecCntCtrL As Control
     Dim sTargtCtrl As String, sRecCntCtrl As String
     Dim sRecCntCtrlName As String
-    Dim vKeyFilGrp As Variant, vKeyTrggCtrl As Variant
+    Dim vKeyFilGrp As Variant, vKeyTrggCtrl As Variant, vKeyTrgtCtrl As Variant
     Dim vKey As Variant
     Dim sLoadLogWarn As String
     Dim cCtrL As Control
@@ -419,9 +419,9 @@ Sub FormLoad06a_BackFromFormLoad(clObjFormOpenParams As cls_09cParamsToOpenForms
     Dim sFormMode As String
     Dim vOpenArgs As Variant
     Dim vFormCoords(1) As Variant
+    Dim sQryIDfield As String, sQryIDfieldTrgt As String
+    Dim cTrgtCtrlOrg As Control
     
-
-
 'MsgBox "----- FormLoad06a_BackFromFormLoad ------------------------------------------" & vbCr & vbCr & "O evento Load do [ Form ] chama [ FormLoad06a_BackFromFormLoad ]" & vbCr & "pra configurar o [ Form ]." & vbCr & " " & vbCr & " "
 If gBbDepurandoLv02a Then Stop
 'Stop
@@ -454,50 +454,64 @@ If gBbDepurandoLv02a Then Stop
 
     'Se não houver Grupos de Filtragem no Form ou se o Form tiver sido aberto
     ' sem a sequência de carga de dicionários, desconsidera a atualização
-    bBoL = IsObject(dictFormFilterGrps(clObjFormOpenParams.sTrgtForm)) 'verifica se há Grupos de Filtragem incluídos no Dicionário
+    bBoL = IsObject(dictFormFilterGrpTrgts(clObjFormOpenParams.sTrgtForm)) 'verifica se há Grupos de Filtragem incluídos no Dicionário
+Stop
     
     If bBoL Then
-        For Each vKeyFilGrp In dictFormFilterGrps(clObjFormOpenParams.sTrgtForm)
+        For Each vKeyFilGrp In dictFormFilterGrpTrgts(clObjFormOpenParams.sTrgtForm)
             sFilGrp = vKeyFilGrp
-
-            '-----------------------------------------------------------
-            'Atualiza o TargtCtrl e o RecCnt de cada Grupo de Filtragem que tenha [ TriggCtrls ] adicionados ao [ dictFormFilterGrps(sForM)(vKeyFilGrp) ]
-            '-----------------------------------------------------------
-            Set clObjTargtCtrlParam = dictFormFilterGrps(clObjFormOpenParams.sTrgtForm)(vKeyFilGrp)
-            sTargtCtrl = clObjTargtCtrlParam.sTargtCtrlName
-            sRecCntCtrl = clObjTargtCtrlParam.sRecCntCtrlName
-            If clObjFormOpenParams.lngRecID > -1 Then
-                Set cCtrL = Forms(clObjFormOpenParams.sTrgtForm).Controls(sTargtCtrl)
-                cCtrL.Selected(clObjFormOpenParams.lngRecID) = True
-                cCtrL.ListIndex = clObjFormOpenParams.lngRecID
+            
+            For Each vKeyTrgtCtrl In dictFormFilterGrpTrgts(clObjFormOpenParams.sTrgtForm)(vKeyFilGrp)
+            
+                '-----------------------------------------------------------
+                'Atualiza o TargtCtrl e o RecCnt de cada Grupo de Filtragem que tenha [ TriggCtrls ] adicionados ao [ dictFormFilterGrpTrgts(sForM)(vKeyFilGrp) ]
+                '-----------------------------------------------------------
+                Set clObjTargtCtrlParam = dictFormFilterGrpTrgts(clObjFormOpenParams.sTrgtForm)(vKeyFilGrp)(vKeyTrgtCtrl)
+                sTargtCtrl = clObjTargtCtrlParam.sTargtCtrlName
+                sRecCntCtrl = clObjTargtCtrlParam.sRecCntCtrlName
                 
-                Call PbSubFillFieldsByList(cCtrL)
-            End If
-            On Error GoTo -1
-            Call pb_TargtCtrlUpdate06_BuildWHERE(clObjFormOpenParams.fTrgtForm, sFilGrp)
-
+                On Error GoTo -1
+                Call pb_TargtCtrlUpdate06_BuildWHERE(clObjFormOpenParams.fTrgtForm, sFilGrp)
+                
+                'Caso [ bShowRecID ] seja verdadeira indica que o formulário que está sendo aberto deve exibir um registro específico
+                If clObjFormOpenParams.bShowRecID Then
+    
+                    'Recupera o [ sQryIDfield ] do [ TrgtCtrl ] do [ TrgtForm ] para comparação com o [ clObjFormOpenParams.sQryFieldID ]
+                    ' afim de definir qual [ TrgtCtrl ] deverá ser afetado com o [ lngRecID ] informado
+                    sQryIDfieldTrgt = GetsQryFieldID(clObjTargtCtrlParam)
+                    'Caso [ sQryIDField ] seja igual a [ sQryIDFieldTrgt ] indica que o controle destino foi encontrado
+                    ' então define [ cTargtCtrl ] com o controle ora avaliado
+                    If clObjFormOpenParams.sQryFieldID = sQryIDfieldTrgt Then
+                        Set cTargtCtrl = Forms(clObjFormOpenParams.sTrgtForm).Controls(sTargtCtrl)
+    
+                            cTargtCtrl.Selected(clObjFormOpenParams.lngRecID) = True
+                            cTargtCtrl.ListIndex = clObjFormOpenParams.lngRecID
+                    
+                            Call PbSubFillFieldsByList(cTargtCtrl)
+                    End If
+                    
+                End If
+            
+            Next vKeyTrgtCtrl
+            
         Next vKeyFilGrp
+
     End If
+
     '---------------------------------------
     '------------------------------------------------------------------------
     'Só chama a rotina se tiver sido feita a carga completa do sistema,
     ' incluindo a carga dos dicionários
 
-
-'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "EventsStartUp"
-'Stop
     If gBbDictsLoaded Then
         Call pbSub00_CtrlsEnblDsble_GetParams(clObjFormOpenParams.fTrgtForm, clObjFormOpenParams.sFormMode)
     
-'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "EventsStartUp"
-'Stop
         'Confirma se a inicialização de [ Eventos de Classe ] está ativada na variável global
         If gBbInitCtrlEvents Then
+            
             'Chama rotina pra montar o dict [ dictCtrlsEvents(sForM) ]
-    
             If gBbDebugOn Then Debug.Print "Ctrl Events dict init"
             Call FormLoad07_GenCtrlsEventDictInit(clObjFormOpenParams.sTrgtForm)
-'Stop
         Else
             sLoadLogWarn = "A inicialização de [ Eventos de Classe ] está desativada." & vbCrLf & "CtrlsBehvr e pesquisas não irão funcionar."
             Call FormStatusBar01_Bld(clObjFormOpenParams.sTrgtForm, "InitEvents", sLoadLogWarn)
@@ -523,7 +537,7 @@ If gBbDepurandoLv02a Then Stop
     
     'Chama a rotina pra ocultar o Access e tornar visível o Formulário principal
     ' essa ação força a abertura do form antes que o evento Load do próprio form seja concluído
-    Call Scr_FormAlwaysOnTop(clObjFormOpenParams.fTrgtForm, False)
+    'Call Scr_FormAlwaysOnTop(clObjFormOpenParams.fTrgtForm, False)
 
 End Sub
 
@@ -532,7 +546,7 @@ Public Sub FormLoad07_GenCtrlsEventDictInit(sForM As String)
     
     Dim vA, vB
     Dim cCtrL As Control
-    Dim vKeyEventCtrls As Variant, vKeyFilGrps As Variant
+    Dim vKeyEventCtrls As Variant, vKeyFilGrps As Variant, vKeyTrgtCtrl As Variant
     Dim sTrgtCtrl As String
     
     
@@ -552,23 +566,23 @@ Public Sub FormLoad07_GenCtrlsEventDictInit(sForM As String)
     
 'Stop
     
-    'Inicializa os controles tipo [ DataField ] incluídos no dict [ dictFormFilterGrps(sForm) ]
+    'Inicializa os controles tipo [ DataField ] incluídos no dict [ dictFormFilterGrpTrgts(sForm) ]
     ' pra automatizar a exibição de dados do [ Listbox ]
     
-    If Not IsObject(dictFormFilterGrps(sForM)) Then Exit Sub
+    If Not IsObject(dictFormFilterGrpTrgts(sForM)) Then Exit Sub
     
-    For Each vKeyFilGrps In dictFormFilterGrps(sForM)
-
-
-        Set clObjTargtCtrlParam = dictFormFilterGrps(sForM)(vKeyFilGrps)
-        sTrgtCtrl = clObjTargtCtrlParam.sTargtCtrlName
+    For Each vKeyFilGrps In dictFormFilterGrpTrgts(sForM)
+        For Each vKeyTrgtCtrl In dictFormFilterGrpTrgts(sForM)(vKeyFilGrps)
         
-'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "Init TrgtCtrls events [ " & sTrgtCtrl & "]"
-'Stop
-        
-        Set cCtrL = Forms(sForM).Controls(sTrgtCtrl)
-        If cCtrL.ControlType = acListBox Then Set dictFormFilterGrps(sForM)(vKeyFilGrps).InitCtrl = cCtrL
-        
+            Set clObjTargtCtrlParam = dictFormFilterGrpTrgts(sForM)(vKeyFilGrps)(vKeyTrgtCtrl)
+            sTrgtCtrl = clObjTargtCtrlParam.sTargtCtrlName
+            
+    'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "Init TrgtCtrls events [ " & sTrgtCtrl & "]"
+    'Stop
+            
+            Set cCtrL = Forms(sForM).Controls(sTrgtCtrl)
+            If cCtrL.ControlType = acListBox Then Set dictFormFilterGrpTrgts(sForM)(vKeyFilGrps)(vKeyTrgtCtrl).InitCtrl = cCtrL
+        Next vKeyTrgtCtrl
     Next vKeyFilGrps
 
 End Sub
@@ -577,17 +591,23 @@ End Sub
 Sub FormLoad08_SetFormPosition(clObjFormOpenParams As cls_09cParamsToOpenForms)
 'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "SetFormPosition"
 'Stop
-
+    
+    'Para formulários que estão sendo abertos define a posição inicial
+    ' para formulários que já estão abertos faz o reposicionamento a partir dos parâmetros de ancoragem
     With clObjFormOpenParams
 
-        If .sTrggForm <> "" Then
-            If .bSetPosition And CurrentProject.AllForms(.sTrggForm).IsLoaded Then
-                .lngFormLeft = Forms(.sTrggForm).WindowLeft + .lngFormLeft
-                .lngFormTop = Forms(.sTrggForm).WindowTop + .lngFormTop
-            
+        If .sTrggForM <> "" Then
+            If .bSetPosition And CurrentProject.AllForms(.sTrggForM).IsLoaded Then
+                .lngFormLeft = Forms(.sTrggForM).WindowLeft + .lngFormLeft
+                .lngFormTop = Forms(.sTrggForM).WindowTop + .lngFormTop
+                
+                If .bCentralizeForm Then
+                    .lngFormLeft = Forms(.sTrggForM).WindowLeft + (Forms(.sTrggForM).InsideWidth / 2) - (Forms(.sTrgtForm).InsideWidth / 2)
+                    .lngFormTop = Forms(.sTrggForM).WindowTop + (Forms(.sTrggForM).InsideHeight / 2) - (Forms(.sTrgtForm).InsideHeight / 2)
+                End If
             Else
-                If dictFormsParams.Exists(.sTrggForm) Then
-                    Set clObjFormsParams = dictFormsParams(.sTrggForm)
+                If dictFormsParams.Exists(.sTrggForM) Then
+                    Set clObjFormsParams = dictFormsParams(.sTrggForM)
                     
                     If .bIsTrggForm Then
                         .lngFormLeft = clObjFormsParams.lngTrggLeft
@@ -607,7 +627,7 @@ Sub FormLoad08_SetFormPosition(clObjFormOpenParams As cls_09cParamsToOpenForms)
 'Stop
 End Sub
 
-Sub SysLoad00_SysStartLoad(cCtrLDockingTrgtFrm As Control)
+Sub SysLoad00_SysStartLoad()
 
     Dim vA, vB, vC
     Dim sTrgtForm As String
@@ -615,7 +635,7 @@ Sub SysLoad00_SysStartLoad(cCtrLDockingTrgtFrm As Control)
     Dim lngTrggRecID As Long
     Dim bSetTrgtPos As Boolean
     Dim bTrgtFormIsDocked As Boolean
-    Dim sTrggForm As String
+    Dim sTrggForM As String
     Dim cTglDockingFrm As Control
 'Stop
     'Recupera o nome do [ formulário principal ]
@@ -626,8 +646,8 @@ Sub SysLoad00_SysStartLoad(cCtrLDockingTrgtFrm As Control)
     
     With clObjFormOpenParams
 
-        If Not IsNull(cCtrLDockingTrgtFrm.Value) Then Set .cTglBtnDocking = cCtrLDockingTrgtFrm
-        If Not .cTglBtnDocking Is Nothing Then .bFrmIsDocked = .cTglBtnDocking.Value
+        'If Not IsNull(cCtrLDockingTrgtFrm.Value) Then Set .cTglBtnDocking = cCtrLDockingTrgtFrm
+        'If Not .cTglBtnDocking Is Nothing Then .bFrmIsDocked = .cTglBtnDocking.Value
         
         .bIsTrggForm = False
         .bSetPosition = True
@@ -637,7 +657,7 @@ Sub SysLoad00_SysStartLoad(cCtrLDockingTrgtFrm As Control)
         '.lngRecID = 30
         .sFormMode = "StartView"
         .sTrgtForm = sTrgtForm
-        .sTrggForm = ""
+        .sTrggForM = ""
         .sTrgtForm = DLookup("[StartForm]", "tbl_01(01)aSysStart", "[SysParamsID]= 1")
     
     End With
@@ -798,7 +818,7 @@ If gBbDepurandoLv01a Then Stop
 'Stop
 'Stop
 
-If gBbDepurandoLv01a Then MsgBox "----- SysLoad01_SysDictsLoad ---------------------------------------------------" & vbCr & vbCr & "Chama [ pbSub20_TargtCtrlsDictStartUp ] pra montagem do" & vbCr & "dict [ dictFormFilterGrps(sForm) ]" & vbCr & " " & vbCr & " "
+If gBbDepurandoLv01a Then MsgBox "----- SysLoad01_SysDictsLoad ---------------------------------------------------" & vbCr & vbCr & "Chama [ pbSub20_TargtCtrlsDictStartUp ] pra montagem do" & vbCr & "dict [ dictFormFilterGrpTrgts(sForm) ]" & vbCr & " " & vbCr & " "
 If gBbDepurandoLv01a Then Stop
 
             'Chama a rotina pra iniciar a montagem do dicionário de [ TargtCtrls ]
@@ -837,7 +857,7 @@ If gBbDepurandoLv01a Then Stop
             End If
             
 
-If gBbDepurandoLv01a Then MsgBox "----- SysLoad01_SysDictsLoad ---------------------------------------------------" & vbCr & vbCr & "Chama [ pbSub30_TriggCtrlDictStartUp ] pra montagem dos" & vbCr & "dicts [ dictTrgg00GrpsInForm ] e [ dictTrgg01CtrlsInGrp ]" & vbCr & " " & vbCr & " "
+If gBbDepurandoLv01a Then MsgBox "----- SysLoad01_SysDictsLoad ---------------------------------------------------" & vbCr & vbCr & "Chama [ pbSub30_TriggCtrlDictStartUp ] pra montagem dos" & vbCr & "dicts [ dictTrgg00GrpsInForm ]" & vbCr & " " & vbCr & " "
 If gBbDepurandoLv01a Then Stop
             'Chama rotina pra iniciar a montagem do dicionário [ CtrlsBehvrParams ]
             ' e, se houverem sido localizados [ TargtCtrls ] no Form, também o dicionário de [ TriggCtrls ]
@@ -1106,7 +1126,7 @@ Sub FormStatusBar04_OpnLogForm(fForM As Form) ', oOjcT As Object) 'fForm As Form
             .lngFormTop = 1545
             '.lngRecID = 30
             .sFormMode = "StartView"
-            .sTrggForm = sForM
+            .sTrggForM = sForM
             .sTrgtForm = "frm_00(1)cSysLoadLog"
             .vOpenArgs = sSysLoadingLog
         End With

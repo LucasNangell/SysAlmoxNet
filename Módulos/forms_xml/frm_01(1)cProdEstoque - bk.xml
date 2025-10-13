@@ -296,7 +296,7 @@
       <Height>2197</Height>
       <Tag>rgtCtrl.Grp03.RCnt>--HLclr1.OnDrty.Mskd.MSlct0-</Tag>
       <Enabled>Verdadeiro</Enabled>
-      <RowSource>qry_05(1)cProdEstoqueSaldoMarcaGrpd(Viw)</RowSource>
+      <RowSource>qry_05(1)cProdEstoqueInSaldoByMarca(Pre Viw)</RowSource>
     </Control>
     <Control>
       <Name>Rótulo269</Name>

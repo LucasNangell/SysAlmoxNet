@@ -39,7 +39,7 @@ Private Sub Form_Load()
     
 'Stop
     If clObjFormOpenParams.vOpenArgs <> "" Then
-        Me.lblTrggForm.Caption = "[ " & clObjFormOpenParams.sTrggForm & " ]"
+        Me.lblTrggForm.Caption = "[ " & clObjFormOpenParams.sTrggForM & " ]"
         Me.txtLoadLog = clObjFormOpenParams.vOpenArgs
                 
         Call TextboxScrollWhenNeeded(Me.txtLoadLog)

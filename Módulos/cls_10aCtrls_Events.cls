@@ -51,7 +51,7 @@ Public Property Set InitCtrl(cCtrL As Control)
 '    mOptGroup.AfterUpdate
 '    mTextBox.AfterUpdate
 '    mTextBox.OnChange
-    On Error Resume Next
+    If gBbEnableErrorHandler Then On Error Resume Next
 'Stop
     Select Case cCtrL.ControlType
         Case acCheckBox
@@ -122,7 +122,7 @@ End Property
 
 Private Sub mCommandButton_Click()
     Dim vA
-    Dim sMode As String, sForM As String, sActType As String, sGrp As String
+    Dim sMode As String, sForM As String, sActType As String, sFilGrp As String
     Dim cCtrL As Control, cEdtCtrl As Control
     Dim sCtrL As String
     Dim fForM As Form
@@ -131,7 +131,7 @@ Private Sub mCommandButton_Click()
     Dim vKeyCtrl As Variant
     
     
-    On Error Resume Next
+    If gBbEnableErrorHandler Then On Error Resume Next
 'Stop
     Set fForM = mCommandButton.Parent
     sCtrL = mCommandButton.Name
@@ -152,57 +152,63 @@ Private Sub mCommandButton_Click()
         
         Case sActType Like "CancelEdit"
 'Stop
-            sGrp = clObjCommButtons.sFilGrp
-            If sGrp <> "" Then
-                Set clObjTargtCtrlParam = dictFormFilterGrps(sForM)(sGrp)
-                sCtrL = clObjTargtCtrlParam.sTargtCtrlName
+            If TempVars("bReply") = True Then
+                sFilGrp = clObjCommButtons.sFilGrp
+                If sFilGrp <> "" Then
+                    Set clObjTargtCtrlParam = dictFormFilterGrpTrgts(sForM)(sFilGrp)
+                    sCtrL = clObjTargtCtrlParam.sTargtCtrlName
+                    
+                    If ControlExists(sCtrL, fForM) Then
+                        Set cCtrL = fForM.Controls(sCtrL)
+                        If fForM.Controls(sCtrL).ControlType = acListBox Then Call PbSubFillFieldsByList(cCtrL)
+                        On Error GoTo -1
+    'Stop
+                    End If
+                End If
                 
-                If ControlExists(sCtrL, fForM) Then
-                    Set cCtrL = fForM.Controls(sCtrL)
-                    If fForM.Controls(sCtrL).ControlType = acListBox Then Call PbSubFillFieldsByList(cCtrL)
-                    On Error GoTo -1
-'Stop
+                On Error GoTo -1
+                Call pbSub00_CtrlsEnblDsble_GetParams(mCommandButton.Parent, clObjCommButtons.sFrmMode, sFilGrp)
+                If gBbEnableErrorHandler Then On Error GoTo -1: On Error Resume Next
+                
+                'Mantém botão de edição habilitado caso haja algum item selecionado na lista
+                If cCtrL.ItemsSelected.Count > 0 Then
+                    
+                    Call pbSub00_CtrlsEnblDsble_GetParams(fForM, "RecSelect", sFilGrp)
+                    
+                    'Encontra o botão [ EditRec ] referente ao [ sFilGrp ] da [ mListBox ]
+'                    For Each vKeyCtrl In dictFormCommButtons(sForM)
+'                        Set clObjCommButtons = dictFormCommButtons(sForM)(vKeyCtrl)
+'                        If clObjCommButtons.sFilGrp = sFilGrp And InStr(clObjCommButtons.sActType, "EditRec") > 0 Then
+'                            Set cEdtCtrl = Forms(sForM).Controls(clObjCommButtons.sCtrlName)
+'                            If cEdtCtrl.Enabled = False Then
+'                                'Chama [ pbSub02_CtrlsEnblDsbl_Apply ] para habilitar o botão específico sem precisar percorrer por todos os controles
+'                                Call pbSub02_CtrlsEnblDsbl_Apply(mCommandButton.Parent, cEdtCtrl, "btn", True, True)
+'                            End If
+'                        End If
+'                    Next vKeyCtrl
+                
                 End If
             End If
-            
-            On Error GoTo -1
-            Call pbSub00_CtrlsEnblDsble_GetParams(mCommandButton.Parent, clObjCommButtons.sFrmMode, sGrp)
-            On Error GoTo -1: On Error Resume Next
-            
-            'Mantém botão de edição habilitado caso haja algum item selecionado na lista
-            If cCtrL.ItemsSelected.Count > 0 Then
-                'Encontra o botão [ EditRec ] referente ao [ sGrp ] da [ mListBox ]
-                For Each vKeyCtrl In dictFormCommButtons(sForM)
-                    Set clObjCommButtons = dictFormCommButtons(sForM)(vKeyCtrl)
-                    If clObjCommButtons.sFilGrp = sGrp And InStr(clObjCommButtons.sActType, "EditRec") > 0 Then
-                        Set cEdtCtrl = Forms(sForM).Controls(clObjCommButtons.sCtrlName)
-                        If cEdtCtrl.Enabled = False Then
-                            'Chama [ pbSub02_CtrlsEnblDsbl_Apply ] para habilitar o botão específico sem precisar percorrer por todos os controles
-                            Call pbSub02_CtrlsEnblDsbl_Apply(mCommandButton.Parent, cEdtCtrl, "btn", True, True)
-                        End If
-                    End If
-                Next vKeyCtrl
-            End If
-            
+            TempVars.RemoveAll
         Case sActType Like "CancelNew"
-            sGrp = clObjCommButtons.sFilGrp
-            If sGrp <> "" Then
+            sFilGrp = clObjCommButtons.sFilGrp
+            If sFilGrp <> "" Then
                 For Each vKeyCtrl In dictFormDataFlds00Ctrls(sForM)
                     Set clObjCtrlDataFieds = dictFormDataFlds00Ctrls(sForM)(vKeyCtrl)
-                    If clObjCtrlDataFieds.sDataFieldGrp = sGrp Then
+                    If clObjCtrlDataFieds.sDataFieldGrp = sFilGrp Then
                         If ControlExists(sCtrL, fForM) Then fForM.Controls(sCtrL).Value = ""
                     End If
                 Next vKeyCtrl
             End If
-            Call pbSub00_CtrlsEnblDsble_GetParams(mCommandButton.Parent, clObjCommButtons.sFrmMode, sGrp)
+            Call pbSub00_CtrlsEnblDsble_GetParams(mCommandButton.Parent, clObjCommButtons.sFrmMode, sFilGrp)
         
         Case sActType Like "CloseForm"
             DoCmd.Close
                       
         Case sActType Like "EditRec"
-            sGrp = clObjCommButtons.sFilGrp
-            If sGrp <> "" Then
-                Set clObjTargtCtrlParam = dictFormFilterGrps(sForM)(sGrp)
+            sFilGrp = clObjCommButtons.sFilGrp
+            If sFilGrp <> "" Then
+                Set clObjTargtCtrlParam = dictFormFilterGrpTrgts(sForM)(sFilGrp)
                 sCtrL = clObjTargtCtrlParam.sTargtCtrlName
     
                 If ControlExists(sCtrL, fForM) Then
@@ -211,10 +217,10 @@ Private Sub mCommandButton_Click()
                     
                         If cCtrL.ListIndex > -1 Then
                             
-                            Call pbSub00_CtrlsEnblDsble_GetParams(mCommandButton.Parent, clObjCommButtons.sFrmMode, sGrp)
+                            Call pbSub00_CtrlsEnblDsble_GetParams(mCommandButton.Parent, clObjCommButtons.sFrmMode, sFilGrp)
                             For Each vKeyCtrl In dictFormCommButtons(sForM)
                                 Set clObjCommButtons = dictFormCommButtons(sForM)(vKeyCtrl)
-                                If clObjCommButtons.sFilGrp = sGrp Then
+                                If clObjCommButtons.sFilGrp = sFilGrp Then
                                     If InStr(clObjCommButtons.sActType, "Cancel") > 0 Then clObjCommButtons.sActType = "CancelEdit"
                                     If InStr(clObjCommButtons.sActType, "Save") > 0 Then clObjCommButtons.sActType = "SaveEdit"
                                 End If
@@ -236,11 +242,11 @@ Private Sub mCommandButton_Click()
 
         Case sActType Like "NewRec"
             
-            sGrp = clObjCommButtons.sFilGrp
-            If sGrp <> "" Then
+            sFilGrp = clObjCommButtons.sFilGrp
+            If sFilGrp <> "" Then
                 For Each vKeyCtrl In dictFormDataFlds00Ctrls(sForM)
                     Set clObjCtrlDataFieds = dictFormDataFlds00Ctrls(sForM)(vKeyCtrl)
-                    If clObjCtrlDataFieds.sDataFieldGrp = sGrp Then
+                    If clObjCtrlDataFieds.sDataFieldGrp = sFilGrp Then
                         sCtrL = vKeyCtrl
                         If ControlExists(sCtrL, fForM) Then fForM.Controls(sCtrL).Value = ""
                     End If
@@ -248,17 +254,17 @@ Private Sub mCommandButton_Click()
                 
                 For Each vKeyCtrl In dictFormCommButtons(sForM)
                     Set clObjCommButtons = dictFormCommButtons(sForM)(vKeyCtrl)
-                    If clObjCommButtons.sFilGrp = sGrp And InStr(clObjCommButtons.sActType, "Save") > 0 Then clObjCommButtons.sActType = "SaveNew"
+                    If clObjCommButtons.sFilGrp = sFilGrp And InStr(clObjCommButtons.sActType, "Save") > 0 Then clObjCommButtons.sActType = "SaveNew"
                 Next vKeyCtrl
             End If
             
-            Call pbSub00_CtrlsEnblDsble_GetParams(mCommandButton.Parent, clObjCommButtons.sFrmMode, sGrp)
+            Call pbSub00_CtrlsEnblDsble_GetParams(mCommandButton.Parent, clObjCommButtons.sFrmMode, sFilGrp)
 
 
         Case sActType Like "OpenForm"
             
-            sGrp = clObjCommButtons.sFilGrp
-            Set clObjTargtCtrlParam = dictFormFilterGrps(sForM)(sGrp)
+            sFilGrp = clObjCommButtons.sFilGrp
+            Set clObjTargtCtrlParam = dictFormFilterGrpTrgts(sForM)(sFilGrp)
             sCtrL = clObjTargtCtrlParam.sTargtCtrlName
             Set cCtrL = fForM.Controls(sCtrL)
             
@@ -274,11 +280,16 @@ Private Sub mCommandButton_Click()
                     If Not .cTglBtnDocking Is Nothing Then .bFrmIsDocked = .cTglBtnDocking.Value
                 ElseIf ControlExists("tglDockingTrgtFrm", mCommandButton.Parent) Then Set .cTglBtnDocking = mCommandButton.Parent.tglDockingTrgtFrm
                 End If
-        
+                .sFilGrp = sFilGrp
                 .sFormMode = clObjCommButtons.sFrmMode
-                .sTrggForm = mCommandButton.Parent.Name
+                .sTrggForM = mCommandButton.Parent.Name
                 .sTrgtForm = clObjCommButtons.sForM
                 .lngRecID = cCtrL.ListIndex
+                .bShowRecID = True
+                .bSetPosition = True
+                .bCentralizeForm = True
+                Set .cTrgtCtrl = dictFormFilterGrpTrgts(mCommandButton.Parent.Name)(sFilGrp)
+                .sQryFieldID = GetsQryFieldID(clObjTargtCtrlParam)
             End With
         
             'Inicia as rotinas pra abertura de formulário
@@ -296,7 +307,7 @@ Private Sub mCommandButton_Click()
             
             Call PbSubRecDataFields(mCommandButton)
 
-            Call pbSub00_CtrlsEnblDsble_GetParams(mCommandButton.Parent, clObjCommButtons.sFrmMode, sGrp)
+            Call pbSub00_CtrlsEnblDsble_GetParams(mCommandButton.Parent, clObjCommButtons.sFrmMode, sFilGrp)
             
         
         Case sActType Like "Sort"
@@ -304,12 +315,12 @@ Private Sub mCommandButton_Click()
             Dim sSortedSQL As String
             Dim sSQL As String
             
-            sGrp = clObjCommButtons.sFilGrp
+            sFilGrp = clObjCommButtons.sFilGrp
             
-            Set clObjTargtCtrlParam = dictFormFilterGrps(sForM)(sGrp)
+            Set clObjTargtCtrlParam = dictFormFilterGrpTrgts(sForM)(sFilGrp)
             Set cList = Forms(sForM).Controls(clObjTargtCtrlParam.sTargtCtrlName)
             
-            'Obtém o SQL da [ ListBox ] do [ sGrp ]
+            'Obtém o SQL da [ ListBox ] do [ sFilGrp ]
             If InStr(cList.RowSource, "SELECT") > 0 Then sSQL = cList.RowSource Else sSQL = CurrentDb.QueryDefs(cList.RowSource).sql
             
             'Remove qualquer [ ORDER BY ] no SQL da lista
@@ -424,10 +435,18 @@ End Sub
 Private Sub mListBox_AfterUpdate()
     Dim fForM As Form
     
+    '---------------------------------------------------------------
+    ' inicia a filtragem do [ TrgtCtrl ] associado ao mesmo grupo de filtragem do Listbox [ TrggCtrl ]
+    ' que teve um item selecionado
+    ' Esse evento está numa classe diferente dos Targts pois mesmo todo Listbox disparador é um [ TrgtCtrl ]
+    '---------------------------------------------------------------
+    
     Set fForM = mListBox.Parent
     
+'Stop
     'Aciona a atualização do [ TargetCtrl ] associado ao controle
-    Call pb_TargtCtrlUpdate00_TimerDelay(fForM, mListBox)
+    'Call pb_TargtCtrlUpdate00_TimerDelay(fForM, mListBox)
+    Call pb_TargtCtrlUpdate03_UNIQUEupdate(fForM, mListBox)
 
 End Sub
 
@@ -440,6 +459,7 @@ Private Sub mComboBox_AfterUpdate()
     
     'Aciona a atualização do [ TargetCtrl ] associado ao controle
     Call pb_TargtCtrlUpdate00_TimerDelay(fForM, mComboBox)
+    
 
 End Sub
 

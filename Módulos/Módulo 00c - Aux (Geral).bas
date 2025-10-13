@@ -2,6 +2,32 @@ Attribute VB_Name = "Módulo 00c - Aux (Geral)"
 Option Compare Database
 Option Explicit
 
+Public Function GetsQryFieldID(clObjTargtCtrlParam As cls_01aTargtCtrlParams_Evnts) As String
+    Dim rsTbE As Recordset
+    'Recupera o [ sQryIDfield ] do [ cCtrl ]
+    ' [ sQryIDfield ] é o nome do campo utilizado como ID em uma consulta
+    Set rsTbE = CurrentDb.OpenRecordset(clObjTargtCtrlParam.sClsLstbxSQL_eMAIN, dbOpenDynaset, dbReadOnly)
+    GetsQryFieldID = rsTbE.Fields(0).Name
+    rsTbE.Close
+    Set rsTbE = Nothing
+
+End Function
+Public Function DialogBoxReply(sTitulo As String, sTexto As String, sTrggForM As String) As Boolean
+    Dim vOpenArgs As Variant
+    
+    vOpenArgs = sTitulo & "|" & sTexto
+'Stop
+    Set clObjFormOpenParams = New cls_09cParamsToOpenForms
+    clObjFormOpenParams.sTrggForM = sTrggForM
+    
+    DoCmd.OpenForm "frm_00(1)dSysDialogBox", , , , , acDialog, vOpenArgs
+    
+    DialogBoxReply = TempVars("SysDialogBox")
+    
+'Stop
+End Function
+
+
 
 Public Sub TextboxScrollWhenNeeded(cCtrL As Control)
 
@@ -239,19 +265,19 @@ Sub CleanDicts()
     dictCtrlBehvrParams.RemoveAll
     dictCtrlEnblDsblParams.RemoveAll     'já estava no Clean Dict
     dictCtrlsEvents.RemoveAll            'já estava no Clean Dict
-    dictFormFilterGrps.RemoveAll         'já estava no Clean Dict
+    dictFormFilterGrpTrgts.RemoveAll         'já estava no Clean Dict
     dictFormsParams.RemoveAll
     dictFrmResetAreas.RemoveAll          'já estava no Clean Dict
     dictRstArBTNsByNr.RemoveAll
     dictRstArBTNsByName.RemoveAll
     dictTrgg00GrpsInForm.RemoveAll       'já estava no Clean Dict
-    dictTrgg01CtrlsInGrp.RemoveAll       'já estava no Clean Dict
+    'dictTrgg01CtrlsInGrp.RemoveAll       'já estava no Clean Dict
     dictTrggCtrlsInForm.RemoveAll        'já estava no Clean Dict
     dictTrgtCtrlsFilterGrps.RemoveAll
     dictFormQrysCtrls.RemoveAll
     dictFormCommButtons.RemoveAll
     dictFormDataFlds01Grps.RemoveAll
-    
+    dictFormFilGrpsEnDsAllCtrls.RemoveAll
     '------------------------
     'já estavam no CleanDicts
     ' confirmar se estão sendo usados
@@ -299,7 +325,7 @@ Sub CleanDicts()
 'dictCtrlsEvents.RemoveAll
 'dictCtrlTypeShort.RemoveAll
 'dictCtrlTypeStR.RemoveAll
-'dictFormFilterGrps.RemoveAll
+'dictFormFilterGrpTrgts.RemoveAll
 'dictFormsParams.RemoveAll
 'dictFrmResetAreas.RemoveAll
 'dictParamByLckdStatus.RemoveAll
@@ -336,7 +362,7 @@ Function FindCodeLineInSub(sModName As String, sSubName As String, sSrchText As 
     Dim iInT As Integer, iInT2 As Integer
     
     
-    On Error GoTo ErrorHandler
+    If gBbEnableErrorHandler Then On Error GoTo ErrorHandler
 'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "oMod: [ " & sSubName & " ] "
 'Stop
 
@@ -498,8 +524,6 @@ Function DesprezaAcentos(sTextoDigitado As String) As String
     
     'Retorna a string, convertida sem acentuação se for o caso
     DesprezaAcentos = sTempText
-
-            
 'Stop
 End Function
 
@@ -562,7 +586,7 @@ Function ControlExists(sCtrL As String, fForM As Form) As Boolean
     Dim sTest As String
     
     'Testa se o Controle indicado existe
-    On Error Resume Next
+    If gBbEnableErrorHandler Then On Error Resume Next
     sTest = fForM(sCtrL).Name
     
     
@@ -620,7 +644,7 @@ Public Function sGetClcltdField(sSQL As String, sField As String) As String
         ' lng_AS_pos  = 145    ", [tbl_02(3)cProdUnMedida_1].ProdUnidadeMedida AS ProdUnCons, [tbl_02(1)aProdutoBase].UnPedidoIDfk, [tbl_02(3)cProdUnMedida_2].ProdUnidadeMedida_"  (está na posição 145)
         '-----------------
         
-        On Error Resume Next
+        If gBbEnableErrorHandler Then On Error Resume Next
         lngStartingPos = InStrRev(sSQL, ", [", lng_AS_pos)
         If (Err.Number = 5) Then
             sGetClcltdField = "SELECT NotFound"

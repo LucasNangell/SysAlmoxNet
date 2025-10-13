@@ -43,11 +43,12 @@ Public Sub pb_TargtCtrlUpdate00_TimerDelay(fForM As Form, cCtrL As Control)
     'Confirma se o controle é um [ TriggCtrl ]
     If IsObject(dictTrggCtrlsInForm(sForM)(sCtrL)) Then
         
-        On Error Resume Next
+        If gBbEnableErrorHandler Then On Error Resume Next
         
         'Carrega as variáveis que serão usadas na rotina de atualização
         Set gBcTrggCtrl = cCtrL
         Set gBfTrggCtrlForm = fForM
+        
         
 'parei aqui1: verificar se há necessidade de "On Error..."
         
@@ -68,7 +69,7 @@ Public Sub pb_TargtCtrlUpdate00_TimerDelay(fForM As Form, cCtrL As Control)
         ' No F8, Modo Depuração o Timer não chega a zero e por isso a função não é chamada
         On Error GoTo -1
         lngTimerID = SetTimer(0, 0, gBiTypingDelay, AddressOf pb_TargtCtrlUpdate01_Start)
-        On Error Resume Next
+        If gBbEnableErrorHandler Then On Error Resume Next
         
     'Stop
         If gBcTrggCtrl.ControlType = acTextBox Then
@@ -82,7 +83,6 @@ Public Sub pb_TargtCtrlUpdate00_TimerDelay(fForM As Form, cCtrL As Control)
 End Sub
 
 Public Sub pb_TargtCtrlUpdate01_Start()
-    
     Dim vA, vB
 'Stop
     'Impede múltiplas execuções simultâneas
@@ -149,19 +149,19 @@ Public Sub pb_TargtCtrlUpdate02_SetSearchType(fForM As Form, Optional cCtrL As C
 End Sub
 
 
-Public Sub pb_TargtCtrlUpdate03_UNIQUEupdate(fForM As Form, cCtrL As Control) ' , Optional sTagParams As String) ', Optional iResetArea As Integer)
+Public Sub pb_TargtCtrlUpdate03_UNIQUEupdate(fForM As Form, cTrggCtrL As Control) ' , Optional sTagParams As String) ', Optional iResetArea As Integer)
     Dim vA, vB, vC
     Dim iResetArea As Integer
     Dim sForM As String
-    Dim sCtrL As String
+    Dim sTrggCtrL As String
     Dim sFilGrp As String
     
     sForM = fForM.Name
     
 'Stop
     'Confirma se foi fornecido um Controle na chamada da função
-    If Not cCtrL Is Nothing Then
-        sCtrL = cCtrL.Name
+    If Not cTrggCtrL Is Nothing Then
+        sTrggCtrL = cTrggCtrL.Name
 
 'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "Call pb_TargtCtrlUpdate06_BuildWHERE"
 'Stop
@@ -171,9 +171,11 @@ Public Sub pb_TargtCtrlUpdate03_UNIQUEupdate(fForM As Form, cCtrL As Control) ' 
         If IsObject(dictTrggCtrlsInForm(sForM)) Then
             
             'Confirma se o controle que disparou a alteração é um [ TriggCtrl ]
-            ' do contrário não dispara a atualização de nenhum [ TrgtCtrl ]
-            If IsObject(dictTrggCtrlsInForm(sForM)(sCtrL)) Then
-                Set clObjFilGrpsByForm = dictTrggCtrlsInForm(sForM)(sCtrL)
+            ' caso negativo não dispara a atualização de nenhum [ TrgtCtrl ]
+            ' caso positivo recupera o Grupo de Filtragem do Trigger pra identificar
+            ' qual [ TrgtCtrl ] deve ser atualizado
+            If IsObject(dictTrggCtrlsInForm(sForM)(sTrggCtrL)) Then
+                Set clObjFilGrpsByForm = dictTrggCtrlsInForm(sForM)(sTrggCtrL)
                 sFilGrp = clObjFilGrpsByForm.sFilGrp
             
                 '--------------------------------------------------------------------------------------------------------
@@ -407,8 +409,9 @@ Public Sub pb_TargtCtrlUpdate06_BuildWHERE(fForM As Form, sFilGrp As String)
     Dim sLoadLogWarn As String
     Dim sCtrlEvent As String
     Dim sModName As String, sSubName As String, sSearchTerm As String
-    Dim cTrggCtrl As Control
+    Dim cTrggCtrL As Control
     Dim vKeyTrggCtrl As Variant
+    Dim vKeyTrgtCtrl As Variant
     
     sForM = fForM.Name
     
@@ -423,7 +426,7 @@ If gBbDepurandoLv03a Then Stop
     
     'Se não houver [ TrggCtrls ] no [ grupo de filtragem ] atualmente avaliado não é necessário recuperar
     ' SQL e outros elementos já que não haverá filtragens
-    If Not IsObject(dictTrgg01CtrlsInGrp(sFilGrp)) Then
+    If Not IsObject(dictTrgg00GrpsInForm(sForM)(sFilGrp)) Then
         Exit Sub
         
     End If
@@ -432,11 +435,11 @@ If gBbDepurandoLv03a Then Stop
     
     'If dictTrgg01CtrlsInGrp(sForM).Exists(sFilGrp) = True Then
     
-    For Each vKeyControl In dictTrgg01CtrlsInGrp(sFilGrp)
+    For Each vKeyControl In dictTrgg00GrpsInForm(sForM)(sFilGrp)
         Set cCtrL = Forms(sForM).Controls(vKeyControl)
         vA = cCtrL.Name
         
-        Set clObjTriggCtrlParam = dictTrgg01CtrlsInGrp(sFilGrp)(vKeyControl)
+        Set clObjTriggCtrlParam = dictTrgg00GrpsInForm(sForM)(sFilGrp)(vKeyControl)
         'vB = cCtrl.Value
 'Stop
         iCtrlType = cCtrL.ControlType
@@ -460,14 +463,16 @@ If gBbDepurandoLv03a Then Stop
             .sGetRecCntCptTxt = ""
         
         End With
-'MsgBox "remove all"
+'MsgBox "txtSrchDescProd grupo: [ " & sFilGrp & " ]"
 'Stop
         
         'Recupera o SQL Select do TargtCtrl que está sendo atualizado,
         ' informação necessária para fazer a pesquisa em campos calculados
-        Set clObjTargtCtrlParam = dictFormFilterGrps(sForM)(sFilGrp)
-        sTargtCtrlSQLselect = clObjTargtCtrlParam.sClsLstbxSQL_aSELECT
-        
+        'voltar aqui
+        For Each vA In dictFormFilterGrpTrgts(sForM)(sFilGrp)
+            Set clObjTargtCtrlParam = dictFormFilterGrpTrgts(sForM)(sFilGrp)(vA)
+            sTargtCtrlSQLselect = clObjTargtCtrlParam.sClsLstbxSQL_aSELECT
+        Next vA
         'Debug.Print sTargtCtrlSQLselect
 'Stop
         
@@ -566,11 +571,11 @@ If gBbDepurandoLv03a Then Stop
     ' de cada controle do Dict [ dictTrgg01CtrlsInGrp ]
     '--------------------------------------------------------------------------------------------------------
     
-    lngDictItemsCnt = dictTrgg01CtrlsInGrp(sFilGrp).Count
-    For Each vKeyControl In dictTrgg01CtrlsInGrp(sFilGrp)
+    lngDictItemsCnt = dictTrgg00GrpsInForm(sForM)(sFilGrp).Count
+    For Each vKeyControl In dictTrgg00GrpsInForm(sForM)(sFilGrp)
         
         lngDictItemsCnt = lngDictItemsCnt - 1
-        Set clObjTriggCtrlParam = dictTrgg01CtrlsInGrp(sFilGrp)(vKeyControl)
+        Set clObjTriggCtrlParam = dictTrgg00GrpsInForm(sForM)(sFilGrp)(vKeyControl)
 
         vA = clObjTriggCtrlParam.sGetSQLwhere
         vB = clObjTriggCtrlParam.sGetRecCntCptTxt
@@ -616,8 +621,8 @@ If gBbDepurandoLv03a Then Stop
             ' É necessário fazer a varredura no Dict pois é possível que
             ' um Grupo de Filtragem tenha mais de um TargtCtrl associado
             
-        'For Each vKeyFilterGrp In dictFormFilterGrps(sForM) 'dictFormFilterGrps
-            Set clObjTargtCtrlParam = dictFormFilterGrps(sForM)(sFilGrp)
+        For Each vKeyTrgtCtrl In dictFormFilterGrpTrgts(sForM)(sFilGrp)
+            Set clObjTargtCtrlParam = dictFormFilterGrpTrgts(sForM)(sFilGrp)(vKeyTrgtCtrl)
             sTargtCtrlName = clObjTargtCtrlParam.sTargtCtrlName
             sRecCntCtrlName = clObjTargtCtrlParam.sRecCntCtrlName
 
@@ -639,7 +644,7 @@ If gBbDepurandoLv03a Then Stop
                 vD = vA & vbCr & vB & vbCr & sNewTrgtGrp_WHERE & vbCr & vC
                 If gBbDebugOn Then Debug.Print vD
                 
-'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "Back from Bld SQL [ " & sCtrL & " ]"
+'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "Aplica RowSource com a filgragem [ " & sCtrL & " ]"
 'Stop
                 
                 vA = cCtrL.Name
@@ -648,16 +653,16 @@ If gBbDepurandoLv03a Then Stop
                 'Se for uma Combobox e se o [ Trigger ] não estiver vazio exibe o primeiro item após o Trgt ser filtrado
                 If cCtrL.ControlType = acComboBox Then
 
-                    For Each vKeyTrggCtrl In dictTrgg01CtrlsInGrp(sFilGrp)
-                        Set cTrggCtrl = Forms(sForM).Controls(vKeyTrggCtrl)
-                        vA = cTrggCtrl.Name
+                    For Each vKeyTrggCtrl In dictTrgg00GrpsInForm(sForM)(sFilGrp)
+                        Set cTrggCtrL = Forms(sForM).Controls(vKeyTrggCtrl)
+                        vA = cTrggCtrL.Name
                         
                         'Só exibe o primeiro item da lista da Combo se o [ Trigger ] que fez a filtragem não estiver vazio
-                        On Error Resume Next
+                        If gBbEnableErrorHandler Then On Error Resume Next
                         'Se houver erro significa que o controle ora analisado não tem o foco
                         ' nesse caso é preciso obter a proriedade .Value ao invés da .Text
-                        vA = cTrggCtrl.Text
-                        If (Err.Number = 2185) Then vA = cTrggCtrl.Value
+                        vA = cTrggCtrL.Text
+                        If (Err.Number = 2185) Then vA = cTrggCtrL.Value
                         On Error GoTo -1
                         
                         vA = IIf(vA = "", Null, vA)
@@ -702,7 +707,7 @@ If gBbDepurandoLv03a Then Stop
             '-----------------------------------------------
             '------------------------------
 
-'        Next vKeyFilterGrp
+        Next vKeyTrgtCtrl
         'clObjTargtCtrlParam
 
         End If

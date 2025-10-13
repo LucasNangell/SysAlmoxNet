@@ -436,7 +436,7 @@ Sub ExportarQueryParaSQL(qry As QueryDef, strCaminhoCompleto As String)
     strSQL = "-- Consulta: " & qry.Name & vbCrLf
     strSQL = strSQL & "-- Tipo: " & strTipo & vbCrLf
     'strSQL = strSQL & "-- Exportado em: " & Now() & vbCrLf
-    strSQL = strSQL & "-- Banco: " & CurrentProject.Name & vbCrLf & vbCrLf
+    'strSQL = strSQL & "-- Banco: " & CurrentProject.Name & vbCrLf & vbCrLf
     
     ' Adicionar o SQL original
     strSQL = strSQL & qry.sql

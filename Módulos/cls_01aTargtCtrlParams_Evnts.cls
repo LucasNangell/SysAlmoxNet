@@ -120,7 +120,6 @@ Private Sub mListBox_MouseDown(Button As Integer, Shift As Integer, x As Single,
 End Sub
 
 Private Sub mListBox_AfterUpdate()
-    
 'Stop
     Call PbSubFillFieldsByList(mListBox)
 

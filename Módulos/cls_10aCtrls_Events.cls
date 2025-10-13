@@ -445,7 +445,8 @@ Private Sub mListBox_AfterUpdate()
     
 Stop
     'Aciona a atualização do [ TargetCtrl ] associado ao controle
-    Call pb_TargtCtrlUpdate00_TimerDelay(fForM, mListBox)
+    'Call pb_TargtCtrlUpdate00_TimerDelay(fForM, mListBox)
+    Call pb_TargtCtrlUpdate03_UNIQUEupdate(fForM, mListBox)
 
 End Sub
 
@@ -458,6 +459,7 @@ Private Sub mComboBox_AfterUpdate()
     
     'Aciona a atualização do [ TargetCtrl ] associado ao controle
     Call pb_TargtCtrlUpdate00_TimerDelay(fForM, mComboBox)
+    
 
 End Sub
 

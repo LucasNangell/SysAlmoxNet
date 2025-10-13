@@ -83,10 +83,12 @@ Private Sub btnCheckColor_Click()
 End Sub
 
 
+Private Sub lstProdsBase_AfterUpdate()
+    Dim vA
+Stop
+    vA = lstProdsBase.ItemsSelected.Count
 
-
-
-
+End Sub
 
 'Private Sub btnInitEvents_Click()
 '    Dim vA, vB, vC

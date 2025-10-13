@@ -277,7 +277,7 @@ Sub CleanDicts()
     dictFormQrysCtrls.RemoveAll
     dictFormCommButtons.RemoveAll
     dictFormDataFlds01Grps.RemoveAll
-    
+    dictFormFilterGrpsCtrls.RemoveAll
     '------------------------
     'já estavam no CleanDicts
     ' confirmar se estão sendo usados

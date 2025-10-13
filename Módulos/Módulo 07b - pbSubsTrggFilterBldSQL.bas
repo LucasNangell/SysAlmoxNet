@@ -165,14 +165,26 @@ Public Sub BuildSQL_ListBox(cCtrL As Control, sTargtCtrlSQLselect As String, bMs
     
     vA = cCtrL.Name
     vB = cCtrL
-'Stop
+    
+MsgBox "teste --------------------------------------------------------------------------" & vbCr & "BuildSQL Listbox [ " & vA & " ]"
+Stop
+    
+    'clObjTriggCtrlParam.dictGetListSrchVals.RemoveAll
+    'clObjTriggCtrlParam.dictGetListItemTxts.RemoveAll
     
     'Recupera a partir do objeto [ clObjTriggCtrlParam ] a coluna da tabela de dados da Listbox
     ' que tem o Valor Textual dos itens
     lngTbeClmn = clObjTriggCtrlParam.iListboxTxtClmn
     
+    'O primeiro item selecionado numa listbox com multiselect = Nenhum
+    ' não é identificado pela propriedade [ ItemsSelected ]
+    ' então é necessário forçar a seleção do item antes da contagem
+    cCtrL.Selected(cCtrL.ListIndex) = True
+    
     'Roda o código apenas se houver pelo menos um item selecionado na Lista
-    lngSelectedItems = cCtrL.ItemsSelected.Count
+        lngSelectedItems = cCtrL.ItemsSelected.Count
+    
+    
     If lngSelectedItems > 0 Then
         
         'Identifica os valores selecionados no Listbox (Numérico)
@@ -218,19 +230,22 @@ Public Sub BuildSQL_ListBox(cCtrL As Control, sTargtCtrlSQLselect As String, bMs
         lngCounT = clObjTriggCtrlParam.dictGetListSrchVals.Count
         For Each vKey In clObjTriggCtrlParam.dictGetListSrchVals
             lngCounT = lngCounT - 1
+            
+            If Not IsEmpty(clObjTriggCtrlParam.dictGetListSrchVals(vKey)) Then
 'Stop
+                'Valor a ser pesquisado
+                vA = clObjTriggCtrlParam.dictGetListSrchVals(vKey)
+                vC = sOpenBrkt & sCtrlQryField & sCloseBrkt & " = " & vA
+                sWhere = sWhere & IIf(sWhere <> "", "", "(") & vC & IIf(lngCounT > 0, " or ", ")")
+                
+                'Texto a ser exibido no RecCntCpt
+                vB = clObjTriggCtrlParam.dictGetListItemTxts(vKey)
+                sReCntFullStR = sReCntFullStR & "[ " & vB & IIf(lngCounT > 0, " ] ou ", " ]")
             
-            'Valor a ser pesquisado
-            vA = clObjTriggCtrlParam.dictGetListSrchVals(vKey)
-            vC = sOpenBrkt & sCtrlQryField & sCloseBrkt & " = " & vA
-            sWhere = sWhere & IIf(sWhere <> "", "", "(") & vC & IIf(lngCounT > 0, " or ", ")")
-            
-            'Texto a ser exibido no RecCntCpt
-            vB = clObjTriggCtrlParam.dictGetListItemTxts(vKey)
-            sReCntFullStR = sReCntFullStR & "[ " & vB & IIf(lngCounT > 0, " ] ou ", " ]")
+            End If
 'Stop
         Next vKey
-'Stop
+Stop
         'Texto a ser exibido no RecCntCpt
         sReCntCpt = clObjTriggCtrlParam.sQryFieldCptClean & ": "
         sReCntFullStR = sReCntCpt & sReCntFullStR
@@ -239,7 +254,6 @@ Public Sub BuildSQL_ListBox(cCtrL As Control, sTargtCtrlSQLselect As String, bMs
         clObjTriggCtrlParam.sGetSQLwhere = sWhere
         clObjTriggCtrlParam.sGetRecCntCptTxt = sReCntFullStR
         '-------------------------------------------------------------------
-        
     End If
 End Sub
 

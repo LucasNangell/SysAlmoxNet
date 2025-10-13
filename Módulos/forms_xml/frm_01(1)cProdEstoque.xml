@@ -271,9 +271,9 @@
       <Top>8160</Top>
       <Width>3433</Width>
       <Height>2197</Height>
-      <Tag>TrgtCtrl.Grp12.RCnt>--HLclr1.OnDrty.Mskd.MSlct0-</Tag>
+      <Tag>TrgtCtrl.Grp11.RCnt>--HLclr1.OnDrty.Mskd.MSlct0-</Tag>
       <Enabled>Verdadeiro</Enabled>
-      <RowSource>qry_05(1)cProdEstoqueInSaldoByMarca(Viw)</RowSource>
+      <RowSource>qry_05(1)dProdEstoqueInSaldoByMarca(Viw)</RowSource>
     </Control>
     <Control>
       <Name>Rótulo269</Name>
@@ -1343,7 +1343,7 @@ Nova Entrada</Caption>
       <Top>8158</Top>
       <Width>12733</Width>
       <Height>2197</Height>
-      <Tag>TrgtCtrl.Grp11.RCnt>-Trgg.ProdutoFullIDfk.Grp12.Rmv.WdCrd.SrchOnChg0.CascUpDt>--</Tag>
+      <Tag>TrgtCtrl.Grp11.RCnt>---</Tag>
       <Enabled>Verdadeiro</Enabled>
       <RowSource>qry_05(1)aProdEstoqueIn(Viw)</RowSource>
     </Control>

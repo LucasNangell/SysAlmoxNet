@@ -18,6 +18,9 @@ Public sTargtCtrlName As String  'Nome do controle
 Public sFilGrp As String    'Grupo de filtragem a que pertence o controle,
                             ' neste Objeto de Classe é meramente informativo
                             
+'Public dictFormFilterGrpTrgts As New Dictionary  'Adiciona no dicionário interno de cada Grupo de Filtragem, os [ TrgtCtrls ] associados ao grupo
+
+
 Public sRecCntCtrlName As String 'Guarda o nome do controle que deve exibir a contagem de registros do grupo Trgt Ctrl
 'Public cRecCntCtrl As Control  'Controle no formulário que exibe a contagem de registros da Listbox
 
@@ -27,6 +30,9 @@ Public sClsLstbxSQL_cWHERE As String    'SQL original do ListBox ou Combo ao car
 Public sClsLstbxSQL_dOrderBy As String  'SQL original do ListBox ou Combo ao carregar o Form (OrderBy)
 
 Public sClsLstbxSQL_eMAIN As String     'SQL original do ListBox ou Combo ao carregar o Form (Select + From)
+
+
+
 
 'Public sFilGrp As Integer    ' grupo de filtragem a que pertence o controle, o que permite identificar
                                  ' qual controle deve exibir os resultados da pesquisa e se há outros controles
@@ -86,9 +92,9 @@ Private Sub mListBox_MouseDown(Button As Integer, Shift As Integer, x As Single,
         Else
         
         'Caso a [ mListBox ] não exista em [ dictTrgtCtrlsFilterGrps(sForM) ],
-        ' percorre cada item do [ dictFormFilterGrps(sForM)] para encontrar o grupo da lista
-            For Each vKeyGrp In dictFormFilterGrps(sForM)
-                Set clObjTargtCtrlParam = dictFormFilterGrps(sForM)(vKeyGrp)
+        ' percorre cada item do [ dictFormFilterGrpsTrgts(sForM)] para encontrar o grupo da lista
+            For Each vKeyGrp In dictFormFilterGrpsTrgts(sForM)
+                Set clObjTargtCtrlParam = dictFormFilterGrpsTrgts(sForM)(vKeyGrp)
                 If clObjTargtCtrlParam.sTargtCtrlName = mListBox.Name Then sFilGrp = vKeyGrp
             
             Next vKeyGrp

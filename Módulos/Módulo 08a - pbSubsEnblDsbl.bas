@@ -128,7 +128,7 @@ Public Sub pbSub00_CtrlsEnblDsble_GetParams(fForM As Form, sSysFormMode As Strin
                 ' verifica se o controle pertence ao grupo, caso positivo prossegue com o Enable/Disable do controle
                 If sFilGrp <> "" Then
 'Stop
-                    If dictFormFilterGrpsCtrls(sForM)(sFilGrp).Exists(sTweakableCtrL) Then
+                    If dictFormFilGrpsEnDsAllCtrls(sForM)(sFilGrp).Exists(sTweakableCtrL) Then
                         Call pbSub01_CtrlsEnblDsble_Confirm(fForM, cTweakableCtrL, dictCtrlTypeShort(cTweakableCtrL.ControlType), bEnable, bVisible, bLockCombo, sCtrlNewTipText)
                     End If
                 Else
@@ -140,8 +140,7 @@ Public Sub pbSub00_CtrlsEnblDsble_GetParams(fForM As Form, sSysFormMode As Strin
                 Call FormStatusBar01_Bld(sForM, "MissingEnblDsblCtrls", sLoadLogWarn, sTweakableCtrL)
 
 'Stop
-
-                        
+            
             End If
 'Stop
 'MyNextRecord:

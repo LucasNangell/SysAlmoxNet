@@ -265,7 +265,7 @@ Sub CleanDicts()
     dictCtrlBehvrParams.RemoveAll
     dictCtrlEnblDsblParams.RemoveAll     'já estava no Clean Dict
     dictCtrlsEvents.RemoveAll            'já estava no Clean Dict
-    dictFormFilterGrps.RemoveAll         'já estava no Clean Dict
+    dictFormFilterGrpsTrgts.RemoveAll         'já estava no Clean Dict
     dictFormsParams.RemoveAll
     dictFrmResetAreas.RemoveAll          'já estava no Clean Dict
     dictRstArBTNsByNr.RemoveAll
@@ -277,7 +277,7 @@ Sub CleanDicts()
     dictFormQrysCtrls.RemoveAll
     dictFormCommButtons.RemoveAll
     dictFormDataFlds01Grps.RemoveAll
-    dictFormFilterGrpsCtrls.RemoveAll
+    dictFormFilGrpsEnDsAllCtrls.RemoveAll
     '------------------------
     'já estavam no CleanDicts
     ' confirmar se estão sendo usados
@@ -325,7 +325,7 @@ Sub CleanDicts()
 'dictCtrlsEvents.RemoveAll
 'dictCtrlTypeShort.RemoveAll
 'dictCtrlTypeStR.RemoveAll
-'dictFormFilterGrps.RemoveAll
+'dictFormFilterGrpsTrgts.RemoveAll
 'dictFormsParams.RemoveAll
 'dictFrmResetAreas.RemoveAll
 'dictParamByLckdStatus.RemoveAll

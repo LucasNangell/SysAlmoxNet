@@ -155,7 +155,7 @@ Private Sub mCommandButton_Click()
             If TempVars("bReply") = True Then
                 sFilGrp = clObjCommButtons.sFilGrp
                 If sFilGrp <> "" Then
-                    Set clObjTargtCtrlParam = dictFormFilterGrps(sForM)(sFilGrp)
+                    Set clObjTargtCtrlParam = dictFormFilterGrpsTrgts(sForM)(sFilGrp)
                     sCtrL = clObjTargtCtrlParam.sTargtCtrlName
                     
                     If ControlExists(sCtrL, fForM) Then
@@ -208,7 +208,7 @@ Private Sub mCommandButton_Click()
         Case sActType Like "EditRec"
             sFilGrp = clObjCommButtons.sFilGrp
             If sFilGrp <> "" Then
-                Set clObjTargtCtrlParam = dictFormFilterGrps(sForM)(sFilGrp)
+                Set clObjTargtCtrlParam = dictFormFilterGrpsTrgts(sForM)(sFilGrp)
                 sCtrL = clObjTargtCtrlParam.sTargtCtrlName
     
                 If ControlExists(sCtrL, fForM) Then
@@ -264,7 +264,7 @@ Private Sub mCommandButton_Click()
         Case sActType Like "OpenForm"
             
             sFilGrp = clObjCommButtons.sFilGrp
-            Set clObjTargtCtrlParam = dictFormFilterGrps(sForM)(sFilGrp)
+            Set clObjTargtCtrlParam = dictFormFilterGrpsTrgts(sForM)(sFilGrp)
             sCtrL = clObjTargtCtrlParam.sTargtCtrlName
             Set cCtrL = fForM.Controls(sCtrL)
             
@@ -288,7 +288,7 @@ Private Sub mCommandButton_Click()
                 .bShowRecID = True
                 .bSetPosition = True
                 .bCentralizeForm = True
-                Set .cTrgtCtrl = dictFormFilterGrps(mCommandButton.Parent.Name)(sFilGrp)
+                Set .cTrgtCtrl = dictFormFilterGrpsTrgts(mCommandButton.Parent.Name)(sFilGrp)
                 .sQryFieldID = GetsQryFieldID(clObjTargtCtrlParam)
             End With
         
@@ -317,7 +317,7 @@ Private Sub mCommandButton_Click()
             
             sFilGrp = clObjCommButtons.sFilGrp
             
-            Set clObjTargtCtrlParam = dictFormFilterGrps(sForM)(sFilGrp)
+            Set clObjTargtCtrlParam = dictFormFilterGrpsTrgts(sForM)(sFilGrp)
             Set cList = Forms(sForM).Controls(clObjTargtCtrlParam.sTargtCtrlName)
             
             'Obtém o SQL da [ ListBox ] do [ sFilGrp ]

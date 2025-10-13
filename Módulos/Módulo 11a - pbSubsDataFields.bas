@@ -180,11 +180,11 @@ Stop
                 ' se não existir carrega no log de carga do sistema
                 
                 
-                If IsObject(dictFormFilterGrps(sForM)) Then
+                If IsObject(dictFormFilterGrpsTrgts(sForM)) Then
                 
-                    If dictFormFilterGrps(sForM).Exists(sFilGrp) = True Then
+                    If dictFormFilterGrpsTrgts(sForM).Exists(sFilGrp) = True Then
 'Stop
-                        Set clObjTargtCtrlParam = dictFormFilterGrps(sForM)(sFilGrp)
+                        Set clObjTargtCtrlParam = dictFormFilterGrpsTrgts(sForM)(sFilGrp)
                     
                         sSQLtablesString = clObjTargtCtrlParam.sClsLstbxSQL_aSELECT & " " & clObjTargtCtrlParam.sClsLstbxSQL_bFROM
                         NstdVarQryFld = GetFldInQryGridTbls(sForM, cListBox.Name, sSQLtablesString, clObjCtrlDataFieds.sDataField)
@@ -372,7 +372,7 @@ Public Sub PbSubRecDataFields(cBtnSaveRec As Control)
     sActType = clObjCommButtons.sActType
     
     Set clObjCommButtons = dictFormCommButtons(sForM)(sBtnSaveRec)
-    Set clObjTargtCtrlParam = dictFormFilterGrps(sForM)(sFilGrp)
+    Set clObjTargtCtrlParam = dictFormFilterGrpsTrgts(sForM)(sFilGrp)
 
     Set cLstBox = Forms(sForM).Controls(clObjTargtCtrlParam.sTargtCtrlName)
     

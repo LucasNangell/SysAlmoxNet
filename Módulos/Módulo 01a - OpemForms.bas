@@ -406,7 +406,7 @@ Sub FormLoad06a_BackFromFormLoad(clObjFormOpenParams As cls_09cParamsToOpenForms
     Dim cTargtCtrl As Control, cRecCntCtrL As Control
     Dim sTargtCtrl As String, sRecCntCtrl As String
     Dim sRecCntCtrlName As String
-    Dim vKeyFilGrp As Variant, vKeyTrggCtrl As Variant
+    Dim vKeyFilGrp As Variant, vKeyTrggCtrl As Variant, vKeyTrgtCtrl As Variant
     Dim vKey As Variant
     Dim sLoadLogWarn As String
     Dim cCtrL As Control
@@ -454,40 +454,44 @@ If gBbDepurandoLv02a Then Stop
 
     'Se não houver Grupos de Filtragem no Form ou se o Form tiver sido aberto
     ' sem a sequência de carga de dicionários, desconsidera a atualização
-    bBoL = IsObject(dictFormFilterGrps(clObjFormOpenParams.sTrgtForm)) 'verifica se há Grupos de Filtragem incluídos no Dicionário
+    bBoL = IsObject(dictFormFilterGrpsTrgts(clObjFormOpenParams.sTrgtForm)) 'verifica se há Grupos de Filtragem incluídos no Dicionário
     
     If bBoL Then
-        For Each vKeyFilGrp In dictFormFilterGrps(clObjFormOpenParams.sTrgtForm)
+        For Each vKeyFilGrp In dictFormFilterGrpsTrgts(clObjFormOpenParams.sTrgtForm)
             sFilGrp = vKeyFilGrp
-
-            '-----------------------------------------------------------
-            'Atualiza o TargtCtrl e o RecCnt de cada Grupo de Filtragem que tenha [ TriggCtrls ] adicionados ao [ dictFormFilterGrps(sForM)(vKeyFilGrp) ]
-            '-----------------------------------------------------------
-            Set clObjTargtCtrlParam = dictFormFilterGrps(clObjFormOpenParams.sTrgtForm)(vKeyFilGrp)
-            sTargtCtrl = clObjTargtCtrlParam.sTargtCtrlName
-            sRecCntCtrl = clObjTargtCtrlParam.sRecCntCtrlName
             
-            On Error GoTo -1
-            Call pb_TargtCtrlUpdate06_BuildWHERE(clObjFormOpenParams.fTrgtForm, sFilGrp)
+            For Each vKeyTrgtCtrl In dictFormFilterGrpsTrgts(clObjFormOpenParams.sTrgtForm)(vKeyFilGrp)
             
-            'Caso [ bShowRecID ] seja verdadeira indica que o formulário que está sendo aberto deve exibir um registro específico
-            If clObjFormOpenParams.bShowRecID Then
-
-                'Recupera o [ sQryIDfield ] do [ TrgtCtrl ] do [ TrgtForm ] para comparação com o [ clObjFormOpenParams.sQryFieldID ]
-                ' afim de definir qual [ TrgtCtrl ] deverá ser afetado com o [ lngRecID ] informado
-                sQryIDfieldTrgt = GetsQryFieldID(clObjTargtCtrlParam)
-                'Caso [ sQryIDField ] seja igual a [ sQryIDFieldTrgt ] indica que o controle destino foi encontrado
-                ' então define [ cTargtCtrl ] com o controle ora avaliado
-                If clObjFormOpenParams.sQryFieldID = sQryIDfieldTrgt Then
-                    Set cTargtCtrl = Forms(clObjFormOpenParams.sTrgtForm).Controls(sTargtCtrl)
-
-                        cTargtCtrl.Selected(clObjFormOpenParams.lngRecID) = True
-                        cTargtCtrl.ListIndex = clObjFormOpenParams.lngRecID
+                '-----------------------------------------------------------
+                'Atualiza o TargtCtrl e o RecCnt de cada Grupo de Filtragem que tenha [ TriggCtrls ] adicionados ao [ dictFormFilterGrpsTrgts(sForM)(vKeyFilGrp) ]
+                '-----------------------------------------------------------
+                Set clObjTargtCtrlParam = dictFormFilterGrpsTrgts(clObjFormOpenParams.sTrgtForm)(vKeyFilGrp)
+                sTargtCtrl = clObjTargtCtrlParam.sTargtCtrlName
+                sRecCntCtrl = clObjTargtCtrlParam.sRecCntCtrlName
                 
-                        Call PbSubFillFieldsByList(cTargtCtrl)
+                On Error GoTo -1
+                Call pb_TargtCtrlUpdate06_BuildWHERE(clObjFormOpenParams.fTrgtForm, sFilGrp)
+                
+                'Caso [ bShowRecID ] seja verdadeira indica que o formulário que está sendo aberto deve exibir um registro específico
+                If clObjFormOpenParams.bShowRecID Then
+    
+                    'Recupera o [ sQryIDfield ] do [ TrgtCtrl ] do [ TrgtForm ] para comparação com o [ clObjFormOpenParams.sQryFieldID ]
+                    ' afim de definir qual [ TrgtCtrl ] deverá ser afetado com o [ lngRecID ] informado
+                    sQryIDfieldTrgt = GetsQryFieldID(clObjTargtCtrlParam)
+                    'Caso [ sQryIDField ] seja igual a [ sQryIDFieldTrgt ] indica que o controle destino foi encontrado
+                    ' então define [ cTargtCtrl ] com o controle ora avaliado
+                    If clObjFormOpenParams.sQryFieldID = sQryIDfieldTrgt Then
+                        Set cTargtCtrl = Forms(clObjFormOpenParams.sTrgtForm).Controls(sTargtCtrl)
+    
+                            cTargtCtrl.Selected(clObjFormOpenParams.lngRecID) = True
+                            cTargtCtrl.ListIndex = clObjFormOpenParams.lngRecID
+                    
+                            Call PbSubFillFieldsByList(cTargtCtrl)
+                    End If
+                    
                 End If
-                
-            End If
+            
+            Next vKeyTrgtCtrl
             
         Next vKeyFilGrp
 
@@ -561,22 +565,22 @@ Public Sub FormLoad07_GenCtrlsEventDictInit(sForM As String)
     
 'Stop
     
-    'Inicializa os controles tipo [ DataField ] incluídos no dict [ dictFormFilterGrps(sForm) ]
+    'Inicializa os controles tipo [ DataField ] incluídos no dict [ dictFormFilterGrpsTrgts(sForm) ]
     ' pra automatizar a exibição de dados do [ Listbox ]
     
-    If Not IsObject(dictFormFilterGrps(sForM)) Then Exit Sub
+    If Not IsObject(dictFormFilterGrpsTrgts(sForM)) Then Exit Sub
     
-    For Each vKeyFilGrps In dictFormFilterGrps(sForM)
+    For Each vKeyFilGrps In dictFormFilterGrpsTrgts(sForM)
 
 
-        Set clObjTargtCtrlParam = dictFormFilterGrps(sForM)(vKeyFilGrps)
+        Set clObjTargtCtrlParam = dictFormFilterGrpsTrgts(sForM)(vKeyFilGrps)
         sTrgtCtrl = clObjTargtCtrlParam.sTargtCtrlName
         
 'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "Init TrgtCtrls events [ " & sTrgtCtrl & "]"
 'Stop
         
         Set cCtrL = Forms(sForM).Controls(sTrgtCtrl)
-        If cCtrL.ControlType = acListBox Then Set dictFormFilterGrps(sForM)(vKeyFilGrps).InitCtrl = cCtrL
+        If cCtrL.ControlType = acListBox Then Set dictFormFilterGrpsTrgts(sForM)(vKeyFilGrps).InitCtrl = cCtrL
         
     Next vKeyFilGrps
 
@@ -813,7 +817,7 @@ If gBbDepurandoLv01a Then Stop
 'Stop
 'Stop
 
-If gBbDepurandoLv01a Then MsgBox "----- SysLoad01_SysDictsLoad ---------------------------------------------------" & vbCr & vbCr & "Chama [ pbSub20_TargtCtrlsDictStartUp ] pra montagem do" & vbCr & "dict [ dictFormFilterGrps(sForm) ]" & vbCr & " " & vbCr & " "
+If gBbDepurandoLv01a Then MsgBox "----- SysLoad01_SysDictsLoad ---------------------------------------------------" & vbCr & vbCr & "Chama [ pbSub20_TargtCtrlsDictStartUp ] pra montagem do" & vbCr & "dict [ dictFormFilterGrpsTrgts(sForm) ]" & vbCr & " " & vbCr & " "
 If gBbDepurandoLv01a Then Stop
 
             'Chama a rotina pra iniciar a montagem do dicionário de [ TargtCtrls ]

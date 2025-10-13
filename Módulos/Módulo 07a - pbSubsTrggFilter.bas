@@ -467,7 +467,7 @@ Stop
         
         'Recupera o SQL Select do TargtCtrl que está sendo atualizado,
         ' informação necessária para fazer a pesquisa em campos calculados
-        Set clObjTargtCtrlParam = dictFormFilterGrps(sForM)(sFilGrp)
+        Set clObjTargtCtrlParam = dictFormFilterGrpsTrgts(sForM)(sFilGrp)
         sTargtCtrlSQLselect = clObjTargtCtrlParam.sClsLstbxSQL_aSELECT
         
         'Debug.Print sTargtCtrlSQLselect
@@ -618,8 +618,8 @@ If gBbDepurandoLv03a Then Stop
             ' É necessário fazer a varredura no Dict pois é possível que
             ' um Grupo de Filtragem tenha mais de um TargtCtrl associado
             
-        'For Each vKeyFilterGrp In dictFormFilterGrps(sForM) 'dictFormFilterGrps
-            Set clObjTargtCtrlParam = dictFormFilterGrps(sForM)(sFilGrp)
+        'For Each vKeyFilterGrp In dictFormFilterGrpsTrgts(sForM) 'dictFormFilterGrpsTrgts
+            Set clObjTargtCtrlParam = dictFormFilterGrpsTrgts(sForM)(sFilGrp)
             sTargtCtrlName = clObjTargtCtrlParam.sTargtCtrlName
             sRecCntCtrlName = clObjTargtCtrlParam.sRecCntCtrlName
 

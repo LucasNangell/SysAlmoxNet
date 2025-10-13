@@ -93,7 +93,7 @@ Option Explicit
 '- Case acCheckBox, acOptionGroup, acTextBox, acListBox, acComboBox
 '  . pbSub10_EventsDictBuild
 '  . pbSub51_RstAreaDictBuild
-'  . pbSub31_TriggCtrlDictPreBuild
+'  . pbSub31_TriggCtrlDictBuild
 
 
 
@@ -147,7 +147,7 @@ Option Explicit
         '-
         '-
 'pbSub10_EventsDictBuild
-'pbSub31_TriggCtrlDictPreBuild
+'pbSub31_TriggCtrlDictBuild
 'pbSub41_CtrlsBehvrDictBuild
 
 
@@ -308,7 +308,7 @@ Option Explicit
 ' '
 ' '2a- carrega os dados dos TriggCtrls
 ' '. pbSub30_TriggCtrlDictStartUp(sForm)
-' ' . pbSub31_TriggCtrlDictPreBuild(sCtrlTAG, cTriggCtrl)
+' ' . pbSub31_TriggCtrlDictBuild(sCtrlTAG, cTriggCtrl)
 
 ' '   Recupera o Grupo de Filtragem pra montar o Dicionário
 ' '   . pbSub06_GetCtrlTagFltrGrp
@@ -356,17 +356,17 @@ Option Explicit
 
  
 ' '2b- Cria o dicionário com os Trigg Controls de cada formulário, indicando o Grupo de Filtragem associado a cada controle
-' '     ainda no pbSub31_TriggCtrlDictPreBuild
+' '     ainda no pbSub31_TriggCtrlDictBuild
  
-'      Set dictTrggCtrls_FilGrp(sForM) = New Dictionary
-'      Set dDict = dictTrggCtrls_FilGrp(sForM)
-'      Set clObjFilGrpsByForm = New cls_02bTrggCtrlGrpsByForm
+'      Set dictTrggCtrlsInForm(sForM) = New Dictionary
+'      Set dDict = dictTrggCtrlsInForm(sForM)
+'      Set clObjFilGrpsByForm = New cls_03aCtrlsGrpsByForm
 
 '      dDict.Add sCtrL, clObjFilGrpsByForm
 '      Set clObjFilGrpsByForm.cCtrL = cTriggCtrl
 '      clObjFilGrpsByForm.sFilGrp = sFilGrp
 ' '   ---------------------------------------------------------------------------------------------
-' '      dictTrggCtrls_FilGrp  - Forms
+' '      dictTrggCtrlsInForm  - Forms
 ' '        Item "frm_01(1)bProdEstoque"
 '
 ' '        dictTrgg00GrpsInForm(sForM)     - Controles do Form
@@ -375,11 +375,11 @@ Option Explicit
 ' '                                   .sFilGrp
 ' '   ---------------------------------------------------------------------------------------------
 ' '   ---------------------------------------------------------------------------------------------
-'      Set clObjFilGrpsByForm = dictTrggCtrls_FilGrp(sForM)("cmbSrcCateg")
+'      Set clObjFilGrpsByForm = dictTrggCtrlsInForm(sForM)("cmbSrcCateg")
 '      vA = clObjFilGrpsByForm.sCtrlName
 '
-'      For Each vKey In dictTrggCtrls_FilGrp(sForM)
-'              Set clObjFilGrpsByForm = dictTrggCtrls_FilGrp(sForM)(vKey)
+'      For Each vKey In dictTrggCtrlsInForm(sForM)
+'              Set clObjFilGrpsByForm = dictTrggCtrlsInForm(sForM)(vKey)
 '              vA = clObjFilGrpsByForm.sCtrlName
 '
 '      Next vKey
@@ -421,17 +421,17 @@ Option Explicit
 ' '   ---------------------------------------------------------------------------------------------
 ' ' - Confirma se o [ Controle ] é [ TrggCtrl ] e [ TrgtCtrl ]
 '                        'Confirma se [ sTriggCtrl ] é um [ Trigger ]
-'                        ' verifica se o dict [dictTrggCtrls_FilGrp(sForM)] foi criado, o que indica que há [ TrggCtrls ] carregados
-'                        vA = IsObject(dictTrggCtrls_FilGrp(sForM))
+'                        ' verifica se o dict [dictTrggCtrlsInForm(sForM)] foi criado, o que indica que há [ TrggCtrls ] carregados
+'                        vA = IsObject(dictTrggCtrlsInForm(sForM))
 '
 '                        'Se o dicionário de [ TrggCtrls ] não existir ou se ele existir mas [ sCtrL ] não tiver sido incluído, indica que ele NÃO é um trigger
-'                        If vA Then vB = dictTrggCtrls_FilGrp(sForM).Exists(sTriggCtrl) Else vB = False
+'                        If vA Then vB = dictTrggCtrlsInForm(sForM).Exists(sTriggCtrl) Else vB = False
 '
 '                            If vB Then
 'Stop
 '                                'Recupera o [ grupo de filtragem ] do [ TriggCtrl ]
-'                                If IsObject(dictTrggCtrls_FilGrp(sForM)(sTriggCtrl)) Then
-'                                    Set clObjFilGrpsByForm = dictTrggCtrls_FilGrp(sForM)(sTriggCtrl)
+'                                If IsObject(dictTrggCtrlsInForm(sForM)(sTriggCtrl)) Then
+'                                    Set clObjFilGrpsByForm = dictTrggCtrlsInForm(sForM)(sTriggCtrl)
 '                                    sFilGrp = clObjFilGrpsByForm.sFilGrp
 '
 '                                End If

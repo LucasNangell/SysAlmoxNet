@@ -13,6 +13,7 @@ Option Explicit
 
 
 Private Sub Form_Load()
+    'Call PbSbBuildDictFieldsInQryTrgtCtrl(Me.Name, lstProdsBase, "01")
     Call SysLoad00_SysStartLoad
 
 End Sub
@@ -35,24 +36,14 @@ End Sub
 
 Private Sub bTest_Click()
    Dim vA, vB, vC
-   Dim sTrggCtrL As String
-    Dim sForM As String
-    
-Stop
-    sForM = Me.Name
-    sTrggCtrL = "Controle1"
-    
-    If Not IsObject(dictTrggCtrls_FilGrp(sForM)) Then Set dictTrggCtrls_FilGrp(sForM) = New Dictionary
-    
-    If dictTrggCtrls_FilGrp(sForM).Exists(sTrggCtrL) = False Then
-       
-        'Set clObjFilGrpsByForm = New cls_02bTrggCtrlGrpsByForm
-        dictTrggCtrls_FilGrp(sForM).Add sTrggCtrL, "02"
-    
-    End If
-    
-        vA = dictTrggCtrls_FilGrp(sForM).Item(sTrggCtrL)
-    
+   Dim sTitulo As String, sTexto As String, sTrggForM As String
+   sTrggForM = Me.Name
+
+'Stop
+    sTitulo = "Cancelamento de Ediçao de Dados"
+    sTexto = "As alterações realizadas serão perdidas." & vbCrLf & "Confirma?"
+    vA = DialogBoxReply(sTitulo, sTexto, sTrggForM)
+
 End Sub
 
 Private Sub btnCheckColor_Click()

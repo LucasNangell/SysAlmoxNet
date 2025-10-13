@@ -272,14 +272,12 @@ Sub CleanDicts()
     dictRstArBTNsByName.RemoveAll
     dictTrgg00GrpsInForm.RemoveAll       'já estava no Clean Dict
     dictTrgg01CtrlsInGrp.RemoveAll       'já estava no Clean Dict
+    dictTrggCtrlsInForm.RemoveAll        'já estava no Clean Dict
     dictTrgtCtrlsFilterGrps.RemoveAll
     dictFormQrysCtrls.RemoveAll
     dictFormCommButtons.RemoveAll
     dictFormDataFlds01Grps.RemoveAll
     dictFormFilGrpsEnDsAllCtrls.RemoveAll
-    dictTrggCtrls_FilGrp.RemoveAll        'já estava no Clean Dict
-    
-    
     '------------------------
     'já estavam no CleanDicts
     ' confirmar se estão sendo usados
@@ -335,7 +333,7 @@ Sub CleanDicts()
 'dictResetAreaCtrls.RemoveAll
 'dictTrgg00GrpsInForm.RemoveAll
 'dictTrgg01CtrlsInGrp.RemoveAll
-'dictTrggCtrls_FilGrp.RemoveAll
+'dictTrggCtrlsInForm.RemoveAll
 'dictUserPermissions.RemoveAll
 
 

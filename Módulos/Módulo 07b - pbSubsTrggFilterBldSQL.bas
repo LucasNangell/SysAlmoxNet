@@ -166,8 +166,8 @@ Public Sub BuildSQL_ListBox(cCtrL As Control, sTargtCtrlSQLselect As String, bMs
     vA = cCtrL.Name
     vB = cCtrL
     
-MsgBox "teste --------------------------------------------------------------------------" & vbCr & "BuildSQL Listbox [ " & vA & " ]"
-Stop
+'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "BuildSQL Listbox [ " & vA & " ]"
+'Stop
     
     'clObjTriggCtrlParam.dictGetListSrchVals.RemoveAll
     'clObjTriggCtrlParam.dictGetListItemTxts.RemoveAll
@@ -245,7 +245,7 @@ Stop
             End If
 'Stop
         Next vKey
-Stop
+'Stop
         'Texto a ser exibido no RecCntCpt
         sReCntCpt = clObjTriggCtrlParam.sQryFieldCptClean & ": "
         sReCntFullStR = sReCntCpt & sReCntFullStR

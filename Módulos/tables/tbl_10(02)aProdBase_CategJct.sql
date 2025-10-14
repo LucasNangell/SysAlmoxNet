@@ -1,5 +1,5 @@
 -- Tabela: tbl_10(02)aProdBase_CategJct
--- Registros: 11
+-- Registros: 10
 
 CREATE TABLE tbl_10(02)aProdBase_CategJct (
     ProdBase_Categ_jct_ID INTEGER AUTOINCREMENT,

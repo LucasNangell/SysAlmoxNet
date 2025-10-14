@@ -91,7 +91,7 @@
       <Top>11259</Top>
       <Width>1290</Width>
       <Height>405</Height>
-      <Tag>Grp01.ActType>SaveRec.FormMode>ProdView.RecQry>qry_02(1)aProdutoBase(Edt)</Tag>
+      <Tag>Grp01.ActType>SaveEdit.FormMode>ProdView.RecQry>qry_04(01)aProdutosFull(Edt)</Tag>
       <Enabled>Verdadeiro</Enabled>
       <Caption>Salvar</Caption>
       <OnClick></OnClick>

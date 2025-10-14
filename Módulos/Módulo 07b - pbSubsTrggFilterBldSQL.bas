@@ -193,9 +193,9 @@ Public Sub BuildSQL_ListBox(cCtrL As Control, sTargtCtrlSQLselect As String, bMs
             sOrigListTxt = cCtrL.Column(lngTbeClmn, vListItem)     'Texto associado ao item
             
             lngCounT = clObjTriggCtrlParam.dictGetListItemTxts.Count
-            vA = lngCounT + 1
-            clObjTriggCtrlParam.dictGetListSrchVals.Add vA, iSrchVal
-            clObjTriggCtrlParam.dictGetListItemTxts.Add vA, sOrigListTxt
+            lngCounT = lngCounT + 1
+            clObjTriggCtrlParam.dictGetListSrchVals.Add lngCounT, iSrchVal
+            clObjTriggCtrlParam.dictGetListItemTxts.Add lngCounT, sOrigListTxt
             
         Next vListItem
         '-------------------------------------------------------------------
@@ -216,9 +216,10 @@ Public Sub BuildSQL_ListBox(cCtrL As Control, sTargtCtrlSQLselect As String, bMs
         
         End If
     
-    
     End If
     
+    
+    If lngCounT > 0 Then
 'Stop
         'Monta o WHERE e o o RecCnt do controle
         '------------------------------------------------
@@ -270,7 +271,9 @@ Public Sub BuildSQL_ListBox(cCtrL As Control, sTargtCtrlSQLselect As String, bMs
         clObjTriggCtrlParam.sGetSQLwhere = sWhere
         clObjTriggCtrlParam.sGetRecCntCptTxt = sReCntFullStR
         '-------------------------------------------------------------------
-
+    
+    End If
+    
 End Sub
 
 

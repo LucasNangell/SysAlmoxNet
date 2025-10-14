@@ -26,19 +26,21 @@ Dim dictQryListFields As New Dictionary
 Dim dictSelectedFields As New Dictionary
 
 Private Sub btnAddColumn_Click()
+    
     Dim iInT As Integer
     Dim vA
-    For iInT = 1 To dictQryListFields.Count
-        If dictQryListFields(iInT) = lstFields.Column(0, lstFields.ListIndex) Then
-            If Not IsEmpty(dictQryListFields(iInT)) Then dictSelectedFields.Add iInT, dictQryListFields(iInT)
-        End If
-    Next iInT
-    lstSelectedColumns.RowSource = ""
-    For Each vA In dictSelectedFields
-        lstSelectedColumns.AddItem lstSelectedColumns.ListCount + 1 & ";" & dictSelectedFields(vA) & ";;;" & vA
-    Next vA
-    lstFields.RemoveItem (lstFields.ListIndex)
-
+    If lstFields.ListIndex > -1 Then
+        For iInT = 1 To dictQryListFields.Count
+            If dictQryListFields(iInT) = lstFields.Column(0, lstFields.ListIndex) Then
+                If Not IsEmpty(dictQryListFields(iInT)) Then dictSelectedFields.Add iInT, dictQryListFields(iInT)
+            End If
+        Next iInT
+        lstSelectedColumns.RowSource = ""
+        For Each vA In dictSelectedFields
+            lstSelectedColumns.AddItem lstSelectedColumns.ListCount + 1 & ";" & dictSelectedFields(vA) & ";;;" & vA
+        Next vA
+        lstFields.RemoveItem (lstFields.ListIndex)
+    End If
 End Sub
 
 Private Sub btnCancelar_Click()
@@ -50,17 +52,17 @@ End Sub
 Private Sub btnRemoveColumn_Click()
     Dim iInT As Integer
     Dim vA
-    
-    If dictSelectedFields.Exists(Int(lstSelectedColumns.Column(4, lstSelectedColumns.ListIndex))) Then _
-    dictSelectedFields.Remove (Int(lstSelectedColumns.Column(4, lstSelectedColumns.ListIndex)))
-    lstSelectedColumns.RemoveItem (lstSelectedColumns.ListIndex)
-    
-    lstFields.RowSource = ""
-    For Each vA In dictQryListFields
-        If Not dictSelectedFields.Exists(vA) Then _
-        lstFields.AddItem dictQryListFields(vA), lstFields.ListCount
-    Next vA
-
+    If lstFields.ListIndex > -1 Then
+        If dictSelectedFields.Exists(Int(lstSelectedColumns.Column(4, lstSelectedColumns.ListIndex))) Then _
+        dictSelectedFields.Remove (Int(lstSelectedColumns.Column(4, lstSelectedColumns.ListIndex)))
+        lstSelectedColumns.RemoveItem (lstSelectedColumns.ListIndex)
+        
+        lstFields.RowSource = ""
+        For Each vA In dictQryListFields
+            If Not dictSelectedFields.Exists(vA) Then _
+            lstFields.AddItem dictQryListFields(vA), lstFields.ListCount
+        Next vA
+    End If
 End Sub
 
 Private Sub btnSalvar_Click()
@@ -116,45 +118,83 @@ End Sub
 
 Private Sub Form_Timer()
 On Error Resume Next
+DoEvents
+
+Set cTrgtCtrl = fTrgtForm.ActiveControl
 
 If IsNull(txtSelectedList) Then bSelectedList = False
 
-If sTrgtCtrl <> fTrgtForm.ActiveControl.Name Then
-    Set cTrgtCtrl = fTrgtForm.ActiveControl
-    sTrgtCtrl = cTrgtCtrl.Name
-    If cTrgtCtrl.ControlType = acListBox Then bSelectedList = False
-    If lstSelectedColumns.ListIndex = -1 Then bSelectingHeads = False
+If Not Err.Number = 2474 Then
     
-    If bSelectedList = False And Not bSelectingHeads Then
-        If cTrgtCtrl.ControlType = acListBox Then
-            dictQryListFields.RemoveAll
-            dictSelectedFields.RemoveAll
-            
-            lstSelectedColumns.RowSource = ""
-            bSelectedList = True
-            txtSelectedList = cTrgtCtrl.Name
-            lstFields.RowSource = ""
-            Set qDef = CurrentDb.QueryDefs(cTrgtCtrl.RowSource)
-            For Each fField In qDef.Fields
-                lstFields.AddItem fField.Name, lstFields.ListCount
-                dictQryListFields.Add lstFields.ListCount, fField.Name
-            Next fField
-            bSelectingHeads = True
-        Else
-            txtSelectedList = "Selecione alguma List box"
-        End If
+    DoCmd.SelectObject acForm, fTrgtForm.Name, False
+    DoCmd.RunCommand acCmdSelectForm
+    
+    If sTrgtCtrl <> cTrgtCtrl.Name Then
         
+        sTrgtCtrl = cTrgtCtrl.Name
+        
+        If cTrgtCtrl.ControlType = acListBox Then bSelectedList = False
+        If lstSelectedColumns.ListIndex = -1 Then bSelectingHeads = False
+        
+        If bSelectedList = False And Not bSelectingHeads Then
+            If cTrgtCtrl.ControlType = acListBox Then
+                dictQryListFields.RemoveAll
+                dictSelectedFields.RemoveAll
+                
+                lstSelectedColumns.RowSource = ""
+                bSelectedList = True
+                txtSelectedList = cTrgtCtrl.Name
+                lstFields.RowSource = ""
+                Set qDef = CurrentDb.QueryDefs(cTrgtCtrl.RowSource)
+                For Each fField In qDef.Fields
+                    lstFields.AddItem fField.Name, lstFields.ListCount
+                    dictQryListFields.Add lstFields.ListCount, fField.Name
+                Next fField
+                bSelectingHeads = True
+            Else
+                txtSelectedList = "Selecione alguma List box"
+            End If
+            
+        End If
+        iSelectedItem = lstSelectedColumns.ListIndex
+        
+        If iSelectedItem > -1 Then
+            
+            Call lstSelectedColumns_AfterUpdate
+            
+            If lstSelectedColumns.Column(3, lstSelectedColumns.ListIndex) <> "" Then
+                If iOldSelectedItem <> iSelectedItem Or iSelectedItem = 0 Then
+                    If (lstSelectedColumns.ListIndex + 1) <= lstSelectedColumns.ListCount Then lstSelectedColumns.Selected(lstSelectedColumns.ListIndex + 1) = True
+                End If
+            End If
+        End If
+    Else
+        iSelectedItem = lstSelectedColumns.ListIndex
+        
+        If iSelectedItem > -1 Then
+            
+            Call lstSelectedColumns_AfterUpdate
+            
+            If lstSelectedColumns.Column(3, lstSelectedColumns.ListIndex) <> "" Then
+                If iOldSelectedItem <> iSelectedItem Or iSelectedItem = 0 Then
+                    If (lstSelectedColumns.ListIndex + 1) <= lstSelectedColumns.ListCount Then lstSelectedColumns.Selected(lstSelectedColumns.ListIndex + 1) = True
+                End If
+            End If
+        End If
     End If
-    iSelectedItem = lstSelectedColumns.ListIndex
-    If iOldSelectedItem <> iSelectedItem Then Call lstSelectedColumns_AfterUpdate
-    iOldSelectedItem = iSelectedItem
-    
-    If bSelectingHeads Then
-        Call lstSelectedColumns_AfterUpdate
-    End If
-
 End If
-
+'If iOldSelectedItem < iSelectedItem Then
+'    Call lstSelectedColumns_AfterUpdate
+'    If lstSelectedColumns.Column(3, lstSelectedColumns.ListIndex) <> "" Then
+'
+'        If (lstSelectedColumns.ListIndex + 1) <= lstSelectedColumns.ListCount Then lstSelectedColumns.Selected(lstSelectedColumns.ListIndex + 1) = True
+'
+'        DoCmd.SelectObject acForm, fTrgtForm.Name, False
+'        DoCmd.RunCommand acCmdSelectForm
+'
+'    End If
+'    iOldSelectedItem = iSelectedItem
+'End If
 
 End Sub
 
@@ -176,6 +216,7 @@ Dim sNewRowSource As String
     If cTrgtCtrl.ControlType = acCommandButton Then
         sHead = cTrgtCtrl.Caption
         If sHead <> sOldHead Then
+        'lstSelectedColumns.Column(iSelectedItem, 2) Then
             sOldHead = sHead
             If iSelectedItem > -1 Then
                 ReDim vDadosLst(1 To lstSelectedColumns.ListCount, 1 To lstSelectedColumns.ColumnCount)
@@ -199,18 +240,15 @@ Dim sNewRowSource As String
                 sNewRowSource = Left(sNewRowSource, Len(sNewRowSource) - 1)
                 
                 lstSelectedColumns.RowSource = sNewRowSource
-                
-                If lstSelectedColumns.Column(3, lstSelectedColumns.ListIndex) <> "" Then
-                If (lstSelectedColumns.ListIndex + 1) <= lstSelectedColumns.ListCount Then lstSelectedColumns.Selected(lstSelectedColumns.ListIndex + 1) = True
-                    DoCmd.SelectObject acForm, fTrgtForm.Name, False
-                    DoCmd.RunCommand acCmdSelectForm
-                End If
-        
-            Else
             
+            ElseIf sHead <> lstSelectedColumns.Column(iSelectedItem, 2) <> "" Then
+
             End If
+        
         End If
+
     End If
+    
 End Sub
 
 

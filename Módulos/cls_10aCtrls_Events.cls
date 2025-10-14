@@ -304,9 +304,11 @@ Private Sub mCommandButton_Click()
 
             
         Case sActType Like "Save*"
-Stop
+            sFilGrp = clObjCommButtons.sFilGrp
             Call PbSubRecDataFields(mCommandButton)
-
+            For Each vA In dictFormFilterGrpTrgts(sForM)(sFilGrp)
+                mCommandButton.Parent.Controls(vA).Requery
+            Next vA
             Call pbSub00_CtrlsEnblDsble_GetParams(mCommandButton.Parent, clObjCommButtons.sFrmMode, sFilGrp)
             
         

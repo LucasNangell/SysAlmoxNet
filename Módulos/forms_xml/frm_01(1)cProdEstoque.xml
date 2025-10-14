@@ -628,7 +628,7 @@ Nova Entrada</Caption>
       <Top>11569</Top>
       <Width>711</Width>
       <Height>315</Height>
-      <Tag>DataField>UnProdRtTxt.Grp11---RstAr03</Tag>
+      <Tag>DataField>UnProdStr.Grp11---RstAr03</Tag>
       <Enabled>Verdadeiro</Enabled>
       <ControlSource></ControlSource>
       <Format></Format>
@@ -745,7 +745,7 @@ Nova Entrada</Caption>
       <Top>12160</Top>
       <Width>711</Width>
       <Height>315</Height>
-      <Tag>DataField>UnDaEmbRtTxt.Grp11---RstAr03</Tag>
+      <Tag>DataField>UnDaEmbStr.Grp11---RstAr03</Tag>
       <Enabled>Verdadeiro</Enabled>
       <ControlSource></ControlSource>
       <Format></Format>
@@ -1240,7 +1240,7 @@ Nova Entrada</Caption>
       <Top>11990</Top>
       <Width>1419</Width>
       <Height>454</Height>
-      <Tag>Grp11.ActType>SaveRec.FormMode>StartView.FrmToOpen></Tag>
+      <Tag>Grp11.ActType>SaveEdit.FormMode>StartView..RecQry>qry_05(1)aProdEstoqueIn(Edt)</Tag>
       <Enabled>Verdadeiro</Enabled>
       <Caption>Salvar</Caption>
       <OnClick></OnClick>

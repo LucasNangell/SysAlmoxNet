@@ -322,6 +322,7 @@ Public Sub PbSubRecDataFields(cBtnSaveRec As Control)
     Dim sDataFieldCtrl As String
     Dim qDef As QueryDef
     Dim bBoL As Boolean
+    Dim sTrgtCtrl As String
     
     sBtnSaveRec = cBtnSaveRec.Name
     sForM = cBtnSaveRec.Parent.Name
@@ -334,189 +335,192 @@ Public Sub PbSubRecDataFields(cBtnSaveRec As Control)
     sFilGrp = clObjCommButtons.sFilGrp
     sRecQry = clObjCommButtons.sRecQry
     sActType = clObjCommButtons.sActType
-    
-    Set clObjCommButtons = dictFormCommButtons(sForM)(sBtnSaveRec)
-    Set clObjTargtCtrlParam = dictFormFilterGrpTrgts(sForM)(sFilGrp)
-
-    Set cLstBox = Forms(sForM).Controls(clObjTargtCtrlParam.sTargtCtrlName)
-    
-    'Identifica o registro selecionado na Listbox
-    iListIndex = cLstBox.ListIndex
-    
-    'Identifica o ID do registro selecionado
-    If iListIndex > -1 Then iQryID = cLstBox.Column(0, iListIndex)
-    
-    sQuerYLstBox = clObjTargtCtrlParam.sClsLstbxSQL_eMAIN
-    
-    Set rsTbE = CurrentDb.OpenRecordset(sQuerYLstBox, dbOpenDynaset, dbReadOnly)
-    
-    sQryIDfield = rsTbE.Fields(0).Name
-    sDtFldID = Replace(sQryIDfield, "IDfk", "ID")
-    
-    rsTbE.Close
-    Set rsTbE = Nothing
-    
-    'Abre o recordSet da consulta que será usada para edição
-    Set rsRecQry = CurrentDb.OpenRecordset(sRecQry, dbOpenDynaset)
+    For Each vA In dictFormFilterGrpTrgts(sForM)(sFilGrp)
         
-    If sActType = "SaveEdit" Then
+        sTrgtCtrl = vA
+        Set clObjCommButtons = dictFormCommButtons(sForM)(sBtnSaveRec)
+        Set clObjTargtCtrlParam = dictFormFilterGrpTrgts(sForM)(sFilGrp)(sTrgtCtrl)
     
-        'Aplica filtro na consulta para retornar apenas o item que deve ser editado
-        vA = "[" & sQryIDfield & "]" & " = " & iQryID
-        rsRecQry.Filter = vA
-        Set rsRecQry = rsRecQry.OpenRecordset
+        Set cLstBox = Forms(sForM).Controls(clObjTargtCtrlParam.sTargtCtrlName)
         
-        'Percorre os [ DataFieldCtrls ] do [ dictFormDataFlds01Grps(sForM)(sFilGrp) ]
-        For Each vDataFieldCtrl In dictFormDataFlds01Grps(sForM)(sFilGrp)
-            Set clObjCtrlDataFieds = dictFormDataFlds01Grps(sForM)(sFilGrp)(vDataFieldCtrl)
-            sDataFieldCtrl = vDataFieldCtrl
-            Set cDataFieldCtrl = Forms(sForM).Controls(sDataFieldCtrl)
+        'Identifica o registro selecionado na Listbox
+        iListIndex = cLstBox.ListIndex
+        
+        'Identifica o ID do registro selecionado
+        If iListIndex > -1 Then iQryID = cLstBox.Column(0, iListIndex)
+        
+        sQuerYLstBox = clObjTargtCtrlParam.sClsLstbxSQL_eMAIN
+        
+        Set rsTbE = CurrentDb.OpenRecordset(sQuerYLstBox, dbOpenDynaset, dbReadOnly)
+        
+        sQryIDfield = rsTbE.Fields(0).Name
+        sDtFldID = Replace(sQryIDfield, "IDfk", "ID")
+        
+        rsTbE.Close
+        Set rsTbE = Nothing
+        
+        'Abre o recordSet da consulta que será usada para edição
+        Set rsRecQry = CurrentDb.OpenRecordset(sRecQry, dbOpenDynaset)
             
-            sDtFldRec = Replace(clObjCtrlDataFieds.sDataField, "IDfk", "ID")
+        If sActType = "SaveEdit" Then
+        
+            'Aplica filtro na consulta para retornar apenas o item que deve ser editado
+            vA = "[" & sQryIDfield & "]" & " = " & iQryID
+            rsRecQry.Filter = vA
+            Set rsRecQry = rsRecQry.OpenRecordset
             
-            'Se houver alguma consulta no parâmetro [ RecQry ] do controle
-            If clObjCtrlDataFieds.sRecQry <> "" Then
-                If cDataFieldCtrl.ControlType = acComboBox Or cDataFieldCtrl.ControlType = acListBox Then
-                    'Abre a consulta indicada pelo parâmetro [ RecQry ]
-                    Set rsRecQry2 = CurrentDb.OpenRecordset(clObjCtrlDataFieds.sRecQry, dbOpenDynaset)
-                    
-                    Set DtFldID = Nothing
-                    Set DtFldRec = Nothing
-                    
-                    For Each DtFld In rsRecQry2.Fields
-                        If DtFld.Name Like sDtFldID & "*" Then sDtFldID = DtFld.Name
-                        If DtFld.Name Like sDtFldRec & "*" Then Set DtFldRec = DtFld
-                    Next DtFld
-                    
-                    'Aplica filtro na consulta para retornar apenas o item que deve ser editado
-                    vA = "[" & sDtFldID & "]" & " = " & iQryID
-                    rsRecQry2.Filter = vA
-                    Set rsRecQry2 = rsRecQry2.OpenRecordset
-                    
-                    'Apaga todos os registros referentes ao [ iQryID ]
-                    If rsRecQry2.RecordCount > 0 Then
-                        Do While Not rsRecQry2.EOF
-                            rsRecQry2.Delete
-                            rsRecQry2.Update
-                            rsRecQry2.MoveNext
-                        Loop
-                        rsRecQry2.Update
-                    End If
-    
-                    If Not DtFldRec Is Nothing Then
-                        For iItemID = 0 To cDataFieldCtrl.ListCount - 1
-                            If Not IsNull(cDataFieldCtrl.ItemData(iItemID)) Then
-                                rsRecQry2.AddNew
-                                rsRecQry2.Fields(sDtFldID) = iQryID
-                                DtFldRec = cDataFieldCtrl.ItemData(iItemID)
-                                rsRecQry2.Update
-                            End If
-                        Next iItemID
-                    End If
-    
-                    rsRecQry2.Close
-                    Set rsRecQry2 = Nothing
-                    
-                End If
-            'Para controles que não possuem o parâmetro [ RecQry ]
-            Else
-                'Define [ rsRecQry ] para edição de registro
-                rsRecQry.Edit
-                
-                Set DtFldRec = Nothing
-                
-                For Each DtFld In rsRecQry.Fields
-                    If DtFld.Name Like sDtFldRec & "*" Then Set DtFldRec = DtFld
-                Next DtFld
-                
-                'Se o campo foi localizado, altera o valor
-                If Not DtFldRec Is Nothing Then DtFldRec = cDataFieldCtrl.Value
-                
-                Debug.Print sDataFieldCtrl
-                'Salva alterações
-                rsRecQry.Update
-                
-            End If
-        Next vDataFieldCtrl
-    
-    ElseIf sActType = "SaveNew" Then
-                
-        'Define [ rsRecQry ] para edição de registro
-        rsRecQry.AddNew
-    
-        'Percorre os [ DataFieldCtrls ] do [ dictFormDataFlds01Grps(sForM)(sFilGrp) ]
-        For Each vDataFieldCtrl In dictFormDataFlds01Grps(sForM)(sFilGrp)
-            Set clObjCtrlDataFieds = dictFormDataFlds01Grps(sForM)(sFilGrp)(vDataFieldCtrl)
-            sDataFieldCtrl = vDataFieldCtrl
-            Set cDataFieldCtrl = Forms(sForM).Controls(sDataFieldCtrl)
-            
-    
-            'Verifica se a consulta de gravação está indicada no [ RecQry ] do controle
-            If clObjCtrlDataFieds.sRecQry = "" Then
-              
-                sDtFldRec = Replace(clObjCtrlDataFieds.sDataField, "IDfk", "ID")
-                
-                Set DtFldRec = Nothing
-                
-                For Each DtFld In rsRecQry.Fields
-                    If DtFld.Name Like sDtFldRec & "*" Then Set DtFldRec = DtFld
-                Next DtFld
-                
-                'Se o campo foi localizado, altera o valor
-                If Not DtFldRec Is Nothing And cDataFieldCtrl.Value <> "" Then DtFldRec = cDataFieldCtrl.Value
-                Debug.Print sDataFieldCtrl & " - " & cDataFieldCtrl.Value
-            End If
-        Next vDataFieldCtrl
-        
-        'Salva alterações
-        rsRecQry.Update
-        
-        rsRecQry.MoveLast
-        iQryID = rsRecQry(sDtFldID)
-        
-        rsRecQry.Close
-        Set rsRecQry = Nothing
-        
-        For Each vDataFieldCtrl In dictFormDataFlds01Grps(sForM)(sFilGrp)
-            Set clObjCtrlDataFieds = dictFormDataFlds01Grps(sForM)(sFilGrp)(vDataFieldCtrl)
-            
-            'Verifica se a consulta de gravação está indicada no [ RecQry ] do controle
-            If clObjCtrlDataFieds.sRecQry <> "" Then
+            'Percorre os [ DataFieldCtrls ] do [ dictFormDataFlds01Grps(sForM)(sFilGrp) ]
+            For Each vDataFieldCtrl In dictFormDataFlds01Grps(sForM)(sFilGrp)
+                Set clObjCtrlDataFieds = dictFormDataFlds01Grps(sForM)(sFilGrp)(vDataFieldCtrl)
                 sDataFieldCtrl = vDataFieldCtrl
                 Set cDataFieldCtrl = Forms(sForM).Controls(sDataFieldCtrl)
                 
                 sDtFldRec = Replace(clObjCtrlDataFieds.sDataField, "IDfk", "ID")
-                sRecQry = clObjCtrlDataFieds.sRecQry
                 
-                Set rsRecQry = CurrentDb.OpenRecordset(sRecQry, dbOpenDynaset)
-                
-                Set DtFldRec = Nothing
-                Set DtFldID = Nothing
-                
-                For Each DtFld In rsRecQry.Fields
-                    If DtFld.Name Like sDtFldRec & "*" Then Set DtFldRec = DtFld
-                    If DtFld.Name Like sDtFldID & "*" Then Set DtFldID = DtFld
-                Next DtFld
-                
-                If Not DtFldRec Is Nothing And Not DtFldID Is Nothing Then
-                    For iItemID = 0 To cDataFieldCtrl.ListCount - 1
-                        rsRecQry.AddNew
-                        DtFldID = iQryID
-                        DtFldRec = cDataFieldCtrl.ItemData(iItemID)
-                        rsRecQry.Update
-                    Next iItemID
-                End If
-                
-                rsRecQry.Close
-                Set rsRecQry = Nothing
-                
-                Debug.Print sDtFldRec & " - "; bBoL
-    
-            End If
-        Next vDataFieldCtrl
+                'Se houver alguma consulta no parâmetro [ RecQry ] do controle
+                If clObjCtrlDataFieds.sRecQry <> "" Then
+                    If cDataFieldCtrl.ControlType = acComboBox Or cDataFieldCtrl.ControlType = acListBox Then
+                        'Abre a consulta indicada pelo parâmetro [ RecQry ]
+                        Set rsRecQry2 = CurrentDb.OpenRecordset(clObjCtrlDataFieds.sRecQry, dbOpenDynaset)
+                        
+                        Set DtFldID = Nothing
+                        Set DtFldRec = Nothing
+                        
+                        For Each DtFld In rsRecQry2.Fields
+                            If DtFld.Name Like sDtFldID & "*" Then sDtFldID = DtFld.Name
+                            If DtFld.Name Like sDtFldRec & "*" Then Set DtFldRec = DtFld
+                        Next DtFld
+                        
+                        'Aplica filtro na consulta para retornar apenas o item que deve ser editado
+                        vA = "[" & sDtFldID & "]" & " = " & iQryID
+                        rsRecQry2.Filter = vA
+                        Set rsRecQry2 = rsRecQry2.OpenRecordset
+                        
+                        'Apaga todos os registros referentes ao [ iQryID ]
+                        If rsRecQry2.RecordCount > 0 Then
+                            Do While Not rsRecQry2.EOF
+                                rsRecQry2.Delete
+                                rsRecQry2.Update
+                                rsRecQry2.MoveNext
+                            Loop
+                            rsRecQry2.Update
+                        End If
         
-    End If
+                        If Not DtFldRec Is Nothing Then
+                            For iItemID = 0 To cDataFieldCtrl.ListCount - 1
+                                If Not IsNull(cDataFieldCtrl.ItemData(iItemID)) Then
+                                    rsRecQry2.AddNew
+                                    rsRecQry2.Fields(sDtFldID) = iQryID
+                                    DtFldRec = cDataFieldCtrl.ItemData(iItemID)
+                                    rsRecQry2.Update
+                                End If
+                            Next iItemID
+                        End If
+        
+                        rsRecQry2.Close
+                        Set rsRecQry2 = Nothing
+                        
+                    End If
+                'Para controles que não possuem o parâmetro [ RecQry ]
+                Else
+                    'Define [ rsRecQry ] para edição de registro
+                    rsRecQry.Edit
+                    
+                    Set DtFldRec = Nothing
+                    
+                    For Each DtFld In rsRecQry.Fields
+                        If DtFld.Name Like sDtFldRec & "*" Then Set DtFldRec = DtFld
+                    Next DtFld
+                    
+                    'Se o campo foi localizado, altera o valor
+                    If Not DtFldRec Is Nothing Then DtFldRec = cDataFieldCtrl.Value
+                    
+                    Debug.Print sDataFieldCtrl
+                    'Salva alterações
+                    rsRecQry.Update
+                    
+                End If
+            Next vDataFieldCtrl
+            
+            
+        ElseIf sActType = "SaveNew" Then
+                    
+            'Define [ rsRecQry ] para edição de registro
+            rsRecQry.AddNew
+        
+            'Percorre os [ DataFieldCtrls ] do [ dictFormDataFlds01Grps(sForM)(sFilGrp) ]
+            For Each vDataFieldCtrl In dictFormDataFlds01Grps(sForM)(sFilGrp)
+                Set clObjCtrlDataFieds = dictFormDataFlds01Grps(sForM)(sFilGrp)(vDataFieldCtrl)
+                sDataFieldCtrl = vDataFieldCtrl
+                Set cDataFieldCtrl = Forms(sForM).Controls(sDataFieldCtrl)
+                
+        
+                'Verifica se a consulta de gravação está indicada no [ RecQry ] do controle
+                If clObjCtrlDataFieds.sRecQry = "" Then
+                  
+                    sDtFldRec = Replace(clObjCtrlDataFieds.sDataField, "IDfk", "ID")
+                    
+                    Set DtFldRec = Nothing
+                    
+                    For Each DtFld In rsRecQry.Fields
+                        If DtFld.Name Like sDtFldRec & "*" Then Set DtFldRec = DtFld
+                    Next DtFld
+                    
+                    'Se o campo foi localizado, altera o valor
+                    If Not DtFldRec Is Nothing And cDataFieldCtrl.Value <> "" Then DtFldRec = cDataFieldCtrl.Value
+                    Debug.Print sDataFieldCtrl & " - " & cDataFieldCtrl.Value
+                End If
+            Next vDataFieldCtrl
+            
+            'Salva alterações
+            rsRecQry.Update
+            
+            rsRecQry.MoveLast
+            iQryID = rsRecQry(sDtFldID)
+            
+            rsRecQry.Close
+            Set rsRecQry = Nothing
+            
+            For Each vDataFieldCtrl In dictFormDataFlds01Grps(sForM)(sFilGrp)
+                Set clObjCtrlDataFieds = dictFormDataFlds01Grps(sForM)(sFilGrp)(vDataFieldCtrl)
+                
+                'Verifica se a consulta de gravação está indicada no [ RecQry ] do controle
+                If clObjCtrlDataFieds.sRecQry <> "" Then
+                    sDataFieldCtrl = vDataFieldCtrl
+                    Set cDataFieldCtrl = Forms(sForM).Controls(sDataFieldCtrl)
+                    
+                    sDtFldRec = Replace(clObjCtrlDataFieds.sDataField, "IDfk", "ID")
+                    sRecQry = clObjCtrlDataFieds.sRecQry
+                    
+                    Set rsRecQry = CurrentDb.OpenRecordset(sRecQry, dbOpenDynaset)
+                    
+                    Set DtFldRec = Nothing
+                    Set DtFldID = Nothing
+                    
+                    For Each DtFld In rsRecQry.Fields
+                        If DtFld.Name Like sDtFldRec & "*" Then Set DtFldRec = DtFld
+                        If DtFld.Name Like sDtFldID & "*" Then Set DtFldID = DtFld
+                    Next DtFld
+                    
+                    If Not DtFldRec Is Nothing And Not DtFldID Is Nothing Then
+                        For iItemID = 0 To cDataFieldCtrl.ListCount - 1
+                            rsRecQry.AddNew
+                            DtFldID = iQryID
+                            DtFldRec = cDataFieldCtrl.ItemData(iItemID)
+                            rsRecQry.Update
+                        Next iItemID
+                    End If
+                    
+                    rsRecQry.Close
+                    Set rsRecQry = Nothing
+                    
+                    Debug.Print sDtFldRec & " - "; bBoL
+        
+                End If
+            Next vDataFieldCtrl
+            
+        End If
     
-    cLstBox.Requery
-
+    Next vA
+    
 End Sub

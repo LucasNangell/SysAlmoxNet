@@ -3124,6 +3124,17 @@ Stop
                     Exit Sub
                     
                 End If
+                If Not QryExists(sRecQry) Then
+                    vA = "Os seguintes botões estão atribuídos à ação de" & vbCrLf & "[" & Chr(160) & "Salvamento de Registros" & Chr(160) & "] "
+                    vB = "mas o parâmetro [ RecQry> ] está com uma Consulta/Tabela Inexistente" & vbCrLf & "impossibilitando a gravação de dados."
+                    sLoadLogWarn = vA & vB
+
+                    On Error GoTo -1
+                    Call FormStatusBar01_Bld(sForM, "commBtn-MissingRecQry2", sLoadLogWarn, sCommButton)
+                    
+                    Exit Sub
+                    
+                End If
             End If
             If sFilGrp = "" Then
                 vA = "Os seguintes botões estão atribuídos à ação de" & vbCrLf & "[" & Chr(160) & "Salvamento de Registros" & Chr(160) & "] "

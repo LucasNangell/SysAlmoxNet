@@ -582,7 +582,7 @@ If gBbDepurandoLv03a Then Stop
         vB = clObjTriggCtrlParam.sGetRecCntCptTxt
         If gBbDebugOn Then Debug.Print vA
 
-'If gBbDepurandoLv01b Then MsgBox "teste --------------------------------------------------------------------------" & vbCr & "3- Incluindo dados do Controle [ " & vKeyControl & " ]" & vbCr & "     na string WHERE e no RecCnt"
+'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "3- Incluindo dados do Controle [ " & vKeyControl & " ]" & vbCr & "     na string WHERE e no RecCnt"
 'Stop
 
         'Contagem de controles com valores a serem pesquisados

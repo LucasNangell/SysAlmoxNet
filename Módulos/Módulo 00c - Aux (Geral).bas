@@ -27,6 +27,22 @@ Public Function DialogBoxReply(sTitulo As String, sTexto As String, sTrggForM As
 'Stop
 End Function
 
+Public Function QryExists(sQryName As String) As Boolean
+    Dim qDef As QueryDef
+    Dim tTbl As TableDef
+    On Error Resume Next
+    Set qDef = CurrentDb.QueryDefs(sQryName)
+    
+    If Err.Number = 3265 Then
+        Err.Number = 0
+        Set tTbl = CurrentDb.TableDefs(sQryName)
+        If Err.Number = 3265 Then QryExists = False
+    Else
+        QryExists = True
+    End If
+    On Error GoTo -1
+    
+End Function
 
 
 Public Sub TextboxScrollWhenNeeded(cCtrL As Control)

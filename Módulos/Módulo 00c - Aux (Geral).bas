@@ -524,6 +524,8 @@ Function DesprezaAcentos(sTextoDigitado As String) As String
     
     'Retorna a string, convertida sem acentuação se for o caso
     DesprezaAcentos = sTempText
+
+            
 'Stop
 End Function
 
@@ -582,12 +584,12 @@ Sub msgboxErrorAlert(ByVal sMsgboxLine1 As String, Optional ByVal sMsgboxLine2 A
 End Sub
 
 
-Function ControlExists(sCtrL As String, fForM As Form) As Boolean
+Function ControlExists(sCtrL As String, fForm As Form) As Boolean
     Dim sTest As String
     
     'Testa se o Controle indicado existe
     If gBbEnableErrorHandler Then On Error Resume Next
-    sTest = fForM(sCtrL).Name
+    sTest = fForm(sCtrL).Name
     
     
     'A exmpressão Err.Number = 0 será falsa quando a tentativa de acessar

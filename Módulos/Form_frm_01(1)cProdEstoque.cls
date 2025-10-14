@@ -57,10 +57,9 @@ Private Sub Form_Load()
     
     If Not clObjFormOpenParams Is Nothing Then
         Set clObjFormOpenParams.fTrgtForm = Me
-Stop
         Call FormLoad06a_BackFromFormLoad(clObjFormOpenParams)
     End If
-
+    
     Me.lstEstoqueIn.RowSource = ""
     Me.lstEstoqueSaldo.RowSource = ""
     

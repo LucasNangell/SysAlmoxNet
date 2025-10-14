@@ -223,9 +223,9 @@
     <Control>
       <Name>imgSolicitante</Name>
       <Type>Image</Type>
-      <Left>19157</Left>
+      <Left>18992</Left>
       <Top>7823</Top>
-      <Width>3162</Width>
+      <Width>3327</Width>
       <Height>2577</Height>
       <Tag></Tag>
       <Enabled></Enabled>
@@ -246,7 +246,7 @@
       <Type>ListBox</Type>
       <Left>2193</Left>
       <Top>3421</Top>
-      <Width>16678</Width>
+      <Width>16483</Width>
       <Height>2572</Height>
       <Tag>TrgtCtrl.Grp10.RCnt>lblRegs1- Trgg.ProdutoFullIDfk.Grp11.Rmv02.WdCrd0.SrchOnChg0.CascUpDt>.TxtClmn01-HLclr.OnDrty.Mskd.MSlct0-</Tag>
       <Enabled>Verdadeiro</Enabled>
@@ -267,9 +267,9 @@
     <Control>
       <Name>lstEstoqueSaldo</Name>
       <Type>ListBox</Type>
-      <Left>14966</Left>
-      <Top>8190</Top>
-      <Width>3793</Width>
+      <Left>15193</Left>
+      <Top>8160</Top>
+      <Width>3433</Width>
       <Height>2197</Height>
       <Tag>TrgtCtrl.Grp11.RCnt>--HLclr1.OnDrty.Mskd.MSlct0-</Tag>
       <Enabled>Verdadeiro</Enabled>
@@ -289,11 +289,11 @@
     <Control>
       <Name>Comando345</Name>
       <Type>CommandButton</Type>
-      <Left>8952</Left>
-      <Top>7823</Top>
-      <Width>1307</Width>
+      <Left>8490</Left>
+      <Top>7821</Top>
+      <Width>1352</Width>
       <Height>337</Height>
-      <Tag>NotInDict</Tag>
+      <Tag>NotInDict.Head>UnDaEmbRtTxt.Grp11</Tag>
       <Enabled>Verdadeiro</Enabled>
       <Caption> Un. da Emb.</Caption>
       <OnClick>[Event Procedure]</OnClick>
@@ -301,21 +301,33 @@
     <Control>
       <Name>Comando346</Name>
       <Type>CommandButton</Type>
-      <Left>10259</Left>
-      <Top>7823</Top>
-      <Width>1367</Width>
+      <Left>9842</Left>
+      <Top>7821</Top>
+      <Width>1622</Width>
       <Height>337</Height>
-      <Tag>NotInDict</Tag>
+      <Tag>NotInDict.Head>Prods_Emb.Grp11</Tag>
       <Enabled>Verdadeiro</Enabled>
       <Caption> Prods. /Emb.</Caption>
       <OnClick>[Event Procedure]</OnClick>
     </Control>
     <Control>
+      <Name>Comando347</Name>
+      <Type>CommandButton</Type>
+      <Left>11464</Left>
+      <Top>7821</Top>
+      <Width>1982</Width>
+      <Height>337</Height>
+      <Tag>NotInDict.Head>QtdCons_Prod.Grp11</Tag>
+      <Enabled>Verdadeiro</Enabled>
+      <Caption> Qtd. Cons./Prod</Caption>
+      <OnClick>[Event Procedure]</OnClick>
+    </Control>
+    <Control>
       <Name>Comando349</Name>
       <Type>CommandButton</Type>
-      <Left>14966</Left>
-      <Top>7851</Top>
-      <Width>2184</Width>
+      <Left>15193</Left>
+      <Top>7823</Top>
+      <Width>1712</Width>
       <Height>337</Height>
       <Tag>NotInDict</Tag>
       <Enabled>Verdadeiro</Enabled>
@@ -325,9 +337,9 @@
     <Control>
       <Name>Comando350</Name>
       <Type>CommandButton</Type>
-      <Left>17150</Left>
-      <Top>7851</Top>
-      <Width>1622</Width>
+      <Left>16905</Left>
+      <Top>7823</Top>
+      <Width>1712</Width>
       <Height>337</Height>
       <Tag>NotInDict</Tag>
       <Enabled>Verdadeiro</Enabled>
@@ -383,11 +395,11 @@
     <Control>
       <Name>Comando394</Name>
       <Type>CommandButton</Type>
-      <Left>3486</Left>
+      <Left>3374</Left>
       <Top>7821</Top>
-      <Width>2042</Width>
+      <Width>1577</Width>
       <Height>337</Height>
-      <Tag>NotInDict</Tag>
+      <Tag>NotInDict.Head>Lote.Grp11</Tag>
       <Enabled>Verdadeiro</Enabled>
       <Caption> Lote</Caption>
       <OnClick>[Event Procedure]</OnClick>
@@ -397,9 +409,9 @@
       <Type>CommandButton</Type>
       <Left>2125</Left>
       <Top>7821</Top>
-      <Width>1361</Width>
+      <Width>1247</Width>
       <Height>337</Height>
-      <Tag>NotInDict</Tag>
+      <Tag>NotInDict.Head>DataEntrada.Grp11</Tag>
       <Enabled>Verdadeiro</Enabled>
       <Caption> Data</Caption>
       <OnClick>[Event Procedure]</OnClick>
@@ -407,11 +419,11 @@
     <Control>
       <Name>Comando401</Name>
       <Type>CommandButton</Type>
-      <Left>6775</Left>
-      <Top>7825</Top>
-      <Width>2177</Width>
+      <Left>6198</Left>
+      <Top>7821</Top>
+      <Width>2312</Width>
       <Height>337</Height>
-      <Tag>NotInDict</Tag>
+      <Tag>NotInDict.Head>ProdMarca.Grp11</Tag>
       <Enabled>Verdadeiro</Enabled>
       <Caption> Marca</Caption>
       <OnClick>[Event Procedure]</OnClick>
@@ -442,11 +454,11 @@
     <Control>
       <Name>Comando405</Name>
       <Type>CommandButton</Type>
-      <Left>5528</Left>
-      <Top>7825</Top>
+      <Left>4951</Left>
+      <Top>7821</Top>
       <Width>1247</Width>
       <Height>337</Height>
-      <Tag>NotInDict</Tag>
+      <Tag>NotInDict.Head>Validade.Grp11</Tag>
       <Enabled>Verdadeiro</Enabled>
       <Caption> Validade</Caption>
       <OnClick>[Event Procedure]</OnClick>
@@ -508,6 +520,29 @@
       <Caption>Múltiplo = Prods./Emb.</Caption>
     </Control>
     <Control>
+      <Name>txtStkQtdConsProd</Name>
+      <Type>TextBox</Type>
+      <Left>14631</Left>
+      <Top>11031</Top>
+      <Width>1418</Width>
+      <Height>315</Height>
+      <Tag>DataField>QtdCons_Prod.Grp11--HLclr.OnDrty.Mskd.MSlct-RstAr03</Tag>
+      <Enabled>Verdadeiro</Enabled>
+      <ControlSource></ControlSource>
+      <Format></Format>
+    </Control>
+    <Control>
+      <Name>Rótulo427</Name>
+      <Type>Label</Type>
+      <Left>12983</Left>
+      <Top>11031</Top>
+      <Width>1650</Width>
+      <Height>315</Height>
+      <Tag></Tag>
+      <Enabled></Enabled>
+      <Caption>Qtd. Cons./Prod.</Caption>
+    </Control>
+    <Control>
       <Name>Rótulo430</Name>
       <Type>Label</Type>
       <Left>2267</Left>
@@ -533,11 +568,11 @@ Nova Entrada</Caption>
     <Control>
       <Name>Comando436</Name>
       <Type>CommandButton</Type>
-      <Left>11626</Left>
-      <Top>7825</Top>
-      <Width>1577</Width>
+      <Left>13446</Left>
+      <Top>7821</Top>
+      <Width>1412</Width>
       <Height>337</Height>
-      <Tag>NotInDict</Tag>
+      <Tag>NotInDict.Head>QtdEmbsIn.Grp11</Tag>
       <Enabled>Verdadeiro</Enabled>
       <Caption> Qtd. Embs.</Caption>
       <OnClick>[Event Procedure]</OnClick>
@@ -695,8 +730,8 @@ Nova Entrada</Caption>
     <Control>
       <Name>Comando449</Name>
       <Type>CommandButton</Type>
-      <Left>8704</Left>
-      <Top>7839</Top>
+      <Left>8248</Left>
+      <Top>7840</Top>
       <Width>227</Width>
       <Height>291</Height>
       <Tag>NotInDict</Tag>
@@ -707,8 +742,8 @@ Nova Entrada</Caption>
     <Control>
       <Name>Comando438</Name>
       <Type>CommandButton</Type>
-      <Left>6544</Left>
-      <Top>7842</Top>
+      <Left>5933</Left>
+      <Top>7840</Top>
       <Width>227</Width>
       <Height>291</Height>
       <Tag>NotInDict</Tag>
@@ -719,7 +754,7 @@ Nova Entrada</Caption>
     <Control>
       <Name>Comando437</Name>
       <Type>CommandButton</Type>
-      <Left>3232</Left>
+      <Left>3137</Left>
       <Top>7840</Top>
       <Width>227</Width>
       <Height>291</Height>
@@ -767,7 +802,7 @@ Nova Entrada</Caption>
       <Type>CommandButton</Type>
       <Left>17291</Left>
       <Top>3096</Top>
-      <Width>1584</Width>
+      <Width>1389</Width>
       <Height>337</Height>
       <Tag>NotInDict</Tag>
       <Enabled>Verdadeiro</Enabled>
@@ -952,7 +987,7 @@ Nova Entrada</Caption>
       <Top>1049</Top>
       <Width>8616</Width>
       <Height>315</Height>
-      <Tag>-Trgg.ProdutoFull.Grp10.Rmv.WdCrd2.SrchOnChg0.CascUpDt>-HLclr1.OnDrty1.Mskd.MSlct0-RstAr01</Tag>
+      <Tag>-Trgg.ProdutoFull.Grp10.Rmv04.WdCrd2.SrchOnChg0.CascUpDt>-HLclr1.OnDrty1.Mskd.MSlct0-RstAr01</Tag>
       <Enabled>Verdadeiro</Enabled>
       <ControlSource></ControlSource>
       <Format></Format>
@@ -1260,12 +1295,24 @@ Nova Entrada</Caption>
     <Control>
       <Name>Imagem514</Name>
       <Type>Image</Type>
-      <Left>19157</Left>
+      <Left>18992</Left>
       <Top>3086</Top>
-      <Width>3162</Width>
+      <Width>3327</Width>
       <Height>2907</Height>
       <Tag></Tag>
       <Enabled></Enabled>
+    </Control>
+    <Control>
+      <Name>txtStkUnCons</Name>
+      <Type>TextBox</Type>
+      <Left>16158</Left>
+      <Top>11031</Top>
+      <Width>711</Width>
+      <Height>315</Height>
+      <Tag>DataField>UnMedConsRtTxt.Grp11---RstAr03</Tag>
+      <Enabled>Verdadeiro</Enabled>
+      <ControlSource></ControlSource>
+      <Format></Format>
     </Control>
     <Control>
       <Name>btnTeste</Name>
@@ -1290,38 +1337,26 @@ Nova Entrada</Caption>
       <Enabled></Enabled>
     </Control>
     <Control>
+      <Name>lstEstoqueIn</Name>
+      <Type>ListBox</Type>
+      <Left>2125</Left>
+      <Top>8158</Top>
+      <Width>12733</Width>
+      <Height>2197</Height>
+      <Tag>TrgtCtrl.Grp11.RCnt>---</Tag>
+      <Enabled>Verdadeiro</Enabled>
+      <RowSource>qry_05(1)aProdEstoqueIn(Viw)</RowSource>
+    </Control>
+    <Control>
       <Name>Rótulo243</Name>
       <Type>Label</Type>
-      <Left>2125</Left>
-      <Top>2777</Top>
+      <Left>2040</Left>
+      <Top>3061</Top>
       <Width>16828</Width>
       <Height>340</Height>
       <Tag></Tag>
       <Enabled></Enabled>
       <Caption>.</Caption>
-    </Control>
-    <Control>
-      <Name>Comando521</Name>
-      <Type>CommandButton</Type>
-      <Left>13203</Left>
-      <Top>7825</Top>
-      <Width>1517</Width>
-      <Height>337</Height>
-      <Tag>NotInDict</Tag>
-      <Enabled>Verdadeiro</Enabled>
-      <Caption> Preço/Emb.</Caption>
-      <OnClick></OnClick>
-    </Control>
-    <Control>
-      <Name>lstEstoqueIn</Name>
-      <Type>ListBox</Type>
-      <Left>2125</Left>
-      <Top>8158</Top>
-      <Width>12583</Width>
-      <Height>2197</Height>
-      <Tag>TrgtCtrl.Grp11.RCnt>---</Tag>
-      <Enabled>Verdadeiro</Enabled>
-      <RowSource>qry_05(1)aProdEstoqueIn(Viw)</RowSource>
     </Control>
   </Controls>
 </Form>

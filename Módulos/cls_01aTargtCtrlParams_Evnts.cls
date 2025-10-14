@@ -31,7 +31,7 @@ Public sClsLstbxSQL_dOrderBy As String  'SQL original do ListBox ou Combo ao car
 
 Public sClsLstbxSQL_eMAIN As String     'SQL original do ListBox ou Combo ao carregar o Form (Select + From)
 
-Public dictTrgtQryFields As New Dictionary
+Public dictQryFields As New Dictionary
 
 'Public sFilGrp As Integer    ' grupo de filtragem a que pertence o controle, o que permite identificar
                                  ' qual controle deve exibir os resultados da pesquisa e se há outros controles
@@ -66,15 +66,15 @@ Private Sub mListBox_MouseDown(Button As Integer, Shift As Integer, x As Single,
     Dim vKeyGrp, vKeyCtrl
     Dim sFilGrp As String, sForM As String
     Dim cEdtCtrl As Control
-    Dim fForM As Form
+    Dim fForm As Form
     
     '---------------------------------------------------------------
     ' chama pbSub00_CtrlsEnblDsble_GetParams
     ' pra habilitar/desabilitar os controles depois que um valor é selecionado na Listbox
     '---------------------------------------------------------------
     
-    Set fForM = mListBox.Parent
-Stop
+    Set fForm = mListBox.Parent
+'Stop
     'Quando um item é selecionado na listbox
     ' habilita o botão de Edição de dados do grupo de filtragem indicado
     ' se a lista estiver liberada pra seleção dos valores
@@ -101,7 +101,7 @@ Stop
         End If
 
         
-        Call pbSub00_CtrlsEnblDsble_GetParams(fForM, "RecSelect", sFilGrp)
+        Call pbSub00_CtrlsEnblDsble_GetParams(fForm, "RecSelect", sFilGrp)
         
         'Identifica o botão de edição do grupo de filtragem pra habilitá-lo,
         ' por meio do parâmetro ActType> n TAG do botão
@@ -125,8 +125,9 @@ Stop
 End Sub
 
 Private Sub mListBox_AfterUpdate()
-Stop
+'Stop
     
     Call PbSubFillFieldsByList(mListBox)
 
 End Sub
+

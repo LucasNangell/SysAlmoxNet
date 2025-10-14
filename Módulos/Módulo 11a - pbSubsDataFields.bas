@@ -21,7 +21,7 @@ Sub PbSubFillFieldsByList(cListBox As Control)
     Dim sSQLtablesString As String
     Dim sLoadLogWarn As String
     
-    Dim fForM As Form
+    Dim fForm As Form
 
     
     Dim vKeyDataFieldCtrl As Variant
@@ -38,11 +38,11 @@ Sub PbSubFillFieldsByList(cListBox As Control)
     Dim iListIndex As Integer
     Dim iQryID As Integer
     Dim iItem As Integer
-    Dim iCont As Integer
+    Dim iConT As Integer
     Dim iColIDCmb As Integer
 
-    Set fForM = cListBox.Parent
-    sForM = fForM.Name
+    Set fForm = cListBox.Parent
+    sForM = fForm.Name
 'Stop
 
     '--------------------------------------------------------------------
@@ -141,14 +141,14 @@ Sub PbSubFillFieldsByList(cListBox As Control)
         sDataFieldCtrl = vKeyDataFieldCtrl
     
         'Confirma se o controle [ vKeyDataFieldCtrl ] de fato existe no [ Form ]
-        If ControlExists(sDataFieldCtrl, fForM) Then
-            Set cDataFieldCtrl = fForM.Controls(sDataFieldCtrl)
+        If ControlExists(sDataFieldCtrl, fForm) Then
+            Set cDataFieldCtrl = fForm.Controls(sDataFieldCtrl)
             
             Set clObjTargtCtrlParam = dictFormFilterGrpTrgts(sForM)(sFilGrp)(cListBox.Name)
             
             'Confirma se [ clObjCtrlDataFieds.sDataField ] é um dos campos da consulta de [ cListBox.Name ]
-            If clObjTargtCtrlParam.dictTrgtQryFields.Exists(clObjCtrlDataFieds.sDataField) Then
-                vA = clObjTargtCtrlParam.dictTrgtQryFields(clObjCtrlDataFieds.sDataField)
+            If clObjTargtCtrlParam.dictQryFields.Exists(clObjCtrlDataFieds.sDataField) Then
+                vA = clObjTargtCtrlParam.dictQryFields(clObjCtrlDataFieds.sDataField)
                 
                 'Verifica se o campo está no grid da consulta
                 If vA = "Grid" Then
@@ -168,9 +168,9 @@ Sub PbSubFillFieldsByList(cListBox As Control)
                         'Descobre qual a coluna do controle contém os dados a serem pesquisados
                         ' para isso, verifica os [ Widths ] das colunas e atribui a [ iColIDCmb ] o número da coluna que possui width ZERO
                         vWdthsCol = Split(cDataFieldCtrl.ColumnWidths, ";")
-                        For iCont = 0 To UBound(vWdthsCol)
-                            If vWdthsCol(iCont) = "0" Then iColIDCmb = iCont
-                        Next iCont
+                        For iConT = 0 To UBound(vWdthsCol)
+                            If vWdthsCol(iConT) = "0" Then iColIDCmb = iConT
+                        Next iConT
     
                         'Recupera o SQL da consulta que alimenta o controle no [ dictFormQrysCtrls(sForm)(cCtrl) ]
                         If InStr(dictFormQrysCtrls(sForM)(sDataFieldCtrl), "SELECT") = 0 Then '4
@@ -197,7 +197,7 @@ Sub PbSubFillFieldsByList(cListBox As Control)
                         rsDefQry.Close
                         
                         'variável usada para redimensionar [ vDefItemsCmb ]
-                        iCont = 0
+                        iConT = 0
                         
                         bBoL = False
                         'Percorre cada item de [ vDefItemsCmb ] para verificar se o setor é atribuído ao produto selecionado na lista
@@ -222,9 +222,9 @@ Sub PbSubFillFieldsByList(cListBox As Control)
                             'Caso o [ rsTbECmb ] retorne algum valor, indica que o setor está atribuído
                             ' armazena os setores atribuídos na [ vDefItemsCmb ]
                             If rsTbECmb.RecordCount > 0 Then
-                                ReDim Preserve vSrchItemsCmb(iCont)
-                                vSrchItemsCmb(iCont) = vDefItemsCmb(iItem)
-                                iCont = iCont + 1
+                                ReDim Preserve vSrchItemsCmb(iConT)
+                                vSrchItemsCmb(iConT) = vDefItemsCmb(iItem)
+                                iConT = iConT + 1
                                 bBoL = True
                             End If
                             

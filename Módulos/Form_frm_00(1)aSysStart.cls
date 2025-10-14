@@ -13,7 +13,7 @@ Option Explicit
 
 
 Private Sub Form_Load()
-    'Call PbSbBuildDictFieldsInQryTrgtCtrl(Me.Name, lstProdsBase, "01")
+    'Call pbSub22_TargtCtrlsQryFieldsBuild(Me.Name, lstProdsBase, "01")
     Call SysLoad00_SysStartLoad
 
 End Sub
@@ -83,13 +83,24 @@ Private Sub btnCheckColor_Click()
     
 End Sub
 
-
 Private Sub lstProdsBase_AfterUpdate()
     Dim vA
 Stop
     vA = lstProdsBase.ItemsSelected.Count
+    
 
 End Sub
+
+Private Sub Lista246_AfterUpdate()
+    Dim vA, vB
+Stop
+    vA = Lista246.ItemsSelected.Count
+    
+    Lista246.Selected(Lista246.ListIndex) = True
+    
+End Sub
+
+
 
 'Private Sub btnInitEvents_Click()
 '    Dim vA, vB, vC

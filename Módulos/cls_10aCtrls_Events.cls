@@ -304,7 +304,7 @@ Private Sub mCommandButton_Click()
 
             
         Case sActType Like "Save*"
-            
+Stop
             Call PbSubRecDataFields(mCommandButton)
 
             Call pbSub00_CtrlsEnblDsble_GetParams(mCommandButton.Parent, clObjCommButtons.sFrmMode, sFilGrp)
@@ -433,8 +433,10 @@ Private Sub mTextBox_Change()
 End Sub
 
 Private Sub mListBox_AfterUpdate()
+    Dim vA
     Dim fForm As Form
     
+    vA = mListBox.Name
     '---------------------------------------------------------------
     ' inicia a filtragem do [ TrgtCtrl ] associado ao mesmo grupo de filtragem do Listbox [ TrggCtrl ]
     ' que teve um item selecionado
@@ -443,6 +445,7 @@ Private Sub mListBox_AfterUpdate()
     
     Set fForm = mListBox.Parent
     
+'MsgBox "teste update [ " & mListBox.Name & " ]"
 'Stop
     'Aciona a atualização do [ TargetCtrl ] associado ao controle
     'Call pb_TargtCtrlUpdate00_TimerDelay(fForM, mListBox)

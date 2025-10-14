@@ -147,8 +147,8 @@ Sub PbSubFillFieldsByList(cListBox As Control)
             Set clObjTargtCtrlParam = dictFormFilterGrpTrgts(sForM)(sFilGrp)(cListBox.Name)
             
             'Confirma se [ clObjCtrlDataFieds.sDataField ] é um dos campos da consulta de [ cListBox.Name ]
-            If clObjTargtCtrlParam.dictQryFields.Exists(clObjCtrlDataFieds.sDataField) Then
-                vA = clObjTargtCtrlParam.dictQryFields(clObjCtrlDataFieds.sDataField)
+            If clObjTargtCtrlParam.dictTrgtQryFields.Exists(clObjCtrlDataFieds.sDataField) Then
+                vA = clObjTargtCtrlParam.dictTrgtQryFields(clObjCtrlDataFieds.sDataField)
                 
                 'Verifica se o campo está no grid da consulta
                 If vA = "Grid" Then

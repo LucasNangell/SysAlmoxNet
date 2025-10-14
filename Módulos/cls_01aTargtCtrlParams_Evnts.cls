@@ -31,7 +31,7 @@ Public sClsLstbxSQL_dOrderBy As String  'SQL original do ListBox ou Combo ao car
 
 Public sClsLstbxSQL_eMAIN As String     'SQL original do ListBox ou Combo ao carregar o Form (Select + From)
 
-Public dictQryFields As New Dictionary
+Public dictTrgtQryFields As New Dictionary
 
 'Public sFilGrp As Integer    ' grupo de filtragem a que pertence o controle, o que permite identificar
                                  ' qual controle deve exibir os resultados da pesquisa e se há outros controles
@@ -74,6 +74,7 @@ Private Sub mListBox_MouseDown(Button As Integer, Shift As Integer, x As Single,
     '---------------------------------------------------------------
     
     Set fForm = mListBox.Parent
+'MsgBox "Mouse Down [ " & mListBox.Name & " ]"
 'Stop
     'Quando um item é selecionado na listbox
     ' habilita o botão de Edição de dados do grupo de filtragem indicado
@@ -122,12 +123,14 @@ Private Sub mListBox_MouseDown(Button As Integer, Shift As Integer, x As Single,
 '        Next vKeyCtrl
 
     End If
+
 End Sub
 
 Private Sub mListBox_AfterUpdate()
+
+'MsgBox "mLIstBox_AfterUpdate [ " & mListBox.Name & " ]"
 'Stop
     
     Call PbSubFillFieldsByList(mListBox)
 
 End Sub
-

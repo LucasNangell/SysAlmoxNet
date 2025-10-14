@@ -84,7 +84,7 @@ End Sub
 
 Public Sub pb_TargtCtrlUpdate01_Start()
     Dim vA, vB
-Stop
+'Stop
     'Impede múltiplas execuções simultâneas
     If bProcessando Then Exit Sub
     bProcessando = True
@@ -104,8 +104,8 @@ Stop
     'vA = gBcTrggCtrl.Name
     'vB = gBfTrggCtrlForm.Name
 
-MsgBox "teste --------------------------------------------------------------------------" & vbCr & "Update"
-Stop
+'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "Update"
+'Stop
         Call pb_TargtCtrlUpdate03_UNIQUEupdate(gBfTrggCtrlForm, gBcTrggCtrl)
     
     End If
@@ -176,7 +176,7 @@ Public Sub pb_TargtCtrlUpdate03_UNIQUEupdate(fForm As Form, cTrggCtrL As Control
             ' qual [ TrgtCtrl ] deve ser atualizado
             If IsObject(dictTrggCtrlsInForm(sForM)(sTrggCtrL)) Then
                 Set clObjFilGrpsByForm = dictTrggCtrlsInForm(sForM)(sTrggCtrL)
-                sFilGrp = clObjFilGrpsByForm.sFilGrp
+                sFilGrp = clObjFilGrpsByForm.sFilGrpToFilter
             
                 '--------------------------------------------------------------------------------------------------------
                 ' Quando a atualização for disparada a partir da alteração de um Controle no Form
@@ -185,6 +185,7 @@ Public Sub pb_TargtCtrlUpdate03_UNIQUEupdate(fForm As Form, cTrggCtrL As Control
                 '  associados e esse Grupo de Filtragem
                 '--------------------------------------------------------------------------------------------------------
                 On Error GoTo -1
+'Stop
                 Call pb_TargtCtrlUpdate06_BuildWHERE(fForm, sFilGrp)
 'Stop
             End If
@@ -463,7 +464,7 @@ If gBbDepurandoLv03a Then Stop
             .sGetRecCntCptTxt = ""
         
         End With
-'MsgBox "remove all"
+'MsgBox "txtSrchDescProd grupo: [ " & sFilGrp & " ]"
 'Stop
         
         'Recupera o SQL Select do TargtCtrl que está sendo atualizado,
@@ -675,8 +676,10 @@ If gBbDepurandoLv03a Then Stop
                 
                 'Recupera a quantidade de registros exibidos
                 ' apenas se tiver sido indicado um controle pra exibir
+                'If sRecCntCtrlName <> "" Then bBoL = ControlExists(sRecCntCtrlName, fForM)
                 bBoL = ControlExists(sRecCntCtrlName, fForm)
 'Stop
+                'If bBoL Then
                 If sRecCntCtrlName <> "" And bBoL Then
                     
 'If gBbDepurandoLv01b Then MsgBox "teste --------------------------------------------------------------------------" & vbCr & "5- retorna o total de registros da consulta do TargtCtrl"

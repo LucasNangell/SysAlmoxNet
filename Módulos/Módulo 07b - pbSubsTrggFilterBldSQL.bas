@@ -176,13 +176,10 @@ Public Sub BuildSQL_ListBox(cCtrL As Control, sTargtCtrlSQLselect As String, bMs
     ' que tem o Valor Textual dos itens
     lngTbeClmn = clObjTriggCtrlParam.iListboxTxtClmn
     
-    'O primeiro item selecionado numa listbox com multiselect = Nenhum
-    ' não é identificado pela propriedade [ ItemsSelected ]
-    ' então é necessário forçar a seleção do item antes da contagem
-    cCtrL.Selected(cCtrL.ListIndex) = True
+'Stop
     
     'Roda o código apenas se houver pelo menos um item selecionado na Lista
-        lngSelectedItems = cCtrL.ItemsSelected.Count
+    lngSelectedItems = cCtrL.ItemsSelected.Count
     
     
     If lngSelectedItems > 0 Then
@@ -202,7 +199,26 @@ Public Sub BuildSQL_ListBox(cCtrL As Control, sTargtCtrlSQLselect As String, bMs
             
         Next vListItem
         '-------------------------------------------------------------------
+    
+    'Se o [ listbox ] for Multiselect = Nenhum [ ItemsSelected ] retorna ZERO
+    ' então é preciso recuperar o item selecionado de outra forma
+    Else
+        If cCtrL.ListIndex > -1 Then
+'Stop
+            iSrchVal = cCtrL.Value                   'ID do item selecionado
+            sOrigListTxt = cCtrL.Column(lngTbeClmn, cCtrL.ListIndex)      'Texto associado ao item
+            
+            
+            lngCounT = clObjTriggCtrlParam.dictGetListItemTxts.Count
+            vA = lngCounT + 1
+            clObjTriggCtrlParam.dictGetListSrchVals.Add vA, iSrchVal
+            clObjTriggCtrlParam.dictGetListItemTxts.Add vA, sOrigListTxt
         
+        End If
+    
+    
+    End If
+    
 'Stop
         'Monta o WHERE e o o RecCnt do controle
         '------------------------------------------------
@@ -254,7 +270,7 @@ Public Sub BuildSQL_ListBox(cCtrL As Control, sTargtCtrlSQLselect As String, bMs
         clObjTriggCtrlParam.sGetSQLwhere = sWhere
         clObjTriggCtrlParam.sGetRecCntCptTxt = sReCntFullStR
         '-------------------------------------------------------------------
-    End If
+
 End Sub
 
 
@@ -355,7 +371,8 @@ Public Sub BuildSQL_TextBox(cCtrL As Control, sTargtCtrlSQLselect As String, bMs
     vB = cCtrL.Value
     'vC = cCtrl.Text
 
-
+    Debug.Print sTargtCtrlSQLselect
+    
 'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "BuildSQL Textbox [ " & vA & " ]"
 'Stop
     'Roda o código apenas se houver algum valor no controle

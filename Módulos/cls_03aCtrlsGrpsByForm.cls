@@ -12,5 +12,5 @@ Option Compare Database
 Option Explicit
 
 'Public cCtrL As Control     'Controle
-Public sCtrlName As String  'Nome do [ TrggCtrl ] (apenas pra confirmação de acesso)
-Public sFilGrp As String    'Grupo de filtragem a que pertence o controle
+Public sTrggCtrlName As String  'Nome do [ TrggCtrl ] (apenas pra confirmação de acesso)
+Public sFilGrpToFilter As String    'Grupo de filtragem a que pertence o controle

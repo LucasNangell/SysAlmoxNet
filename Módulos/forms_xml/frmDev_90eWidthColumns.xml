@@ -110,18 +110,6 @@
       <Tag></Tag>
       <Enabled>Verdadeiro</Enabled>
       <Caption>&lt;&lt;</Caption>
-      <OnClick></OnClick>
-    </Control>
-    <Control>
-      <Name>btnFinalizar</Name>
-      <Type>CommandButton</Type>
-      <Left>1133</Left>
-      <Top>5839</Top>
-      <Width>2310</Width>
-      <Height>405</Height>
-      <Tag></Tag>
-      <Enabled>Verdadeiro</Enabled>
-      <Caption>Finalizar Seleção</Caption>
       <OnClick>[Event Procedure]</OnClick>
     </Control>
     <Control>

@@ -455,44 +455,51 @@ If gBbDepurandoLv02a Then Stop
     'Se não houver Grupos de Filtragem no Form ou se o Form tiver sido aberto
     ' sem a sequência de carga de dicionários, desconsidera a atualização
     bBoL = IsObject(dictFormFilterGrpTrgts(clObjFormOpenParams.sTrgtForm)) 'verifica se há Grupos de Filtragem incluídos no Dicionário
+'Stop
     
     If bBoL Then
         For Each vKeyFilGrp In dictFormFilterGrpTrgts(clObjFormOpenParams.sTrgtForm)
             sFilGrp = vKeyFilGrp
             
-            For Each vKeyTrgtCtrl In dictFormFilterGrpTrgts(clObjFormOpenParams.sTrgtForm)(vKeyFilGrp)
-            
-                '-----------------------------------------------------------
-                'Atualiza o TargtCtrl e o RecCnt de cada Grupo de Filtragem que tenha [ TriggCtrls ] adicionados ao [ dictFormFilterGrpTrgts(sForM)(vKeyFilGrp) ]
-                '-----------------------------------------------------------
-                Set clObjTargtCtrlParam = dictFormFilterGrpTrgts(clObjFormOpenParams.sTrgtForm)(vKeyFilGrp)(vKeyTrgtCtrl)
-                sTargtCtrl = clObjTargtCtrlParam.sTargtCtrlName
-                sRecCntCtrl = clObjTargtCtrlParam.sRecCntCtrlName
+            If Not IsEmpty(vKeyFilGrp) Then
+
+'MsgBox "----- FormLoad06a_BackFromFormLoad ------------------------------------------" & vbCr & vbCr & "Avalia o Grupo de Filtragem [ " & sFilGrp & " ]" & vbCr & " " & vbCr & " "
+'Stop
+                For Each vKeyTrgtCtrl In dictFormFilterGrpTrgts(clObjFormOpenParams.sTrgtForm)(vKeyFilGrp)
                 
-                On Error GoTo -1
-                Call pb_TargtCtrlUpdate06_BuildWHERE(clObjFormOpenParams.fTrgtForm, sFilGrp)
-                
-                'Caso [ bShowRecID ] seja verdadeira indica que o formulário que está sendo aberto deve exibir um registro específico
-                If clObjFormOpenParams.bShowRecID Then
-    
-                    'Recupera o [ sQryIDfield ] do [ TrgtCtrl ] do [ TrgtForm ] para comparação com o [ clObjFormOpenParams.sQryFieldID ]
-                    ' afim de definir qual [ TrgtCtrl ] deverá ser afetado com o [ lngRecID ] informado
-                    sQryIDfieldTrgt = GetsQryFieldID(clObjTargtCtrlParam)
-                    'Caso [ sQryIDField ] seja igual a [ sQryIDFieldTrgt ] indica que o controle destino foi encontrado
-                    ' então define [ cTargtCtrl ] com o controle ora avaliado
-                    If clObjFormOpenParams.sQryFieldID = sQryIDfieldTrgt Then
-                        Set cTargtCtrl = Forms(clObjFormOpenParams.sTrgtForm).Controls(sTargtCtrl)
-    
-                            cTargtCtrl.Selected(clObjFormOpenParams.lngRecID) = True
-                            cTargtCtrl.ListIndex = clObjFormOpenParams.lngRecID
+                    '-----------------------------------------------------------
+                    'Atualiza o TargtCtrl e o RecCnt de cada Grupo de Filtragem que tenha [ TriggCtrls ] adicionados ao [ dictFormFilterGrpTrgts(sForM)(vKeyFilGrp) ]
+                    '-----------------------------------------------------------
+                    Set clObjTargtCtrlParam = dictFormFilterGrpTrgts(clObjFormOpenParams.sTrgtForm)(vKeyFilGrp)(vKeyTrgtCtrl)
+                    sTargtCtrl = clObjTargtCtrlParam.sTargtCtrlName
+                    sRecCntCtrl = clObjTargtCtrlParam.sRecCntCtrlName
                     
-                            Call PbSubFillFieldsByList(cTargtCtrl)
+                    On Error GoTo -1
+                    Call pb_TargtCtrlUpdate06_BuildWHERE(clObjFormOpenParams.fTrgtForm, sFilGrp)
+                    
+                    'Caso [ bShowRecID ] seja verdadeira indica que o formulário que está sendo aberto deve exibir um registro específico
+                    If clObjFormOpenParams.bShowRecID Then
+        
+                        'Recupera o [ sQryIDfield ] do [ TrgtCtrl ] do [ TrgtForm ] para comparação com o [ clObjFormOpenParams.sQryFieldID ]
+                        ' afim de definir qual [ TrgtCtrl ] deverá ser afetado com o [ lngRecID ] informado
+                        sQryIDfieldTrgt = GetsQryFieldID(clObjTargtCtrlParam)
+                        'Caso [ sQryIDField ] seja igual a [ sQryIDFieldTrgt ] indica que o controle destino foi encontrado
+                        ' então define [ cTargtCtrl ] com o controle ora avaliado
+                        If clObjFormOpenParams.sQryFieldID = sQryIDfieldTrgt Then
+                            Set cTargtCtrl = Forms(clObjFormOpenParams.sTrgtForm).Controls(sTargtCtrl)
+        
+                                cTargtCtrl.Selected(clObjFormOpenParams.lngRecID) = True
+                                cTargtCtrl.ListIndex = clObjFormOpenParams.lngRecID
+                        
+                                Call PbSubFillFieldsByList(cTargtCtrl)
+                        End If
+                        
                     End If
-                    
-                End If
+                
+                Next vKeyTrgtCtrl
             
-            Next vKeyTrgtCtrl
-            
+            End If
+        
         Next vKeyFilGrp
 
     End If

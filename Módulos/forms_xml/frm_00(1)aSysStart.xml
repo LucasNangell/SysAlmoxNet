@@ -281,7 +281,18 @@ pro incício do sistema</Caption>
       <Left>226</Left>
       <Top>2494</Top>
       <Width>8743</Width>
-      <Height>2302</Height>
+      <Height>1297</Height>
+      <Tag>-TrgtCtrl.Grp01.RCnt>lblRegs1-HLclr1.OnDrty0.Mskd1.MSlct0-</Tag>
+      <Enabled>Verdadeiro</Enabled>
+      <RowSource>qry_04(01)bProdutosFull_Setor(Viw-Lst)</RowSource>
+    </Control>
+    <Control>
+      <Name>Lista246</Name>
+      <Type>ListBox</Type>
+      <Left>226</Left>
+      <Top>3911</Top>
+      <Width>8743</Width>
+      <Height>1297</Height>
       <Tag>-TrgtCtrl.Grp01.RCnt>lblRegs1-HLclr1.OnDrty0.Mskd1.MSlct0-</Tag>
       <Enabled>Verdadeiro</Enabled>
       <RowSource>qry_04(01)bProdutosFull_Setor(Viw-Lst)</RowSource>

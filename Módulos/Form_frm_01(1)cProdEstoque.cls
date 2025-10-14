@@ -57,24 +57,15 @@ Private Sub Form_Load()
     
     If Not clObjFormOpenParams Is Nothing Then
         Set clObjFormOpenParams.fTrgtForm = Me
+'Stop
         Call FormLoad06a_BackFromFormLoad(clObjFormOpenParams)
     End If
-    
-    Me.lstEstoqueIn.RowSource = ""
-    Me.lstEstoqueSaldo.RowSource = ""
-    
-End Sub
 
-
-Private Sub lstEstoqueIn_MouseDown(Button As Integer, Shift As Integer, x As Single, Y As Single)
-    
-    'Call pbSub00_CtrlsEnblDsble_GetParams(Me, "EntradaSelect")
+    'Me.lstEstoqueIn.RowSource = ""
+    'Me.lstEstoqueSaldo.RowSource = ""
     
 End Sub
 
 
-Private Sub lstProdsBase_MouseDown(Button As Integer, Shift As Integer, x As Single, Y As Single)
-    
-    'Call pbSub00_CtrlsEnblDsble_GetParams(Me, "RecSelect")
 
-End Sub
+

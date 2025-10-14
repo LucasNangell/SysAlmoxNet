@@ -23,20 +23,44 @@ Dim iOldSelectedItem As Integer
 Dim sOldWidthColum As String
 Dim sHead As String, sOldHead As String
 Dim dictQryListFields As New Dictionary
+Dim dictSelectedFields As New Dictionary
+
 Private Sub btnAddColumn_Click()
-    lstSelectedColumns.AddItem lstSelectedColumns.ListCount + 1 & ";" & lstFields.Column(0, lstFields.ListIndex) & ";;;" & lstFields.ListIndex
-    
+    Dim iInT As Integer
+    Dim vA
+    For iInT = 1 To dictQryListFields.Count
+        If dictQryListFields(iInT) = lstFields.Column(0, lstFields.ListIndex) Then
+            If Not IsEmpty(dictQryListFields(iInT)) Then dictSelectedFields.Add iInT, dictQryListFields(iInT)
+        End If
+    Next iInT
+    lstSelectedColumns.RowSource = ""
+    For Each vA In dictSelectedFields
+        lstSelectedColumns.AddItem lstSelectedColumns.ListCount + 1 & ";" & dictSelectedFields(vA) & ";;;" & vA
+    Next vA
+    lstFields.RemoveItem (lstFields.ListIndex)
+
 End Sub
 
 Private Sub btnCancelar_Click()
-    'DoCmd.Close acForm, fTrgtForm.Name, acSaveNo
     DoCmd.Close acForm, Me.Name
     
 End Sub
 
-Private Sub btnFinalizar_Click()
-    bSelectingHeads = True
-    bSelectedList = False
+
+Private Sub btnRemoveColumn_Click()
+    Dim iInT As Integer
+    Dim vA
+    
+    If dictSelectedFields.Exists(Int(lstSelectedColumns.Column(4, lstSelectedColumns.ListIndex))) Then _
+    dictSelectedFields.Remove (Int(lstSelectedColumns.Column(4, lstSelectedColumns.ListIndex)))
+    lstSelectedColumns.RemoveItem (lstSelectedColumns.ListIndex)
+    
+    lstFields.RowSource = ""
+    For Each vA In dictQryListFields
+        If Not dictSelectedFields.Exists(vA) Then _
+        lstFields.AddItem dictQryListFields(vA), lstFields.ListCount
+    Next vA
+
 End Sub
 
 Private Sub btnSalvar_Click()
@@ -51,6 +75,10 @@ Private Sub btnSalvar_Click()
     For iInT2 = 1 To dictQryListFields.Count
         bBoL = False
         For iInT = 0 To lstSelectedColumns.ListCount - 1
+            If lstSelectedColumns.Column(3, iInT) = "" Then
+                MsgBox "Existem colunas sem HeadCtrl selecionado, selecione todos os HeadCtrls antes de prosseguir.", vbInformation
+                Exit Sub
+            End If
             If lstSelectedColumns.Column(1, iInT) = dictQryListFields(iInT2) Then
                 sWidthColumns = sWidthColumns & lstSelectedColumns.Column(3, iInT) & ";"
                 bBoL = True
@@ -60,10 +88,9 @@ Private Sub btnSalvar_Click()
             sWidthColumns = sWidthColumns & "0;"
         End If
     Next iInT2
-    cTrgtCtrl.ColumnCount = lstFields.ListCount
+    cTrgtCtrl.ColumnCount = dictQryListFields.Count
     cTrgtCtrl.ColumnWidths = sWidthColumns
     
-    'DoCmd.Save acForm, fTrgtForm.Name
     DoCmd.Close acForm, Me.Name
 
 End Sub
@@ -76,6 +103,8 @@ If Forms.Count > 2 Then
     DoCmd.Close acForm, Me.Name, acSaveNo
     
 End If
+dictQryListFields.RemoveAll
+dictSelectedFields.RemoveAll
 
 bSelectedList = False
 bSelectingHeads = False
@@ -94,10 +123,13 @@ If sTrgtCtrl <> fTrgtForm.ActiveControl.Name Then
     Set cTrgtCtrl = fTrgtForm.ActiveControl
     sTrgtCtrl = cTrgtCtrl.Name
     If cTrgtCtrl.ControlType = acListBox Then bSelectedList = False
+    If lstSelectedColumns.ListIndex = -1 Then bSelectingHeads = False
     
     If bSelectedList = False And Not bSelectingHeads Then
         If cTrgtCtrl.ControlType = acListBox Then
             dictQryListFields.RemoveAll
+            dictSelectedFields.RemoveAll
+            
             lstSelectedColumns.RowSource = ""
             bSelectedList = True
             txtSelectedList = cTrgtCtrl.Name
@@ -107,6 +139,7 @@ If sTrgtCtrl <> fTrgtForm.ActiveControl.Name Then
                 lstFields.AddItem fField.Name, lstFields.ListCount
                 dictQryListFields.Add lstFields.ListCount, fField.Name
             Next fField
+            bSelectingHeads = True
         Else
             txtSelectedList = "Selecione alguma List box"
         End If
@@ -116,12 +149,25 @@ If sTrgtCtrl <> fTrgtForm.ActiveControl.Name Then
     If iOldSelectedItem <> iSelectedItem Then Call lstSelectedColumns_AfterUpdate
     iOldSelectedItem = iSelectedItem
     
+    If bSelectingHeads Then
+        Call lstSelectedColumns_AfterUpdate
+    End If
+
 End If
-'If bSelectingHeads Then Set cHeadCtrl = cTrgtCtrl
+
 
 End Sub
 
+Private Sub lstSelectedColumns_DblClick(Cancel As Integer)
+Call btnRemoveColumn_Click
+End Sub
+
+Private Sub lstFields_DblClick(Cancel As Integer)
+Call btnAddColumn_Click
+End Sub
+
 Private Sub lstSelectedColumns_AfterUpdate()
+bSelectingHeads = True
 Dim vDadosLst As Variant
 Dim vA
 Dim iInT As Integer, iInT2 As Integer, iConT As Integer
@@ -153,7 +199,13 @@ Dim sNewRowSource As String
                 sNewRowSource = Left(sNewRowSource, Len(sNewRowSource) - 1)
                 
                 lstSelectedColumns.RowSource = sNewRowSource
-    
+                
+                If lstSelectedColumns.Column(3, lstSelectedColumns.ListIndex) <> "" Then
+                If (lstSelectedColumns.ListIndex + 1) <= lstSelectedColumns.ListCount Then lstSelectedColumns.Selected(lstSelectedColumns.ListIndex + 1) = True
+                    DoCmd.SelectObject acForm, fTrgtForm.Name, False
+                    DoCmd.RunCommand acCmdSelectForm
+                End If
+        
             Else
             
             End If
@@ -161,6 +213,4 @@ Dim sNewRowSource As String
     End If
 End Sub
 
-Private Sub lstSelectedColumns_BeforeUpdate(Cancel As Integer)
 
-End Sub

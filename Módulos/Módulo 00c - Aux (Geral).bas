@@ -524,8 +524,6 @@ Function DesprezaAcentos(sTextoDigitado As String) As String
     
     'Retorna a string, convertida sem acentuação se for o caso
     DesprezaAcentos = sTempText
-
-            
 'Stop
 End Function
 

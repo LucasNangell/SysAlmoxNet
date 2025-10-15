@@ -57,6 +57,7 @@ Public Property Set InitCtrl(cCtrL As Control)
     Set mListBox = Nothing
     Set mListBox = cCtrL
     cCtrL.BeforeUpdate = "[Event Procedure]"
+    cCtrL.AfterUpdate = "[Event Procedure]"
     cCtrL.OnMouseDown = "[Event Procedure]"
 
 End Property
@@ -79,9 +80,14 @@ Private Sub mListBox_BeforeUpdate(Cancel As Integer)
 
 'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "Aciona [ HighlightClrChange ] LostFocus, controle [ " & sCtrL & "]   "
 'Stop
+    'A função [ LockWindowUpdate ] é uma API do windows para bloquear as atualizações de tela
+    ' [ Application.hWndAccessApp ] é a identificação da janela no sistema
+    
     
     'Chama a rotina de filtragem
     Call pb_TargtCtrlUpdate03_UNIQUEupdate(fForm, cCtrL)
+    Call PbSubFillFieldsByList(cCtrL)
+    
 
 End Sub
 
@@ -148,6 +154,5 @@ Private Sub mListBox_MouseDown(Button As Integer, Shift As Integer, x As Single,
 '        Next vKeyCtrl
 
     End If
-
 End Sub
 

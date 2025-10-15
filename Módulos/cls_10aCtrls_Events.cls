@@ -197,19 +197,6 @@ Private Sub mCommandButton_Click()
                 If cCtrL.ItemsSelected.Count > 0 Then
                     
                     Call pbSub00_CtrlsEnblDsble_GetParams(fForm, "RecSelect", sFilGrp)
-                    
-                    'Encontra o botão [ EditRec ] referente ao [ sFilGrp ] da [ mListBox ]
-'                    For Each vKeyCtrl In dictFormCommButtons(sForM)
-'                        Set clObjCommButtons = dictFormCommButtons(sForM)(vKeyCtrl)
-'                        If clObjCommButtons.sFilGrp = sFilGrp And InStr(clObjCommButtons.sActType, "EditRec") > 0 Then
-'                            Set cEdtCtrl = Forms(sForM).Controls(clObjCommButtons.sCtrlName)
-'                            If cEdtCtrl.Enabled = False Then
-'                                'Chama [ pbSub02_CtrlsEnblDsbl_Apply ] para habilitar o botão específico sem precisar percorrer por todos os controles
-'                                Call pbSub02_CtrlsEnblDsbl_Apply(cCtrL.Parent, cEdtCtrl, "btn", True, True)
-'                            End If
-'                        End If
-'                    Next vKeyCtrl
-                
                 End If
             End If
             TempVars.RemoveAll
@@ -314,7 +301,8 @@ Private Sub mCommandButton_Click()
                 Set .cTrgtCtrl = dictFormFilterGrpTrgts(cCtrL.Parent.Name)(sFilGrp)
                 .sQryFieldID = GetsQryFieldID(clObjTargtCtrlParam)
             End With
-        
+
+                        
             'Inicia as rotinas pra abertura de formulário
             Call FormLoad01_FormLoadingStart(clObjFormOpenParams)
             
@@ -384,45 +372,12 @@ Private Sub mLabel_DblClick(Cancel As Integer)
     Set fForm = cCtrL.Parent
     
 'Stop
+
+    
     Call FormStatusBar04_OpnLogForm(fForm)
-
+    
+    
 End Sub
-
-
-'Private Sub mListBox_AfterUpdate()
-'    Dim vA, vB, vC, vD, vE
-'    Dim fForm As Form
-'    Dim cCtrL As Control
-'
-'    Set cCtrL = mListBox
-'    vA = cCtrL.Name
-'    '---------------------------------------------------------------
-'    ' inicia a filtragem do [ TrgtCtrl ] associado ao mesmo grupo de filtragem do Listbox [ TrggCtrl ]
-'    ' que teve um item selecionado
-'    ' Esse evento está numa classe diferente dos Targts pois mesmo todo Listbox disparador é um [ TrgtCtrl ]
-'    '---------------------------------------------------------------
-'
-'    Set fForm = cCtrL.Parent
-'
-''MsgBox "teste update [ " & cCtrL.Name & " ]"
-''Stop
-'
-''    vA = cCtrL.ItemData(cCtrL.ListIndex)
-'
-''    cCtrL.Value = cCtrL.Value
-''
-''    vC = cCtrL.ListIndex
-''    vD = cCtrL.ItemsSelected.Count
-''    vE = cCtrL.ItemsSelected.Item(0)
-'
-'
-'
-'
-'    'Aciona a atualização do [ TargetCtrl ] associado ao controle
-'    'Call pb_TargtCtrlUpdate00_TimerDelay(fForM, cCtrL)
-'    'Call pb_TargtCtrlUpdate03_UNIQUEupdate(fForm, cCtrL)
-'
-'End Sub
 
 
 Private Sub mListBox_BeforeUpdate(Cancel As Integer)
@@ -432,25 +387,20 @@ Private Sub mListBox_BeforeUpdate(Cancel As Integer)
     Dim cCtrL As Control
     Dim sCtrL As String
     Dim fForm As Form
-    
-    'Dim bLostFocus As Boolean
-    'Dim fForM As Form
-    
+
     Set cCtrL = mListBox
     Set fForm = cCtrL.Parent
     
     sCtrL = cCtrL.Name
-
+    
+    
 'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "Aciona [ HighlightClrChange ] LostFocus, controle [ " & sCtrL & "]   "
 'Stop
-'    mListBox.Value = mListBox.Value
+
     iControlType = cCtrL.ControlType
     
     'Chama a rotina de alteração de cor do controle
     Call HighlightClrChange(iControlType, cCtrL, True)
-    
-    'Chama a rotina de filtragem
-    Call pb_TargtCtrlUpdate03_UNIQUEupdate(fForm, cCtrL)
 
 End Sub
 

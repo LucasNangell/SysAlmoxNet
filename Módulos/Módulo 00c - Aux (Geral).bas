@@ -20,7 +20,13 @@ Public Function DialogBoxReply(sTitulo As String, sTexto As String, sTrggForM As
     Set clObjFormOpenParams = New cls_09cParamsToOpenForms
     clObjFormOpenParams.sTrggForM = sTrggForM
     
+    'A função [ LockWindowUpdate ] é uma API do windows para bloquear as atualizações de tela
+    ' [ Application.hWndAccessApp ] é a identificação da janela no sistema
+    LockWindowUpdate Application.hWndAccessApp
+    
     DoCmd.OpenForm "frm_00(1)dSysDialogBox", , , , , acDialog, vOpenArgs
+
+    LockWindowUpdate 0
     
     DialogBoxReply = TempVars("SysDialogBox")
     

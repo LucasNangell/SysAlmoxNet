@@ -366,8 +366,13 @@ If gBbDepurandoLv02a Then Stop
     Call FormLoad00a_FindSysPaths(clObjFormOpenParams.sTrgtForm)
 'Stop
     If CurrentProject.AllForms(clObjFormOpenParams.sTrgtForm).IsLoaded Then DoCmd.Close acForm, clObjFormOpenParams.sTrgtForm
-    DoCmd.OpenForm clObjFormOpenParams.sTrgtForm
 
+    LockWindowUpdate Application.hWndAccessApp
+    
+    DoCmd.OpenForm clObjFormOpenParams.sTrgtForm
+    
+    LockWindowUpdate 0
+    
     '-------------------------------------------------------------
     '-----------------------------------
     

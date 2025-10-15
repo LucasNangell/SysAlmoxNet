@@ -4,7 +4,7 @@ Option Explicit
 
 Public Sub HighlightClrChange(iCtrlType As Integer, cCtrL As Control, bLostFocus As Boolean)
     
-    Dim vA, vB
+    Dim vA, vB, vC, vD, vE
     Dim sLockdStatus As String
     Dim sStR1 As String, sStR2 As String
     Dim sCtrL As String
@@ -21,13 +21,29 @@ Public Sub HighlightClrChange(iCtrlType As Integer, cCtrL As Control, bLostFocus
     Dim lgInT As Integer
     Dim vItem As Variant
     
-'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "Executa [ HighlightClrChange ]"
-'Stop
+    sCtrL = cCtrL.Name
+    
+MsgBox "teste --------------------------------------------------------------------------" & vbCr & "Executa [ HighlightClrChange ], controle [ " & sCtrL & " ] "
+Stop
+    
+Exit Sub
+    'vC = cCtrL.ListIndex
+    'vD = cCtrL.ItemsSelected.Count
+    'vE = cCtrL.ItemsSelected.Item(0)
+
+Stop
+
+
+
+
 
     sCtrL = cCtrL.Name
     sForM = cCtrL.Parent.Name
     sLockdStatus = IIf(cCtrL.Locked Or Not cCtrL.Enabled, "Dsbld", "Enbld")
     Set clObjLckdStatusParam = Nothing
+
+
+
 'Stop
     'Só faz a mudança de [ HighlightColor ] se o controle estiver [ habilitado ]
     If sLockdStatus = "Enbld" Then
@@ -109,6 +125,11 @@ Public Sub HighlightClrChange(iCtrlType As Integer, cCtrL As Control, bLostFocus
         End Select
      
     End If
+
+Stop
+
+
+
 
 End Sub
 

@@ -69,10 +69,23 @@ Public Property Set InitCtrl(cCtrL As Control)
             cCtrL.OnChange = "[Event Procedure]"
             cCtrL.AfterUpdate = "[Event Procedure]"
 
+        Case acCommandButton
+            Set mCommandButton = Nothing
+            Set mCommandButton = cCtrL
+            
+            cCtrL.OnClick = "[Event Procedure]"
+
+        Case acLabel
+            Set mLabel = Nothing
+            Set mLabel = cCtrL
+            
+            cCtrL.OnDblClick = "[Event Procedure]"
+
         Case acListBox
             Set mListBox = Nothing
             Set mListBox = cCtrL
             cCtrL.AfterUpdate = "[Event Procedure]"
+            cCtrL.OnLostFocus = "[Event Procedure]"
 
         Case acOptionGroup
 'Stop
@@ -92,23 +105,11 @@ Public Property Set InitCtrl(cCtrL As Control)
             'cCtrl.OnKeyPress = "[Event Procedure]"
             cCtrL.OnLostFocus = "[Event Procedure]"
             
-        Case acCommandButton
-            Set mCommandButton = Nothing
-            Set mCommandButton = cCtrL
-            
-            cCtrL.OnClick = "[Event Procedure]"
-
         Case acToggleButton
             Set mToggleButton = Nothing
             Set mToggleButton = cCtrL
             
             cCtrL.OnClick = "[Event Procedure]"
-            
-        Case acLabel
-            Set mLabel = Nothing
-            Set mLabel = cCtrL
-            
-            cCtrL.OnDblClick = "[Event Procedure]"
             
         Case Else
 'Stop
@@ -120,6 +121,21 @@ CaseResume:
 'Stop
 End Property
 
+
+Private Sub mComboBox_AfterUpdate()
+    Dim fForm As Form
+    Dim cCtrL As Control
+    
+    Set cCtrL = mComboBox
+    Set fForm = cCtrL.Parent
+    
+    'Aciona a atualização do [ TargetCtrl ] associado ao controle
+    Call pb_TargtCtrlUpdate00_TimerDelay(fForm, cCtrL)
+    
+
+End Sub
+
+
 Private Sub mCommandButton_Click()
     Dim vA
     Dim sMode As String, sForM As String, sActType As String, sFilGrp As String
@@ -130,18 +146,22 @@ Private Sub mCommandButton_Click()
     Dim vSplittedTAG As Variant
     Dim vKeyCtrl As Variant
     
+MsgBox "testando RstArea commandbutton event"
+Stop
     
+    Set cCtrL = mCommandButton
+    sCtrL = cCtrL.Name
+    Set fForm = cCtrL.Parent
+
     If gBbEnableErrorHandler Then On Error Resume Next
-'Stop
-    Set fForm = mCommandButton.Parent
-    sCtrL = mCommandButton.Name
+
     
     If Err.Number = 5 Then Exit Sub
     On Error GoTo -1
 
-    sForM = mCommandButton.Parent.Name
+    sForM = cCtrL.Parent.Name
     
-    Set clObjCommButtons = dictFormCommButtons(sForM)(mCommandButton.Name)
+    Set clObjCommButtons = dictFormCommButtons(sForM)(cCtrL.Name)
 
     'Nos botões tipo [ RstArea ] o sActType retornado é "RstArea0#"
     ' o Select Case foi modificado pra permitir usar a função like
@@ -167,7 +187,7 @@ Private Sub mCommandButton_Click()
                 End If
                 
                 On Error GoTo -1
-                Call pbSub00_CtrlsEnblDsble_GetParams(mCommandButton.Parent, clObjCommButtons.sFrmMode, sFilGrp)
+                Call pbSub00_CtrlsEnblDsble_GetParams(cCtrL.Parent, clObjCommButtons.sFrmMode, sFilGrp)
                 If gBbEnableErrorHandler Then On Error GoTo -1: On Error Resume Next
                 
                 'Mantém botão de edição habilitado caso haja algum item selecionado na lista
@@ -182,7 +202,7 @@ Private Sub mCommandButton_Click()
 '                            Set cEdtCtrl = Forms(sForM).Controls(clObjCommButtons.sCtrlName)
 '                            If cEdtCtrl.Enabled = False Then
 '                                'Chama [ pbSub02_CtrlsEnblDsbl_Apply ] para habilitar o botão específico sem precisar percorrer por todos os controles
-'                                Call pbSub02_CtrlsEnblDsbl_Apply(mCommandButton.Parent, cEdtCtrl, "btn", True, True)
+'                                Call pbSub02_CtrlsEnblDsbl_Apply(cCtrL.Parent, cEdtCtrl, "btn", True, True)
 '                            End If
 '                        End If
 '                    Next vKeyCtrl
@@ -200,7 +220,7 @@ Private Sub mCommandButton_Click()
                     End If
                 Next vKeyCtrl
             End If
-            Call pbSub00_CtrlsEnblDsble_GetParams(mCommandButton.Parent, clObjCommButtons.sFrmMode, sFilGrp)
+            Call pbSub00_CtrlsEnblDsble_GetParams(cCtrL.Parent, clObjCommButtons.sFrmMode, sFilGrp)
         
         Case sActType Like "CloseForm"
             DoCmd.Close
@@ -217,7 +237,7 @@ Private Sub mCommandButton_Click()
                     
                         If cCtrL.ListIndex > -1 Then
                             
-                            Call pbSub00_CtrlsEnblDsble_GetParams(mCommandButton.Parent, clObjCommButtons.sFrmMode, sFilGrp)
+                            Call pbSub00_CtrlsEnblDsble_GetParams(cCtrL.Parent, clObjCommButtons.sFrmMode, sFilGrp)
                             For Each vKeyCtrl In dictFormCommButtons(sForM)
                                 Set clObjCommButtons = dictFormCommButtons(sForM)(vKeyCtrl)
                                 If clObjCommButtons.sFilGrp = sFilGrp Then
@@ -238,7 +258,7 @@ Private Sub mCommandButton_Click()
             Call Scr_HideAccess
             
             'Traz o formulário pra frente pra reexibi-lo
-            Call Scr_FormAlwaysOnTop(mCommandButton.Parent, False)
+            Call Scr_FormAlwaysOnTop(cCtrL.Parent, False)
 
         Case sActType Like "NewRec"
             
@@ -258,7 +278,7 @@ Private Sub mCommandButton_Click()
                 Next vKeyCtrl
             End If
             
-            Call pbSub00_CtrlsEnblDsble_GetParams(mCommandButton.Parent, clObjCommButtons.sFrmMode, sFilGrp)
+            Call pbSub00_CtrlsEnblDsble_GetParams(cCtrL.Parent, clObjCommButtons.sFrmMode, sFilGrp)
 
 
         Case sActType Like "OpenForm"
@@ -275,20 +295,20 @@ Private Sub mCommandButton_Click()
                 
                 'Garante que a variável [ bTrgtFormIsDocked ] que indica se o [ TrgtForm ] deve abrir ancorado
                 ' receba False caso não tenha sido pressionada
-                If Not IsNull(mCommandButton.Parent.tglDockingTrgtFrm.Value) Then
-                    Set .cTglBtnDocking = mCommandButton.Parent.tglDockingTrgtFrm
+                If Not IsNull(cCtrL.Parent.tglDockingTrgtFrm.Value) Then
+                    Set .cTglBtnDocking = cCtrL.Parent.tglDockingTrgtFrm
                     If Not .cTglBtnDocking Is Nothing Then .bFrmIsDocked = .cTglBtnDocking.Value
-                ElseIf ControlExists("tglDockingTrgtFrm", mCommandButton.Parent) Then Set .cTglBtnDocking = mCommandButton.Parent.tglDockingTrgtFrm
+                ElseIf ControlExists("tglDockingTrgtFrm", cCtrL.Parent) Then Set .cTglBtnDocking = cCtrL.Parent.tglDockingTrgtFrm
                 End If
                 .sFilGrp = sFilGrp
                 .sFormMode = clObjCommButtons.sFrmMode
-                .sTrggForM = mCommandButton.Parent.Name
+                .sTrggForM = cCtrL.Parent.Name
                 .sTrgtForm = clObjCommButtons.sForM
                 .lngRecID = cCtrL.ListIndex
                 .bShowRecID = True
                 .bSetPosition = True
                 .bCentralizeForm = True
-                Set .cTrgtCtrl = dictFormFilterGrpTrgts(mCommandButton.Parent.Name)(sFilGrp)
+                Set .cTrgtCtrl = dictFormFilterGrpTrgts(cCtrL.Parent.Name)(sFilGrp)
                 .sQryFieldID = GetsQryFieldID(clObjTargtCtrlParam)
             End With
         
@@ -298,18 +318,18 @@ Private Sub mCommandButton_Click()
             'Abre o form [ frm_00(1)bSysTimer ] para monitorar "FormMove" tanto do TrggForm quanto do TrgtForm
             DoCmd.OpenForm "frm_00(1)bSysTimer", acNormal, , , , acHidden
 
-        Case sActType Like "RstArea*"
-'Stop
-            Call pb_TargtCtrlUpdate04_RESETarea(mCommandButton.Parent.Name, mCommandButton.Name)
+        Case sActType Like "RstArea*"   '* é usado como Wildcard
+Stop
+            Call pb_TargtCtrlUpdate04_RESETarea(cCtrL.Parent.Name, cCtrL.Name)
 
             
-        Case sActType Like "Save*"
+        Case sActType Like "Save*"      '* é usado como Wildcard
             sFilGrp = clObjCommButtons.sFilGrp
-            Call PbSubRecDataFields(mCommandButton)
+            Call PbSubRecDataFields(cCtrL)
             For Each vA In dictFormFilterGrpTrgts(sForM)(sFilGrp)
-                mCommandButton.Parent.Controls(vA).Requery
+                cCtrL.Parent.Controls(vA).Requery
             Next vA
-            Call pbSub00_CtrlsEnblDsble_GetParams(mCommandButton.Parent, clObjCommButtons.sFrmMode, sFilGrp)
+            Call pbSub00_CtrlsEnblDsble_GetParams(cCtrL.Parent, clObjCommButtons.sFrmMode, sFilGrp)
             
         
         Case sActType Like "Sort"
@@ -336,10 +356,10 @@ Private Sub mCommandButton_Click()
             
             'Inverte o [ sOrderMode ]
             If clObjCommButtons.sOrderMode = "ASC" Then
-                If dictFndFldrVars("gBsSysLocalIcoZtoA") <> "" <> "" Then mCommandButton.Picture = gBsSysLocalIcoAtoZ
+                If dictFndFldrVars("gBsSysLocalIcoZtoA") <> "" <> "" Then cCtrL.Picture = gBsSysLocalIcoAtoZ
                 clObjCommButtons.sOrderMode = "DESC"
             Else
-                If dictFndFldrVars("gBsSysLocalIcoAtoZ") <> "" <> "" Then mCommandButton.Picture = gBsSysLocalIcoZtoA
+                If dictFndFldrVars("gBsSysLocalIcoAtoZ") <> "" <> "" Then cCtrL.Picture = gBsSysLocalIcoZtoA
                 clObjCommButtons.sOrderMode = "ASC"
             End If
             
@@ -353,14 +373,158 @@ Private Sub mCommandButton_Click()
 End Sub
 
 
-Private Sub mToggleButton_Click()
+Private Sub mLabel_DblClick(Cancel As Integer)
+    Dim fForm As Form
+    Dim cCtrL As Control
+    
+    Set cCtrL = mLabel
+    Set fForm = cCtrL.Parent
+    
+'Stop
+    Call FormStatusBar04_OpnLogForm(fForm)
 
+End Sub
+
+
+Private Sub mListBox_AfterUpdate()
+    Dim vA, vB, vC, vD, vE
+    Dim fForm As Form
+    Dim cCtrL As Control
+    
+    Set cCtrL = mListBox
+    vA = cCtrL.Name
+    '---------------------------------------------------------------
+    ' inicia a filtragem do [ TrgtCtrl ] associado ao mesmo grupo de filtragem do Listbox [ TrggCtrl ]
+    ' que teve um item selecionado
+    ' Esse evento está numa classe diferente dos Targts pois mesmo todo Listbox disparador é um [ TrgtCtrl ]
+    '---------------------------------------------------------------
+    
+    Set fForm = cCtrL.Parent
+    
+MsgBox "teste update [ " & cCtrL.Name & " ]"
+Stop
+    
+    vA = cCtrL.ItemData(cCtrL.ListIndex)
+    
+    'vB = cCtrL.Value
+    
+    vC = cCtrL.ListIndex
+    vD = cCtrL.ItemsSelected.Count
+    vE = cCtrL.ItemsSelected.Item(0)
+    
+    
+    
+    
+    'Aciona a atualização do [ TargetCtrl ] associado ao controle
+    'Call pb_TargtCtrlUpdate00_TimerDelay(fForM, cCtrL)
+    Call pb_TargtCtrlUpdate03_UNIQUEupdate(fForm, cCtrL)
+
+End Sub
+
+
+Private Sub mListBox_LostFocus()
+
+    Dim iControlType As Integer
+    Dim vA
+    Dim cCtrL As Control
+    Dim sCtrL As String
+    Dim bLostFocus As Boolean
+    
+    'Dim fForM As Form
+    
+    Set cCtrL = mListBox
+    sCtrL = cCtrL.Name
+    bLostFocus = False
+
+'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "Aciona [ HighlightClrChange ] LostFocus, controle [ " & sCtrL & "]   "
+'Stop
+    
+    iControlType = cCtrL.ControlType
+    'Chama a rotina de alteração de cor do controle
+    Call HighlightClrChange(iControlType, cCtrL, True)
+
+End Sub
+
+
+Private Sub mTextBox_Change()
+
+    Dim vA, vB
+    Dim fForm As Form
+    Dim cCtrL As Control
+
+'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "Txtbox change"
+'Stop
+    Set cCtrL = mTextBox
+    Set fForm = cCtrL.Parent
+     
+    ''-- Máscara de texto do controle ----
+    ''Deve ser usado no evento Change do controle no próprio formulário
+    '' pra que seja possível personalizar a máscara pra cada controle
+    'Call MskdTxtbox02_TextMask(ActiveControl, ActiveControl.Text, "P_###,###", 6)
+    
+    'Aciona a atualização do [ TargetCtrl ] associado ao controle
+    Call pb_TargtCtrlUpdate00_TimerDelay(fForm, cCtrL)
+    
+
+End Sub
+
+Private Sub mTextBox_GotFocus()
+
+    Dim iControlType As Integer
+    Dim vA
+    Dim cCtrL As Control
+    Dim sCtrL As String
+    Dim bLostFocus As Boolean
+    
+    'Dim fForM As Form
+    
+    Set cCtrL = mTextBox
+    sCtrL = cCtrL.Name
+    bLostFocus = False
+
+'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "Aciona [ HighlightClrChange ]"
+'Stop
+    
+    iControlType = cCtrL.ControlType
+    'Chama a rotina de alteração de cor do controle
+    Call HighlightClrChange(iControlType, cCtrL, bLostFocus)
+
+End Sub
+
+
+Private Sub mTextBox_LostFocus()
+
+    Dim vA
+    Dim iControlType As Integer
+    Dim cCtrL As Control
+    Dim sCtrL As String
+    Dim bLostFocus As Boolean
+    'Dim fForM As Form
+    
+    Set cCtrL = mTextBox
+    sCtrL = cCtrL.Name
+    bLostFocus = False
+
+'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "Aciona [ HighlightClrChange ]"
+'Stop
+    
+    iControlType = cCtrL.ControlType
+    'Chama a rotina de alteração de cor do controle
+    Call HighlightClrChange(iControlType, cCtrL, True)
+
+End Sub
+
+
+Private Sub mToggleButton_Click()
+    Dim cCtrL As Control
+    
+    Set cCtrL = mToggleButton
     Set clObjFormOpenParams = New cls_09cParamsToOpenForms
     
     With clObjFormOpenParams
-        Set .cTglBtnDocking = mToggleButton
-        Set .fTrgtForm = mToggleButton.Parent
-        .sTrgtForm = mToggleButton.Parent.Name
+        Set .cTglBtnDocking = cCtrL
+        Set .fTrgtForm = cCtrL.Parent
+        .sTrgtForm = cCtrL.Parent.Name
         .bFrmIsDocked = .cTglBtnDocking.Value
         
     End With
@@ -370,112 +534,12 @@ Private Sub mToggleButton_Click()
 End Sub
 
 
-Private Sub mTextBox_GotFocus()
-
-    Dim iControlType As Integer
-    Dim vA
-    Dim sCtrL As String
-    Dim bLostFocus As Boolean
-    
-    'Dim fForM As Form
-    
-    sCtrL = mTextBox.Name
-    bLostFocus = False
-
-'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "Aciona [ HighlightClrChange ]"
-'Stop
-    
-    iControlType = mTextBox.ControlType
-    'Chama a rotina de alteração de cor do controle
-    Call HighlightClrChange(iControlType, mTextBox, bLostFocus)
-
-End Sub
-
-
-Private Sub mTextBox_LostFocus()
-
-    Dim iControlType As Integer
-    Dim vA
-    Dim sCtrL As String
-    Dim bLostFocus As Boolean
-    
-    'Dim fForM As Form
-    
-    sCtrL = mTextBox.Name
-    bLostFocus = False
-
-'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "Aciona [ HighlightClrChange ]"
-'Stop
-    
-    iControlType = mTextBox.ControlType
-    'Chama a rotina de alteração de cor do controle
-    Call HighlightClrChange(iControlType, mTextBox, True)
-
-End Sub
-
-
-Private Sub mTextBox_Change()
-
-    Dim vA, vB
-    Dim fForm As Form
-
-'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "Txtbox change"
-'Stop
-    Set fForm = mTextBox.Parent
-     
-    ''-- Máscara de texto do controle ----
-    ''Deve ser usado no evento Change do controle no próprio formulário
-    '' pra que seja possível personalizar a máscara pra cada controle
-    'Call MskdTxtbox02_TextMask(ActiveControl, ActiveControl.Text, "P_###,###", 6)
-    
-    'Aciona a atualização do [ TargetCtrl ] associado ao controle
-    Call pb_TargtCtrlUpdate00_TimerDelay(fForm, mTextBox)
-    
-
-End Sub
-
-Private Sub mListBox_AfterUpdate()
-    Dim vA
-    Dim fForm As Form
-    
-    vA = mListBox.Name
-    '---------------------------------------------------------------
-    ' inicia a filtragem do [ TrgtCtrl ] associado ao mesmo grupo de filtragem do Listbox [ TrggCtrl ]
-    ' que teve um item selecionado
-    ' Esse evento está numa classe diferente dos Targts pois mesmo todo Listbox disparador é um [ TrgtCtrl ]
-    '---------------------------------------------------------------
-    
-    Set fForm = mListBox.Parent
-    
-'MsgBox "teste update [ " & mListBox.Name & " ]"
-'Stop
-    'Aciona a atualização do [ TargetCtrl ] associado ao controle
-    'Call pb_TargtCtrlUpdate00_TimerDelay(fForM, mListBox)
-    Call pb_TargtCtrlUpdate03_UNIQUEupdate(fForm, mListBox)
-
-End Sub
 
 
 
-Private Sub mComboBox_AfterUpdate()
-    Dim fForm As Form
-    
-    Set fForm = mComboBox.Parent
-    
-    'Aciona a atualização do [ TargetCtrl ] associado ao controle
-    Call pb_TargtCtrlUpdate00_TimerDelay(fForm, mComboBox)
-    
 
-End Sub
 
-Private Sub mLabel_DblClick(Cancel As Integer)
-    Dim fForm As Form
-    
-    Set fForm = mLabel.Parent
-    
-'Stop
-    Call FormStatusBar04_OpnLogForm(fForm)
 
-End Sub
+
 
 

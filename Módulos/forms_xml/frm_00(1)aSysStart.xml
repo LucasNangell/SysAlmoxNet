@@ -178,7 +178,7 @@ pro incício do sistema</Caption>
       <Height>405</Height>
       <Tag></Tag>
       <Enabled>Verdadeiro</Enabled>
-      <Caption>Test Ctrl Type</Caption>
+      <Caption>Test Listbox</Caption>
       <OnClick>[Event Procedure]</OnClick>
     </Control>
     <Control>
@@ -276,7 +276,7 @@ pro incício do sistema</Caption>
       <Caption>Verde</Caption>
     </Control>
     <Control>
-      <Name>lstProdsBase</Name>
+      <Name>lstTeste1</Name>
       <Type>ListBox</Type>
       <Left>226</Left>
       <Top>2494</Top>
@@ -287,7 +287,7 @@ pro incício do sistema</Caption>
       <RowSource>qry_04(01)bProdutosFull_Setor(Viw-Lst)</RowSource>
     </Control>
     <Control>
-      <Name>Lista246</Name>
+      <Name>lstTeste2</Name>
       <Type>ListBox</Type>
       <Left>226</Left>
       <Top>3911</Top>

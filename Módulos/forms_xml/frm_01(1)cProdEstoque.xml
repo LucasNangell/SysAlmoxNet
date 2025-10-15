@@ -1105,7 +1105,7 @@ Nova Entrada</Caption>
       <Tag>ActType>RstArea02</Tag>
       <Enabled>Verdadeiro</Enabled>
       <Caption></Caption>
-      <OnClick></OnClick>
+      <OnClick>[Event Procedure]</OnClick>
     </Control>
     <Control>
       <Name>txtSrchCateg</Name>

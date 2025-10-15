@@ -51,6 +51,14 @@ Private Sub btnExcluirPrd_Click()
     TempVars("bReply") = DialogBoxReply(sTitulo, sTexto, sForM)
 End Sub
 
+Private Sub btnReset2Search_Click()
+
+
+Stop
+    btnReset2Search.SetFocus
+
+End Sub
+
 Private Sub Form_Load()
 
 'Stop

@@ -157,7 +157,8 @@ Public Sub pb_TargtCtrlUpdate03_UNIQUEupdate(fForm As Form, cTrggCtrL As Control
     Dim sFilGrp As String
     
     sForM = fForm.Name
-    
+    'vA = cTrggCtrL.ItemData(cTrggCtrL.ListIndex)
+
 'Stop
     'Confirma se foi fornecido um Controle na chamada da função
     If Not cTrggCtrL Is Nothing Then
@@ -198,7 +199,7 @@ End Sub
 
 
 Public Sub pb_TargtCtrlUpdate04_RESETarea(sForM As String, sResetAreaBtn As String)
-    Dim vA, vB
+    Dim vA, vB, vC, vD, vE
     Dim sRstArea As String
     Dim vKeyCtrl As Variant, vKeyFilGrp As Variant
     Dim fForm As Form
@@ -208,13 +209,13 @@ Public Sub pb_TargtCtrlUpdate04_RESETarea(sForM As String, sResetAreaBtn As Stri
     
     Set fForm = Forms(sForM)
     vA = fForm.Name
-'Stop
+Stop
 
     'Confirma se o dict [ dictRstArBTNsByNr(sForM) ] existe o que indica que há botões associados a [ Areas de Reset ]
     If IsObject(dictRstArBTNsByNr(sForM)) Then
 'Stop
     
-        'Acessa o dict [ dictRstArBTNsByName(sForM) ] para identificar a [ área de reset ] a ser esvaziada
+        'Acessa o dict [ dictRstArBTNsByName(sForM) ] pra identificar a [ área de reset ] a ser esvaziada
         If dictRstArBTNsByName(sForM).Exists(sResetAreaBtn) = True Then
 'Stop
             sRstArea = dictRstArBTNsByName(sForM)(sResetAreaBtn)
@@ -230,19 +231,30 @@ Public Sub pb_TargtCtrlUpdate04_RESETarea(sForM As String, sResetAreaBtn As Stri
                     'Acessa a classe [ clObjRstAreaParams ] pra identificar
                     ' os [ Controles ] e os [ Grupos de Filtragem ] associados à [ Area de Reset ]
                     Set clObjRstAreaParams = dictFrmResetAreas(sForM)(sRstArea)
-                    
+Stop
                         'Por meio do dict [ clObjRstAreaParams.dictRstArCtrls ] identifica os controles da [ Área de Reset ] a serem esvaziados
                         For Each vKeyCtrl In clObjRstAreaParams.dictRstArCtrls
-'Stop
+Stop
                             Set cCtrL = Forms(sForM).Controls(vKeyCtrl)
                             
-'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "Esvazia o controle [ " & vKeyCtrl & " ]"
-'Stop
+MsgBox "teste --------------------------------------------------------------------------" & vbCr & "Esvazia o controle [ " & vKeyCtrl & " ]"
+Stop
+                            vA = cCtrL.Value
+                            vB = cCtrL.DefaultValue
+                            
+                            
+                            vC = cCtrL.ListIndex
+                            vD = cCtrL.ItemsSelected.Count
+                            vE = cCtrL.ItemsSelected.Item(0)
+                            
+                            vB = IIf(cCtrL.DefaultValue = "", Null, Replace(cCtrL.DefaultValue, """", ""))
+                            
+                            
                             
                             'Esvazia o controle identificado
                             cCtrL = IIf(cCtrL.DefaultValue = "", Null, Replace(cCtrL.DefaultValue, """", ""))
                             Call HighlightClrChange(Int(cCtrL.ControlType), cCtrL, True)
-                            
+Stop
                         Next vKeyCtrl
                         
                         'Identifica os grupos de filtragem a [ Área de Reset ] pra atualizar
@@ -264,7 +276,9 @@ Public Sub pb_TargtCtrlUpdate04_RESETarea(sForM As String, sResetAreaBtn As Stri
                         Next vKeyFilGrp
                     
                 End If
+            
             Else
+                
                 MsgBox "erro não previsto"
                 Stop
             
@@ -651,6 +665,10 @@ If gBbDepurandoLv03a Then Stop
                 vA = cCtrL.Name
                 cCtrL.RowSource = vD
                 
+                'Havendo algum item previamente selecionado na lista desmarca a seleção
+                vB = cCtrL.ListIndex
+                If vB > -1 Then cCtrL.Selected(cCtrL.ListIndex) = False
+                
                 'Se for uma Combobox e se o [ Trigger ] não estiver vazio exibe o primeiro item após o Trgt ser filtrado
                 If cCtrL.ControlType = acComboBox Then
 
@@ -677,33 +695,65 @@ If gBbDepurandoLv03a Then Stop
                 'Recupera a quantidade de registros exibidos
                 ' apenas se tiver sido indicado um controle pra exibir
                 'If sRecCntCtrlName <> "" Then bBoL = ControlExists(sRecCntCtrlName, fForM)
-                bBoL = ControlExists(sRecCntCtrlName, fForm)
-'Stop
-                'If bBoL Then
-                If sRecCntCtrlName <> "" And bBoL Then
-                    
-'If gBbDepurandoLv01b Then MsgBox "teste --------------------------------------------------------------------------" & vbCr & "5- retorna o total de registros da consulta do TargtCtrl"
-'Stop
-                    
-'If gBbDepurandoLv01b Then MsgBox "teste --------------------------------------------------------------------------" & vbCr & "6- atualiza RecCnt"
-'Stop
-                    'Atualiza o RecCnt
-                    
-                    lngFilteredRecs = cCtrL.ListCount
-                    Set cCtrL = Forms(sForM).Controls(sRecCntCtrlName)
-                    vA = cCtrL.Name
-                    
-                    vA = IIf(lngFilteredRecs = 0, "Zero", Format(lngFilteredRecs, "#,###"))
-                    vB = IIf(lngFilteredRecs = 1, ".", "s.")
-                    
-                    If sNewTrgtGrp_RecCntCpt = "" Then sNewTrgtGrp_RecCntCpt = "[ Todos os registros ]"
-                    
-                    'Se estiver vazio significa que não houve filtragem
-                    sNewTrgtGrp_RecCntCpt = sNewTrgtGrp_RecCntCpt & " -> " & vA & " Reg" & vB
-                    
-                    cCtrL.Caption = sNewTrgtGrp_RecCntCpt
+                
+                If sRecCntCtrlName <> "" Then
+                    bBoL = ControlExists(sRecCntCtrlName, fForm)
+                
+                        If sRecCntCtrlName <> "" And bBoL Then
+                            
+        'If gBbDepurandoLv01b Then MsgBox "teste --------------------------------------------------------------------------" & vbCr & "5- retorna o total de registros da consulta do TargtCtrl"
+        'Stop
+                            
+        'If gBbDepurandoLv01b Then MsgBox "teste --------------------------------------------------------------------------" & vbCr & "6- atualiza RecCnt"
+        'Stop
+                            'Atualiza o RecCnt
+                            
+                            lngFilteredRecs = cCtrL.ListCount
+                            Set cCtrL = Forms(sForM).Controls(sRecCntCtrlName)
+                            vA = cCtrL.Name
+                            
+                            vA = IIf(lngFilteredRecs = 0, "Zero", Format(lngFilteredRecs, "#,###"))
+                            vB = IIf(lngFilteredRecs = 1, ".", "s.")
+                            
+                            If sNewTrgtGrp_RecCntCpt = "" Then sNewTrgtGrp_RecCntCpt = "[ Todos os registros ]"
+                            
+                            'Se estiver vazio significa que não houve filtragem
+                            sNewTrgtGrp_RecCntCpt = sNewTrgtGrp_RecCntCpt & " -> " & vA & " Reg" & vB
+                            
+                            cCtrL.Caption = sNewTrgtGrp_RecCntCpt
+                        
+                        End If
                 
                 End If
+                
+                
+                
+'Stop
+                'If bBoL Then
+'''                If sRecCntCtrlName <> "" And bBoL Then
+'''
+''''If gBbDepurandoLv01b Then MsgBox "teste --------------------------------------------------------------------------" & vbCr & "5- retorna o total de registros da consulta do TargtCtrl"
+''''Stop
+'''
+''''If gBbDepurandoLv01b Then MsgBox "teste --------------------------------------------------------------------------" & vbCr & "6- atualiza RecCnt"
+''''Stop
+'''                    'Atualiza o RecCnt
+'''
+'''                    lngFilteredRecs = cCtrL.ListCount
+'''                    Set cCtrL = Forms(sForM).Controls(sRecCntCtrlName)
+'''                    vA = cCtrL.Name
+'''
+'''                    vA = IIf(lngFilteredRecs = 0, "Zero", Format(lngFilteredRecs, "#,###"))
+'''                    vB = IIf(lngFilteredRecs = 1, ".", "s.")
+'''
+'''                    If sNewTrgtGrp_RecCntCpt = "" Then sNewTrgtGrp_RecCntCpt = "[ Todos os registros ]"
+'''
+'''                    'Se estiver vazio significa que não houve filtragem
+'''                    sNewTrgtGrp_RecCntCpt = sNewTrgtGrp_RecCntCpt & " -> " & vA & " Reg" & vB
+'''
+'''                    cCtrL.Caption = sNewTrgtGrp_RecCntCpt
+'''
+'''                End If
             
             End If
             

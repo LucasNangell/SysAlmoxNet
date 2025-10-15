@@ -150,6 +150,7 @@ Public Sub BuildSQL_ListBox(cCtrL As Control, sTargtCtrlSQLselect As String, bMs
     Dim vA, vB, vC, vD, vE
     Dim sOrigListTxt As String, sSrchTxt As String
     Dim iSrchVal As Integer
+    Dim sCtrL As String
     
     Dim sReCntCpt As String
     Dim sReCntFullStR As String
@@ -163,11 +164,13 @@ Public Sub BuildSQL_ListBox(cCtrL As Control, sTargtCtrlSQLselect As String, bMs
     Dim lngTbeClmn As Long
     Dim sOpenBrkt As String, sCloseBrkt As String
     
-    vA = cCtrL.Name
+    sCtrL = cCtrL.Name
     vB = cCtrL
     
-'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "BuildSQL Listbox [ " & vA & " ]"
-'Stop
+    'vA = cCtrL.ItemData(cCtrL.ListIndex)
+    
+MsgBox "teste --------------------------------------------------------------------------" & vbCr & "BuildSQL Listbox [ " & sCtrL & " ]"
+Stop
     
     'clObjTriggCtrlParam.dictGetListSrchVals.RemoveAll
     'clObjTriggCtrlParam.dictGetListItemTxts.RemoveAll
@@ -176,11 +179,15 @@ Public Sub BuildSQL_ListBox(cCtrL As Control, sTargtCtrlSQLselect As String, bMs
     ' que tem o Valor Textual dos itens
     lngTbeClmn = clObjTriggCtrlParam.iListboxTxtClmn
     
-'Stop
+    vA = cCtrL.ListIndex
+    If vA > -1 Then cCtrL.Selected(vA) = True
+    cCtrL.Value = cCtrL.Value
+    vB = cCtrL.Value
+    
     
     'Roda o código apenas se houver pelo menos um item selecionado na Lista
     lngSelectedItems = cCtrL.ItemsSelected.Count
-    
+'Stop
     
     If lngSelectedItems > 0 Then
         
@@ -200,26 +207,26 @@ Public Sub BuildSQL_ListBox(cCtrL As Control, sTargtCtrlSQLselect As String, bMs
         Next vListItem
         '-------------------------------------------------------------------
     
-    'Se o [ listbox ] for Multiselect = Nenhum [ ItemsSelected ] retorna ZERO
-    ' então é preciso recuperar o item selecionado de outra forma
-    Else
-        If cCtrL.ListIndex > -1 Then
-'Stop
-            iSrchVal = cCtrL.Value                   'ID do item selecionado
-            sOrigListTxt = cCtrL.Column(lngTbeClmn, cCtrL.ListIndex)      'Texto associado ao item
-            
-            
-            lngCounT = clObjTriggCtrlParam.dictGetListItemTxts.Count
-            vA = lngCounT + 1
-            clObjTriggCtrlParam.dictGetListSrchVals.Add vA, iSrchVal
-            clObjTriggCtrlParam.dictGetListItemTxts.Add vA, sOrigListTxt
+'    'Se o [ listbox ] for Multiselect = Nenhum [ ItemsSelected ] retorna ZERO
+'    ' então é preciso recuperar o item selecionado de outra forma
+'    Else
+'        If cCtrL.ListIndex > -1 Then
+''Stop
+'            iSrchVal = cCtrL.Value                   'ID do item selecionado
+'            sOrigListTxt = cCtrL.Column(lngTbeClmn, cCtrL.ListIndex)      'Texto associado ao item
+'
+'
+'            lngCounT = clObjTriggCtrlParam.dictGetListItemTxts.Count
+'            lngCounT = lngCounT + 1
+'            clObjTriggCtrlParam.dictGetListSrchVals.Add lngCounT, iSrchVal
+'            clObjTriggCtrlParam.dictGetListItemTxts.Add lngCounT, sOrigListTxt
         
-        End If
+'        End If
     
-    End If
+'    End If
     
     
-    If lngCounT > 0 Then
+'    If lngCounT > 0 Then
 'Stop
         'Monta o WHERE e o o RecCnt do controle
         '------------------------------------------------
@@ -380,7 +387,9 @@ Public Sub BuildSQL_TextBox(cCtrL As Control, sTargtCtrlSQLselect As String, bMs
 'Stop
     'Roda o código apenas se houver algum valor no controle
     
-    If gBbEnableErrorHandler Then On Error Resume Next
+    On Error Resume Next
+    'If gBbEnableErrorHandler Then On Error Resume Next
+    
     'Se houver erro significa que o controle ora analisado não tem o foco
     ' nesse caso é preciso obter a proriedade .Value ao invés da .Text
     sOrigListTxt = cCtrL.Text

@@ -12,9 +12,21 @@ Option Explicit
 
 
 
+Private Sub cmbSrcCateg_BeforeUpdate(Cancel As Integer)
+    Dim vA, vB, vC, vD, vE
+    Dim cCtrL As Control
+    
+    Set cCtrL = cmbSrcCateg
+Stop
+    
+    vB = cCtrL.ListIndex
+
+
+End Sub
+
 Private Sub Form_Load()
-    'Call pbSub22_TargtCtrlsQryFieldsBuild(Me.Name, lstProdsBase, "01")
-    Call SysLoad00_SysStartLoad
+    
+'    Call SysLoad00_SysStartLoad
 
 End Sub
 
@@ -35,15 +47,33 @@ End Sub
 
 
 Private Sub bTest_Click()
-   Dim vA, vB, vC
-   Dim sTitulo As String, sTexto As String, sTrggForM As String
-   sTrggForM = Me.Name
+   Dim vA, vB, vC, vD, vE
+   Dim cCtrL1 As Control, cCtrL2 As Control
+   
+   Set cCtrL1 = Me.lstTeste1
+   Set cCtrL2 = Me.lstTeste2
+   
 
-'Stop
-    sTitulo = "Cancelamento de Ediçao de Dados"
-    sTexto = "As alterações realizadas serão perdidas." & vbCrLf & "Confirma?"
-    vA = DialogBoxReply(sTitulo, sTexto, sTrggForM)
-
+Stop
+   vA = cCtrL1.Value
+   'vB = cCtrL1.DefaultValue
+    
+    
+    vC = cCtrL1.ListIndex
+    vD = cCtrL1.ItemsSelected.Count
+    'vE = cCtrL1.ItemsSelected.Item(0)
+    
+    
+   vA = cCtrL2.Value
+   'vB = cCtrL2.DefaultValue
+    
+    
+    vC = cCtrL2.ListIndex
+    vD = cCtrL2.ItemsSelected.Count
+    'vE = cCtrL2.ItemsSelected.Item(0)
+    
+    
+    
 End Sub
 
 Private Sub btnCheckColor_Click()
@@ -84,10 +114,42 @@ Private Sub btnCheckColor_Click()
 End Sub
 
 Private Sub lstProdsBase_AfterUpdate()
-    Dim vA
-Stop
-    vA = lstProdsBase.ItemsSelected.Count
+    Dim vA, vB, vC, vD, vE
+    Dim cCtrL As Control
     
+    Set cCtrL = lstProdsBase
+Stop
+    vA = cCtrL.ItemsSelected.Count
+    vB = cCtrL.ListIndex
+    
+    vD = cCtrL.Value
+    'vE = cCtrL.Column(0, 3)
+    'vA = cCtrL.Column(0, vB)
+    
+    
+Stop
+    vA = cCtrL.ListIndex
+    vB = cCtrL.ItemsSelected.Count
+    
+    cCtrL.Selected(1) = True
+    vB = cCtrL.ItemsSelected.Count
+    
+    For Each vA In cCtrL.ItemsSelected
+        vC = cCtrL.Column(0, vA)
+        
+    Next vA
+    
+    
+    
+    
+'
+'
+'    vA = cCtrL.ListIndex
+'    vB = cCtrL.ItemsSelected.Count
+'
+'    cCtrL.Selected(vA) = True
+'    vB = cCtrL.ItemsSelected.Count
+'
 
 End Sub
 
@@ -146,36 +208,10 @@ End Sub
 
 
 Private Sub btnProdEstoque_Click()
-    
-    'Atribuição dos valores a [ clObjFormOpenParams ] usados nas rotinas de abertura de formulários
-    Set clObjFormOpenParams = New cls_09cParamsToOpenForms
-    
-    With clObjFormOpenParams
-        
-        'Garante que a variável [ bTrgtFormIsDocked ] que indica se o [ TrgtForm ] deve abrir ancorado
-        ' receba False caso não tenha sido pressionada
-        If Not IsNull(tglDockingTrgtFrm.Value) Then
-            Set .cTglBtnDocking = tglDockingTrgtFrm
-            If Not .cTglBtnDocking Is Nothing Then .bFrmIsDocked = .cTglBtnDocking.Value
-        ElseIf ControlExists("tglDockingTrgtFrm", Me) Then Set .cTglBtnDocking = tglDockingTrgtFrm
-        End If
+    Dim vA, vB
 
-        '.bIsTrggForm = False
-        .bSetPosition = True
-        '.fTrgtForm   este valor deve ser definido após a abertura do formulário em FormLoad05_OpenForm
-        .lngFormLeft = GbLngTrgtLeft
-        .lngFormTop = GbLngTrgtTop
-        '.lngRecID = 30
-        .sFormMode = "ProdView"
-        .sTrggForM = Me.Name
-        .sTrgtForm = "frm_01(1)cProdEstoque"
-    
-    End With
+' muda o Sort da lista
 
-    'Inicia as rotinas pra abertura de formulário
-    Call FormLoad01_FormLoadingStart(clObjFormOpenParams)
-    
-    'Abre o form [ frm_00(1)bSysTimer ] para monitorar "FormMove" tanto do TrggForm quanto do TrgtForm
-    DoCmd.OpenForm "frm_00(1)bSysTimer", acNormal, , , , acHidden
+
     
 End Sub

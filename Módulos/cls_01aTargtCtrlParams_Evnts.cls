@@ -61,6 +61,7 @@ Public Property Set InitCtrl(cCtrL As Control)
 
 End Property
 
+
 Private Sub mListBox_MouseDown(Button As Integer, Shift As Integer, x As Single, Y As Single)
     Dim vA, vB
     Dim vKeyGrp, vKeyCtrl
@@ -126,11 +127,3 @@ Private Sub mListBox_MouseDown(Button As Integer, Shift As Integer, x As Single,
 
 End Sub
 
-Private Sub mListBox_AfterUpdate()
-
-'MsgBox "mLIstBox_AfterUpdate [ " & mListBox.Name & " ]"
-'Stop
-    
-    Call PbSubFillFieldsByList(mListBox)
-
-End Sub

@@ -2,7 +2,9 @@ Attribute VB_Name = "Módulo 99c -  pbSubsSystemDevGit"
 Option Compare Database
 ' Adicionar esta declaração no topo do módulo (se ainda não existir)
 Private Declare PtrSafe Sub Sleep Lib "kernel32" (ByVal dwMilliseconds As LongPtr)
-
+Public Function CommitVersion()
+    Call ExportarTodosObjetosVBADetallado
+End Function
 Sub ExportarTodosObjetosVBADetallado()
     Dim vbComp As VBIDE.VBComponent
     Dim strFolderPath As String

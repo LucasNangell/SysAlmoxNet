@@ -1163,3 +1163,7 @@ Sub FormStatusBar04_OpnLogForm(fForm As Form) ', oOjcT As Object) 'fForm As Form
     'DoEvents
 'Stop
 End Sub
+Public Function StartSystem()
+    Call SysLoad00_SysStartLoad
+End Function
+

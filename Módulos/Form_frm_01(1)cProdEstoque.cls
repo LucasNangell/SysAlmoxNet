@@ -52,10 +52,11 @@ Private Sub btnExcluirPrd_Click()
 End Sub
 
 Private Sub btnReset2Search_Click()
-
+    
+    Me.txtSrchDescProd.SetFocus
 
 'Stop
-    btnReset2Search.SetFocus
+    
 
 End Sub
 

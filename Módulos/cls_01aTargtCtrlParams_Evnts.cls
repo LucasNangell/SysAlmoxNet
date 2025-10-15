@@ -56,10 +56,34 @@ Public Property Set InitCtrl(cCtrL As Control)
 
     Set mListBox = Nothing
     Set mListBox = cCtrL
-    cCtrL.AfterUpdate = "[Event Procedure]"
+    cCtrL.BeforeUpdate = "[Event Procedure]"
     cCtrL.OnMouseDown = "[Event Procedure]"
 
 End Property
+
+
+Private Sub mListBox_BeforeUpdate(Cancel As Integer)
+
+    Dim vA
+    Dim cCtrL As Control
+    Dim sCtrL As String
+    Dim fForm As Form
+    
+    'Dim bLostFocus As Boolean
+    'Dim fForM As Form
+    
+    Set cCtrL = mListBox
+    Set fForm = cCtrL.Parent
+    
+    sCtrL = cCtrL.Name
+
+'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "Aciona [ HighlightClrChange ] LostFocus, controle [ " & sCtrL & "]   "
+'Stop
+    
+    'Chama a rotina de filtragem
+    Call pb_TargtCtrlUpdate03_UNIQUEupdate(fForm, cCtrL)
+
+End Sub
 
 
 Private Sub mListBox_MouseDown(Button As Integer, Shift As Integer, x As Single, Y As Single)
@@ -67,14 +91,14 @@ Private Sub mListBox_MouseDown(Button As Integer, Shift As Integer, x As Single,
     Dim vKeyGrp, vKeyCtrl
     Dim sFilGrp As String, sForM As String
     Dim cEdtCtrl As Control
-    Dim fForM As Form
+    Dim fForm As Form
     
     '---------------------------------------------------------------
     ' chama pbSub00_CtrlsEnblDsble_GetParams
     ' pra habilitar/desabilitar os controles depois que um valor é selecionado na Listbox
     '---------------------------------------------------------------
     
-    Set fForM = mListBox.Parent
+    Set fForm = mListBox.Parent
 'MsgBox "Mouse Down [ " & mListBox.Name & " ]"
 'Stop
     'Quando um item é selecionado na listbox
@@ -103,7 +127,7 @@ Private Sub mListBox_MouseDown(Button As Integer, Shift As Integer, x As Single,
         End If
 
         
-        Call pbSub00_CtrlsEnblDsble_GetParams(fForM, "RecSelect", sFilGrp)
+        Call pbSub00_CtrlsEnblDsble_GetParams(fForm, "RecSelect", sFilGrp)
         
         'Identifica o botão de edição do grupo de filtragem pra habilitá-lo,
         ' por meio do parâmetro ActType> n TAG do botão

@@ -26,7 +26,7 @@ End Sub
 
 Private Sub Form_Load()
     
-'    Call SysLoad00_SysStartLoad
+    Call SysLoad00_SysStartLoad
 
 End Sub
 

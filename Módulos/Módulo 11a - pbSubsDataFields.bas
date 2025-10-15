@@ -21,7 +21,7 @@ Sub PbSubFillFieldsByList(cListBox As Control)
     Dim sSQLtablesString As String
     Dim sLoadLogWarn As String
     
-    Dim fForM As Form
+    Dim fForm As Form
 
     
     Dim vKeyDataFieldCtrl As Variant
@@ -41,8 +41,8 @@ Sub PbSubFillFieldsByList(cListBox As Control)
     Dim iConT As Integer
     Dim iColIDCmb As Integer
 
-    Set fForM = cListBox.Parent
-    sForM = fForM.Name
+    Set fForm = cListBox.Parent
+    sForM = fForm.Name
 'Stop
 
     '--------------------------------------------------------------------
@@ -141,8 +141,8 @@ Sub PbSubFillFieldsByList(cListBox As Control)
         sDataFieldCtrl = vKeyDataFieldCtrl
     
         'Confirma se o controle [ vKeyDataFieldCtrl ] de fato existe no [ Form ]
-        If ControlExists(sDataFieldCtrl, fForM) Then
-            Set cDataFieldCtrl = fForM.Controls(sDataFieldCtrl)
+        If ControlExists(sDataFieldCtrl, fForm) Then
+            Set cDataFieldCtrl = fForm.Controls(sDataFieldCtrl)
             
             Set clObjTargtCtrlParam = dictFormFilterGrpTrgts(sForM)(sFilGrp)(cListBox.Name)
             

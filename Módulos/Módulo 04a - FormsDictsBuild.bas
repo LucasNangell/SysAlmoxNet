@@ -8,7 +8,7 @@ Public Sub pbSub00_UserPermissionsDictBuild(vLoginStR As Variant)
     Dim vA, vB, vC, vD
     'Dim dDicT As Dictionary
     Dim vKey As Variant
-    Dim cCtrl As Control
+    Dim cCtrL As Control
     Dim sWhere As String
     Dim iInT As Integer
     Dim rsTbE As Recordset
@@ -2136,7 +2136,7 @@ End Sub
 
 
 
-Public Function pbSub41_CtrlsBehvrDictBuild(vTagSection As Variant, cCtrl As Control)
+Public Function pbSub41_CtrlsBehvrDictBuild(vTagSection As Variant, cCtrL As Control)
 
     Dim vA, vB, vC
     Dim sForM As String
@@ -2155,8 +2155,8 @@ Public Function pbSub41_CtrlsBehvrDictBuild(vTagSection As Variant, cCtrl As Con
     
     If gBbEnableErrorHandler Then On Error GoTo -1: On Error GoTo FrM_ErrorHandler
     
-    sForM = cCtrl.Parent.Name
-    sCtrL = cCtrl.Name
+    sForM = cCtrL.Parent.Name
+    sCtrL = cCtrL.Name
     
 If gBbDepurandoLv01c Then MsgBox "----- pbSub41_CtrlsBehvrDictBuild ----------------------------------------------" & vbCr & vbCr & "Recupera os parâmetros de [ " & sCtrL & " ] pra inclusão" & vbCr & "em [ dictCtrlBehvrParams(sForM) ]" & vbCr & " " & vbCr & " "
 If gBbDepurandoLv01c Then Stop
@@ -2182,7 +2182,7 @@ If gBbDepurandoLv01c Then Stop
     sParam = "HLclr"
         
         On Error GoTo -1
-        sHLclr = GetTagParams(sParam, vTagSectionParams, , False, 0, 0, 1, , , , True, "MissingHLclr", cCtrl)
+        sHLclr = GetTagParams(sParam, vTagSectionParams, , False, 0, 0, 1, , , , True, "MissingHLclr", cCtrL)
 
     sParam = "OnDrty"
         
@@ -2195,7 +2195,7 @@ If gBbDepurandoLv01c Then Stop
         'sStR2 = "O parâmetro [ " & sParam & " ] do Controle não foi" & vbCr & " configurado com uma opção válida." & vbCr & vbCr & " O controle poderá não se comportar como esperado."
         
         On Error GoTo -1
-        sOnDrty = GetTagParams(sParam, vTagSectionParams, , False, 0, 0, 1, , , , True, "MissingOnDrty", cCtrl)
+        sOnDrty = GetTagParams(sParam, vTagSectionParams, , False, 0, 0, 1, , , , True, "MissingOnDrty", cCtrL)
         If gBbEnableErrorHandler Then On Error GoTo -1: On Error GoTo FrM_ErrorHandler
 
         
@@ -2252,7 +2252,7 @@ If gBbDepurandoLv01c Then Stop
         'sStR2 = "O parâmetro [ " & sParam & " ] do Controle não foi" & vbCr & " configurado com uma opção válida." & vbCr & vbCr & " O controle poderá não se comportar como esperado."
         
         On Error GoTo -1
-        sMskd = GetTagParams(sParam, vTagSectionParams, , False, 0, 0, 1, , , , True, "MissingMskd", cCtrl)
+        sMskd = GetTagParams(sParam, vTagSectionParams, , False, 0, 0, 1, , , , True, "MissingMskd", cCtrL)
         'sMskd = GetTagParams(sParam, vTagSectionParams, , 0, , 1, sStR1, sStR2, cCtrL, "MskdParamError")
         If gBbEnableErrorHandler Then On Error GoTo -1: On Error GoTo FrM_ErrorHandler
     '------------------------------------------------------------------------------------------------------------------------
@@ -2486,7 +2486,7 @@ If gBbDepurandoLv01c Then Stop
 
 End Sub
 
-Public Sub pbSub52_RstAreaBTNsDictBuild(vTagSection As Variant, cCtrl As Control)
+Public Sub pbSub52_RstAreaBTNsDictBuild(vTagSection As Variant, cCtrL As Control)
     Dim vA, vB
     Dim vTagSectionParams As Variant
     Dim sParam As String
@@ -2497,8 +2497,8 @@ Public Sub pbSub52_RstAreaBTNsDictBuild(vTagSection As Variant, cCtrl As Control
     Dim sLoadLogWarn As String
     
     
-    sCtrL = cCtrl.Name
-    sForM = cCtrl.Parent.Name
+    sCtrL = cCtrL.Name
+    sForM = cCtrL.Parent.Name
     
 'MsgBox "----- pbSub52_RstAreaBTNsDictBuild ---------------------------------------------" & vbCr & vbCr & "Confirma se o botão [ " & sCtrL & " ] está configurado" & vbCr & "como [ Reset ]"
 If gBbDepurandoLv01c Then Stop
@@ -2522,7 +2522,7 @@ If gBbDepurandoLv01c Then Stop
 'MsgBox sStR1 & sStR2
 'Stop
         On Error GoTo -1
-        sBTNresetArea = GetTagParams(sParam, vTagSectionParams, , False, "", 0, , , , , True, "NoResetArForBtn", cCtrl, sLoadLogWarn)
+        sBTNresetArea = GetTagParams(sParam, vTagSectionParams, , False, "", 0, , , , , True, "NoResetArForBtn", cCtrL, sLoadLogWarn)
         'sBTNresetArea = GetTagParams(sParam, vTagSectionParams, , "", , , sStR1, sStR2)
 'Stop
         'If gBbEnableErrorHandler Then On Error GoTo -1: On Error GoTo FrM_ErrorHandler

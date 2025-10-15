@@ -51,14 +51,14 @@ Attribute mListBox.VB_VarHelpID = -1
 '------------------------------------------------------------
 'Trecho pra manipular eventos dos controles
 '----------------------------------
-Public Property Set InitCtrl(cCtrl As Control)
+Public Property Set InitCtrl(cCtrL As Control)
     Dim vA, vB
 
     Set mListBox = Nothing
-    Set mListBox = cCtrl
-    cCtrl.BeforeUpdate = "[Event Procedure]"
-    cCtrl.AfterUpdate = "[Event Procedure]"
-    cCtrl.OnMouseDown = "[Event Procedure]"
+    Set mListBox = cCtrL
+    cCtrL.BeforeUpdate = "[Event Procedure]"
+    cCtrL.AfterUpdate = "[Event Procedure]"
+    cCtrL.OnMouseDown = "[Event Procedure]"
 
 End Property
 
@@ -66,17 +66,17 @@ End Property
 Private Sub mListBox_BeforeUpdate(Cancel As Integer)
 
     Dim vA
-    Dim cCtrl As Control
+    Dim cCtrL As Control
     Dim sCtrL As String
     Dim fForm As Form
     
     'Dim bLostFocus As Boolean
     'Dim fForM As Form
     
-    Set cCtrl = mListBox
-    Set fForm = cCtrl.Parent
+    Set cCtrL = mListBox
+    Set fForm = cCtrL.Parent
     
-    sCtrL = cCtrl.Name
+    sCtrL = cCtrL.Name
 
 'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "Aciona [ HighlightClrChange ] LostFocus, controle [ " & sCtrL & "]   "
 'Stop
@@ -85,8 +85,8 @@ Private Sub mListBox_BeforeUpdate(Cancel As Integer)
     
     
     'Chama a rotina de filtragem
-    Call pb_TargtCtrlUpdate03_UNIQUEupdate(fForm, cCtrl)
-    Call PbSubFillFieldsByList(cCtrl)
+    Call pb_TargtCtrlUpdate03_UNIQUEupdate(fForm, cCtrL)
+    Call PbSubFillFieldsByList(cCtrL)
     
 
 End Sub

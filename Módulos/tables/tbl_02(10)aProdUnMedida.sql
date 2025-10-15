@@ -1,5 +1,5 @@
 -- Tabela: tbl_02(10)aProdUnMedida
--- Registros: 8
+-- Registros: 9
 
 CREATE TABLE tbl_02(10)aProdUnMedida (
     ProdUnMedidaID INTEGER AUTOINCREMENT,

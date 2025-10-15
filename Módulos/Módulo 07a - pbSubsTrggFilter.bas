@@ -27,7 +27,7 @@ Private Declare PtrSafe Function LockWindowUpdate Lib "user32" (ByVal hwndLock A
  '
 
 
-Public Sub pb_TargtCtrlUpdate00_TimerDelay(fForm As Form, cCtrl As Control)
+Public Sub pb_TargtCtrlUpdate00_TimerDelay(fForm As Form, cCtrL As Control)
 'Public Sub pb_TargtCtrlUpdate00_TimerDelay()
     
     Dim vA, vB
@@ -38,7 +38,7 @@ Public Sub pb_TargtCtrlUpdate00_TimerDelay(fForm As Form, cCtrl As Control)
 'Stop
     
     sForM = fForm.Name
-    sCtrL = cCtrl.Name
+    sCtrL = cCtrL.Name
     
     'Confirma se o controle é um [ TriggCtrl ]
     If IsObject(dictTrggCtrlsInForm(sForM)(sCtrL)) Then
@@ -46,7 +46,7 @@ Public Sub pb_TargtCtrlUpdate00_TimerDelay(fForm As Form, cCtrl As Control)
         If gBbEnableErrorHandler Then On Error Resume Next
         
         'Carrega as variáveis que serão usadas na rotina de atualização
-        Set gBcTrggCtrl = cCtrl
+        Set gBcTrggCtrl = cCtrL
         Set gBfTrggCtrlForm = fForm
         
         
@@ -115,7 +115,7 @@ Public Sub pb_TargtCtrlUpdate01_Start()
 End Sub
 
 
-Public Sub pb_TargtCtrlUpdate02_SetSearchType(fForm As Form, Optional cCtrl As Control, Optional sTagParams As String) ', Optional iResetArea As Integer)
+Public Sub pb_TargtCtrlUpdate02_SetSearchType(fForm As Form, Optional cCtrL As Control, Optional sTagParams As String) ', Optional iResetArea As Integer)
 
     '-----------------------------------------------------------------------------
     ' Identifica o tipo de atualização disparada:
@@ -205,7 +205,7 @@ Public Sub pb_TargtCtrlUpdate04_RESETarea(sForM As String, sResetAreaBtn As Stri
     Dim fForm As Form
     Dim sFilGrp As String
     Dim sKeyFilGrp As String
-    Dim cCtrl As Control
+    Dim cCtrL As Control
     
     Set fForm = Forms(sForM)
     vA = fForm.Name
@@ -235,29 +235,29 @@ Public Sub pb_TargtCtrlUpdate04_RESETarea(sForM As String, sResetAreaBtn As Stri
                         'Por meio do dict [ clObjRstAreaParams.dictRstArCtrls ] identifica os controles da [ Área de Reset ] a serem esvaziados
                         For Each vKeyCtrl In clObjRstAreaParams.dictRstArCtrls
 'Stop
-                            Set cCtrl = Forms(sForM).Controls(vKeyCtrl)
+                            Set cCtrL = Forms(sForM).Controls(vKeyCtrl)
                             
 'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "Esvazia o controle [ " & vKeyCtrl & " ]"
 'Stop
-                            vA = cCtrl.Value
-                            vB = cCtrl.DefaultValue
+                            vA = cCtrL.Value
+                            vB = cCtrL.DefaultValue
                             
                             'Se o controle a ser esvaziado for uma ListBox
                             ' passa por todos os itens e define a propriedade [ Selected ] como FALSE
                             ' garantindo que não haja nenhum item selecionado na lista
-                            If cCtrl.ControlType = acListBox Then
-                                For Each vC In cCtrl.ItemsSelected
-                                    cCtrl.Selected(vC) = False
+                            If cCtrL.ControlType = acListBox Then
+                                For Each vC In cCtrL.ItemsSelected
+                                    cCtrL.Selected(vC) = False
                                 Next vC
                             End If
                             
-                            vB = IIf(cCtrl.DefaultValue = "", Null, Replace(cCtrl.DefaultValue, """", ""))
+                            vB = IIf(cCtrL.DefaultValue = "", Null, Replace(cCtrL.DefaultValue, """", ""))
                             
                             
                             
                             'Esvazia o controle identificado
-                            cCtrl = IIf(cCtrl.DefaultValue = "", Null, Replace(cCtrl.DefaultValue, """", ""))
-                            Call HighlightClrChange(Int(cCtrl.ControlType), cCtrl, True)
+                            cCtrL = IIf(cCtrL.DefaultValue = "", Null, Replace(cCtrL.DefaultValue, """", ""))
+                            Call HighlightClrChange(Int(cCtrL.ControlType), cCtrL, True)
 'Stop
                         Next vKeyCtrl
                         
@@ -347,7 +347,7 @@ Public Sub pb_TargtCtrlUpdate05_CleanCtrls_v2(iFrmIndexID As Integer, Optional i
 If Not bgbSkipStops4b Then Stop     'Ctrl point
             
             Set RstAreaCtls = dDicT(vKey)
-            Set cCtL = RstAreaCtls.cCtrl
+            Set cCtL = RstAreaCtls.cCtrL
         
             If iCtlRstArea <> 0 Then
 'Stop
@@ -406,7 +406,7 @@ Public Sub pb_TargtCtrlUpdate06_BuildWHERE(fForm As Form, sFilGrp As String)
     Dim vA, vB, vC, vD
     Dim sForM As String
     Dim sCtrL As String
-    Dim cCtrl As Control
+    Dim cCtrL As Control
     Dim vKeyControl As Variant
     Dim iCtrlType As Integer
     Dim sSubToCall As String
@@ -455,14 +455,14 @@ If gBbDepurandoLv03a Then Stop
     'If dictTrgg01CtrlsInGrp(sForM).Exists(sFilGrp) = True Then
     
     For Each vKeyControl In dictTrgg00GrpsInForm(sForM)(sFilGrp)
-        Set cCtrl = Forms(sForM).Controls(vKeyControl)
-        vA = cCtrl.Name
+        Set cCtrL = Forms(sForM).Controls(vKeyControl)
+        vA = cCtrL.Name
         
         Set clObjTriggCtrlParam = dictTrgg00GrpsInForm(sForM)(sFilGrp)(vKeyControl)
         'vB = cCtrl.Value
 'Stop
-        iCtrlType = cCtrl.ControlType
-        sCtrL = cCtrl.Name
+        iCtrlType = cCtrL.ControlType
+        sCtrL = cCtrL.Name
 
 'MsgBox "----- pb_TargtCtrlUpdate06_BuildWHERE ----------------------------------------" & vbCr & vbCr & "1- Captura dados do controle [ " & sCtrL & " ]" & vbCr & "     do Grupo de Filtragem [ " & sFilGrp & " ]"
 'If gBbDepurandoLv03a Then Stop
@@ -564,8 +564,8 @@ If gBbDepurandoLv03a Then Stop
 
 'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "Checa bMskdCtrl [ " & sCtrL & " ]"
 'Stop
-        vA = cCtrl.Name
-        Application.Run sSubToCall, cCtrl, sTargtCtrlSQLselect, bActivateMask
+        vA = cCtrL.Name
+        Application.Run sSubToCall, cCtrL, sTargtCtrlSQLselect, bActivateMask
 
 'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "Back from Bld SQL [ " & sCtrL & " ]"
 'Stop
@@ -651,7 +651,7 @@ If gBbDepurandoLv03a Then Stop
             If sTargtCtrlName <> "" Then  'Só atualiza se houver indicação do sTargtCtrlName que deve ser atualizado
                 vA = sNewTrgtGrp_WHERE
 'Stop
-                Set cCtrl = Forms(sForM).Controls(sTargtCtrlName)
+                Set cCtrL = Forms(sForM).Controls(sTargtCtrlName)
                 'vA = cCtrl.Name
 'If gBbDepurandoLv01b Then MsgBox "teste --------------------------------------------------------------------------" & vbCr & "4- atualiza o TargtCtrl e o RecCntCpt"
 'Stop
@@ -666,15 +666,15 @@ If gBbDepurandoLv03a Then Stop
 'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "Aplica RowSource com a filgragem [ " & sCtrL & " ]"
 'Stop
                 
-                vA = cCtrl.Name
-                cCtrl.RowSource = vD
+                vA = cCtrL.Name
+                cCtrL.RowSource = vD
                 
                 'Havendo algum item previamente selecionado na lista desmarca a seleção
-                vB = cCtrl.ListIndex
-                If vB > -1 Then cCtrl.Selected(cCtrl.ListIndex) = False
+                vB = cCtrL.ListIndex
+                If vB > -1 Then cCtrL.Selected(cCtrL.ListIndex) = False
                 
                 'Se for uma Combobox e se o [ Trigger ] não estiver vazio exibe o primeiro item após o Trgt ser filtrado
-                If cCtrl.ControlType = acComboBox Then
+                If cCtrL.ControlType = acComboBox Then
 
                     For Each vKeyTrggCtrl In dictTrgg00GrpsInForm(sForM)(sFilGrp)
                         Set cTrggCtrL = Forms(sForM).Controls(vKeyTrggCtrl)
@@ -690,7 +690,7 @@ If gBbDepurandoLv03a Then Stop
                         
                         vA = IIf(vA = "", Null, vA)
                         
-                        If Not IsNull(vA) Then cCtrl = cCtrl.ItemData(0) Else cCtrl.Value = Null
+                        If Not IsNull(vA) Then cCtrL = cCtrL.ItemData(0) Else cCtrL.Value = Null
                         
                     Next vKeyTrggCtrl
                 
@@ -712,9 +712,9 @@ If gBbDepurandoLv03a Then Stop
         'Stop
                             'Atualiza o RecCnt
                             
-                            lngFilteredRecs = cCtrl.ListCount
-                            Set cCtrl = Forms(sForM).Controls(sRecCntCtrlName)
-                            vA = cCtrl.Name
+                            lngFilteredRecs = cCtrL.ListCount
+                            Set cCtrL = Forms(sForM).Controls(sRecCntCtrlName)
+                            vA = cCtrL.Name
                             
                             vA = IIf(lngFilteredRecs = 0, "Zero", Format(lngFilteredRecs, "#,###"))
                             vB = IIf(lngFilteredRecs = 1, ".", "s.")
@@ -724,7 +724,7 @@ If gBbDepurandoLv03a Then Stop
                             'Se estiver vazio significa que não houve filtragem
                             sNewTrgtGrp_RecCntCpt = sNewTrgtGrp_RecCntCpt & " -> " & vA & " Reg" & vB
                             
-                            cCtrl.Caption = sNewTrgtGrp_RecCntCpt
+                            cCtrL.Caption = sNewTrgtGrp_RecCntCpt
                         
                         End If
                 

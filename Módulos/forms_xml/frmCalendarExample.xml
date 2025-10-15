@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Form name="frmCalendarExample">
+  <Properties>
+    <Caption></Caption>
+    <RecordSource></RecordSource>
+    <Width>5760</Width>
+    <Height></Height>
+    <DefaultView>0</DefaultView>
+  </Properties>
+  <Controls>
+    <Control>
+      <Name>txtStartDate</Name>
+      <Type>TextBox</Type>
+      <Left>2802</Left>
+      <Top>288</Top>
+      <Width>1008</Width>
+      <Height>240</Height>
+      <Tag></Tag>
+      <Enabled>Verdadeiro</Enabled>
+      <ControlSource></ControlSource>
+      <Format>Short Date</Format>
+    </Control>
+    <Control>
+      <Name>Label1</Name>
+      <Type>Label</Type>
+      <Left>1650</Left>
+      <Top>288</Top>
+      <Width>1110</Width>
+      <Height>240</Height>
+      <Tag></Tag>
+      <Enabled></Enabled>
+      <Caption>Start date:</Caption>
+    </Control>
+    <Control>
+      <Name>cmdCalDate</Name>
+      <Type>CommandButton</Type>
+      <Left>3882</Left>
+      <Top>245</Top>
+      <Width>331</Width>
+      <Height>331</Height>
+      <Tag></Tag>
+      <Enabled>Verdadeiro</Enabled>
+      <Caption>&amp;Hire Date Calendar</Caption>
+      <OnClick>=CalendarFor([txtStartDate],&quot;Set the start date&quot;)</OnClick>
+    </Control>
+    <Control>
+      <Name>Label2</Name>
+      <Type>Label</Type>
+      <Left>288</Left>
+      <Top>1800</Top>
+      <Width>5025</Width>
+      <Height>1995</Height>
+      <Tag></Tag>
+      <Enabled></Enabled>
+      <Caption>1. Import the form &apos;frmCalendar&apos; and the module into your database:
+        File | Get External | Import.
+
+2. Copy the calendar button of your preference,
+    and paste onto your form.
+
+3. Set the On Click property of the button to something like this:
+        =CalendarFor([InvoiceDate],&quot;Select the Invoice Date&quot;)
+    where InvoiceDate represents the name of your text box,
+    and the quotation is what you want in the title of the calendar.</Caption>
+    </Control>
+    <Control>
+      <Name>Label3</Name>
+      <Type>Label</Type>
+      <Left>288</Left>
+      <Top>1440</Top>
+      <Width>4080</Width>
+      <Height>330</Height>
+      <Tag></Tag>
+      <Enabled></Enabled>
+      <Caption>To use the calendar in your database:</Caption>
+    </Control>
+    <Control>
+      <Name>txtEndDate</Name>
+      <Type>TextBox</Type>
+      <Left>2802</Left>
+      <Top>720</Top>
+      <Width>1008</Width>
+      <Height>240</Height>
+      <Tag></Tag>
+      <Enabled>Verdadeiro</Enabled>
+      <ControlSource></ControlSource>
+      <Format>Short Date</Format>
+    </Control>
+    <Control>
+      <Name>Label5</Name>
+      <Type>Label</Type>
+      <Left>1650</Left>
+      <Top>720</Top>
+      <Width>1110</Width>
+      <Height>240</Height>
+      <Tag></Tag>
+      <Enabled></Enabled>
+      <Caption>End date:</Caption>
+    </Control>
+    <Control>
+      <Name>cmdCalDateEnd</Name>
+      <Type>CommandButton</Type>
+      <Left>3845</Left>
+      <Top>720</Top>
+      <Width>288</Width>
+      <Height>259</Height>
+      <Tag></Tag>
+      <Enabled>Verdadeiro</Enabled>
+      <Caption>V</Caption>
+      <OnClick>=CalendarFor([txtEndDate],&quot;Select the Ending Date&quot;)</OnClick>
+    </Control>
+    <Control>
+      <Name>Label7</Name>
+      <Type>Label</Type>
+      <Left>288</Left>
+      <Top>4464</Top>
+      <Width>1215</Width>
+      <Height>240</Height>
+      <Tag></Tag>
+      <Enabled></Enabled>
+      <Caption>Documentation:</Caption>
+    </Control>
+    <Control>
+      <Name>Label8</Name>
+      <Type>Label</Type>
+      <Left>1584</Left>
+      <Top>4464</Top>
+      <Width>2736</Width>
+      <Height>255</Height>
+      <Tag></Tag>
+      <Enabled></Enabled>
+      <Caption>http://allenbrowne.com/ser-51.html</Caption>
+    </Control>
+    <Control>
+      <Name>Label9</Name>
+      <Type>Label</Type>
+      <Left>288</Left>
+      <Top>4176</Top>
+      <Width>1215</Width>
+      <Height>240</Height>
+      <Tag></Tag>
+      <Enabled></Enabled>
+      <Caption>Release Date:</Caption>
+    </Control>
+    <Control>
+      <Name>Label10</Name>
+      <Type>Label</Type>
+      <Left>1584</Left>
+      <Top>4176</Top>
+      <Width>2736</Width>
+      <Height>240</Height>
+      <Tag></Tag>
+      <Enabled></Enabled>
+      <Caption>August 20, 2008</Caption>
+    </Control>
+  </Controls>
+</Form>

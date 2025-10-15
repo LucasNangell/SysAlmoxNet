@@ -14,12 +14,12 @@ Option Explicit
 
 Private Sub cmbSrcCateg_BeforeUpdate(Cancel As Integer)
     Dim vA, vB, vC, vD, vE
-    Dim cCtrl As Control
+    Dim cCtrL As Control
     
-    Set cCtrl = cmbSrcCateg
+    Set cCtrL = cmbSrcCateg
 Stop
     
-    vB = cCtrl.ListIndex
+    vB = cCtrL.ListIndex
 
 
 End Sub
@@ -115,27 +115,27 @@ End Sub
 
 Private Sub lstProdsBase_AfterUpdate()
     Dim vA, vB, vC, vD, vE
-    Dim cCtrl As Control
+    Dim cCtrL As Control
     
-    Set cCtrl = lstProdsBase
+    Set cCtrL = lstProdsBase
 Stop
-    vA = cCtrl.ItemsSelected.Count
-    vB = cCtrl.ListIndex
+    vA = cCtrL.ItemsSelected.Count
+    vB = cCtrL.ListIndex
     
-    vD = cCtrl.Value
+    vD = cCtrL.Value
     'vE = cCtrL.Column(0, 3)
     'vA = cCtrL.Column(0, vB)
     
     
 Stop
-    vA = cCtrl.ListIndex
-    vB = cCtrl.ItemsSelected.Count
+    vA = cCtrL.ListIndex
+    vB = cCtrL.ItemsSelected.Count
     
-    cCtrl.Selected(1) = True
-    vB = cCtrl.ItemsSelected.Count
+    cCtrL.Selected(1) = True
+    vB = cCtrL.ItemsSelected.Count
     
-    For Each vA In cCtrl.ItemsSelected
-        vC = cCtrl.Column(0, vA)
+    For Each vA In cCtrL.ItemsSelected
+        vC = cCtrL.Column(0, vA)
         
     Next vA
     

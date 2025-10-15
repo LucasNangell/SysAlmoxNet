@@ -2,6 +2,39 @@ Attribute VB_Name = "Módulo 00c - Aux (Geral)"
 Option Compare Database
 Option Explicit
 
+'Calendar form variable:
+Public gBsCalTarget As TextBox 'Text box to return the date from the calendar to.
+
+Public Function CalendarFor(txt As TextBox, Optional strTitle As String)
+'On Error GoTo Err_Handler
+    'Purpose:   Open the calendar form, identifying the text box to return the date to.
+    'Arguments: txt = the text box to return the date to.
+    '           strTitle = the caption for the calendar form (passed in OpenArgs).
+    
+    Set gBsCalTarget = txt
+    DoCmd.OpenForm "frm_00(1)eSysCalendar", windowmode:=acDialog, OpenArgs:=strTitle
+    
+Exit_Handler:
+    Exit Function
+
+Err_Handler:
+    MsgBox "Error " & Err.Number & " - " & Err.Description, vbExclamation, "CalendarFor()"
+    Resume Exit_Handler
+End Function
+
+Public Function LogError(lngErr As Long, strDescrip As String, strProc As String, _
+    Optional bShowUser As Boolean = True, Optional varParam As Variant)
+    'Purpose: Minimal substitute for the real error logger function at:
+    '               http://allenbrowne.com/ser-23a.html
+    
+    If bShowUser Then
+        MsgBox "Error " & lngErr & ": " & strDescrip, vbExclamation, strProc
+    End If
+End Function
+
+
+
+
 Public Function GetsQryFieldID(clObjTargtCtrlParam As cls_01aTargtCtrlParams_Evnts) As String
     Dim rsTbE As Recordset
     'Recupera o [ sQryIDfield ] do [ cCtrl ]
@@ -51,7 +84,7 @@ Public Function QryExists(sQryName As String) As Boolean
 End Function
 
 
-Public Sub TextboxScrollWhenNeeded(cCtrl As Control)
+Public Sub TextboxScrollWhenNeeded(cCtrL As Control)
 
     Dim vA
     Dim dHgthLine As Double
@@ -59,15 +92,15 @@ Public Sub TextboxScrollWhenNeeded(cCtrl As Control)
     Dim lngQtTextLines As Long
 
     'Scroll bar only when needed
-    dHgthLine = cCtrl.FontSize * 28
-    lngVisibleLines = cCtrl.Height / dHgthLine
+    dHgthLine = cCtrL.FontSize * 28
+    lngVisibleLines = cCtrL.Height / dHgthLine
 
     'Scroll bar only when needed
     '---------------------------------------
-    lngQtTextLines = UBound(Split(cCtrl.Value, vbCrLf))
+    lngQtTextLines = UBound(Split(cCtrL.Value, vbCrLf))
     
     vA = IIf(lngQtTextLines > lngVisibleLines, 2, 0)
-    cCtrl.ScrollBars = vA
+    cCtrL.ScrollBars = vA
     '---------------------------------------
 
 
@@ -718,6 +751,8 @@ Public Function HexToLongRGB(sHexVal As String) As Long
 'Stop
 End Function
 
+
+
 Public Function OpenFormWidthColumns()
     DoCmd.OpenForm "frmDev_90eWidthColumns", acNormal
 End Function
@@ -760,3 +795,4 @@ Public Function ImportarRibbonCustomizacao()
 TratarErro:
     MsgBox "Erro " & Err.Number & ": " & Err.Description, vbCritical
 End Function
+

@@ -10,6 +10,12 @@ Attribute VB_Exposed = False
 Option Compare Database
 Option Explicit
 
+Private Sub btnCalendar_Click()
+'Stop
+    Call CalendarFor(Me.txtStkDataEntrada, "Selecione uma data de entrada")
+
+End Sub
+
 Private Sub btnCancelarEntrada_Click()
 
    Dim vA, vB, vC
@@ -26,9 +32,17 @@ Private Sub btnCancelarEntrada_Click()
 End Sub
 
 Private Sub btnClose_Click()
+
     DoCmd.Close
+
 End Sub
 
+
+Private Sub btnEditarEntrada_Click()
+
+    txtStkDataEntrada.SetFocus
+    
+End Sub
 
 Private Sub btnExcluirEntrada_Click()
    Dim sTitulo As String, sTexto As String, sForM As String

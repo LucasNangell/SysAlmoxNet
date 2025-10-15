@@ -51,7 +51,7 @@ Public Function QryExists(sQryName As String) As Boolean
 End Function
 
 
-Public Sub TextboxScrollWhenNeeded(cCtrL As Control)
+Public Sub TextboxScrollWhenNeeded(cCtrl As Control)
 
     Dim vA
     Dim dHgthLine As Double
@@ -59,15 +59,15 @@ Public Sub TextboxScrollWhenNeeded(cCtrL As Control)
     Dim lngQtTextLines As Long
 
     'Scroll bar only when needed
-    dHgthLine = cCtrL.FontSize * 28
-    lngVisibleLines = cCtrL.Height / dHgthLine
+    dHgthLine = cCtrl.FontSize * 28
+    lngVisibleLines = cCtrl.Height / dHgthLine
 
     'Scroll bar only when needed
     '---------------------------------------
-    lngQtTextLines = UBound(Split(cCtrL.Value, vbCrLf))
+    lngQtTextLines = UBound(Split(cCtrl.Value, vbCrLf))
     
     vA = IIf(lngQtTextLines > lngVisibleLines, 2, 0)
-    cCtrL.ScrollBars = vA
+    cCtrl.ScrollBars = vA
     '---------------------------------------
 
 
@@ -459,7 +459,7 @@ Function DesprezaAcentos(sTextoDigitado As String) As String
     Dim sTempText As String
     'Dim sTextoDigitado As String
     Dim sTextoPuro As String
-    Dim I As Long
+    Dim i As Long
     Dim sFinD As String
     Dim sReplaceBy As String
     Dim sTxtLst As String
@@ -490,12 +490,12 @@ Function DesprezaAcentos(sTextoDigitado As String) As String
     
     'Loop que percorrerá todas as letras da variável 'sVogaisSujas',
     'subtituindo os caracteres do texto digitado pelo usuário pelo caractere correspondente em 'sVogaisLimpas'
-    For I = 1 To Len(sVogaisSujas)
-        sFinD = Mid(sVogaisSujas, I, 1)
-        sReplaceBy = Mid(sVogaisLimpas, I, 1)
+    For i = 1 To Len(sVogaisSujas)
+        sFinD = Mid(sVogaisSujas, i, 1)
+        sReplaceBy = Mid(sVogaisLimpas, i, 1)
         sTextoPuro = Replace(sTextoPuro, sFinD, sReplaceBy, , , iCompare)
 'Stop
-    Next I
+    Next i
     
 'Stop
     
@@ -508,8 +508,8 @@ Function DesprezaAcentos(sTextoDigitado As String) As String
     iTxtU = Len(sTextoPuro) - Len(Replace(sTextoPuro, "u", ""))
     
     sTempText = sTextoPuro
-    I = iTxtA + iTxtE + iTxtI + iTxtO + iTxtU
-    If I > 0 Then
+    i = iTxtA + iTxtE + iTxtI + iTxtO + iTxtU
+    If i > 0 Then
         If iTxtA > 0 Then
             sVogaisSujas = Replace(sTempText, "a", "[aàáâãä]", 1, -1, iCompare)
             sTempText = sVogaisSujas
@@ -718,4 +718,45 @@ Public Function HexToLongRGB(sHexVal As String) As Long
 'Stop
 End Function
 
+Public Function OpenFormWidthColumns()
+    DoCmd.OpenForm "frmDev_90eWidthColumns", acNormal
+End Function
 
+Public Function OpenFormTabOrder()
+    DoCmd.OpenForm "frmDev_90fDefTabOrder", acNormal
+End Function
+Public Function ImportarRibbonCustomizacao()
+    On Error GoTo TratarErro
+    
+    Dim arquivo As String
+    Dim xmlContent As String
+    Dim fso As Object
+    Dim ts As Object
+    
+    ' Configurar caminho do arquivo
+    arquivo = CurrentProject.Path & "\Access Personalizações.exportedUI"
+    
+    ' Criar objetos para leitura do arquivo
+    Set fso = CreateObject("Scripting.FileSystemObject")
+    
+    ' Verificar se o arquivo existe
+    If Not fso.FileExists(arquivo) Then
+        MsgBox "Arquivo não encontrado: " & arquivo, vbCritical
+        Exit Function
+    End If
+    
+    ' Ler conteúdo do arquivo
+    Set ts = fso.OpenTextFile(arquivo, 1) ' 1 = Para leitura
+    xmlContent = ts.ReadAll
+    ts.Close
+    
+    ' Aplicar customização à interface
+    Application.LoadCustomUI "MinhaRibbonCustomizada", xmlContent
+    
+    '    MsgBox "Faixa de opções importada com sucesso!", vbInformation
+    
+    Exit Function
+    
+TratarErro:
+    MsgBox "Erro " & Err.Number & ": " & Err.Description, vbCritical
+End Function

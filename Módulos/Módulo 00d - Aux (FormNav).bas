@@ -2,7 +2,7 @@ Attribute VB_Name = "Módulo 00d - Aux (FormNav)"
 Option Compare Database
 Option Explicit
 
-Public Sub HighlightClrChange(iCtrlType As Integer, cCtrL As Control, bLostFocus As Boolean)
+Public Sub HighlightClrChange(iCtrlType As Integer, cCtrl As Control, bLostFocus As Boolean)
     
     Dim vA, vB, vC, vD, vE
     Dim sLockdStatus As String
@@ -21,7 +21,7 @@ Public Sub HighlightClrChange(iCtrlType As Integer, cCtrL As Control, bLostFocus
     Dim lgInT As Integer
     Dim vItem As Variant
     
-    sCtrL = cCtrL.Name
+    sCtrL = cCtrl.Name
     
 'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "Executa [ HighlightClrChange ], controle [ " & sCtrL & " ] "
 'Stop
@@ -37,9 +37,9 @@ Public Sub HighlightClrChange(iCtrlType As Integer, cCtrL As Control, bLostFocus
 
 '    cCtrL.Value = cCtrL.Value
 
-    sCtrL = cCtrL.Name
-    sForM = cCtrL.Parent.Name
-    sLockdStatus = IIf(cCtrL.Locked Or Not cCtrL.Enabled, "Dsbld", "Enbld")
+    sCtrL = cCtrl.Name
+    sForM = cCtrl.Parent.Name
+    sLockdStatus = IIf(cCtrl.Locked Or Not cCtrl.Enabled, "Dsbld", "Enbld")
     Set clObjLckdStatusParam = Nothing
 
 
@@ -90,13 +90,13 @@ Public Sub HighlightClrChange(iCtrlType As Integer, cCtrL As Control, bLostFocus
             Case acListBox
 'Stop
                 If bLostFocus Then
-                    iCtlItemsCount = cCtrL.ItemsSelected.Count
+                    iCtlItemsCount = cCtrl.ItemsSelected.Count
     
                     lgInT = IIf((iCtlItemsCount < 1) Or (bOnDirty = False), 1, 2)
-                    cCtrL.BackColor = IIf(lgInT = 1, clObjLckdStatusParam.lngLckdStatusBackColor, GbLngDIRTclrBackColor)
+                    cCtrl.BackColor = IIf(lgInT = 1, clObjLckdStatusParam.lngLckdStatusBackColor, GbLngDIRTclrBackColor)
 'Stop
                 Else
-                    cCtrL.BackColor = HexToLongRGB(GbLngHLclrBackColor)
+                    cCtrl.BackColor = HexToLongRGB(GbLngHLclrBackColor)
     
                 End If
             
@@ -106,19 +106,19 @@ Public Sub HighlightClrChange(iCtrlType As Integer, cCtrL As Control, bLostFocus
                 ' a depender do parâmetro [ bOnDirty ]
                 If bLostFocus Then
 'Stop
-                    vA = cCtrL.Name
+                    vA = cCtrl.Name
                     vA = bOnDirty
-                    sCtlValue = cCtrL.Value
+                    sCtlValue = cCtrl.Value
                     
                     bIsDirty = IIf((IsNull(sCtlValue) Or sCtlValue = "") Or (bOnDirty = False), False, True)
-                    cCtrL.BackColor = IIf(bIsDirty, GbLngDIRTclrBackColor, clObjLckdStatusParam.lngLckdStatusBackColor)
+                    cCtrl.BackColor = IIf(bIsDirty, GbLngDIRTclrBackColor, clObjLckdStatusParam.lngLckdStatusBackColor)
                 
                 
                 'Se o controle tiver recebido o foco muda a cor para HIGHLIGHTclr
                 ' a depender do parâmetro [ bColorHighlight ]
                 Else
                     
-                    If bColorHighlight Then cCtrL.BackColor = GbLngHLclrBackColor
+                    If bColorHighlight Then cCtrl.BackColor = GbLngHLclrBackColor
 'Stop
                 End If
         

@@ -2,7 +2,7 @@ Attribute VB_Name = "Módulo 07b - pbSubsTrggFilterBldSQL"
 Option Compare Database
 Option Explicit
 
-Public Sub BuildSQL_CheckBox(cCtrL As Control, sTargtCtrlSQLselect As String, bMskdCtrl As Boolean)
+Public Sub BuildSQL_CheckBox(cCtrl As Control, sTargtCtrlSQLselect As String, bMskdCtrl As Boolean)
     
     Dim vA, vB, vC
     Dim sOrigListTxt As String, sSrchTxt As String
@@ -19,15 +19,15 @@ Public Sub BuildSQL_CheckBox(cCtrL As Control, sTargtCtrlSQLselect As String, bM
     Dim sOpenBrkt As String, sCloseBrkt As String
     'dim sSrchVal as string
 
-    vA = cCtrL.Name
-    vB = cCtrL
+    vA = cCtrl.Name
+    vB = cCtrl
 'Stop
     'Roda o código apenas se o controle tiver algum item selecionado
-    If Not IsNull(cCtrL) Then
+    If Not IsNull(cCtrl) Then
         
         'Identifica os valores a serem usados na pesquisa (Numérico)
         '-------------------------------------------------------------------
-        iSrchVal = cCtrL.Value     'Valor do CheckBox (Nulo: não selecionado / -1 selecionado / 0 não selecionado)
+        iSrchVal = cCtrl.Value     'Valor do CheckBox (Nulo: não selecionado / -1 selecionado / 0 não selecionado)
         sSrchReCnt = IIf(iSrchVal = -1, "Sim", "Não")
         '-------------------------------------------------------------------
 'Stop
@@ -71,7 +71,7 @@ Public Sub BuildSQL_CheckBox(cCtrL As Control, sTargtCtrlSQLselect As String, bM
 End Sub
 
 
-Public Sub BuildSQL_ComboBox(cCtrL As Control, sTargtCtrlSQLselect As String, bMskdCtrl As Boolean)
+Public Sub BuildSQL_ComboBox(cCtrl As Control, sTargtCtrlSQLselect As String, bMskdCtrl As Boolean)
                               
     Dim vA, vB, vC
     Dim sOrigListTxt As String, sSrchTxt As String
@@ -86,20 +86,20 @@ Public Sub BuildSQL_ComboBox(cCtrL As Control, sTargtCtrlSQLselect As String, bM
     Dim lngTbeClmn As Long
     Dim sOpenBrkt As String, sCloseBrkt As String
     
-    vA = cCtrL.Name
+    vA = cCtrl.Name
 'Stop
 
     lngTbeClmn = clObjTriggCtrlParam.iListboxTxtClmn
     
     'Roda o código apenas se o controle tiver algum item selecionado
-    If Not IsNull(cCtrL.Value) Then
+    If Not IsNull(cCtrl.Value) Then
         
         'Identifica os valores a serem usados na pesquisa (Numérico)
         '-------------------------------------------------------------------
-        iItemPos = cCtrL.ListIndex '(posição de tabela do item selecionado)
-        sOrigListTxt = cCtrL.Column(lngTbeClmn, iItemPos)
+        iItemPos = cCtrl.ListIndex '(posição de tabela do item selecionado)
+        sOrigListTxt = cCtrl.Column(lngTbeClmn, iItemPos)
         
-        iSrchVal = cCtrL.Value     '(ID do item selecionado)
+        iSrchVal = cCtrl.Value     '(ID do item selecionado)
         'sSrchTxt = DesprezaAcentos(sOrigListTxt)
         sSrchReCnt = sOrigListTxt
         '-------------------------------------------------------------------
@@ -145,7 +145,7 @@ Public Sub BuildSQL_ComboBox(cCtrL As Control, sTargtCtrlSQLselect As String, bM
 End Sub
 
 
-Public Sub BuildSQL_ListBox(cCtrL As Control, sTargtCtrlSQLselect As String, bMskdCtrl As Boolean)
+Public Sub BuildSQL_ListBox(cCtrl As Control, sTargtCtrlSQLselect As String, bMskdCtrl As Boolean)
 
     Dim vA, vB, vC, vD, vE
     Dim sOrigListTxt As String, sSrchTxt As String
@@ -164,8 +164,8 @@ Public Sub BuildSQL_ListBox(cCtrL As Control, sTargtCtrlSQLselect As String, bMs
     Dim lngTbeClmn As Long
     Dim sOpenBrkt As String, sCloseBrkt As String
     
-    sCtrL = cCtrL.Name
-    vB = cCtrL
+    sCtrL = cCtrl.Name
+    vB = cCtrl
     
     'vA = cCtrL.ItemData(cCtrL.ListIndex)
     
@@ -179,23 +179,23 @@ Public Sub BuildSQL_ListBox(cCtrL As Control, sTargtCtrlSQLselect As String, bMs
     ' que tem o Valor Textual dos itens
     lngTbeClmn = clObjTriggCtrlParam.iListboxTxtClmn
     
-    vA = cCtrL.ListIndex
-    cCtrL.Selected(vA) = True
+    vA = cCtrl.ListIndex
+    cCtrl.Selected(vA) = True
 '    cCtrL.Value = cCtrL.Value
     
     'Roda o código apenas se houver pelo menos um item selecionado na Lista
-    lngSelectedItems = cCtrL.ItemsSelected.Count
+    lngSelectedItems = cCtrl.ItemsSelected.Count
 'Stop
     
     If lngSelectedItems > 0 Then
         
         'Identifica os valores selecionados no Listbox (Numérico)
         '-------------------------------------------------------------------
-        For Each vListItem In cCtrL.ItemsSelected     '-1 indica que o item está selecionado,  0 indica que não está
+        For Each vListItem In cCtrl.ItemsSelected     '-1 indica que o item está selecionado,  0 indica que não está
             
 'Stop
-            iSrchVal = cCtrL.ItemData(vListItem)                   'ID do item selecionado
-            sOrigListTxt = cCtrL.Column(lngTbeClmn, vListItem)     'Texto associado ao item
+            iSrchVal = cCtrl.ItemData(vListItem)                   'ID do item selecionado
+            sOrigListTxt = cCtrl.Column(lngTbeClmn, vListItem)     'Texto associado ao item
             
             lngCounT = clObjTriggCtrlParam.dictGetListItemTxts.Count
             lngCounT = lngCounT + 1
@@ -282,7 +282,7 @@ Public Sub BuildSQL_ListBox(cCtrL As Control, sTargtCtrlSQLselect As String, bMs
 End Sub
 
 
-Public Sub BuildSQL_OptionGroup(cCtrL As Control, sTargtCtrlSQLselect As String, bMskdCtrl As Boolean)
+Public Sub BuildSQL_OptionGroup(cCtrl As Control, sTargtCtrlSQLselect As String, bMskdCtrl As Boolean)
     
     Dim vA, vB, vC
     Dim sOrigListTxt As String, sSrchTxt As String
@@ -297,11 +297,11 @@ Public Sub BuildSQL_OptionGroup(cCtrL As Control, sTargtCtrlSQLselect As String,
     Dim iSrchWildCard As String
     Dim sOpenBrkt As String, sCloseBrkt As String
 
-    vA = cCtrL.Name
+    vA = cCtrl.Name
 'Stop
     
     'Verifica a quantidade de controles dentro do Opt Group
-    vA = cCtrL.Controls.Count
+    vA = cCtrl.Controls.Count
     
     'Pra definir onde começa a contagem dos controles, verifica se o Grupo tem o rótulo
     'Se for ímpar significa que há um Rótulo associado ao controle
@@ -310,11 +310,11 @@ Public Sub BuildSQL_OptionGroup(cCtrL As Control, sTargtCtrlSQLselect As String,
     bNumImpar = Int(vB) <> vB
 'Stop
     'Roda o código apenas se o controle tiver algum item selecionado
-    If Not IsNull(cCtrL) Then
+    If Not IsNull(cCtrl) Then
         
         'Identifica os valores a serem usados na pesquisa (Texto associado à opção selecionada no controle)
         '--------------------------------------------------------------------------------------------------
-        sOrigListTxt = cCtrL.Controls(IIf(bNumImpar, cCtrL * 2, cCtrL.Value + (cCtrL.Value - 1))).Caption
+        sOrigListTxt = cCtrl.Controls(IIf(bNumImpar, cCtrl * 2, cCtrl.Value + (cCtrl.Value - 1))).Caption
         sSrchTxt = DesprezaAcentos(sOrigListTxt)
         
         sSrchReCnt = sOrigListTxt
@@ -361,7 +361,7 @@ Public Sub BuildSQL_OptionGroup(cCtrL As Control, sTargtCtrlSQLselect As String,
 'Stop
 End Sub
 
-Public Sub BuildSQL_TextBox(cCtrL As Control, sTargtCtrlSQLselect As String, bMskdCtrl As Boolean)
+Public Sub BuildSQL_TextBox(cCtrl As Control, sTargtCtrlSQLselect As String, bMskdCtrl As Boolean)
     
     Dim vA, vB, vC
     Dim sOrigListTxt As String, sSrchTxt As String
@@ -375,8 +375,8 @@ Public Sub BuildSQL_TextBox(cCtrL As Control, sTargtCtrlSQLselect As String, bMs
     Dim iSrchWildCard As String
     Dim sOpenBrkt As String, sCloseBrkt As String
     
-    vA = cCtrL.Name
-    vB = cCtrL.Value
+    vA = cCtrl.Name
+    vB = cCtrl.Value
     'vC = cCtrl.Text
 
     Debug.Print sTargtCtrlSQLselect
@@ -390,9 +390,9 @@ Public Sub BuildSQL_TextBox(cCtrL As Control, sTargtCtrlSQLselect As String, bMs
     
     'Se houver erro significa que o controle ora analisado não tem o foco
     ' nesse caso é preciso obter a proriedade .Value ao invés da .Text
-    sOrigListTxt = cCtrL.Text
+    sOrigListTxt = cCtrl.Text
     If (Err.Number = 2185) Then
-        sOrigListTxt = cCtrL.Value
+        sOrigListTxt = cCtrl.Value
 
     End If
     On Error GoTo -1

@@ -26,9 +26,7 @@ Private Sub btnCancelarEntrada_Click()
 End Sub
 
 Private Sub btnClose_Click()
-
     DoCmd.Close
-
 End Sub
 
 

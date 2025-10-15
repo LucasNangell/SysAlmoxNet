@@ -33,13 +33,13 @@ Attribute mTextBox.VB_VarHelpID = -1
 '------------------------------------------------------------
 'Trecho pra manipular eventos dos controles
 '----------------------------------
-Public Property Set InitCtrl(cCtrL As Control)
+Public Property Set InitCtrl(cCtrl As Control)
     Dim vA, vB
     Dim sCtrL As String
 
     'vA = bOnDirty
-    sCtrL = cCtrL.Name
-    vB = cCtrL.ControlType
+    sCtrL = cCtrl.Name
+    vB = cCtrl.ControlType
 
 'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "InitCtrl: [ " & sCtrl & " ]"
 'Stop
@@ -53,63 +53,63 @@ Public Property Set InitCtrl(cCtrL As Control)
 '    mTextBox.OnChange
     If gBbEnableErrorHandler Then On Error Resume Next
 'Stop
-    Select Case cCtrL.ControlType
+    Select Case cCtrl.ControlType
         Case acCheckBox
             'Set mCheckBox = Nothing
-            Set mCheckBox = cCtrL
-            cCtrL.AfterUpdate = "[Event Procedure]"
+            Set mCheckBox = cCtrl
+            cCtrl.AfterUpdate = "[Event Procedure]"
             GoTo CaseResume     'por algum motivo quando o controle é um CheckBox o código
                                 ' é direcionado pro Case Else ao invés de executar o acCheckBox e sair do Case
                                 ' por esse motivo é necessário forçar sua saída
         
         Case acComboBox
             Set mComboBox = Nothing
-            Set mComboBox = cCtrL
+            Set mComboBox = cCtrl
 'Stop
-            cCtrL.OnChange = "[Event Procedure]"
-            cCtrL.AfterUpdate = "[Event Procedure]"
+            cCtrl.OnChange = "[Event Procedure]"
+            cCtrl.AfterUpdate = "[Event Procedure]"
 
         Case acCommandButton
             Set mCommandButton = Nothing
-            Set mCommandButton = cCtrL
+            Set mCommandButton = cCtrl
             
-            cCtrL.OnClick = "[Event Procedure]"
+            cCtrl.OnClick = "[Event Procedure]"
 
         Case acLabel
             Set mLabel = Nothing
-            Set mLabel = cCtrL
+            Set mLabel = cCtrl
             
-            cCtrL.OnDblClick = "[Event Procedure]"
+            cCtrl.OnDblClick = "[Event Procedure]"
 
         Case acListBox
             Set mListBox = Nothing
-            Set mListBox = cCtrL
-            cCtrL.AfterUpdate = "[Event Procedure]"
-            cCtrL.OnLostFocus = "[Event Procedure]"
-            cCtrL.BeforeUpdate = "[Event Procedure]"
+            Set mListBox = cCtrl
+            cCtrl.AfterUpdate = "[Event Procedure]"
+            cCtrl.OnLostFocus = "[Event Procedure]"
+            cCtrl.BeforeUpdate = "[Event Procedure]"
         Case acOptionGroup
 'Stop
             Set mOptGroup = Nothing
-            Set mOptGroup = cCtrL
-            cCtrL.AfterUpdate = "[Event Procedure]"
+            Set mOptGroup = cCtrl
+            cCtrl.AfterUpdate = "[Event Procedure]"
             'GoTo CaseResume
 
         Case acTextBox
             Set mTextBox = Nothing
-            Set mTextBox = cCtrL
+            Set mTextBox = cCtrl
 'Stop
-            cCtrL.OnChange = "[Event Procedure]"
-            cCtrL.AfterUpdate = "[Event Procedure]"
-            cCtrL.OnGotFocus = "[Event Procedure]"
+            cCtrl.OnChange = "[Event Procedure]"
+            cCtrl.AfterUpdate = "[Event Procedure]"
+            cCtrl.OnGotFocus = "[Event Procedure]"
             'cCtrl.BeforeUpdate = "[Event Procedure]"
             'cCtrl.OnKeyPress = "[Event Procedure]"
-            cCtrL.OnLostFocus = "[Event Procedure]"
+            cCtrl.OnLostFocus = "[Event Procedure]"
             
         Case acToggleButton
             Set mToggleButton = Nothing
-            Set mToggleButton = cCtrL
+            Set mToggleButton = cCtrl
             
-            cCtrL.OnClick = "[Event Procedure]"
+            cCtrl.OnClick = "[Event Procedure]"
             
         Case Else
 'Stop
@@ -124,13 +124,13 @@ End Property
 
 Private Sub mComboBox_AfterUpdate()
     Dim fForm As Form
-    Dim cCtrL As Control
+    Dim cCtrl As Control
     
-    Set cCtrL = mComboBox
-    Set fForm = cCtrL.Parent
+    Set cCtrl = mComboBox
+    Set fForm = cCtrl.Parent
     
     'Aciona a atualização do [ TargetCtrl ] associado ao controle
-    Call pb_TargtCtrlUpdate00_TimerDelay(fForm, cCtrL)
+    Call pb_TargtCtrlUpdate00_TimerDelay(fForm, cCtrl)
     
 
 End Sub
@@ -139,7 +139,7 @@ End Sub
 Private Sub mCommandButton_Click()
     Dim vA
     Dim sMode As String, sForM As String, sActType As String, sFilGrp As String
-    Dim cCtrL As Control, cEdtCtrl As Control
+    Dim cCtrl As Control, cEdtCtrl As Control
     Dim sCtrL As String
     Dim fForm As Form
     Dim sLstbxTag As String
@@ -149,9 +149,9 @@ Private Sub mCommandButton_Click()
 'MsgBox "testando RstArea commandbutton event"
 'Stop
     On Error Resume Next
-    Set cCtrL = mCommandButton
-    sCtrL = cCtrL.Name
-    Set fForm = cCtrL.Parent
+    Set cCtrl = mCommandButton
+    sCtrL = cCtrl.Name
+    Set fForm = cCtrl.Parent
     
     If Err.Number = 5 Then Exit Sub
     On Error GoTo -1
@@ -162,9 +162,9 @@ Private Sub mCommandButton_Click()
     If Err.Number = 5 Then Exit Sub
     On Error GoTo -1
 
-    sForM = cCtrL.Parent.Name
+    sForM = cCtrl.Parent.Name
     
-    Set clObjCommButtons = dictFormCommButtons(sForM)(cCtrL.Name)
+    Set clObjCommButtons = dictFormCommButtons(sForM)(cCtrl.Name)
 
     'Nos botões tipo [ RstArea ] o sActType retornado é "RstArea0#"
     ' o Select Case foi modificado pra permitir usar a função like
@@ -182,19 +182,19 @@ Private Sub mCommandButton_Click()
                     sCtrL = clObjTargtCtrlParam.sTargtCtrlName
                     
                     If ControlExists(sCtrL, fForm) Then
-                        Set cCtrL = fForm.Controls(sCtrL)
-                        If fForm.Controls(sCtrL).ControlType = acListBox Then Call PbSubFillFieldsByList(cCtrL)
+                        Set cCtrl = fForm.Controls(sCtrL)
+                        If fForm.Controls(sCtrL).ControlType = acListBox Then Call PbSubFillFieldsByList(cCtrl)
                         On Error GoTo -1
     'Stop
                     End If
                 End If
                 
                 On Error GoTo -1
-                Call pbSub00_CtrlsEnblDsble_GetParams(cCtrL.Parent, clObjCommButtons.sFrmMode, sFilGrp)
+                Call pbSub00_CtrlsEnblDsble_GetParams(cCtrl.Parent, clObjCommButtons.sFrmMode, sFilGrp)
                 If gBbEnableErrorHandler Then On Error GoTo -1: On Error Resume Next
                 
                 'Mantém botão de edição habilitado caso haja algum item selecionado na lista
-                If cCtrL.ItemsSelected.Count > 0 Then
+                If cCtrl.ItemsSelected.Count > 0 Then
                     
                     Call pbSub00_CtrlsEnblDsble_GetParams(fForm, "RecSelect", sFilGrp)
                 End If
@@ -210,7 +210,7 @@ Private Sub mCommandButton_Click()
                     End If
                 Next vKeyCtrl
             End If
-            Call pbSub00_CtrlsEnblDsble_GetParams(cCtrL.Parent, clObjCommButtons.sFrmMode, sFilGrp)
+            Call pbSub00_CtrlsEnblDsble_GetParams(cCtrl.Parent, clObjCommButtons.sFrmMode, sFilGrp)
         
         Case sActType Like "CloseForm"
             DoCmd.Close
@@ -222,12 +222,12 @@ Private Sub mCommandButton_Click()
                 sCtrL = clObjTargtCtrlParam.sTargtCtrlName
     
                 If ControlExists(sCtrL, fForm) Then
-                    Set cCtrL = fForm.Controls(sCtrL)
-                    If cCtrL.ControlType = acListBox Then
+                    Set cCtrl = fForm.Controls(sCtrL)
+                    If cCtrl.ControlType = acListBox Then
                     
-                        If cCtrL.ListIndex > -1 Then
+                        If cCtrl.ListIndex > -1 Then
                             
-                            Call pbSub00_CtrlsEnblDsble_GetParams(cCtrL.Parent, clObjCommButtons.sFrmMode, sFilGrp)
+                            Call pbSub00_CtrlsEnblDsble_GetParams(cCtrl.Parent, clObjCommButtons.sFrmMode, sFilGrp)
                             For Each vKeyCtrl In dictFormCommButtons(sForM)
                                 Set clObjCommButtons = dictFormCommButtons(sForM)(vKeyCtrl)
                                 If clObjCommButtons.sFilGrp = sFilGrp Then
@@ -248,7 +248,7 @@ Private Sub mCommandButton_Click()
             Call Scr_HideAccess
             
             'Traz o formulário pra frente pra reexibi-lo
-            Call Scr_FormAlwaysOnTop(cCtrL.Parent, False)
+            Call Scr_FormAlwaysOnTop(cCtrl.Parent, False)
 
         Case sActType Like "NewRec"
             
@@ -268,7 +268,7 @@ Private Sub mCommandButton_Click()
                 Next vKeyCtrl
             End If
             
-            Call pbSub00_CtrlsEnblDsble_GetParams(cCtrL.Parent, clObjCommButtons.sFrmMode, sFilGrp)
+            Call pbSub00_CtrlsEnblDsble_GetParams(cCtrl.Parent, clObjCommButtons.sFrmMode, sFilGrp)
 
 
         Case sActType Like "OpenForm"
@@ -276,7 +276,7 @@ Private Sub mCommandButton_Click()
             sFilGrp = clObjCommButtons.sFilGrp
             Set clObjTargtCtrlParam = dictFormFilterGrpTrgts(sForM)(sFilGrp)
             sCtrL = clObjTargtCtrlParam.sTargtCtrlName
-            Set cCtrL = fForm.Controls(sCtrL)
+            Set cCtrl = fForm.Controls(sCtrL)
             
             'Atribuição dos valores a [ clObjFormOpenParams ] usados nas rotinas de abertura de formulários
             Set clObjFormOpenParams = New cls_09cParamsToOpenForms
@@ -285,20 +285,20 @@ Private Sub mCommandButton_Click()
                 
                 'Garante que a variável [ bTrgtFormIsDocked ] que indica se o [ TrgtForm ] deve abrir ancorado
                 ' receba False caso não tenha sido pressionada
-                If Not IsNull(cCtrL.Parent.tglDockingTrgtFrm.Value) Then
-                    Set .cTglBtnDocking = cCtrL.Parent.tglDockingTrgtFrm
+                If Not IsNull(cCtrl.Parent.tglDockingTrgtFrm.Value) Then
+                    Set .cTglBtnDocking = cCtrl.Parent.tglDockingTrgtFrm
                     If Not .cTglBtnDocking Is Nothing Then .bFrmIsDocked = .cTglBtnDocking.Value
-                ElseIf ControlExists("tglDockingTrgtFrm", cCtrL.Parent) Then Set .cTglBtnDocking = cCtrL.Parent.tglDockingTrgtFrm
+                ElseIf ControlExists("tglDockingTrgtFrm", cCtrl.Parent) Then Set .cTglBtnDocking = cCtrl.Parent.tglDockingTrgtFrm
                 End If
                 .sFilGrp = sFilGrp
                 .sFormMode = clObjCommButtons.sFrmMode
-                .sTrggForM = cCtrL.Parent.Name
+                .sTrggForM = cCtrl.Parent.Name
                 .sTrgtForm = clObjCommButtons.sForM
-                .lngRecID = cCtrL.ListIndex
+                .lngRecID = cCtrl.ListIndex
                 .bShowRecID = True
                 .bSetPosition = True
                 .bCentralizeForm = True
-                Set .cTrgtCtrl = dictFormFilterGrpTrgts(cCtrL.Parent.Name)(sFilGrp)
+                Set .cTrgtCtrl = dictFormFilterGrpTrgts(cCtrl.Parent.Name)(sFilGrp)
                 .sQryFieldID = GetsQryFieldID(clObjTargtCtrlParam)
             End With
 
@@ -311,16 +311,16 @@ Private Sub mCommandButton_Click()
 
         Case sActType Like "RstArea*"   '* é usado como Wildcard
 'Stop
-            Call pb_TargtCtrlUpdate04_RESETarea(cCtrL.Parent.Name, cCtrL.Name)
+            Call pb_TargtCtrlUpdate04_RESETarea(cCtrl.Parent.Name, cCtrl.Name)
 
             
         Case sActType Like "Save*"      '* é usado como Wildcard
             sFilGrp = clObjCommButtons.sFilGrp
-            Call PbSubRecDataFields(cCtrL)
+            Call PbSubRecDataFields(cCtrl)
             For Each vA In dictFormFilterGrpTrgts(sForM)(sFilGrp)
-                cCtrL.Parent.Controls(vA).Requery
+                cCtrl.Parent.Controls(vA).Requery
             Next vA
-            Call pbSub00_CtrlsEnblDsble_GetParams(cCtrL.Parent, clObjCommButtons.sFrmMode, sFilGrp)
+            Call pbSub00_CtrlsEnblDsble_GetParams(cCtrl.Parent, clObjCommButtons.sFrmMode, sFilGrp)
             
         
         Case sActType Like "Sort"
@@ -347,10 +347,10 @@ Private Sub mCommandButton_Click()
             
             'Inverte o [ sOrderMode ]
             If clObjCommButtons.sOrderMode = "ASC" Then
-                If dictFndFldrVars("gBsSysLocalIcoZtoA") <> "" <> "" Then cCtrL.Picture = gBsSysLocalIcoAtoZ
+                If dictFndFldrVars("gBsSysLocalIcoZtoA") <> "" <> "" Then cCtrl.Picture = gBsSysLocalIcoAtoZ
                 clObjCommButtons.sOrderMode = "DESC"
             Else
-                If dictFndFldrVars("gBsSysLocalIcoAtoZ") <> "" <> "" Then cCtrL.Picture = gBsSysLocalIcoZtoA
+                If dictFndFldrVars("gBsSysLocalIcoAtoZ") <> "" <> "" Then cCtrl.Picture = gBsSysLocalIcoZtoA
                 clObjCommButtons.sOrderMode = "ASC"
             End If
             
@@ -366,10 +366,10 @@ End Sub
 
 Private Sub mLabel_DblClick(Cancel As Integer)
     Dim fForm As Form
-    Dim cCtrL As Control
+    Dim cCtrl As Control
     
-    Set cCtrL = mLabel
-    Set fForm = cCtrL.Parent
+    Set cCtrl = mLabel
+    Set fForm = cCtrl.Parent
     
 'Stop
 
@@ -384,23 +384,23 @@ Private Sub mListBox_BeforeUpdate(Cancel As Integer)
 
     Dim vA
     Dim iControlType As Integer
-    Dim cCtrL As Control
+    Dim cCtrl As Control
     Dim sCtrL As String
     Dim fForm As Form
 
-    Set cCtrL = mListBox
-    Set fForm = cCtrL.Parent
+    Set cCtrl = mListBox
+    Set fForm = cCtrl.Parent
     
-    sCtrL = cCtrL.Name
+    sCtrL = cCtrl.Name
     
     
 'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "Aciona [ HighlightClrChange ] LostFocus, controle [ " & sCtrL & "]   "
 'Stop
 
-    iControlType = cCtrL.ControlType
+    iControlType = cCtrl.ControlType
     
     'Chama a rotina de alteração de cor do controle
-    Call HighlightClrChange(iControlType, cCtrL, True)
+    Call HighlightClrChange(iControlType, cCtrl, True)
 
 End Sub
 
@@ -409,12 +409,12 @@ Private Sub mTextBox_Change()
 
     Dim vA, vB
     Dim fForm As Form
-    Dim cCtrL As Control
+    Dim cCtrl As Control
 
 'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "Txtbox change"
 'Stop
-    Set cCtrL = mTextBox
-    Set fForm = cCtrL.Parent
+    Set cCtrl = mTextBox
+    Set fForm = cCtrl.Parent
      
     ''-- Máscara de texto do controle ----
     ''Deve ser usado no evento Change do controle no próprio formulário
@@ -422,7 +422,7 @@ Private Sub mTextBox_Change()
     'Call MskdTxtbox02_TextMask(ActiveControl, ActiveControl.Text, "P_###,###", 6)
     
     'Aciona a atualização do [ TargetCtrl ] associado ao controle
-    Call pb_TargtCtrlUpdate00_TimerDelay(fForm, cCtrL)
+    Call pb_TargtCtrlUpdate00_TimerDelay(fForm, cCtrl)
     
 
 End Sub
@@ -431,22 +431,22 @@ Private Sub mTextBox_GotFocus()
 
     Dim iControlType As Integer
     Dim vA
-    Dim cCtrL As Control
+    Dim cCtrl As Control
     Dim sCtrL As String
     Dim bLostFocus As Boolean
     
     'Dim fForM As Form
     
-    Set cCtrL = mTextBox
-    sCtrL = cCtrL.Name
+    Set cCtrl = mTextBox
+    sCtrL = cCtrl.Name
     bLostFocus = False
 
 'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "Aciona [ HighlightClrChange ]"
 'Stop
     
-    iControlType = cCtrL.ControlType
+    iControlType = cCtrl.ControlType
     'Chama a rotina de alteração de cor do controle
-    Call HighlightClrChange(iControlType, cCtrL, bLostFocus)
+    Call HighlightClrChange(iControlType, cCtrl, bLostFocus)
 
 End Sub
 
@@ -455,35 +455,35 @@ Private Sub mTextBox_LostFocus()
 
     Dim vA
     Dim iControlType As Integer
-    Dim cCtrL As Control
+    Dim cCtrl As Control
     Dim sCtrL As String
     Dim bLostFocus As Boolean
     'Dim fForM As Form
     
-    Set cCtrL = mTextBox
-    sCtrL = cCtrL.Name
+    Set cCtrl = mTextBox
+    sCtrL = cCtrl.Name
     bLostFocus = False
 
 'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "Aciona [ HighlightClrChange ]"
 'Stop
     
-    iControlType = cCtrL.ControlType
+    iControlType = cCtrl.ControlType
     'Chama a rotina de alteração de cor do controle
-    Call HighlightClrChange(iControlType, cCtrL, True)
+    Call HighlightClrChange(iControlType, cCtrl, True)
 
 End Sub
 
 
 Private Sub mToggleButton_Click()
-    Dim cCtrL As Control
+    Dim cCtrl As Control
     
-    Set cCtrL = mToggleButton
+    Set cCtrl = mToggleButton
     Set clObjFormOpenParams = New cls_09cParamsToOpenForms
     
     With clObjFormOpenParams
-        Set .cTglBtnDocking = cCtrL
-        Set .fTrgtForm = cCtrL.Parent
-        .sTrgtForm = cCtrL.Parent.Name
+        Set .cTglBtnDocking = cCtrl
+        Set .fTrgtForm = cCtrl.Parent
+        .sTrgtForm = cCtrl.Parent.Name
         .bFrmIsDocked = .cTglBtnDocking.Value
         
     End With

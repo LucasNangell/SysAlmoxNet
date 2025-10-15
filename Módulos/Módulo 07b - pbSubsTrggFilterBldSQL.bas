@@ -169,8 +169,8 @@ Public Sub BuildSQL_ListBox(cCtrL As Control, sTargtCtrlSQLselect As String, bMs
     
     'vA = cCtrL.ItemData(cCtrL.ListIndex)
     
-MsgBox "teste --------------------------------------------------------------------------" & vbCr & "BuildSQL Listbox [ " & sCtrL & " ]"
-Stop
+'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "BuildSQL Listbox [ " & sCtrL & " ]"
+'Stop
     
     'clObjTriggCtrlParam.dictGetListSrchVals.RemoveAll
     'clObjTriggCtrlParam.dictGetListItemTxts.RemoveAll
@@ -180,10 +180,8 @@ Stop
     lngTbeClmn = clObjTriggCtrlParam.iListboxTxtClmn
     
     vA = cCtrL.ListIndex
-    If vA > -1 Then cCtrL.Selected(vA) = True
-    cCtrL.Value = cCtrL.Value
-    vB = cCtrL.Value
-    
+    cCtrL.Selected(vA) = True
+'    cCtrL.Value = cCtrL.Value
     
     'Roda o código apenas se houver pelo menos um item selecionado na Lista
     lngSelectedItems = cCtrL.ItemsSelected.Count

@@ -27,7 +27,7 @@ Private Declare PtrSafe Function LockWindowUpdate Lib "user32" (ByVal hwndLock A
  '
 
 
-Public Sub pb_TargtCtrlUpdate00_TimerDelay(fForm As Form, cCtrL As Control)
+Public Sub pb_TargtCtrlUpdate00_TimerDelay(fForM As Form, cCtrL As Control)
 'Public Sub pb_TargtCtrlUpdate00_TimerDelay()
     
     Dim vA, vB
@@ -37,7 +37,7 @@ Public Sub pb_TargtCtrlUpdate00_TimerDelay(fForm As Form, cCtrL As Control)
 'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "TimerDelay trigger"
 'Stop
     
-    sForM = fForm.Name
+    sForM = fForM.Name
     sCtrL = cCtrL.Name
     
     'Confirma se o controle é um [ TriggCtrl ]
@@ -47,7 +47,7 @@ Public Sub pb_TargtCtrlUpdate00_TimerDelay(fForm As Form, cCtrL As Control)
         
         'Carrega as variáveis que serão usadas na rotina de atualização
         Set gBcTrggCtrl = cCtrL
-        Set gBfTrggCtrlForm = fForm
+        Set gBfTrggCtrlForm = fForM
         
         
 'parei aqui1: verificar se há necessidade de "On Error..."
@@ -115,7 +115,7 @@ Public Sub pb_TargtCtrlUpdate01_Start()
 End Sub
 
 
-Public Sub pb_TargtCtrlUpdate02_SetSearchType(fForm As Form, Optional cCtrL As Control, Optional sTagParams As String) ', Optional iResetArea As Integer)
+Public Sub pb_TargtCtrlUpdate02_SetSearchType(fForM As Form, Optional cCtrL As Control, Optional sTagParams As String) ', Optional iResetArea As Integer)
 
     '-----------------------------------------------------------------------------
     ' Identifica o tipo de atualização disparada:
@@ -149,14 +149,14 @@ Public Sub pb_TargtCtrlUpdate02_SetSearchType(fForm As Form, Optional cCtrL As C
 End Sub
 
 
-Public Sub pb_TargtCtrlUpdate03_UNIQUEupdate(fForm As Form, cTrggCtrL As Control) ' , Optional sTagParams As String) ', Optional iResetArea As Integer)
+Public Sub pb_TargtCtrlUpdate03_UNIQUEupdate(fForM As Form, cTrggCtrL As Control) ' , Optional sTagParams As String) ', Optional iResetArea As Integer)
     Dim vA, vB, vC
     Dim iResetArea As Integer
     Dim sForM As String
     Dim sTrggCtrL As String
     Dim sFilGrp As String
     
-    sForM = fForm.Name
+    sForM = fForM.Name
     'vA = cTrggCtrL.ItemData(cTrggCtrL.ListIndex)
 
 'Stop
@@ -187,7 +187,7 @@ Public Sub pb_TargtCtrlUpdate03_UNIQUEupdate(fForm As Form, cTrggCtrL As Control
                 '--------------------------------------------------------------------------------------------------------
                 On Error GoTo -1
 'Stop
-                Call pb_TargtCtrlUpdate06_BuildWHERE(fForm, sFilGrp)
+                Call pb_TargtCtrlUpdate06_BuildWHERE(fForM, sFilGrp)
 'Stop
             End If
             
@@ -202,14 +202,14 @@ Public Sub pb_TargtCtrlUpdate04_RESETarea(sForM As String, sResetAreaBtn As Stri
     Dim vA, vB, vC, vD, vE
     Dim sRstArea As String
     Dim vKeyCtrl As Variant, vKeyFilGrp As Variant
-    Dim fForm As Form
+    Dim fForM As Form
     Dim sFilGrp As String
     Dim sKeyFilGrp As String
     Dim cCtrL As Control
     
-    Set fForm = Forms(sForM)
-    vA = fForm.Name
-Stop
+    Set fForM = Forms(sForM)
+    vA = fForM.Name
+'Stop
 
     'Confirma se o dict [ dictRstArBTNsByNr(sForM) ] existe o que indica que há botões associados a [ Areas de Reset ]
     If IsObject(dictRstArBTNsByNr(sForM)) Then
@@ -231,21 +231,25 @@ Stop
                     'Acessa a classe [ clObjRstAreaParams ] pra identificar
                     ' os [ Controles ] e os [ Grupos de Filtragem ] associados à [ Area de Reset ]
                     Set clObjRstAreaParams = dictFrmResetAreas(sForM)(sRstArea)
-Stop
+'Stop
                         'Por meio do dict [ clObjRstAreaParams.dictRstArCtrls ] identifica os controles da [ Área de Reset ] a serem esvaziados
                         For Each vKeyCtrl In clObjRstAreaParams.dictRstArCtrls
-Stop
+'Stop
                             Set cCtrL = Forms(sForM).Controls(vKeyCtrl)
                             
-MsgBox "teste --------------------------------------------------------------------------" & vbCr & "Esvazia o controle [ " & vKeyCtrl & " ]"
-Stop
+'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "Esvazia o controle [ " & vKeyCtrl & " ]"
+'Stop
                             vA = cCtrL.Value
                             vB = cCtrL.DefaultValue
                             
-                            
-                            vC = cCtrL.ListIndex
-                            vD = cCtrL.ItemsSelected.Count
-                            vE = cCtrL.ItemsSelected.Item(0)
+                            'Se o controle a ser esvaziado for uma ListBox
+                            ' passa por todos os itens e define a propriedade [ Selected ] como FALSE
+                            ' garantindo que não haja nenhum item selecionado na lista
+                            If cCtrL.ControlType = acListBox Then
+                                For Each vC In cCtrL.ItemsSelected
+                                    cCtrL.Selected(vC) = False
+                                Next vC
+                            End If
                             
                             vB = IIf(cCtrL.DefaultValue = "", Null, Replace(cCtrL.DefaultValue, """", ""))
                             
@@ -254,7 +258,7 @@ Stop
                             'Esvazia o controle identificado
                             cCtrL = IIf(cCtrL.DefaultValue = "", Null, Replace(cCtrL.DefaultValue, """", ""))
                             Call HighlightClrChange(Int(cCtrL.ControlType), cCtrL, True)
-Stop
+'Stop
                         Next vKeyCtrl
                         
                         'Identifica os grupos de filtragem a [ Área de Reset ] pra atualizar
@@ -271,7 +275,7 @@ Stop
 'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "Atualiza o grupo [ " & sKeyFilGrp & " ]"
 'Stop
                                   
-                            Call pb_TargtCtrlUpdate06_BuildWHERE(fForm, sKeyFilGrp)
+                            Call pb_TargtCtrlUpdate06_BuildWHERE(fForM, sKeyFilGrp)
                         
                         Next vKeyFilGrp
                     
@@ -397,7 +401,7 @@ If Not bgbSkipStops4b Then Stop     'Ctrl point
 End Sub
 
 
-Public Sub pb_TargtCtrlUpdate06_BuildWHERE(fForm As Form, sFilGrp As String)
+Public Sub pb_TargtCtrlUpdate06_BuildWHERE(fForM As Form, sFilGrp As String)
 
     Dim vA, vB, vC, vD
     Dim sForM As String
@@ -428,7 +432,7 @@ Public Sub pb_TargtCtrlUpdate06_BuildWHERE(fForm As Form, sFilGrp As String)
     Dim vKeyTrggCtrl As Variant
     Dim vKeyTrgtCtrl As Variant
     
-    sForM = fForm.Name
+    sForM = fForM.Name
     
 'MsgBox "----- pb_TargtCtrlUpdate06_BuildWHERE ----------------------------------------" & vbCr & vbCr & "Inicia BuildWHERE." & vbCr & " " & vbCr & " "
 If gBbDepurandoLv03a Then Stop
@@ -697,7 +701,7 @@ If gBbDepurandoLv03a Then Stop
                 'If sRecCntCtrlName <> "" Then bBoL = ControlExists(sRecCntCtrlName, fForM)
                 
                 If sRecCntCtrlName <> "" Then
-                    bBoL = ControlExists(sRecCntCtrlName, fForm)
+                    bBoL = ControlExists(sRecCntCtrlName, fForM)
                 
                         If sRecCntCtrlName <> "" And bBoL Then
                             

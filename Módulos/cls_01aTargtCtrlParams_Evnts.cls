@@ -67,14 +67,14 @@ Private Sub mListBox_MouseDown(Button As Integer, Shift As Integer, x As Single,
     Dim vKeyGrp, vKeyCtrl
     Dim sFilGrp As String, sForM As String
     Dim cEdtCtrl As Control
-    Dim fForm As Form
+    Dim fForM As Form
     
     '---------------------------------------------------------------
     ' chama pbSub00_CtrlsEnblDsble_GetParams
     ' pra habilitar/desabilitar os controles depois que um valor é selecionado na Listbox
     '---------------------------------------------------------------
     
-    Set fForm = mListBox.Parent
+    Set fForM = mListBox.Parent
 'MsgBox "Mouse Down [ " & mListBox.Name & " ]"
 'Stop
     'Quando um item é selecionado na listbox
@@ -103,7 +103,7 @@ Private Sub mListBox_MouseDown(Button As Integer, Shift As Integer, x As Single,
         End If
 
         
-        Call pbSub00_CtrlsEnblDsble_GetParams(fForm, "RecSelect", sFilGrp)
+        Call pbSub00_CtrlsEnblDsble_GetParams(fForM, "RecSelect", sFilGrp)
         
         'Identifica o botão de edição do grupo de filtragem pra habilitá-lo,
         ' por meio do parâmetro ActType> n TAG do botão

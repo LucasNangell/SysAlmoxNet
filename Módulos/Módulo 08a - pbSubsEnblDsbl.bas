@@ -3,7 +3,7 @@ Option Compare Database
 Option Explicit
 
 
-Public Sub pbSub00_CtrlsEnblDsble_GetParams(fForm As Form, sSysFormMode As String, Optional sFilGrp As String, Optional cPressedCtrl As Control)
+Public Sub pbSub00_CtrlsEnblDsble_GetParams(fForM As Form, sSysFormMode As String, Optional sFilGrp As String, Optional cPressedCtrl As Control)
     Dim vA, vB, vC, vD, vE, vF
     Dim rsTbE As Recordset
     Dim sQuerY As String
@@ -23,14 +23,14 @@ Public Sub pbSub00_CtrlsEnblDsble_GetParams(fForm As Form, sSysFormMode As Strin
     Dim sForM As String
     
     
-    sForM = fForm.Name
+    sForM = fForM.Name
     
     'Recupera na tabela [ qry_00(3)bSysEnblDisblParms(Edt) ] os parâmetros necessários
     ' com a indicação dos ajustes a serem feitos nos Controles do [ Form ]
     ' a partir da ação iniciada (ex.: FormLoad, pressionamento do botão Editar, etc)
     
     
-    sSysForM = fForm.Name
+    sSysForM = fForM.Name
     If Not cPressedCtrl Is Nothing Then sPressedCtrL = cPressedCtrl.Name
     
     
@@ -120,7 +120,7 @@ Public Sub pbSub00_CtrlsEnblDsble_GetParams(fForm As Form, sSysFormMode As Strin
         
             
 'Stop
-                vA = fForm.Name
+                vA = fForM.Name
                 vB = cTweakableCtrL.Name
                 
                 'Se o grupo de filtragem for indicado por [ sFilGrp ] na chamada da rotina
@@ -128,10 +128,10 @@ Public Sub pbSub00_CtrlsEnblDsble_GetParams(fForm As Form, sSysFormMode As Strin
                 If sFilGrp <> "" Then
 'Stop
                     If dictFormFilGrpsEnDsAllCtrls(sForM)(sFilGrp).Exists(sTweakableCtrL) Then
-                        Call pbSub01_CtrlsEnblDsble_Confirm(fForm, cTweakableCtrL, dictCtrlTypeShort(cTweakableCtrL.ControlType), bEnable, bVisible, bLockCombo, sCtrlNewTipText)
+                        Call pbSub01_CtrlsEnblDsble_Confirm(fForM, cTweakableCtrL, dictCtrlTypeShort(cTweakableCtrL.ControlType), bEnable, bVisible, bLockCombo, sCtrlNewTipText)
                     End If
                 Else
-                    Call pbSub01_CtrlsEnblDsble_Confirm(fForm, cTweakableCtrL, dictCtrlTypeShort(cTweakableCtrL.ControlType), bEnable, bVisible, bLockCombo, sCtrlNewTipText)
+                    Call pbSub01_CtrlsEnblDsble_Confirm(fForM, cTweakableCtrL, dictCtrlTypeShort(cTweakableCtrL.ControlType), bEnable, bVisible, bLockCombo, sCtrlNewTipText)
                 End If
             Else
                 'Carrega pro Log de carga do sistema os controles indicados na tabela que não existam no [ Form ]
@@ -155,7 +155,7 @@ Public Sub pbSub00_CtrlsEnblDsble_GetParams(fForm As Form, sSysFormMode As Strin
 
 End Sub
 
-Public Sub pbSub01_CtrlsEnblDsble_Confirm(ByVal fForm As Form, cTweakableCtrL As Control, sCtrlType As String, bEnable As Boolean, bVisible As Boolean, Optional bLocked As Boolean, Optional sCtrlNewTipText As String)
+Public Sub pbSub01_CtrlsEnblDsble_Confirm(ByVal fForM As Form, cTweakableCtrL As Control, sCtrlType As String, bEnable As Boolean, bVisible As Boolean, Optional bLocked As Boolean, Optional sCtrlNewTipText As String)
 
     Dim vA, vB
     Dim cOptBttn As Control
@@ -166,7 +166,7 @@ Public Sub pbSub01_CtrlsEnblDsble_Confirm(ByVal fForm As Form, cTweakableCtrL As
     ' desmembra os controls [ acOptionGroup ] pra aplicar as alterações nos
     ' itens internos ao invez de aplicar no controle Pai
     
-    sForM = fForm.Name
+    sForM = fForM.Name
     vA = cTweakableCtrL.Name
 
 'MsgBox "teste - aplicando Enable/Disable para: [ " & vA & " ]"
@@ -176,13 +176,13 @@ Public Sub pbSub01_CtrlsEnblDsble_Confirm(ByVal fForm As Form, cTweakableCtrL As
         For Each cOptBttn In cTweakableCtrL.Controls
             vA = cOptBttn.Name
 'Stop
-            Call pbSub02_CtrlsEnblDsbl_Apply(fForm, cOptBttn, dictCtrlTypeShort(cOptBttn.ControlType), bEnable, bVisible, bLocked, sCtrlNewTipText)
+            Call pbSub02_CtrlsEnblDsbl_Apply(fForM, cOptBttn, dictCtrlTypeShort(cOptBttn.ControlType), bEnable, bVisible, bLocked, sCtrlNewTipText)
             
         Next cOptBttn
     
     
     Else
-        Call pbSub02_CtrlsEnblDsbl_Apply(fForm, cTweakableCtrL, dictCtrlTypeShort(cTweakableCtrL.ControlType), bEnable, bVisible, bLocked, sCtrlNewTipText)
+        Call pbSub02_CtrlsEnblDsbl_Apply(fForM, cTweakableCtrL, dictCtrlTypeShort(cTweakableCtrL.ControlType), bEnable, bVisible, bLocked, sCtrlNewTipText)
 
     End If
 
@@ -190,7 +190,7 @@ Public Sub pbSub01_CtrlsEnblDsble_Confirm(ByVal fForm As Form, cTweakableCtrL As
 End Sub
 
 
-Public Sub pbSub02_CtrlsEnblDsbl_Apply(ByVal fForm As Form, cTweakableCtrL As Control, sCtrlType As String, bEnable As Variant, bVisible As Boolean, Optional bLocked As Boolean, Optional sCtrlNewTipText As String)
+Public Sub pbSub02_CtrlsEnblDsbl_Apply(ByVal fForM As Form, cTweakableCtrL As Control, sCtrlType As String, bEnable As Variant, bVisible As Boolean, Optional bLocked As Boolean, Optional sCtrlNewTipText As String)
 
     Dim vA, vB, vC
     Dim sForM As String
@@ -204,7 +204,7 @@ Public Sub pbSub02_CtrlsEnblDsbl_Apply(ByVal fForm As Form, cTweakableCtrL As Co
     Dim iLckdStatusSpecialEffect As Long
 
 
-    sForM = fForm.Name
+    sForM = fForM.Name
     If Not cTweakableCtrL Is Nothing Then sCtrL = cTweakableCtrL.Name
 
 'MsgBox "teste - aplicando Enable/Disable para: [ " & sCtrl & " ]"

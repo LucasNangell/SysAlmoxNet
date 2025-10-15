@@ -8,11 +8,11 @@ Private Sub PrSubCtrlChange(vClassCtrl As Variant, sTgtCtrlToUpdt As String)
     Dim vA, vB
     Dim sStR As String
     Dim cCtrL As Control
-    Dim fForm As Form
+    Dim fForM As Form
     
 'Stop
-    Set fForm = vClassCtrl.Parent
-    vA = fForm.Name
+    Set fForM = vClassCtrl.Parent
+    vA = fForM.Name
     
     Set cCtrL = vClassCtrl
     vB = cCtrL.Name
@@ -25,18 +25,18 @@ Private Sub PrSubCtrlChange(vClassCtrl As Variant, sTgtCtrlToUpdt As String)
 'Stop
     If gBbEnableErrorHandler Then On Error Resume Next
     bgbCallingByName = True
-    CallByName fForm, sStR, VbMethod   'o evento AfterUpdate deve ser público, do contrário não será localizado
+    CallByName fForM, sStR, VbMethod   'o evento AfterUpdate deve ser público, do contrário não será localizado
     bgbCallingByName = False
 'Stop
     If (Err.Number <> 0) Then
         
         If bgbAftUpdtEvntFound Then
         
-            MsgBox "Erro de codificação no evento" & vbCr & "    [ " & sStR & " ] " & vbCr & "do form" & vbCr & "    [ " & fForm.Name & " ] " _
+            MsgBox "Erro de codificação no evento" & vbCr & "    [ " & sStR & " ] " & vbCr & "do form" & vbCr & "    [ " & fForM.Name & " ] " _
             & vbCr & vbCr & Err.Number & " - " & Err.Description & vbCr & vbCr & "O controle disparador de pesquisa [ " & cCtrL.Name & " ] não irá se comportar como esperado", vbExclamation + vbOKOnly
             
         Else
-            MsgBox "O evento" & vbCr & "    [ " & sStR & " ] " & vbCr & "do form" & vbCr & "    [ " & fForm.Name & " ] " & vbCr & vbCr & "- não foi localizado, ou" & vbCr & "- está definido como Privado (Private)" & vbCr _
+            MsgBox "O evento" & vbCr & "    [ " & sStR & " ] " & vbCr & "do form" & vbCr & "    [ " & fForM.Name & " ] " & vbCr & vbCr & "- não foi localizado, ou" & vbCr & "- está definido como Privado (Private)" & vbCr _
             & vbCr & vbCr & "O controle disparador de pesquisa [ " & cCtrL.Name & " ] não irá se comportar como esperado", vbExclamation + vbOKOnly
             
         End If

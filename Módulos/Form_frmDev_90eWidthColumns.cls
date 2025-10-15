@@ -98,7 +98,7 @@ Private Sub btnSalvar_Click()
 End Sub
 
 Private Sub Form_Load()
-Dim fForm As Form
+Dim fForM As Form
 
 If Forms.Count > 2 Then
     MsgBox "Por favor deixe apenas o formulário que terá as listas manipuladas aberto antes de abrir este formulário.", vbInformation
@@ -111,9 +111,9 @@ dictSelectedFields.RemoveAll
 bSelectedList = False
 bSelectingHeads = False
 
-For Each fForm In Forms
-    If fForm.Name <> Me.Name Then Set fTrgtForm = fForm
-Next fForm
+For Each fForM In Forms
+    If fForM.Name <> Me.Name Then Set fTrgtForm = fForM
+Next fForM
 End Sub
 
 Private Sub Form_Timer()

@@ -20,7 +20,7 @@ Private Sub Form_Timer()
     
 'parei aqui1: confirmar a necessidade desse Resume Next e se o tratamento de erro no final deve permanecer. estava comentado
 
-    Dim fForm As Form
+    Dim fForM As Form
     Dim clFormCords As cls_09zOpndFormsPositions
     Dim iInT As Integer
     Dim sTrgtForm As String
@@ -46,44 +46,44 @@ Private Sub Form_Timer()
     
     With clObjTimerFrmParams
     
-        For Each fForm In Forms
+        For Each fForM In Forms
             .bIsTrggForm = False
             'Verifica se existe algum item no [ dictFormsParams ] de [ TrggForm ] não aberto
             ' Caso haja, remove o item
             For iInT = 0 To dictFormsParams.Count - 1
                 Set clObjFormsParams = dictFormsParams(dictFormsParams.Keys(iInT))
-                If clObjFormsParams.sTrggFormName = fForm.Name Then .bIsTrggForm = True
+                If clObjFormsParams.sTrggFormName = fForM.Name Then .bIsTrggForm = True
             Next iInT
             If Not .bIsTrggForm Then
-                If dictFormsParams.Exists(fForm.Name) = True Then dictFormsParams.Remove (fForm.Name)
+                If dictFormsParams.Exists(fForM.Name) = True Then dictFormsParams.Remove (fForM.Name)
             End If
             'Verifica se existe algum item no [ dictFormsPosition ] de [ TrggForm ] não aberto
             ' Caso haja, remove o item
             For iInT = 0 To dictFormsPosition.Count - 1
                 Set clFormCords = dictFormsPosition(dictFormsPosition.Keys(iInT))
-                If Not CurrentProject.AllForms(clFormCords.sFormName).IsLoaded Then dictFormsPosition.Remove (fForm.Name)
+                If Not CurrentProject.AllForms(clFormCords.sFormName).IsLoaded Then dictFormsPosition.Remove (fForM.Name)
             Next iInT
-        Next fForm
+        Next fForM
         
         iCountForm = Forms.Count
         
         
         Do
         iCountForm = iCountForm - 1
-        Set fForm = Forms(iCountForm)
+        Set fForM = Forms(iCountForm)
         'For Each fForM In Forms
             'Abre a [ clFormCords ] de cada [ fForm ] aberto para verificar mudanças de posição
-            If dictFormsPosition.Exists(fForm.Name) = True Then
-                Set clFormCords = dictFormsPosition(fForm.Name)
+            If dictFormsPosition.Exists(fForM.Name) = True Then
+                Set clFormCords = dictFormsPosition(fForM.Name)
                 
                 'Se houver mudança na posição do [ fForm ]
-                If clFormCords.lngLeft <> fForm.WindowLeft And clFormCords.sFormName = fForm.Name Or _
-                   clFormCords.lngTop <> fForm.WindowTop And clFormCords.sFormName = fForm.Name Then
+                If clFormCords.lngLeft <> fForM.WindowLeft And clFormCords.sFormName = fForM.Name Or _
+                   clFormCords.lngTop <> fForM.WindowTop And clFormCords.sFormName = fForM.Name Then
 Back:
                    
                    'Atualiza a classe com a nova posição
-                   clFormCords.lngLeft = fForm.WindowLeft
-                   clFormCords.lngTop = fForm.WindowTop
+                   clFormCords.lngLeft = fForM.WindowLeft
+                   clFormCords.lngTop = fForM.WindowTop
                    
                     'Percorre os itens do [ dictFormsParams ]
                     For iInT = 0 To dictFormsParams.Count - 1
@@ -95,7 +95,7 @@ Back:
                         End If
                         
                         
-                        If fForm.Name = clObjFormsParams.sTrggFormName Or fForm.Name = clObjFormsParams.sTrgtFormName Then
+                        If fForM.Name = clObjFormsParams.sTrggFormName Or fForM.Name = clObjFormsParams.sTrgtFormName Then
                             .sTrggForM = clObjFormsParams.sTrggFormName
                             .sTrgtForm = clObjFormsParams.sTrgtFormName
                             
@@ -105,12 +105,12 @@ Back:
                                 'Verifica se [ fForm ] é um [ TrggForm ] ou um [ TrgtForm ]
                                 '  e atualiza os dados da classe [ clObjFormsParams ]
                                 
-                                If fForm.Name = .sTrggForM Then
-                                    clObjFormsParams.lngTrggLeft = fForm.WindowLeft
-                                    clObjFormsParams.lngTrggTop = fForm.WindowTop
+                                If fForM.Name = .sTrggForM Then
+                                    clObjFormsParams.lngTrggLeft = fForM.WindowLeft
+                                    clObjFormsParams.lngTrggTop = fForM.WindowTop
                                     
-                                    clObjFormsParams.lngTrgtTop = fForm.WindowTop + clObjFormsParams.lngTrgtVertOffset
-                                    clObjFormsParams.lngTrgtLeft = fForm.WindowLeft + clObjFormsParams.lngTrgtHorizOffset
+                                    clObjFormsParams.lngTrgtTop = fForM.WindowTop + clObjFormsParams.lngTrgtVertOffset
+                                    clObjFormsParams.lngTrgtLeft = fForM.WindowLeft + clObjFormsParams.lngTrgtHorizOffset
                                     .bIsTrggForm = False
                                     
                                     On Error GoTo -1
@@ -120,12 +120,12 @@ Back:
                                     Call FormLoad08_SetFormPosition(clObjTimerFrmParams)
                                 
                                 End If
-                                If fForm.Name = .sTrgtForm Then
-                                    clObjFormsParams.lngTrgtLeft = fForm.WindowLeft
-                                    clObjFormsParams.lngTrgtTop = fForm.WindowTop
+                                If fForM.Name = .sTrgtForm Then
+                                    clObjFormsParams.lngTrgtLeft = fForM.WindowLeft
+                                    clObjFormsParams.lngTrgtTop = fForM.WindowTop
                                     
-                                    clObjFormsParams.lngTrggTop = fForm.WindowTop - clObjFormsParams.lngTrgtVertOffset
-                                    clObjFormsParams.lngTrggLeft = fForm.WindowLeft - clObjFormsParams.lngTrgtHorizOffset
+                                    clObjFormsParams.lngTrggTop = fForM.WindowTop - clObjFormsParams.lngTrgtVertOffset
+                                    clObjFormsParams.lngTrggLeft = fForM.WindowLeft - clObjFormsParams.lngTrgtHorizOffset
                                     .bIsTrggForm = True
                                     
                                     On Error GoTo -1
@@ -147,26 +147,26 @@ Back:
             Else
                 'Caso o dicionário não tenha nenhum item para o [ fForm ]
                 Set clFormCords = New cls_09zOpndFormsPositions
-                dictFormsPosition.Add fForm.Name, clFormCords
+                dictFormsPosition.Add fForM.Name, clFormCords
                 
-                clFormCords.lngLeft = fForm.WindowLeft
-                clFormCords.lngTop = fForm.WindowTop
-                clFormCords.sFormName = fForm.Name
+                clFormCords.lngLeft = fForM.WindowLeft
+                clFormCords.lngTop = fForM.WindowTop
+                clFormCords.sFormName = fForM.Name
             End If
         
         'Next fForM
         Loop While iCountForm > 0
         'Percorre novamente todos os formulários abertos para verificar se é necessária mais uma mudança de posição
-        For Each fForm In Forms
+        For Each fForM In Forms
             
-            If dictFormsPosition.Exists(fForm.Name) = True Then
-                Set clFormCords = dictFormsPosition(fForm.Name)
-                If clFormCords.sFormName <> fForm.Name Then
-                    dictFormsPosition.Remove (fForm.Name)
+            If dictFormsPosition.Exists(fForM.Name) = True Then
+                Set clFormCords = dictFormsPosition(fForM.Name)
+                If clFormCords.sFormName <> fForM.Name Then
+                    dictFormsPosition.Remove (fForM.Name)
                     
                 Else
-                    If clFormCords.lngLeft <> fForm.WindowLeft And clFormCords.sFormName = fForm.Name Or _
-                       clFormCords.lngTop <> fForm.WindowTop And clFormCords.sFormName = fForm.Name Then
+                    If clFormCords.lngLeft <> fForM.WindowLeft And clFormCords.sFormName = fForM.Name Or _
+                       clFormCords.lngTop <> fForM.WindowTop And clFormCords.sFormName = fForM.Name Then
                        'Caso haja mudança de posição retorna a posição [ Back ]
                        GoTo Back
                     
@@ -175,7 +175,7 @@ Back:
             End If
                     
     
-        Next fForm
+        Next fForM
         
         'Atualiza a posição de todos os formulários abertos no [ dictFormsPosition ]
         For iKey = 0 To dictFormsPosition.Count - 1

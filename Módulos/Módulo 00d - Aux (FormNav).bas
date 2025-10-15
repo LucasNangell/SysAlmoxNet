@@ -23,19 +23,19 @@ Public Sub HighlightClrChange(iCtrlType As Integer, cCtrL As Control, bLostFocus
     
     sCtrL = cCtrL.Name
     
-MsgBox "teste --------------------------------------------------------------------------" & vbCr & "Executa [ HighlightClrChange ], controle [ " & sCtrL & " ] "
-Stop
+'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "Executa [ HighlightClrChange ], controle [ " & sCtrL & " ] "
+'Stop
     
-Exit Sub
+    
     'vC = cCtrL.ListIndex
     'vD = cCtrL.ItemsSelected.Count
     'vE = cCtrL.ItemsSelected.Item(0)
 
-Stop
+'Stop
 
 
 
-
+'    cCtrL.Value = cCtrL.Value
 
     sCtrL = cCtrL.Name
     sForM = cCtrL.Parent.Name
@@ -125,11 +125,6 @@ Stop
         End Select
      
     End If
-
-Stop
-
-
-
 
 End Sub
 

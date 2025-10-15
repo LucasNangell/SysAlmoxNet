@@ -169,7 +169,7 @@ Sub ExportarTodosObjetosVBADetallado()
 
     ' --- COMANDOS GIT ---
     Dim strComand As String
-    strComand = InputBox("Digite a mensagem da versão")
+    strComand = Replace(Replace(CurrentProject.Name, ".accdb", ""), "ControleEstoque 64bits ", "")
 
 
     x = Shell("cmd.exe /K ""cd /d " & CurrentProject.Path, 1)

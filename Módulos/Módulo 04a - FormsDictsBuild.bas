@@ -288,7 +288,7 @@ Public Sub pbSub10_EventsDictBuild(sForM, sEventCtrL)
 End Sub
 
 
-Public Function pbSub20_TargtCtrlsDictStartUp(fForm As Form) As Boolean
+Public Function pbSub20_TargtCtrlsDictStartUp(fForM As Form) As Boolean
 
     Dim vA, vB, vC
     Dim sForM As String
@@ -308,11 +308,11 @@ Public Function pbSub20_TargtCtrlsDictStartUp(fForm As Form) As Boolean
     ' rotina pra guardar as propriedades dos controles
     ' no Dict [ dictListboxParams(sForM) ] seus parâmetros e propriedades
 
-    sForM = fForm.Name
+    sForM = fForM.Name
 
 'Stop
     'Loop pra localizar os Listboxes do [ Form ] e incluir nos Diversos Dicts
-    For Each cTrgtCtrl In fForm.Controls
+    For Each cTrgtCtrl In fForM.Controls
         
         sTrgtCtrl = cTrgtCtrl.Name
         sLstbxTag = cTrgtCtrl.Tag
@@ -1001,7 +1001,7 @@ Stop
 End Function
 
 
-Public Sub pbSub30_TriggCtrlDictStartUp(fForm As Form)
+Public Sub pbSub30_TriggCtrlDictStartUp(fForM As Form)
 
     Dim vA, vB, vC
     'Dim fForM As Form
@@ -1028,7 +1028,7 @@ Public Sub pbSub30_TriggCtrlDictStartUp(fForm As Form)
     'Abre o Form pra recuperar os parâmetros dos [ TrggCtrls ] e armazenar
     ' nos Dicts [ dictTrgg... ]
 
-    sForM = fForm.Name
+    sForM = fForM.Name
 
     If gBbEnableErrorHandler Then On Error GoTo -1: On Error GoTo FrM_ErrorHandler
 
@@ -1036,7 +1036,7 @@ Public Sub pbSub30_TriggCtrlDictStartUp(fForm As Form)
     'vA = 1 / 0
     
     'Loop pra localizar os TriggCtrls do [ Form ] e incluir nos Diversos Dicts
-    For Each cTriggCtrl In fForm.Controls
+    For Each cTriggCtrl In fForM.Controls
         
         sTriggCtrl = cTriggCtrl.Name
 'Stop
@@ -2610,7 +2610,7 @@ If gBbDepurandoLv01c Then Stop
 End Sub
 
 
-Public Sub pbSub60_CtrlsEnblDsblDictStartUp(fForm As Form)
+Public Sub pbSub60_CtrlsEnblDsblDictStartUp(fForM As Form)
     
     Dim vA, vB, vC
     Dim cEnblDsblCtrl As Control
@@ -2623,7 +2623,7 @@ Public Sub pbSub60_CtrlsEnblDsblDictStartUp(fForm As Form)
 'MsgBox "teste - carrega EnableDisable"
 'Stop
 
-    sForM = fForm.Name
+    sForM = fForM.Name
     
     '-------------------------------------------------------------------------------------------------------
     'Cria uma nova variação do dicionário pro Formulário corrente, caso ele ainda não tenha sido criado
@@ -2640,7 +2640,7 @@ Public Sub pbSub60_CtrlsEnblDsblDictStartUp(fForm As Form)
     ' - TipText
     ' - DefaultColor
 'Stop
-    For Each cEnblDsblCtrl In fForm.Controls
+    For Each cEnblDsblCtrl In fForM.Controls
         
         sCtrL = cEnblDsblCtrl.Name
     

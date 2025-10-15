@@ -54,7 +54,7 @@ End Sub
 Private Sub btnReset2Search_Click()
 
 
-Stop
+'Stop
     btnReset2Search.SetFocus
 
 End Sub
@@ -73,7 +73,6 @@ Private Sub Form_Load()
     'Me.lstEstoqueSaldo.RowSource = ""
     
 End Sub
-
 
 
 

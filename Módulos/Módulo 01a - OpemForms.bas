@@ -410,7 +410,7 @@ Sub FormLoad06a_BackFromFormLoad(clObjFormOpenParams As cls_09cParamsToOpenForms
     Dim vKey As Variant
     Dim sLoadLogWarn As String
     Dim cCtrL As Control
-    Dim fForm As Form
+    Dim fForM As Form
     Dim sSQL As String
     Dim lngFilteredRecs As Long
     Dim sStR As String
@@ -704,7 +704,7 @@ Sub SysLoad01_SysDictsLoad(sSystemStartForm)
     Dim vA, vB, vC
     Dim oFrmObjct As Object     'Formulário a ser carregado
     Dim sForM As String         'Nome do formulário a ser carregado
-    Dim fForm As Form
+    Dim fForM As Form
     Dim vKey As Variant
     Dim vLoginStR As Variant
     Dim sLoadLogWarn As String
@@ -803,7 +803,7 @@ If gBbDepurandoLv01a Then Stop
             
             'acDesign evita que o código de abertura do formulário seja executado
             DoCmd.OpenForm sForM, acDesign, , , , acHidden
-            Set fForm = Forms(sForM)
+            Set fForM = Forms(sForM)
 
 
 'If gBbDepurandoLv01a Then MsgBox "teste --------------------------------------------------------------------------"
@@ -831,7 +831,7 @@ If gBbDepurandoLv01a Then Stop
             ' e retorna se foram encontrados [ TargtCtrls ]
             '-------------------------------------------------------------
             '-----------------------------------
-            gBbTrgtCtrlsFound = pbSub20_TargtCtrlsDictStartUp(fForm)
+            gBbTrgtCtrlsFound = pbSub20_TargtCtrlsDictStartUp(fForM)
             '-----------------------------------
             '-------------------------------------------------------------
 
@@ -869,7 +869,7 @@ If gBbDepurandoLv01a Then Stop
             ' e, se houverem sido localizados [ TargtCtrls ] no Form, também o dicionário de [ TriggCtrls ]
             '-------------------------------------------------------------
             '-----------------------------------
-            Call pbSub30_TriggCtrlDictStartUp(fForm)  'Call pbSub10_EventsDictBuild(sForM, sCtrL) chamado internamente
+            Call pbSub30_TriggCtrlDictStartUp(fForM)  'Call pbSub10_EventsDictBuild(sForM, sCtrL) chamado internamente
 
             '-----------------------------------
             '-------------------------------------------------------------
@@ -899,7 +899,7 @@ If gBbDepurandoLv01a Then Stop
             'Chama rotina pra iniciar a montagem do dicionário de [ ctrls Enble/Dsble ]
             '-------------------------------------------------------------
             '-----------------------------------
-            Call pbSub60_CtrlsEnblDsblDictStartUp(fForm)
+            Call pbSub60_CtrlsEnblDsblDictStartUp(fForM)
             '-----------------------------------
             '-------------------------------------------------------------
 
@@ -1019,7 +1019,7 @@ Sub FormStatusBar01_Bld(sForM As String, sWarnID As String, sLoadLogWarn As Stri
 End Sub
 
 
-Sub FormStatusBar02_SetWarn(fForm As Form, bShowWarns As Boolean) ', oOjcT As Object) 'fForm As Form, sStatusTxt As String, sStatusTipText As String)
+Sub FormStatusBar02_SetWarn(fForM As Form, bShowWarns As Boolean) ', oOjcT As Object) 'fForm As Form, sStatusTxt As String, sStatusTipText As String)
     
     Dim vA, vB
     Dim sForM As String
@@ -1030,7 +1030,7 @@ Sub FormStatusBar02_SetWarn(fForm As Form, bShowWarns As Boolean) ', oOjcT As Ob
 
 'Stop
     'Configura o label [ StatusBar ] pra indicar que há alertas de carga do sistema
-    sForM = fForm.Name
+    sForM = fForM.Name
     Set cStatusBar = Forms(sForM).Controls("lblStatusBar")
     
     If bShowWarns Then
@@ -1046,7 +1046,7 @@ Sub FormStatusBar02_SetWarn(fForm As Form, bShowWarns As Boolean) ', oOjcT As Ob
     
 End Sub
 
-Sub FormStatusBar04_OpnLogForm(fForm As Form) ', oOjcT As Object) 'fForm As Form, sStatusTxt As String, sStatusTipText As String)
+Sub FormStatusBar04_OpnLogForm(fForM As Form) ', oOjcT As Object) 'fForm As Form, sStatusTxt As String, sStatusTipText As String)
     Dim vA, vB, vC, vD, vE
     Dim vFormCoords(1) As Variant
     Dim sForM As String
@@ -1061,7 +1061,7 @@ Sub FormStatusBar04_OpnLogForm(fForm As Form) ', oOjcT As Object) 'fForm As Form
 
 'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "Open Log form"
 'Stop
-    sForM = fForm.Name
+    sForM = fForM.Name
         
     'Confirma se há alertas de carga do sistema pra serem exibidos
     ' do contrário não abre o Formulário de Alertas

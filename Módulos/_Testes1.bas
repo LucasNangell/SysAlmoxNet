@@ -7,20 +7,20 @@ Option Explicit
 Private Sub PrSubCtrlChange(vClassCtrl As Variant, sTgtCtrlToUpdt As String)
     Dim vA, vB
     Dim sStR As String
-    Dim cCtrl As Control
+    Dim cCtrL As Control
     Dim fForm As Form
     
 'Stop
     Set fForm = vClassCtrl.Parent
     vA = fForm.Name
     
-    Set cCtrl = vClassCtrl
-    vB = cCtrl.Name
+    Set cCtrL = vClassCtrl
+    vB = cCtrL.Name
     
     'a rotina Update do próprio controle é chamada antes da rotina AfterUpdate da Classe
     ' por isso é necessário chamar a rotina AfterUpdate do controle ao final da rotina da Classe
 'Stop
-    sStR = cCtrl.Name & "_AfterUpdate"
+    sStR = cCtrL.Name & "_AfterUpdate"
     bgbAftUpdtEvntFound = False
 'Stop
     If gBbEnableErrorHandler Then On Error Resume Next
@@ -33,11 +33,11 @@ Private Sub PrSubCtrlChange(vClassCtrl As Variant, sTgtCtrlToUpdt As String)
         If bgbAftUpdtEvntFound Then
         
             MsgBox "Erro de codificação no evento" & vbCr & "    [ " & sStR & " ] " & vbCr & "do form" & vbCr & "    [ " & fForm.Name & " ] " _
-            & vbCr & vbCr & Err.Number & " - " & Err.Description & vbCr & vbCr & "O controle disparador de pesquisa [ " & cCtrl.Name & " ] não irá se comportar como esperado", vbExclamation + vbOKOnly
+            & vbCr & vbCr & Err.Number & " - " & Err.Description & vbCr & vbCr & "O controle disparador de pesquisa [ " & cCtrL.Name & " ] não irá se comportar como esperado", vbExclamation + vbOKOnly
             
         Else
             MsgBox "O evento" & vbCr & "    [ " & sStR & " ] " & vbCr & "do form" & vbCr & "    [ " & fForm.Name & " ] " & vbCr & vbCr & "- não foi localizado, ou" & vbCr & "- está definido como Privado (Private)" & vbCr _
-            & vbCr & vbCr & "O controle disparador de pesquisa [ " & cCtrl.Name & " ] não irá se comportar como esperado", vbExclamation + vbOKOnly
+            & vbCr & vbCr & "O controle disparador de pesquisa [ " & cCtrL.Name & " ] não irá se comportar como esperado", vbExclamation + vbOKOnly
             
         End If
         On Error GoTo -1
@@ -143,25 +143,25 @@ End Sub
 
 Sub Teste()
 
-     For Each cCtrl In clObjFormOpenParams.fTrgtForm
+     For Each cCtrL In clObjFormOpenParams.fTrgtForm
          
-         If InStr(cCtrl.Tag, "FormMode") > 0 Then
+         If InStr(cCtrL.Tag, "FormMode") > 0 Then
              
              If Not IsObject(dictCtrlsEvents(clObjFormOpenParams.sTrgtForm)) Then Set dictCtrlsEvents(clObjFormOpenParams.sTrgtForm) = New Dictionary
              
-             If Not dictCtrlsEvents(clObjFormOpenParams.sTrgtForm).Exists(cCtrl.Name) = True Then
+             If Not dictCtrlsEvents(clObjFormOpenParams.sTrgtForm).Exists(cCtrL.Name) = True Then
         
                 'Cria um novo objeto [ clObjCtrlsEvents ] da Classe [ cls_10aCtrls_Events ] pra ser incluído no [ dictCtrlsEvents(sForM) ]
                  Set clObjCtrlsEvents = New cls_10aCtrls_Events
-                 dictCtrlsEvents(clObjFormOpenParams.sTrgtForm).Add cCtrl.Name, clObjCtrlsEvents
+                 dictCtrlsEvents(clObjFormOpenParams.sTrgtForm).Add cCtrL.Name, clObjCtrlsEvents
                  
-                 clObjCtrlsEvents.sCtrlName = cCtrl.Name
+                 clObjCtrlsEvents.sCtrlName = cCtrL.Name
                  'A inicialização dos controles será feita posteriormente, na abertura do formulário
              
              End If
         End If
     
-    Next cCtrl
+    Next cCtrL
 
 End Sub
 

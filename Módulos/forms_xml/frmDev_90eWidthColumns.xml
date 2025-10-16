@@ -3,7 +3,7 @@
   <Properties>
     <Caption>Configurações de ListBox</Caption>
     <RecordSource></RecordSource>
-    <Width>11338</Width>
+    <Width>10885</Width>
     <Height></Height>
     <DefaultView>0</DefaultView>
   </Properties>
@@ -22,9 +22,9 @@
     <Control>
       <Name>txtSelectedList</Name>
       <Type>TextBox</Type>
-      <Left>566</Left>
-      <Top>566</Top>
-      <Width>3411</Width>
+      <Left>2324</Left>
+      <Top>283</Top>
+      <Width>6291</Width>
       <Height>390</Height>
       <Tag>Trgg</Tag>
       <Enabled>Verdadeiro</Enabled>
@@ -34,19 +34,19 @@
     <Control>
       <Name>Rótulo386</Name>
       <Type>Label</Type>
-      <Left>566</Left>
-      <Top>283</Top>
-      <Width>2370</Width>
+      <Left>345</Left>
+      <Top>345</Top>
+      <Width>1905</Width>
       <Height>315</Height>
       <Tag></Tag>
       <Enabled></Enabled>
-      <Caption>Lista selecionada:</Caption>
+      <Caption>Listbox selecionado</Caption>
     </Control>
     <Control>
       <Name>btnSalvar</Name>
       <Type>CommandButton</Type>
-      <Left>9467</Left>
-      <Top>5839</Top>
+      <Left>7540</Left>
+      <Top>5782</Top>
       <Width>1290</Width>
       <Height>405</Height>
       <Tag></Tag>
@@ -57,8 +57,8 @@
     <Control>
       <Name>btnCancelar</Name>
       <Type>CommandButton</Type>
-      <Left>7993</Left>
-      <Top>5839</Top>
+      <Left>8957</Left>
+      <Top>5782</Top>
       <Width>1290</Width>
       <Height>405</Height>
       <Tag></Tag>
@@ -69,10 +69,10 @@
     <Control>
       <Name>lstFields</Name>
       <Type>ListBox</Type>
-      <Left>566</Left>
-      <Top>1478</Top>
+      <Left>283</Left>
+      <Top>1195</Top>
       <Width>3411</Width>
-      <Height>4192</Height>
+      <Height>3787</Height>
       <Tag></Tag>
       <Enabled>Verdadeiro</Enabled>
       <RowSource></RowSource>
@@ -80,10 +80,10 @@
     <Control>
       <Name>lstSelectedColumns</Name>
       <Type>ListBox</Type>
-      <Left>5102</Left>
-      <Top>1478</Top>
+      <Left>4819</Left>
+      <Top>1195</Top>
       <Width>5670</Width>
-      <Height>4192</Height>
+      <Height>3787</Height>
       <Tag></Tag>
       <Enabled>Verdadeiro</Enabled>
       <RowSource></RowSource>
@@ -91,8 +91,8 @@
     <Control>
       <Name>btnAddColumn</Name>
       <Type>CommandButton</Type>
-      <Left>4138</Left>
-      <Top>2664</Top>
+      <Left>3855</Left>
+      <Top>2381</Top>
       <Width>795</Width>
       <Height>330</Height>
       <Tag></Tag>
@@ -103,8 +103,8 @@
     <Control>
       <Name>btnRemoveColumn</Name>
       <Type>CommandButton</Type>
-      <Left>4138</Left>
-      <Top>3114</Top>
+      <Left>3855</Left>
+      <Top>2831</Top>
       <Width>795</Width>
       <Height>330</Height>
       <Tag></Tag>
@@ -115,20 +115,20 @@
     <Control>
       <Name>Rótulo398</Name>
       <Type>Label</Type>
-      <Left>5102</Left>
-      <Top>226</Top>
+      <Left>4818</Left>
+      <Top>4989</Top>
       <Width>5670</Width>
       <Height>555</Height>
       <Tag></Tag>
       <Enabled></Enabled>
-      <Caption>Selecione o controle cabeçalho no formulário e clique 
-na coluna correspondente</Caption>
+      <Caption>No formulário selecione o cabeçalho da coluna pra 
+atribuir a largura da coluna</Caption>
     </Control>
     <Control>
       <Name>Comando401</Name>
       <Type>CommandButton</Type>
-      <Left>566</Left>
-      <Top>1133</Top>
+      <Left>283</Left>
+      <Top>850</Top>
       <Width>3407</Width>
       <Height>337</Height>
       <Tag>NotInDict.Head>ProdMarca.Grp11</Tag>
@@ -139,8 +139,8 @@ na coluna correspondente</Caption>
     <Control>
       <Name>Comando399</Name>
       <Type>CommandButton</Type>
-      <Left>5102</Left>
-      <Top>1133</Top>
+      <Left>4819</Left>
+      <Top>850</Top>
       <Width>572</Width>
       <Height>337</Height>
       <Tag>NotInDict.Head>ProdMarca.Grp11</Tag>
@@ -151,8 +151,8 @@ na coluna correspondente</Caption>
     <Control>
       <Name>Comando400</Name>
       <Type>CommandButton</Type>
-      <Left>5669</Left>
-      <Top>1133</Top>
+      <Left>5386</Left>
+      <Top>850</Top>
       <Width>2837</Width>
       <Height>337</Height>
       <Tag>NotInDict.Head>ProdMarca.Grp11</Tag>
@@ -163,14 +163,26 @@ na coluna correspondente</Caption>
     <Control>
       <Name>Comando402</Name>
       <Type>CommandButton</Type>
-      <Left>8504</Left>
-      <Top>1133</Top>
+      <Left>8221</Left>
+      <Top>850</Top>
       <Width>2267</Width>
       <Height>337</Height>
       <Tag>NotInDict.Head>ProdMarca.Grp11</Tag>
       <Enabled>Verdadeiro</Enabled>
       <Caption>HeadCtrl</Caption>
       <OnClick></OnClick>
+    </Control>
+    <Control>
+      <Name>Rótulo403</Name>
+      <Type>Label</Type>
+      <Left>339</Left>
+      <Top>4932</Top>
+      <Width>3360</Width>
+      <Height>555</Height>
+      <Tag></Tag>
+      <Enabled></Enabled>
+      <Caption>Seleciona na lista acima as colunas
+da consulta que devem ser exibidas</Caption>
     </Control>
   </Controls>
 </Form>

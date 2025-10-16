@@ -114,8 +114,8 @@ Private Sub btnSalvar_Click()
     
     
     For Each vKeyIndex In dictTabIndexCtrls
-        Set cCtrl = dictTabIndexCtrls(vKeyIndex)
-        cCtrl.TabIndex = vKeyIndex
+        Set cCtrL = dictTabIndexCtrls(vKeyIndex)
+        cCtrL.TabIndex = vKeyIndex
     Next vKeyIndex
 
     DoCmd.Close acForm, Me.Name
@@ -141,11 +141,11 @@ Private Sub Form_Timer()
     On Error Resume Next
     DoEvents
 
+    
+
     Set cTrgtCtrl = fTrgtForm.ActiveControl
-
-
     If sTrgtCtrl <> cTrgtCtrl.Name Then
-        
+    
         sTrgtCtrl = cTrgtCtrl.Name
         
         If Not dictTabIndexCtrls.Exists(sTrgtCtrl) And sTrgtCtrl <> "" Then

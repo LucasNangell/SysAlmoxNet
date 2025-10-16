@@ -69,9 +69,9 @@ Public Sub pbSub00_CtrlsEnblDsble_GetParams(fForm As Form, sSysFormMode As Strin
     If Not (rsTbE.EOF And rsTbE.BOF) Then
         rsTbE.MoveFirst
         Do Until rsTbE.EOF = True
-'Stop
             sTweakableCtrL = rsTbE.Fields("sTweakbleCtrl")
-            Debug.Print sTweakableCtrL
+'Stop
+            'Debug.Print sTweakableCtrL
             If ControlExists(sTweakableCtrL, Forms(sSysForM)) Then
                 Set cTweakableCtrL = Forms(sSysForM).Controls(sTweakableCtrL)
 'Stop
@@ -90,7 +90,7 @@ Public Sub pbSub00_CtrlsEnblDsble_GetParams(fForm As Form, sSysFormMode As Strin
 'MsgBox "teste - Check permissions before enable: [ " & sTweakableCtrL & " ]"
 'Stop
                     GetPrmissGrntedType = bCheckUserPermissionLevel(sSysForM, sTweakableCtrL)
-    
+'Stop
                     'Se o usuário não tiver a permissão requerida pra acessar o Controle
                     If Not GetPrmissGrntedType.bPermissionGrated Then
                         

@@ -414,7 +414,7 @@ Sub FormLoad06a_BackFromFormLoad(clObjFormOpenParams As cls_09cParamsToOpenForms
     Dim vKeyFilGrp As Variant, vKeyTrggCtrl As Variant, vKeyTrgtCtrl As Variant
     Dim vKey As Variant
     Dim sLoadLogWarn As String
-    Dim cCtrl As Control
+    Dim cCtrL As Control
     Dim fForm As Form
     Dim sSQL As String
     Dim lngFilteredRecs As Long
@@ -556,7 +556,7 @@ End Sub
 Public Sub FormLoad07_GenCtrlsEventDictInit(sForM As String)
     
     Dim vA, vB
-    Dim cCtrl As Control
+    Dim cCtrL As Control
     Dim vKeyEventCtrls As Variant, vKeyFilGrps As Variant, vKeyTrgtCtrl As Variant
     Dim sTrgtCtrl As String
     
@@ -570,8 +570,8 @@ Public Sub FormLoad07_GenCtrlsEventDictInit(sForM As String)
     If Not IsObject(dictCtrlsEvents(sForM)) Then Exit Sub
     For Each vKeyEventCtrls In dictCtrlsEvents(sForM)
         
-        Set cCtrl = Forms(sForM).Controls(vKeyEventCtrls)
-        Set dictCtrlsEvents(sForM)(vKeyEventCtrls).InitCtrl = cCtrl
+        Set cCtrL = Forms(sForM).Controls(vKeyEventCtrls)
+        Set dictCtrlsEvents(sForM)(vKeyEventCtrls).InitCtrl = cCtrL
     
     Next vKeyEventCtrls
     
@@ -591,8 +591,8 @@ Public Sub FormLoad07_GenCtrlsEventDictInit(sForM As String)
     'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "Init TrgtCtrls events [ " & sTrgtCtrl & "]"
     'Stop
             
-            Set cCtrl = Forms(sForM).Controls(sTrgtCtrl)
-            If cCtrl.ControlType = acListBox Then Set dictFormFilterGrpTrgts(sForM)(vKeyFilGrps)(vKeyTrgtCtrl).InitCtrl = cCtrl
+            Set cCtrL = Forms(sForM).Controls(sTrgtCtrl)
+            If cCtrL.ControlType = acListBox Then Set dictFormFilterGrpTrgts(sForM)(vKeyFilGrps)(vKeyTrgtCtrl).InitCtrl = cCtrL
         Next vKeyTrgtCtrl
     Next vKeyFilGrps
 

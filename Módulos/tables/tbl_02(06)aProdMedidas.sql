@@ -1,5 +1,5 @@
 -- Tabela: tbl_02(06)aProdMedidas
--- Registros: 4
+-- Registros: 6
 
 CREATE TABLE tbl_02(06)aProdMedidas (
     ProdMedidaID INTEGER AUTOINCREMENT,

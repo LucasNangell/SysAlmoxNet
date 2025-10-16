@@ -44,3 +44,42 @@ End Sub
 
 
 
+Private Sub btnClose_Click()
+    DoCmd.Close acForm, Me.Name, acSavePrompt
+    
+End Sub
+
+Private Sub Form_Load()
+    Dim vA, vB
+    Dim vKeyCtrl As Variant
+    Dim iCount As Integer
+    Dim sFontName As String
+    Dim sCtrL As String
+    Dim sListboxColor As String
+    
+'Stop
+    For Each vKeyCtrl In Me.Controls
+        sCtrL = vKeyCtrl.Name
+        
+        vA = vKeyCtrl.ControlType
+        If vA = acListBox Then
+'Stop
+            vKeyCtrl.Selected(2) = True
+            
+            vB = InStr(sCtrL, "lstFont")
+            If vB > 0 Then
+                iCount = iCount + 1
+                sFontName = Me.Controls("lstFont" & Format(iCount, "00")).FontName
+                sListboxColor = Me.Controls("lstFont" & Format(iCount, "00")).BackColor
+'Stop
+                
+                Me.Controls("txtFonte" & Format(iCount, "00")) = sFontName & "          BackColor: " & sListboxColor
+            
+            End If
+            
+        End If
+        
+        
+    Next vKeyCtrl
+    
+End Sub

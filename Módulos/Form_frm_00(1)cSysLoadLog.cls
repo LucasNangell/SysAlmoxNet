@@ -12,14 +12,14 @@ Option Explicit
 
 Private Sub btnCopyText_Click()
     Dim vA, vB
-    Dim cCtrL As Control
+    Dim cCtrl As Control
 'Stop
     'Seleciona todo o texto de [ txtLoadLog ] pra permitir
     ' que o texto seja copiado
-    Set cCtrL = Me.txtLoadLog
-    cCtrL.SetFocus
-    cCtrL.SelStart = 0
-    cCtrL.SelLength = Len(cCtrL.Text)
+    Set cCtrl = Me.txtLoadLog
+    cCtrl.SetFocus
+    cCtrl.SelStart = 0
+    cCtrl.SelLength = Len(cCtrl.Text)
     
 End Sub
 

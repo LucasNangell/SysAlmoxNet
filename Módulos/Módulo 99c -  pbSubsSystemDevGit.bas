@@ -3,7 +3,12 @@ Option Compare Database
 ' Adicionar esta declaração no topo do módulo (se ainda não existir)
 Private Declare PtrSafe Sub Sleep Lib "kernel32" (ByVal dwMilliseconds As LongPtr)
 Public Function CommitVersion()
-    Call ExportarTodosObjetosVBADetallado
+    If Environ("USERNAME") <> "P_918713" Then
+        MsgBox "Este comando só pode ser executado na máquina administratora da conta do GitHub.", vbCritical
+        Exit Function
+    Else
+        Call ExportarTodosObjetosVBADetallado
+    End If
 End Function
 Sub ExportarTodosObjetosVBADetallado()
     Dim vbComp As VBIDE.VBComponent

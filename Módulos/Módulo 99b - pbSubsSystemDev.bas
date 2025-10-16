@@ -18,7 +18,7 @@ Sub ListarTabelasECampos()
     Dim Db As Database
     Dim tdf As TableDef
     Dim fld As Field
-    Dim i As Integer
+    Dim I As Integer
     Dim strResultado As String
     
     ' Referência ao banco de dados atual
@@ -34,11 +34,11 @@ Sub ListarTabelasECampos()
             strResultado = strResultado & "Tabela: " & tdf.Name & vbCrLf
             
             ' Loop através de todos os campos da tabela
-            i = 0
+            I = 0
             For Each fld In tdf.Fields
-                strResultado = strResultado & "   Campo " & i + 1 & ": " & fld.Name & _
+                strResultado = strResultado & "   Campo " & I + 1 & ": " & fld.Name & _
                                " (" & TipoCampoParaTexto(fld.Type) & ")" & vbCrLf
-                i = i + 1
+                I = I + 1
             Next fld
             
             strResultado = strResultado & vbCrLf
@@ -125,20 +125,20 @@ Sub GravarResultadoEmTabela(conteudo As String)
     Dim Db As Database
     Dim tdfSource As TableDef
     Dim fld As Field
-    Dim i As Integer
+    Dim I As Integer
     Dim sql As String
     
     Set Db = CurrentDb()
     
     For Each tdfSource In Db.TableDefs
         If Left(tdfSource.Name, 4) <> "MSys" And Left(tdfSource.Name, 1) <> "~" Then
-            i = 0
+            I = 0
             For Each fld In tdfSource.Fields
                 sql = "INSERT INTO EstruturaBancoDados (DataHora, Tabela, Campo, TipoCampo, OrdemCampo) " & _
                       "VALUES (#" & Now() & "#, '" & Replace(tdfSource.Name, "'", "''") & "', " & _
-                      "'" & Replace(fld.Name, "'", "''") & "', '" & TipoCampoParaTexto(fld.Type) & "', " & i + 1 & ")"
+                      "'" & Replace(fld.Name, "'", "''") & "', '" & TipoCampoParaTexto(fld.Type) & "', " & I + 1 & ")"
                 Db.Execute sql, dbFailOnError
-                i = i + 1
+                I = I + 1
             Next fld
         End If
     Next tdfSource

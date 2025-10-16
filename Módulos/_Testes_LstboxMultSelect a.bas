@@ -98,7 +98,7 @@ Private Sub MultiSelect02_ToggleListbox()
 End Sub
 
 
-Sub MultiSelect01_Start(cCtrL As Control)
+Sub MultiSelect01_Start(cCtrl As Control)
     Dim vA, vB, vC
     Dim iWhere As Integer
     Dim sTagParams As String
@@ -112,10 +112,10 @@ Stop
 'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "MultiSelectStart"
 Stop
     
-    sForM = cCtrL.Parent.Name
+    sForM = cCtrl.Parent.Name
     
     'Confirma se o check é um controle tipo [ Target Multiselect ]
-    sTagSection = cCtrL.Tag
+    sTagSection = cCtrl.Tag
     
     vTagSectionParams = Split(sTagSection, ".")
     sParam = "TrgtMSelect"

@@ -602,7 +602,7 @@
       <Height>2917</Height>
       <Tag>TrgtCtrl.Grp01.RCnt>lblRegCntLst1--HLclr1.OnDrty0.Mskd1.MSlct0-</Tag>
       <Enabled>Verdadeiro</Enabled>
-      <RowSource>qry_04(01)bProdutosFull_Setor(Viw-Lst)</RowSource>
+      <RowSource>_qry_04(01)cProdutosFull_Setor(Viw-Pre not Grp)</RowSource>
     </Control>
     <Control>
       <Name>lblRegCntLst1</Name>

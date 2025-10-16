@@ -72,7 +72,7 @@
       <Left>283</Left>
       <Top>1195</Top>
       <Width>3411</Width>
-      <Height>3787</Height>
+      <Height>3457</Height>
       <Tag></Tag>
       <Enabled>Verdadeiro</Enabled>
       <RowSource></RowSource>
@@ -83,7 +83,7 @@
       <Left>4819</Left>
       <Top>1195</Top>
       <Width>5670</Width>
-      <Height>3787</Height>
+      <Height>3457</Height>
       <Tag></Tag>
       <Enabled>Verdadeiro</Enabled>
       <RowSource></RowSource>
@@ -115,8 +115,8 @@
     <Control>
       <Name>Rótulo398</Name>
       <Type>Label</Type>
-      <Left>4818</Left>
-      <Top>4989</Top>
+      <Left>4819</Left>
+      <Top>4649</Top>
       <Width>5670</Width>
       <Height>555</Height>
       <Tag></Tag>
@@ -175,14 +175,73 @@ atribuir a largura da coluna</Caption>
     <Control>
       <Name>Rótulo403</Name>
       <Type>Label</Type>
-      <Left>339</Left>
-      <Top>4932</Top>
+      <Left>340</Left>
+      <Top>4592</Top>
       <Width>3360</Width>
       <Height>555</Height>
       <Tag></Tag>
       <Enabled></Enabled>
       <Caption>Seleciona na lista acima as colunas
 da consulta que devem ser exibidas</Caption>
+    </Control>
+    <Control>
+      <Name>btnPreview</Name>
+      <Type>CommandButton</Type>
+      <Left>1474</Left>
+      <Top>5726</Top>
+      <Width>1290</Width>
+      <Height>405</Height>
+      <Tag></Tag>
+      <Enabled>Verdadeiro</Enabled>
+      <Caption>Preview</Caption>
+      <OnClick>[Event Procedure]</OnClick>
+    </Control>
+    <Control>
+      <Name>txtWidth</Name>
+      <Type>TextBox</Type>
+      <Left>3408</Left>
+      <Top>5782</Top>
+      <Width>1191</Width>
+      <Height>390</Height>
+      <Tag>Trgg</Tag>
+      <Enabled>Verdadeiro</Enabled>
+      <ControlSource></ControlSource>
+      <Format></Format>
+    </Control>
+    <Control>
+      <Name>Rótulo406</Name>
+      <Type>Label</Type>
+      <Left>3408</Left>
+      <Top>5499</Top>
+      <Width>1200</Width>
+      <Height>315</Height>
+      <Tag></Tag>
+      <Enabled></Enabled>
+      <Caption>Ajuste fino:</Caption>
+    </Control>
+    <Control>
+      <Name>btnAdd</Name>
+      <Type>CommandButton</Type>
+      <Left>4666</Left>
+      <Top>5777</Top>
+      <Width>285</Width>
+      <Height>390</Height>
+      <Tag></Tag>
+      <Enabled>Verdadeiro</Enabled>
+      <Caption>+</Caption>
+      <OnClick>[Event Procedure]</OnClick>
+    </Control>
+    <Control>
+      <Name>btnMin</Name>
+      <Type>CommandButton</Type>
+      <Left>3061</Left>
+      <Top>5777</Top>
+      <Width>285</Width>
+      <Height>390</Height>
+      <Tag></Tag>
+      <Enabled>Verdadeiro</Enabled>
+      <Caption>-</Caption>
+      <OnClick>[Event Procedure]</OnClick>
     </Control>
   </Controls>
 </Form>

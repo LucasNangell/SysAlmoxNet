@@ -431,6 +431,7 @@ Public Sub pb_TargtCtrlUpdate06_BuildWHERE(fForm As Form, sFilGrp As String)
     Dim cTrggCtrL As Control
     Dim vKeyTrggCtrl As Variant
     Dim vKeyTrgtCtrl As Variant
+    Dim sWHEREparticle As String
     
     sForM = fForm.Name
     
@@ -629,9 +630,16 @@ If gBbDepurandoLv03a Then Stop
         ' à quantidade de controles que tem valores e
         ' se for o último Controle do Dict a ser verificado
         If lngCounT = lngNonEmptyCTRLS And lngDictItemsCnt = 0 Then
+'Stop
+            'Se a consulta for agrupada o WHERE deve ser substituído por HAVING
+            'Recupera o SQL do TargtCtrl
+            vB = clObjTargtCtrlParam.sClsLstbxSQL_bFROM
+            
+            vA = InStr(vB, "GROUP BY")
+            If vA > 0 Then sWHEREparticle = "HAVING " Else sWHEREparticle = "WHERE "
             
             'Fecha o WHERE do Grupo de Filtragem ora avaliado
-            sNewTrgtGrp_WHERE = IIf(sNewTrgtGrp_WHERE <> "", "WHERE " & sNewTrgtGrp_WHERE, "")
+            sNewTrgtGrp_WHERE = IIf(sNewTrgtGrp_WHERE <> "", sWHEREparticle & sNewTrgtGrp_WHERE, "")
             If gBbDebugOn Then Debug.Print sNewTrgtGrp_WHERE
             
 'clObjTargtCtrlParam
@@ -663,8 +671,9 @@ If gBbDepurandoLv03a Then Stop
                 vD = vA & vbCr & vB & vbCr & sNewTrgtGrp_WHERE & vbCr & vC
                 If gBbDebugOn Then Debug.Print vD
                 
-'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "Aplica RowSource com a filgragem [ " & sCtrL & " ]"
+'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "Aplica RowSource com a filtragem [ " & sTargtCtrlName & " ]"
 'Stop
+                Debug.Print vD
                 
                 vA = cCtrL.Name
                 cCtrL.RowSource = vD

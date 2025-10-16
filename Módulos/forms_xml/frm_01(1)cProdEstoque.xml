@@ -173,23 +173,11 @@
       <OnClick>[Event Procedure]</OnClick>
     </Control>
     <Control>
-      <Name>Comando341</Name>
-      <Type>CommandButton</Type>
-      <Left>7934</Left>
-      <Top>3096</Top>
-      <Width>1701</Width>
-      <Height>337</Height>
-      <Tag>NotInDict</Tag>
-      <Enabled>Verdadeiro</Enabled>
-      <Caption> Variação</Caption>
-      <OnClick>[Event Procedure]</OnClick>
-    </Control>
-    <Control>
       <Name>Comando340</Name>
       <Type>CommandButton</Type>
       <Left>2173</Left>
       <Top>3096</Top>
-      <Width>5761</Width>
+      <Width>7441</Width>
       <Height>337</Height>
       <Tag>NotInDict</Tag>
       <Enabled>Verdadeiro</Enabled>
@@ -250,12 +238,12 @@
       <Height>2572</Height>
       <Tag>TrgtCtrl.Grp10.RCnt>lblRegs1- Trgg.ProdutoFullIDfk.Grp11.Rmv02.WdCrd0.SrchOnChg0.CascUpDt>.TxtClmn01-HLclr.OnDrty.Mskd.MSlct0-</Tag>
       <Enabled>Verdadeiro</Enabled>
-      <RowSource>qry_04(01)bProdutosFull_Setor(Viw-Lst)</RowSource>
+      <RowSource>qry_04(01)cProdutosFull_Setor(Viw-Lst)</RowSource>
     </Control>
     <Control>
       <Name>btnSort1</Name>
       <Type>CommandButton</Type>
-      <Left>7682</Left>
+      <Left>9356</Left>
       <Top>3093</Top>
       <Width>227</Width>
       <Height>291</Height>
@@ -521,8 +509,8 @@
     <Control>
       <Name>Rótulo435</Name>
       <Type>Label</Type>
-      <Left>368</Left>
-      <Top>11629</Top>
+      <Left>453</Left>
+      <Top>11253</Top>
       <Width>1530</Width>
       <Height>555</Height>
       <Tag></Tag>
@@ -632,18 +620,6 @@ Nova Entrada</Caption>
       <Enabled>Verdadeiro</Enabled>
       <ControlSource></ControlSource>
       <Format></Format>
-    </Control>
-    <Control>
-      <Name>btnSort2</Name>
-      <Type>CommandButton</Type>
-      <Left>9390</Left>
-      <Top>3093</Top>
-      <Width>227</Width>
-      <Height>291</Height>
-      <Tag>Grp01.ActType>Sort.OrderMode>ASC.ColToSort>Variaçao</Tag>
-      <Enabled>Verdadeiro</Enabled>
-      <Caption></Caption>
-      <OnClick></OnClick>
     </Control>
     <Control>
       <Name>btnSort3</Name>
@@ -857,19 +833,8 @@ Nova Entrada</Caption>
     <Control>
       <Name>lblSortProdutoGrp8</Name>
       <Type>Label</Type>
-      <Left>7682</Left>
+      <Left>9357</Left>
       <Top>2847</Top>
-      <Width>227</Width>
-      <Height>227</Height>
-      <Tag>SrtLbl.Grp08</Tag>
-      <Enabled></Enabled>
-      <Caption>1</Caption>
-    </Control>
-    <Control>
-      <Name>lblSortVar</Name>
-      <Type>Label</Type>
-      <Left>9390</Left>
-      <Top>2834</Top>
       <Width>227</Width>
       <Height>227</Height>
       <Tag>SrtLbl.Grp08</Tag>
@@ -1292,9 +1257,9 @@ Nova Entrada</Caption>
     <Control>
       <Name>Rótulo243</Name>
       <Type>Label</Type>
-      <Left>2125</Left>
-      <Top>2692</Top>
-      <Width>17338</Width>
+      <Left>2091</Left>
+      <Top>3089</Top>
+      <Width>17533</Width>
       <Height>340</Height>
       <Tag></Tag>
       <Enabled></Enabled>

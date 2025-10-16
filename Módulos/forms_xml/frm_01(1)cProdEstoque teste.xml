@@ -250,7 +250,7 @@
       <Height>2572</Height>
       <Tag>TrgtCtrl.Grp10.RCnt>lblRegs1- Trgg.ProdutoFullIDfk.Grp11.Rmv02.WdCrd0.SrchOnChg0.CascUpDt>.TxtClmn01-HLclr.OnDrty.Mskd.MSlct0-</Tag>
       <Enabled>Verdadeiro</Enabled>
-      <RowSource>qry_04(01)bProdutosFull_Setor(Viw-Lst)</RowSource>
+      <RowSource>_qry_04(01)cProdutosFull_Setor(Viw-Pre not Grp)</RowSource>
     </Control>
     <Control>
       <Name>btnSort1</Name>

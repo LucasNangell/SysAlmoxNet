@@ -11,6 +11,12 @@ Public Function CalendarFor(txt As TextBox, Optional strTitle As String)
     'Arguments: txt = the text box to return the date to.
     '           strTitle = the caption for the calendar form (passed in OpenArgs).
     
+
+    
+    'A função [ LockWindowUpdate ] é uma API do windows para bloquear as atualizações de tela
+    ' [ Application.hWndAccessApp ] é a identificação da janela no sistema
+    LockWindowUpdate Application.hWndAccessApp
+    
     Set gBsCalTarget = txt
     DoCmd.OpenForm "frm_00(1)eSysCalendar", windowmode:=acDialog, OpenArgs:=strTitle
     

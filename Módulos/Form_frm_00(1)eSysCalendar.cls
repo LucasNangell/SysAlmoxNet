@@ -125,6 +125,17 @@ Err_Handler:
     Resume Exit_Handler
 End Sub
 
+Private Sub Form_Load()
+    '------------------------------------------------------------
+    'Define posição do formulário centralizado sobre o formulário que acionou o [ SysDialogBox ]
+    '------------------------------------------------------------
+    clObjFormOpenParams.bSetPosition = True
+    clObjFormOpenParams.sTrgtForm = Me.Name
+    Set clObjFormOpenParams.fTrgtForm = Me
+    
+    Call FormLoad08_SetFormPosition(clObjFormOpenParams)
+End Sub
+
 Private Sub Form_Open(Cancel As Integer)
 'On Error GoTo Form_Open_Err
     Dim bEnabled As Boolean

@@ -11,8 +11,13 @@ Option Compare Database
 Option Explicit
 
 Private Sub btnCalendar_Click()
-'Stop
+    Set clObjFormOpenParams = New cls_09cParamsToOpenForms
+    clObjFormOpenParams.sTrggForM = Me.Name
+    clObjFormOpenParams.lngFormLeft = btnCalendar.Left
+    clObjFormOpenParams.lngFormTop = btnCalendar.Top
+    
     Call CalendarFor(Me.txtStkDataEntrada, "Selecione uma data de entrada")
+    Set clObjFormOpenParams = Nothing
 
 End Sub
 

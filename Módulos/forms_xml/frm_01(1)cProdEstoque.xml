@@ -1170,7 +1170,7 @@ Nova Entrada</Caption>
       <Top>1501</Top>
       <Width>2676</Width>
       <Height>1192</Height>
-      <Tag>TrgtCtrl.Grp01.RCnt>- Trgg.CategIDfk.Grp10.Rmv02.WdCrd2.SrchOnChg0.CascUpDt>.TxtClmn01  -HLclr1.OnDrty1.Mskd.MSlct0-RstAr02</Tag>
+      <Tag>TrgtCtrl.Grp01.RCnt>- Trgg.CategIDfk.Grp10.Rmv02.WdCrd2.SrchOnChg0.CascUpDt>.TxtClmn01-HLclr1.OnDrty1.Mskd.MSlct0-RstAr02</Tag>
       <Enabled>Verdadeiro</Enabled>
       <RowSource>qry_02(08)aProdCateg</RowSource>
     </Control>

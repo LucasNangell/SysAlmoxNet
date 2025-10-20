@@ -144,8 +144,8 @@ Private Sub mCommandButton_Click()
     Dim fForm As Form
     Dim sLstbxTag As String
     Dim vSplittedTAG As Variant
-    Dim vKeyCtrl As Variant
-    
+    Dim vKeyCtrl As Variant, vKeyBox As Variant
+    Dim sBox As String
 'MsgBox "testando RstArea commandbutton event"
 'Stop
     On Error Resume Next
@@ -193,10 +193,20 @@ Private Sub mCommandButton_Click()
                 On Error GoTo -1
                 Call pbSub00_CtrlsEnblDsble_GetParams(cCtrL.Parent, clObjCommButtons.sFrmMode, sFilGrp)
                 If gBbEnableErrorHandler Then On Error GoTo -1: On Error Resume Next
+                                
+                'código para recuperar em que [ Box ] o botão está inserido e executar a sub [ pbSub00_CtrlsEnblDsble_GetParams ]
+                sBox = ""
+                For Each vKeyBox In dictCtrlsInBox(sForM)
+                    If dictCtrlsInBox(sForM)(vKeyBox) = clObjCommButtons.sCtrlName Then sBox = vKeyBox
+                Next vKeyBox
+                If sBox <> "" Then
+                    Call pbSub00_CtrlsEnblDsble_GetParams(cCtrL.Parent, clObjCommButtons.sFrmMode, , sBox)
+                Else
+                    Call pbSub00_CtrlsEnblDsble_GetParams(cCtrL.Parent, clObjCommButtons.sFrmMode, sFilGrp)
+                End If
                 
                 'Mantém botão de edição habilitado caso haja algum item selecionado na lista
                 If cCtrL.ItemsSelected.Count > 0 Then
-                    
                     Call pbSub00_CtrlsEnblDsble_GetParams(fForm, "RecSelect", sFilGrp)
                 End If
             End If

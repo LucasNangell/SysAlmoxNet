@@ -591,15 +591,15 @@ End Function
 Function GetQryFldOLD(sForM As String, sTrgtCtrl As String, sQryField As String) As vCheckQryFld
     Dim vA, vB, vC
     Dim rsTbE As Recordset
-    Dim sQuerY As String
+    Dim sQuery As String
     Dim sWhere As String
     Dim lngFoundRecs As Long
     Dim fField As Field
     
     'Abre a consulta que será usada pra filtragem e confirma se o campo de consulta
     ' informado nos parâmetros do [ TriggCtrl ] existe
-    sQuerY = Forms(sForM).Controls(sTrgtCtrl).RowSource
-    Set rsTbE = CurrentDb.OpenRecordset(sQuerY, dbOpenDynaset, dbReadOnly)
+    sQuery = Forms(sForM).Controls(sTrgtCtrl).RowSource
+    Set rsTbE = CurrentDb.OpenRecordset(sQuery, dbOpenDynaset, dbReadOnly)
     
     For Each fField In rsTbE.Fields
         If fField.Name = sQryField Then GetQryFld.bFoundQryFld = True
@@ -607,7 +607,7 @@ Function GetQryFldOLD(sForM As String, sTrgtCtrl As String, sQryField As String)
     Next fField
 'Stop
     
-    GetQryFld.sQry = sQuerY
+    GetQryFld.sQry = sQuery
 'Stop
 End Function
 

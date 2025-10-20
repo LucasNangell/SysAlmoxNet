@@ -6,7 +6,7 @@ Option Explicit
 Public Function bCheckUserPermissionLevel(sForM As String, sTweakableCtrL As String) As vCtrlPrmissGrnted
     Dim vA, vB, vC, vD
     Dim rsTbE As Recordset
-    Dim sQuerY As String
+    Dim sQuery As String
     Dim sWhere As String
     Dim lngFoundRecs As Long
     Dim vKey As Variant
@@ -19,11 +19,11 @@ Public Function bCheckUserPermissionLevel(sForM As String, sTweakableCtrL As Str
     
     'Abre consulta pra verificar se o [ Controle ] exige permissão pra ser habilitado e qual é a permissão exigida
     ' Se não exigir permissão libera o [ Controle ] para ser habilitado
-    sQuerY = "qry_00(00)cSysRqrdPrmss"
+    sQuery = "qry_00(00)cSysRqrdPrmss"
     sWhere = "([ForM] Like " & """" & sForM & """" & ") And ([Control] Like " & """" & sTweakableCtrL & """" & ")"
     If gBbDebugOn Then Debug.Print sWhere
 
-    Set rsTbE = CurrentDb.OpenRecordset(sQuerY, dbOpenDynaset, dbReadOnly)
+    Set rsTbE = CurrentDb.OpenRecordset(sQuery, dbOpenDynaset, dbReadOnly)
     rsTbE.Filter = sWhere
     Set rsTbE = rsTbE.OpenRecordset
 

@@ -166,9 +166,11 @@ Option Explicit
      ' objeto de classe pra armazenar parâmetros dos Controles pra alternar o Status Enable/Disable
        Public clObjUserParams As cls_08aLoggedUserParams   'declaração do objeto de classe
      '----------------
-       
-       
-       
+      
+     '----------------
+     ' dict para guardar os controles internos de cada box
+       Public dictCtrlsInBox As New Dictionary
+     '----------------
      '----------------
      ' dict pra guardar os [ Grupos de filtragem ] do formulário
      '  e os respectivos controles do Grupo

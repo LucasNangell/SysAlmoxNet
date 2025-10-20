@@ -14,7 +14,7 @@ Public Sub pbSub00_UserPermissionsDictBuild(vLoginStR As Variant)
     Dim rsTbE As Recordset
     Dim iUserPermission As Integer
     Dim sStR1 As String, sStR2 As String
-    Dim sQuerY As String
+    Dim sQuery As String
     Dim sUserLoginSrch As String
     Dim iCount As Integer
     Dim lngFoundRecs As Long
@@ -47,7 +47,7 @@ Public Sub pbSub00_UserPermissionsDictBuild(vLoginStR As Variant)
     
     '------------------------------------------------
     'Define parâmetros pra consultar os [ dados de Usuário ]
-    sQuerY = "qry_00(00)aSysUsers"
+    sQuery = "qry_00(00)aSysUsers"
     sUserLoginSrch = "UserLoginStR"
     
     'Trata a String com o Login de usuário
@@ -77,7 +77,7 @@ Public Sub pbSub00_UserPermissionsDictBuild(vLoginStR As Variant)
 'Stop
     '------------------------------------------------
     'Verifica se o usuário logado foi identificado no sistema
-    Set rsTbE = CurrentDb.OpenRecordset(sQuerY, dbOpenDynaset, dbReadOnly)
+    Set rsTbE = CurrentDb.OpenRecordset(sQuery, dbOpenDynaset, dbReadOnly)
     rsTbE.Filter = sWhere
     Set rsTbE = rsTbE.OpenRecordset
     
@@ -87,7 +87,7 @@ Public Sub pbSub00_UserPermissionsDictBuild(vLoginStR As Variant)
         lngFoundRecs = rsTbE.RecordCount
     
     Else
-        sStR1 = "O usuário [ " & vLoginStR & " ] não foi localizado" & vbCr & "na Tabela [ " & sQuerY & " ]" & vbCr & "-------------------------------------------------------------------------------"
+        sStR1 = "O usuário [ " & vLoginStR & " ] não foi localizado" & vbCr & "na Tabela [ " & sQuery & " ]" & vbCr & "-------------------------------------------------------------------------------"
         sStR2 = vbCr & " Funcionalidades do sistema que exijam permissão" & vbCr & " de usuário diferenciada não estarão acessíveis."
         
         Call msgboxErrorAlert(sStR1, sStR2)
@@ -98,7 +98,7 @@ Public Sub pbSub00_UserPermissionsDictBuild(vLoginStR As Variant)
     
     'Confirma que não haja mais de um registro referente ao usuário
     If lngFoundRecs > 1 Then
-        sStR1 = "O usuário [ " & vLoginStR & " ] foi localizado em duplicidade" & vbCr & "na Tabela [ " & sQuerY & " ]" & vbCr & "-------------------------------------------------------------------------------"
+        sStR1 = "O usuário [ " & vLoginStR & " ] foi localizado em duplicidade" & vbCr & "na Tabela [ " & sQuery & " ]" & vbCr & "-------------------------------------------------------------------------------"
         sStR2 = vbCr & " Funcionalidades do sistema que exijam permissão" & vbCr & " de usuário diferenciada não estarão acessíveis."
         
         Call msgboxErrorAlert(sStR1, sStR2)
@@ -144,7 +144,7 @@ Public Sub pbSub00_UserPermissionsDictBuild(vLoginStR As Variant)
 
     '------------------------------------------------
     'Define parâmetros pra consultar as [ permissões do Usuário ]
-    sQuerY = "qry_10(00)cSysUsersPrmissSetorJct(Edt)"
+    sQuery = "qry_10(00)cSysUsersPrmissSetorJct(Edt)"
     sUserLoginSrch = "UserLoginStR"
     
     '------------------------------------------------
@@ -170,7 +170,7 @@ Stop
     '------------------------------------------------
     'Verifica se o usuário logado foi identificado na tabela de permissões
     ' se ele não tiver permissões será mantido o valor ZERO - Não identificado
-    Set rsTbE = CurrentDb.OpenRecordset(sQuerY, dbOpenDynaset, dbReadOnly)
+    Set rsTbE = CurrentDb.OpenRecordset(sQuery, dbOpenDynaset, dbReadOnly)
     rsTbE.Filter = sWhere
     Set rsTbE = rsTbE.OpenRecordset
     
@@ -229,7 +229,7 @@ FrM_ErrorHandler:
 '    Stop
     If (Err.Number = 3265) Then    'campo de dados não localizado
         vA = "UserPermissionID"
-        sStR1 = "Consulta/Tabela:  [ " & sQuerY & " ]" & vbCr & "Campo de Tabela: " & " [ " & vA & " ]" & vbCr & "-------------------------------------------------------------------------------"
+        sStR1 = "Consulta/Tabela:  [ " & sQuery & " ]" & vbCr & "Campo de Tabela: " & " [ " & vA & " ]" & vbCr & "-------------------------------------------------------------------------------"
         vB = "O Campo da Consulta/Tabela não foi localizado devido a erro" & vbCr & " na Rotina e o usuário logado não pode ser identificado."
         sStR2 = vB & vbCr & vbCr & " Funcionalidades do sistema que exijam permissão" & vbCr & " de usuário diferenciada não estarão acessíveis."
         vC = " Erro [ " & Err.Number & " ] "
@@ -239,7 +239,7 @@ FrM_ErrorHandler:
 'Stop
 
     ElseIf (Err.Number = 3078) Then     'tabela não localizada
-        sStR1 = "Consulta:  [ " & sQuerY & " ]" & vbCr & "-------------------------------------------------------------------------------"
+        sStR1 = "Consulta:  [ " & sQuery & " ]" & vbCr & "-------------------------------------------------------------------------------"
         vB = "A Consulta/Tabela não foi localizada no sistema e o" & vbCr & " usuário logado não poderá ser identificado."
         sStR2 = vB & vbCr & vbCr & " Funcionalidades do sistema que exijam permissão" & vbCr & " de usuário diferenciada não estarão acessíveis."
         vC = " Erro [ " & Err.Number & " ] "
@@ -710,7 +710,7 @@ End Sub
 Public Sub pbSub22_TargtCtrlsQryFieldsBuild(sForM As String, cTrgtCtrl As Control, sFilGrp As String)
     Dim vA, vB, vC
     Dim sRegExPattern As String
-    Dim sQuerY As String
+    Dim sQuery As String
     Dim regEx As New RegExp
     Dim mcRegExMatchColl As MatchCollection
     Dim vRegExKey As Variant

@@ -7,7 +7,7 @@ Sub PbSubFillFieldsByList(cListBox As Control)
 
     Dim vA, vB, vC
     
-    Dim sQuerY As String
+    Dim sQuery As String
     Dim sDefQuerY As String
     Dim sForM As String
     Dim sDataFieldCtrl As String
@@ -101,18 +101,18 @@ Sub PbSubFillFieldsByList(cListBox As Control)
     ' caso a propriedade [ RowSource ] da lista não contenha "SELECT" indica que se trata de um nome de consulta
     ' caso contrário, indica que já se trata de um SQL
     If dictFormQrysCtrls(sForM).Exists(cListBox.Name) Then
-        sQuerY = dictFormQrysCtrls(sForM)(cListBox.Name)
+        sQuery = dictFormQrysCtrls(sForM)(cListBox.Name)
     Else
-        sQuerY = cListBox.RowSource
+        sQuery = cListBox.RowSource
     End If
     
-    If InStr(sQuerY, "SELECT") = 0 Then
-        Set qDef = CurrentDb.QueryDefs(sQuerY)
-        sQuerY = Replace(qDef.sql, ";", "")
+    If InStr(sQuery, "SELECT") = 0 Then
+        Set qDef = CurrentDb.QueryDefs(sQuery)
+        sQuery = Replace(qDef.sql, ";", "")
     End If
     
     'Abre o banco pra inicar a busca do registro
-    Set rsTbE = CurrentDb.OpenRecordset(sQuerY, dbOpenDynaset, dbReadOnly)
+    Set rsTbE = CurrentDb.OpenRecordset(sQuery, dbOpenDynaset, dbReadOnly)
     
     'O nome do campo da Consulta que armazena o ID do registro
     ' é recuperado pra ser usado na montagem da filtragem, a partir da 1a Coluna da Tabela de Dados
@@ -207,17 +207,17 @@ Sub PbSubFillFieldsByList(cListBox As Control)
                             vA = "([" & clObjCtrlDataFieds.sDataField & "]" & " = " & vDefItemsCmb(iItem) & ") AND ([" & sQryIDfield & "]" & " = " & iQryID & ")"
                 
                             'Modifica consulta da lista filtrando pelo [ sQryIDfield ] e pelo valor do RecordSet do campo
-                            If InStr(sQuerY, "WHERE") > 0 Then sQuerY = Split(sQuerY, "WHERE")(0)
-                            If InStr(sQuerY, "ORDER BY") > 0 Then
-                                vB = "ORDER BY " & Split(sQuerY, "ORDER BY")(1) & ";"
-                                sQuerY = Split(sQuerY, "ORDER BY")(0)
-                                sQuerY = sQuerY & " WHERE " & vA & vB
+                            If InStr(sQuery, "WHERE") > 0 Then sQuery = Split(sQuery, "WHERE")(0)
+                            If InStr(sQuery, "ORDER BY") > 0 Then
+                                vB = "ORDER BY " & Split(sQuery, "ORDER BY")(1) & ";"
+                                sQuery = Split(sQuery, "ORDER BY")(0)
+                                sQuery = sQuery & " WHERE " & vA & vB
                             Else
-                                sQuerY = Replace(sQuerY, ";", "") & " WHERE " & vA & ";"
+                                sQuery = Replace(sQuery, ";", "") & " WHERE " & vA & ";"
                             End If
                             
                             'Abre um RecordSet com o filtro
-                            Set rsTbECmb = CurrentDb.OpenRecordset(sQuerY, dbOpenDynaset, dbReadOnly)
+                            Set rsTbECmb = CurrentDb.OpenRecordset(sQuery, dbOpenDynaset, dbReadOnly)
                             
                             'Caso o [ rsTbECmb ] retorne algum valor, indica que o setor está atribuído
                             ' armazena os setores atribuídos na [ vDefItemsCmb ]

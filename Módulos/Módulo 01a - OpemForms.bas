@@ -773,15 +773,6 @@ Sub SysLoad01_SysDictsLoad(sSystemStartForm)
     'vLoginStR = "6320"  'ao final do desenvolvimento remover a linha
 
 
-    'Montagem do [ dictQryFields ]
-    '-----------------------------------------------------------------------
-    
-    For Each qDef In CurrentDb.QueryDefs
-        If Not IsObject(dictQryFields(qDef.Name)) Then Set dictQryFields(qDef.Name) = New Dictionary
-        For Each fField In qDef.Fields
-            If Not dictQryFields(qDef.Name).Exists(fField.Name) Then dictQryFields(qDef.Name).Add fField.Name, qDef
-        Next fField
-    Next qDef
 
 'GoTo SkipTo2
 

@@ -6,8 +6,7 @@ Option Explicit
 Sub PbSubFillFieldsByList(cListBox As Control)
 
     Dim vA, vB, vC
-    
-    Dim sQuerY As String
+    Dim sQuery As String
     Dim sDefQuerY As String
     Dim sForM As String
     Dim sDataFieldCtrl As String
@@ -21,6 +20,7 @@ Sub PbSubFillFieldsByList(cListBox As Control)
     Dim sSQLtablesString As String
     Dim sLoadLogWarn As String
     Dim sQryOrder As String
+    Dim sQryListBox As String
     Dim fForm As Form
     Dim vKeyQDef As Variant
     Dim vKeyField As Variant
@@ -35,18 +35,15 @@ Sub PbSubFillFieldsByList(cListBox As Control)
     Dim rsTbE As Recordset
     Dim rsDefQry As Recordset
     Dim rsTbECmb As Recordset
-    
     Dim rstFieldDataField As Field
-
     Dim iListIndex As Integer
     Dim iQryID As Integer
     Dim iItem As Integer
     Dim iConT As Integer
     Dim iColIDCmb As Integer
-
+    Dim sValue As String
     Set fForm = cListBox.Parent
     sForM = fForm.Name
-'Stop
 
     '--------------------------------------------------------------------
     '--                                                        ----------
@@ -89,7 +86,6 @@ Sub PbSubFillFieldsByList(cListBox As Control)
     ' pra depois recuperar os controles [ cDataFieldCtrl ] do [ Grupo ]
     sFilGrp = dictTrgtCtrlsFilterGrps(sForM)(cListBox.Name)
     
-'Stop
     '-------------------------------------------
     'Inicia a consulta pra exibição dos dados
     '-------------------------------------------
@@ -104,18 +100,18 @@ Sub PbSubFillFieldsByList(cListBox As Control)
     ' caso a propriedade [ RowSource ] da lista não contenha "SELECT" indica que se trata de um nome de consulta
     ' caso contrário, indica que já se trata de um SQL
     If dictFormQrysCtrls(sForM).Exists(cListBox.Name) Then
-        sQuerY = dictFormQrysCtrls(sForM)(cListBox.Name)
+        sQryListBox = dictFormQrysCtrls(sForM)(cListBox.Name)
     Else
-        sQuerY = cListBox.RowSource
+        sQryListBox = cListBox.RowSource
     End If
     
-    If InStr(sQuerY, "SELECT") = 0 Then
-        Set qDef = CurrentDb.QueryDefs(sQuerY)
-        sQuerY = Replace(qDef.sql, ";", "")
+    If InStr(sQryListBox, "SELECT") = 0 Then
+        Set qDef = CurrentDb.QueryDefs(sQryListBox)
+        sQryListBox = Replace(qDef.sql, ";", "")
     End If
     
     'Abre o banco pra inicar a busca do registro
-    Set rsTbE = CurrentDb.OpenRecordset(sQuerY, dbOpenDynaset, dbReadOnly)
+    Set rsTbE = CurrentDb.OpenRecordset(sQryListBox, dbOpenDynaset, dbReadOnly)
     
     'O nome do campo da Consulta que armazena o ID do registro
     ' é recuperado pra ser usado na montagem da filtragem, a partir da 1a Coluna da Tabela de Dados
@@ -151,6 +147,7 @@ Sub PbSubFillFieldsByList(cListBox As Control)
             
             'Confirma se [ clObjCtrlDataFieds.sDataField ] é um dos campos da consulta de [ cListBox.Name ]
             If clObjTargtCtrlParam.dictTrgtQryFields.Exists(clObjCtrlDataFieds.sDataField) Then
+                
                 vA = clObjTargtCtrlParam.dictTrgtQryFields(clObjCtrlDataFieds.sDataField)
                 
                 'Verifica se o campo está no grid da consulta
@@ -203,43 +200,42 @@ Sub PbSubFillFieldsByList(cListBox As Control)
                         iConT = 0
                         
                         bBoL = False
-                        'Percorre cada item de [ vDefItemsCmb ] para verificar se o setor é atribuído ao produto selecionado na lista
+                        'Percorre cada valor de [ vDefItemsCmb ] para verificar se esse valor é atribuído ao item selecionado na lista
                         For iItem = 0 To UBound(vDefItemsCmb)
                 
                             'Monta o WHERE da consulta
-                            
                             vA = "([" & clObjCtrlDataFieds.sDataField & "]" & " = " & vDefItemsCmb(iItem) & ") AND ([" & sQryIDfield & "]" & " = " & iQryID & ")"
                            
                             sQryOrder = ""
                             'Modifica consulta da lista filtrando pelo [ sQryIDfield ] e pelo valor do RecordSet do campo
-                            If InStr(sQuerY, "WHERE") > 0 Then
-                                If InStr(sQuerY, "GROUP BY") > 0 Then
-                                    sQryOrder = "GROUP BY " & Split(sQuerY, "GROUP BY")(1)
-                                ElseIf InStr(sQuerY, "ORDER BY") > 0 Then
-                                    sQryOrder = "ORDER BY " & Split(sQuerY, "ORDER BY")(1)
+                            If InStr(sQryListBox, "WHERE") > 0 Then
+                                If InStr(sQryListBox, "GROUP BY") > 0 Then
+                                    sQryOrder = "GROUP BY " & Split(sQryListBox, "GROUP BY")(1)
+                                ElseIf InStr(sQryListBox, "ORDER BY") > 0 Then
+                                    sQryOrder = "ORDER BY " & Split(sQryListBox, "ORDER BY")(1)
                                 End If
-                                sQuerY = Split(sQuerY, "WHERE")(0)
-                                sQuerY = sQuerY & " WHERE " & vA & vbCrLf & sQryOrder
-                                sQuerY = Replace(sQuerY, ";", "")
-                                sQuerY = sQuerY & ";"
+                                sQuery = Split(sQryListBox, "WHERE")(0)
+                                sQuery = sQuery & " WHERE " & vA & vbCrLf & sQryOrder
+                                sQuery = Replace(sQuery, ";", "")
+                                sQuery = sQuery & ";"
                             Else
-                                If InStr(sQuerY, "GROUP BY") > 0 Then
-                                    vB = "GROUP BY " & Split(sQuerY, "GROUP BY")(1) & ";"
-                                    sQuerY = Split(sQuerY, "GROUP BY")(0)
-                                    sQuerY = sQuerY & " WHERE " & vA & vbCrLf & vB
-                                ElseIf InStr(sQuerY, "ORDER BY") > 0 Then
-                                    vB = "ORDER BY " & Split(sQuerY, "ORDER BY")(1) & ";"
-                                    sQuerY = Split(sQuerY, "ORDER BY")(0)
-                                    sQuerY = sQuerY & " WHERE " & vA & vbCrLf & vB
+                                If InStr(sQryListBox, "GROUP BY") > 0 Then
+                                    vB = "GROUP BY " & Split(sQryListBox, "GROUP BY")(1) & ";"
+                                    sQuery = Split(sQryListBox, "GROUP BY")(0)
+                                    sQuery = sQuery & " WHERE " & vA & vbCrLf & vB
+                                ElseIf InStr(sQryListBox, "ORDER BY") > 0 Then
+                                    vB = "ORDER BY " & Split(sQryListBox, "ORDER BY")(1) & ";"
+                                    sQuery = Split(sQuery, "ORDER BY")(0)
+                                    sQuery = sQuery & " WHERE " & vA & vbCrLf & vB
                                 End If
                             End If
                             
-                            sQuerY = Replace(sQuerY, vbCr, "")
+                            sQuery = Replace(sQuery, vbCr, "")
                             'Abre um RecordSet com o filtro
-                            Set rsTbECmb = CurrentDb.OpenRecordset(sQuerY, dbOpenDynaset, dbReadOnly)
+                            Set rsTbECmb = CurrentDb.OpenRecordset(sQuery, dbOpenDynaset, dbReadOnly)
                             
-                            'Caso o [ rsTbECmb ] retorne algum valor, indica que o setor está atribuído
-                            ' armazena os setores atribuídos na [ vDefItemsCmb ]
+                            'Caso o [ rsTbECmb ] retorne algo, indica que o [ iItem ] está atribuído
+                            ' então, armazena o [ iItem ] em [ vDefItemsCmb ]
                             If rsTbECmb.RecordCount > 0 Then
                                 ReDim Preserve vSrchItemsCmb(iConT)
                                 vSrchItemsCmb(iConT) = vDefItemsCmb(iItem)
@@ -262,27 +258,52 @@ Sub PbSubFillFieldsByList(cListBox As Control)
                             Next iItem
                         End If
                         'sFilterCmb = Left(sFilterCmb, Len(sFilterCmb) - 3)
-                        
-                        'Remonta a [ sDefQuerY ] aplicando o filtro dos items que devem ser exibidos
-                        If InStr(sDefQuerY, "WHERE") > 0 Then sDefQuerY = Split(sDefQuerY, "WHERE")(0)
-                        If InStr(sDefQuerY, "ORDER BY") > 0 Then '4
-                            vB = "ORDER BY " & Split(sDefQuerY, "ORDER BY")(1) & ";"
-                            sDefQuerY = Split(sDefQuerY, "ORDER BY")(0)
-                            sDefQuerY = sDefQuerY & " WHERE " & sFilterCmb & vB
-                            sDefQuerY = Replace(sDefQuerY, ";", "")
+                        If sFilterCmb <> "" Then
+                            'Remonta a [ sDefQuerY ] aplicando o filtro dos items que devem ser exibidos
+                            If InStr(sDefQuerY, "WHERE") > 0 Then sDefQuerY = Split(sDefQuerY, "WHERE")(0)
+                            If InStr(sDefQuerY, "ORDER BY") > 0 Then '4
+                                vB = "ORDER BY " & Split(sDefQuerY, "ORDER BY")(1) & ";"
+                                sDefQuerY = Split(sDefQuerY, "ORDER BY")(0)
+                                sDefQuerY = sDefQuerY & " WHERE " & sFilterCmb & vB
+                                sDefQuerY = Replace(sDefQuerY, ";", "")
+                            Else
+                                sDefQuerY = Replace(sDefQuerY, ";", "") & " WHERE " & sFilterCmb & ";"
+                            End If
+                            
+                            'Atribui a nova [ sDefQuerY ] ao [ cDataFieldCtrl ]
+                            cDataFieldCtrl.RowSource = sDefQuerY
+    '                        'Seleciona o primeiro item
+                            cDataFieldCtrl.Value = cDataFieldCtrl.ItemData(0)
+                            
+                            'Abre o banco pra inicar a busca do registro
+                            Set rsTbE = CurrentDb.OpenRecordset(sQryListBox, dbOpenDynaset, dbReadOnly)
+                            
+                            'O nome do campo da Consulta que armazena o ID do registro
+                            ' é recuperado pra ser usado na montagem da filtragem, a partir da 1a Coluna da Tabela de Dados
+                            sQryIDfield = rsTbE.Fields(0).Name
+                            
+                            'Montagem dos parâmetros de busca
+                            vA = "[" & sQryIDfield & "]" & " = " & iQryID
+                            rsTbE.Filter = vA
+                            Set rsTbE = rsTbE.OpenRecordset
+                            
+                            For Each vB In rsTbE.Fields
+                                If InStr(vB.Name, Replace(clObjCtrlDataFieds.sDataField, "IDfk", "ID")) > 0 Then
+                                    cDataFieldCtrl.Value = vB
+                                End If
+                            Next vB
+                            
                         Else
-                            sDefQuerY = Replace(sDefQuerY, ";", "") & " WHERE " & sFilterCmb & ";"
+                            'Caso a consulta não tenha nenhum dado para ser exibido na [ ComboBox ]
+                            cDataFieldCtrl.RowSource = dictFormQrysCtrls(sForM)(sDataFieldCtrl)
+                            cDataFieldCtrl.Value = ""
+                            
                         End If
                         
-                        'Atribui a nova [ sDefQuerY ] ao [ cDataFieldCtrl ]
-                        cDataFieldCtrl.RowSource = sDefQuerY
-                        'Seleciona o primeiro item
-                        cDataFieldCtrl.Value = cDataFieldCtrl.ItemData(0)
-                        
+                    
                     End If
                     
                 End If
-                
                 
             Else
                 'Inclui o erro no dict de Logs de Carga do sistema
@@ -293,13 +314,6 @@ Sub PbSubFillFieldsByList(cListBox As Control)
                 Call FormStatusBar01_Bld(sForM, "MissingDataFieldQryField", sLoadLogWarn, sDataFieldCtrl)
 
             End If
-        
-'Stop
-            '----------------------------------------------------------------------------------------------
-            '----------------------------------------------------------------------------------------------
-
-
-
 
         End If
         
@@ -314,7 +328,6 @@ End Sub
 Public Sub PbSubRecDataFields(cBtnSaveRec As Control)
 
     Dim vA, vB, vC
-    
     Dim sForM As String
     Dim sBtnSaveRec As String
     Dim sFilGrp As String
@@ -334,7 +347,6 @@ Public Sub PbSubRecDataFields(cBtnSaveRec As Control)
     Dim DtFld As Field
     Dim DtFldRec As Field
     Dim DtFldID As Field
-    
     Dim sDtFldRec As String
     Dim sDtFldID As String
     Dim cDataFieldCtrl As Control
@@ -342,6 +354,9 @@ Public Sub PbSubRecDataFields(cBtnSaveRec As Control)
     Dim qDef As QueryDef
     Dim bBoL As Boolean
     Dim sTrgtCtrl As String
+    Dim fField As Field
+    Dim sQryOrder As String
+
     
     sBtnSaveRec = cBtnSaveRec.Name
     sForM = cBtnSaveRec.Parent.Name
@@ -366,7 +381,11 @@ Public Sub PbSubRecDataFields(cBtnSaveRec As Control)
         iListIndex = cLstBox.ListIndex
         
         'Identifica o ID do registro selecionado
-        If iListIndex > -1 Then iQryID = cLstBox.Column(0, iListIndex)
+        If iListIndex > -1 Then
+            iQryID = cLstBox.Column(0, iListIndex)
+        Else
+         GoTo NextTrgt
+        End If
         
         sQuerYLstBox = clObjTargtCtrlParam.sClsLstbxSQL_gMAIN
         
@@ -399,53 +418,6 @@ Public Sub PbSubRecDataFields(cBtnSaveRec As Control)
                 Set cDataFieldCtrl = Forms(sForM).Controls(sDataFieldCtrl)
                 
                 sDtFldRec = Replace(clObjCtrlDataFieds.sDataField, "IDfk", "ID")
-                
-                'Se houver alguma consulta no parâmetro [ RecQry ] do controle
-                If clObjCtrlDataFieds.sRecQry <> "" Then
-                    If cDataFieldCtrl.ControlType = acComboBox Or cDataFieldCtrl.ControlType = acListBox Then
-                        'Abre a consulta indicada pelo parâmetro [ RecQry ]
-                        Set rsRecQry2 = CurrentDb.OpenRecordset(clObjCtrlDataFieds.sRecQry, dbOpenDynaset)
-                        
-                        Set DtFldID = Nothing
-                        Set DtFldRec = Nothing
-                        
-                        For Each DtFld In rsRecQry2.Fields
-                            If DtFld.Name Like sDtFldID & "*" Then sDtFldID = DtFld.Name
-                            If DtFld.Name Like sDtFldRec & "*" Then Set DtFldRec = DtFld
-                        Next DtFld
-                        
-                        'Aplica filtro na consulta para retornar apenas o item que deve ser editado
-                        vA = "[" & sDtFldID & "]" & " = " & iQryID
-                        rsRecQry2.Filter = vA
-                        Set rsRecQry2 = rsRecQry2.OpenRecordset
-                        
-                        'Apaga todos os registros referentes ao [ iQryID ]
-                        If rsRecQry2.RecordCount > 0 Then
-                            Do While Not rsRecQry2.EOF
-                                rsRecQry2.Delete
-                                rsRecQry2.Update
-                                rsRecQry2.MoveNext
-                            Loop
-                            rsRecQry2.Update
-                        End If
-        
-                        If Not DtFldRec Is Nothing Then
-                            For iItemID = 0 To cDataFieldCtrl.ListCount - 1
-                                If Not IsNull(cDataFieldCtrl.ItemData(iItemID)) Then
-                                    rsRecQry2.AddNew
-                                    rsRecQry2.Fields(sDtFldID) = iQryID
-                                    DtFldRec = cDataFieldCtrl.ItemData(iItemID)
-                                    rsRecQry2.Update
-                                End If
-                            Next iItemID
-                        End If
-        
-                        rsRecQry2.Close
-                        Set rsRecQry2 = Nothing
-                        
-                    End If
-                'Para controles que não possuem o parâmetro [ RecQry ]
-                Else
 
                     'Define [ rsRecQry ] para edição de registro
                     rsRecQry.Edit
@@ -462,8 +434,7 @@ Public Sub PbSubRecDataFields(cBtnSaveRec As Control)
                     Debug.Print sDataFieldCtrl
                     'Salva alterações
                     rsRecQry.Update
-                    
-                End If
+
             Next vDataFieldCtrl
             
             

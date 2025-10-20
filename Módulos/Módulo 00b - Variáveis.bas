@@ -152,6 +152,10 @@ Option Explicit
      '----------------
        Public dictTempDict As New Dictionary     'dicionário temporário pra ser usado localmente em vários pontos do sistema
      '----------------
+    
+     '----------------
+       Public dictCtrlsInBox As New Dictionary
+     '----------------
        
        
      '----------------
@@ -166,10 +170,6 @@ Option Explicit
      ' objeto de classe pra armazenar parâmetros dos Controles pra alternar o Status Enable/Disable
        Public clObjUserParams As cls_08aLoggedUserParams   'declaração do objeto de classe
      '----------------
-       
-     '----------------
-     ' dict pra guardar os campos das consultas do BD
-       Public dictQryFields As New Dictionary
        
        
      '----------------

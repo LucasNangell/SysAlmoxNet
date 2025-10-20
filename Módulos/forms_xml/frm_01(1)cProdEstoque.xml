@@ -97,6 +97,42 @@
       <Enabled></Enabled>
     </Control>
     <Control>
+      <Name>Comando547</Name>
+      <Type>CommandButton</Type>
+      <Left>596</Left>
+      <Top>1613</Top>
+      <Width>1284</Width>
+      <Height>510</Height>
+      <Tag>Grp10.ActType>ExcRec.FormMode>RecEdit.FrmToOpen></Tag>
+      <Enabled>Verdadeiro</Enabled>
+      <Caption>Prd. Base</Caption>
+      <OnClick></OnClick>
+    </Control>
+    <Control>
+      <Name>Comando546</Name>
+      <Type>CommandButton</Type>
+      <Left>596</Left>
+      <Top>890</Top>
+      <Width>1284</Width>
+      <Height>510</Height>
+      <Tag>Grp10.ActType>ExcRec.FormMode>RecEdit.FrmToOpen></Tag>
+      <Enabled>Verdadeiro</Enabled>
+      <Caption>Prd. Base</Caption>
+      <OnClick></OnClick>
+    </Control>
+    <Control>
+      <Name>Comando548</Name>
+      <Type>CommandButton</Type>
+      <Left>596</Left>
+      <Top>2336</Top>
+      <Width>1284</Width>
+      <Height>510</Height>
+      <Tag>Grp10.ActType>ExcRec.FormMode>RecEdit.FrmToOpen></Tag>
+      <Enabled>Verdadeiro</Enabled>
+      <Caption>Prd. Base</Caption>
+      <OnClick></OnClick>
+    </Control>
+    <Control>
       <Name>boxEntradas</Name>
       <Type>Rectangle</Type>
       <Left>283</Left>
@@ -1313,30 +1349,6 @@ Nova Entrada</Caption>
       <Height>2141</Height>
       <Tag></Tag>
       <Enabled></Enabled>
-    </Control>
-    <Control>
-      <Name>Comando539</Name>
-      <Type>CommandButton</Type>
-      <Left>596</Left>
-      <Top>890</Top>
-      <Width>1284</Width>
-      <Height>510</Height>
-      <Tag>Grp10.ActType>ExcRec.FormMode>RecEdit.FrmToOpen></Tag>
-      <Enabled>Verdadeiro</Enabled>
-      <Caption>Prd. Base</Caption>
-      <OnClick></OnClick>
-    </Control>
-    <Control>
-      <Name>Comando542</Name>
-      <Type>CommandButton</Type>
-      <Left>596</Left>
-      <Top>2337</Top>
-      <Width>1284</Width>
-      <Height>510</Height>
-      <Tag>Grp10.ActType>OpenForm.FormMode>RecEdit.Form>frm_02(1)aProdCadastro</Tag>
-      <Enabled>Verdadeiro</Enabled>
-      <Caption>Editar</Caption>
-      <OnClick></OnClick>
     </Control>
     <Control>
       <Name>Comando543</Name>

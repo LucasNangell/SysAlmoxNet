@@ -17,7 +17,7 @@ Public Sub EditLockRecord(fForm As Form, lngCoD As Long, sTbE As String, sKeyFie
     Dim bBoL As Boolean
     Dim iWhere As Integer
     Dim sStartSqL As String
-    Dim sNewSQL As String
+    Dim sNewSqL As String
     
     'qry_00(4)aRecEditLock
     'Bloqueia/Libera o registro pra edição
@@ -61,12 +61,12 @@ Stop
         'atualiza o SQL com a filtragem apropriada pra buscar os registros desejados
         vA = "[" & sKeyField & "]" & " LIKE " & lngCoD
         vB = "WHERE " & vA
-        sNewSQL = sStartSqL & vbNewLine & vB
+        sNewSqL = sStartSqL & vbNewLine & vB
         'Debug.Print sNewSqL
         Set qDef = Nothing
 'Stop
         'atribui à variável rTbE o recordset da consulta atualizada para recuperação dos dados
-        Set rTbE = CurrentDb.OpenRecordset(sNewSQL, dbOpenDynaset, dbSeeChanges)
+        Set rTbE = CurrentDb.OpenRecordset(sNewSqL, dbOpenDynaset, dbSeeChanges)
         
         ''move pro último registro do Recordset pra retornar a contagem de registros
         'rTbE.MoveLast

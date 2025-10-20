@@ -187,8 +187,6 @@ Public Sub pb_TargtCtrlUpdate03_UNIQUEupdate(fForm As Form, cTrggCtrL As Control
                 '--------------------------------------------------------------------------------------------------------
                 On Error GoTo -1
 'Stop
-                'Call pb_TargtCtrlUpdate06_preBuildWHERE(fForm, sFilGrp, cTrggCtrL)
-                
                 Call pb_TargtCtrlUpdate06_BuildWHERE(fForm, sFilGrp)
 'Stop
             End If
@@ -199,146 +197,7 @@ Public Sub pb_TargtCtrlUpdate03_UNIQUEupdate(fForm As Form, cTrggCtrL As Control
     
 End Sub
 
-Public Sub pb_TargtCtrlUpdate06_preBuildWHERE(fForm As Form, sFilGrp As String, cTrggCtrL As Control)
-    Dim vA, vB, vC
-    Dim sQuery As String
-    Dim sSysForM As String
-    Dim sCtrL As String
-    Dim sFndQry As String
-    Dim sQryField As String
-    Dim sTrggQryField As String
-    Dim sTargtCtrlSQLselect As String
-    Dim sClsLstbxSQL_bFROM As String
-    Dim sClsLstbxSQL_dOrderBy As String
-    Dim vListItem As Variant
-    Dim iSrchVal As Integer
-    Dim sOrigListTxt As String
-    Dim vKeyTrgtCtrl As Variant
-    Dim cTrgtCtrl As Control
-    Dim qDef As QueryDef
-    Dim fField As Field
-    Dim iContRec As Integer
-    Dim sWhere As String
-    Dim sNewSQL As String
-    Dim sTrggCtrL As String
-    Dim rsTbE As Recordset
-    Dim bFndField As Boolean
-    
-    sSysForM = fForm.Name
-    sTrggCtrL = cTrggCtrL.Name
-    'Rotina aplica filtros referentes aos campos com tabelas de junção antes de aplicar os demais filtros
 
-    'Indica a Consulta que tem os controles que possuem as [ sQuerys ] que devem ser consultadas
-    sQuery = "qry_01(03)cSysQryCtrls"
-    
-    'Monta a filtragem
-    vA = "([SysForm] Like " & """" & sSysForM & """" & ")"
-     'Debug.Print vA
-    vC = " And " & "([sCtrl] Like " & """" & sTrggCtrL & """" & ")"
-     'Debug.Print vC
-    sWhere = vA & vC
-
-    
-    'Abre a consulta e aplica o filtro [ sWhere ]
-    Set rsTbE = CurrentDb.OpenRecordset(sQuery, dbOpenDynaset, dbReadOnly)
-    rsTbE.Filter = sWhere
-    Set rsTbE = rsTbE.OpenRecordset
-        
-    If rsTbE.RecordCount = 1 Then
-        sFndQry = rsTbE!sQuery
-    
-    ElseIf rsTbE.RecordCount > 1 Then
-    'tratamento de erro caso tenha mais de um registro pro mesmo controle
-    End If
-    rsTbE.Close
-    Set rsTbE = Nothing
-    
-    If sFndQry <> "" Then
-        Set clObjTriggCtrlParam = dictTrgg00GrpsInForm(sSysForM)(sFilGrp)(sTrggCtrL)
-        sTrggQryField = clObjTriggCtrlParam.sQryField
-        
-        vA = ""
-        
-        For Each vListItem In cTrggCtrL.ItemsSelected
-            iSrchVal = cTrggCtrL.ItemData(vListItem)
-            sOrigListTxt = cTrggCtrL.Column(0, vListItem)
-            
-            If vA = "" Then
-                vA = "([" & sTrggQryField & "]" & " = " & Int(cTrggCtrL.ItemData(vListItem)) & ")"
-                'vA = "([" & sQryField & "] Like " & """" & cTrggCtrL.ItemData(vListItem) & """" & ")"
-            Else
-                vA = vA & " OR ([" & sTrggQryField & "]" & " = " & Int(cTrggCtrL.ItemData(vListItem)) & ")"
-            End If
-        
-        Next vListItem
-        
-        'Recupera o SQL Select do TargtCtrl que está sendo atualizado,
-        ' informação necessária para fazer a pesquisa em campos calculados
-        'voltar aqui
-        For Each vKeyTrgtCtrl In dictFormFilterGrpTrgts(sSysForM)(sFilGrp)
-            Set clObjTargtCtrlParam = dictFormFilterGrpTrgts(sSysForM)(sFilGrp)(vKeyTrgtCtrl)
-            Set cTrgtCtrl = Forms(sSysForM).Controls(clObjTargtCtrlParam.sTargtCtrlName)
-            
-            If InStr(cTrgtCtrl.RowSource, "SELECT") = 0 Then
-                Set qDef = CurrentDb.QueryDefs(cTrgtCtrl.RowSource)
-                Set fField = qDef.Fields(0)
-                sQryField = fField.Name
-            Else
-                Set rsTbE = CurrentDb.OpenRecordset(cTrgtCtrl.RowSource, dbOpenDynaset)
-                Set fField = rsTbE.Fields(0)
-                sQryField = fField.Name
-                rsTbE.Close
-                Set rsTbE = Nothing
-            End If
-            
-            Set rsTbE = CurrentDb.OpenRecordset(sFndQry, dbOpenDynaset, dbReadOnly)
-            bFndField = False
-            For Each fField In rsTbE.Fields
-                If Replace(fField.Name, "IDfk", "ID") = Replace(sTrggQryField, "IDfk", "ID") Then
-                    bFndField = True
-                    sTrggQryField = fField.Name
-                End If
-                If Replace(fField.Name, "IDfk", "ID") = Replace(sQryField, "IDfk", "ID") Then
-                    sQryField = fField.Name
-                End If
-            Next fField
-            
-            If bFndField Then
-                rsTbE.Filter = vA
-                Set rsTbE = rsTbE.OpenRecordset
-                rsTbE.MoveLast: rsTbE.MoveFirst
-                
-                sWhere = ""
-                
-                If Not (rsTbE.EOF And rsTbE.BOF) Then
-                    Do Until rsTbE.EOF = True
-                        If sWhere = "" Then
-                            sWhere = "([" & sQryField & "]" & " = " & rsTbE(sQryField) & ")"
-                        Else
-                            sWhere = sWhere & " OR ([" & sQryField & "]" & " = " & rsTbE(sQryField) & ")"
-                        End If
-                        rsTbE.MoveNext
-                    Loop
-                End If
-                
-                rsTbE.Close
-                Set rsTbE = Nothing
-                
-                If InStr(clObjTargtCtrlParam.sClsLstbxSQL_eMAIN, "GROUP") = 0 Then
-                    sNewSQL = clObjTargtCtrlParam.sClsLstbxSQL_aSELECT & clObjTargtCtrlParam.sClsLstbxSQL_bFROM & " WHERE " & sWhere & clObjTargtCtrlParam.sClsLstbxSQL_dOrderBy
-                Else
-                    sNewSQL = clObjTargtCtrlParam.sClsLstbxSQL_aSELECT & clObjTargtCtrlParam.sClsLstbxSQL_bFROM & " HAVING " & sWhere & clObjTargtCtrlParam.sClsLstbxSQL_dOrderBy
-                End If
-                
-                cTrgtCtrl.RowSource = sNewSQL
-            End If
-        Next vKeyTrgtCtrl
-
-    End If
-        
-    Call pb_TargtCtrlUpdate06_BuildWHERE(fForm, sFilGrp)
-    
-End Sub
 Public Sub pb_TargtCtrlUpdate04_RESETarea(sForM As String, sResetAreaBtn As String)
     Dim vA, vB, vC, vD, vE
     Dim sRstArea As String
@@ -544,7 +403,7 @@ End Sub
 
 Public Sub pb_TargtCtrlUpdate06_BuildWHERE(fForm As Form, sFilGrp As String)
 
-    Dim vA, vB, vC, vD
+    Dim vA, vB, vC, vD, vE, vF
     Dim sForM As String
     Dim sCtrL As String
     Dim cCtrL As Control
@@ -554,6 +413,7 @@ Public Sub pb_TargtCtrlUpdate06_BuildWHERE(fForm As Form, sFilGrp As String)
     Dim lngCounT As Long
     Dim lngNonEmptyCTRLS As Long
     Dim sNewTrgtGrp_WHERE As String, sNewTrgtGrp_RecCntCpt As String
+    Dim sNewTrgtGrp_HAVING As String
     Dim sJoint_WHERE As String, sJoint_RecCntCpt As String
     Dim sClose_WHERE As String, sClose_RecCntCpt As String
     Dim lngFilteredRecs As Long
@@ -807,17 +667,22 @@ If gBbDepurandoLv03a Then Stop
                 'Recupera o SQL do TargtCtrl
                 vA = clObjTargtCtrlParam.sClsLstbxSQL_aSELECT
                 vB = clObjTargtCtrlParam.sClsLstbxSQL_bFROM
-                vC = clObjTargtCtrlParam.sClsLstbxSQL_dOrderBy
+                vC = clObjTargtCtrlParam.sClsLstbxSQL_dGROUPBY
+                vD = clObjTargtCtrlParam.sClsLstbxSQL_fOrderBy
                 
-                vD = vA & vbCr & vB & vbCr & sNewTrgtGrp_WHERE & vbCr & vC
-                If gBbDebugOn Then Debug.Print vD
+                If vC <> "" Then
+                    vE = vA & vbCr & vB & vbCr & sNewTrgtGrp_WHERE & vbCr & vC & vbCr & sNewTrgtGrp_HAVING & vbCr & vD
+                Else
+                    vE = vA & vbCr & vB & vbCr & sNewTrgtGrp_WHERE & vbCr & vD
+                End If
+                
+                If gBbDebugOn Then Debug.Print vE
                 
 'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "Aplica RowSource com a filtragem [ " & sTargtCtrlName & " ]"
 'Stop
-                Debug.Print vD
                 
                 vA = cCtrL.Name
-                cCtrL.RowSource = vD
+                cCtrL.RowSource = vE
                 
                 'Havendo algum item previamente selecionado na lista desmarca a seleção
                 vB = cCtrL.ListIndex

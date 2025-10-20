@@ -3,10 +3,10 @@ Option Compare Database
 Option Explicit
 
 
-Public Sub pbSub00_CtrlsEnblDsble_GetParams(fForm As Form, sSysFormMode As String, Optional sFilGrp As String, Optional sBox As String, Optional cPressedCtrl As Control)
+Public Sub pbSub00_CtrlsEnblDsble_GetParams(fForm As Form, sSysFormMode As String, Optional sFilGrp As String, Optional cPressedCtrl As Control)
     Dim vA, vB, vC, vD, vE, vF
     Dim rsTbE As Recordset
-    Dim sQuery As String
+    Dim sQuerY As String
     Dim sWhere As String
     Dim lngFoundRecs As Long
     Dim sSysForM As String
@@ -35,7 +35,7 @@ Public Sub pbSub00_CtrlsEnblDsble_GetParams(fForm As Form, sSysFormMode As Strin
     
     
     'Indica a Consulta que tem os parâmetros de Enable/Disable para serem recuperados
-    sQuery = "qry_01(03)bSysEnblDisblParams"
+    sQuerY = "qry_01(03)bSysEnblDisblParams"
     
     'Monta a filtragem
     vA = "([sSysForM] Like " & """" & sSysForM & """" & ")"
@@ -50,7 +50,7 @@ Public Sub pbSub00_CtrlsEnblDsble_GetParams(fForm As Form, sSysFormMode As Strin
 'Stop
     
     'Abre a consulta e aplica o filtro [ sWhere ]
-    Set rsTbE = CurrentDb.OpenRecordset(sQuery, dbOpenDynaset, dbReadOnly)
+    Set rsTbE = CurrentDb.OpenRecordset(sQuerY, dbOpenDynaset, dbReadOnly)
     rsTbE.Filter = sWhere
     Set rsTbE = rsTbE.OpenRecordset
     
@@ -126,18 +126,12 @@ Public Sub pbSub00_CtrlsEnblDsble_GetParams(fForm As Form, sSysFormMode As Strin
                 'Se o grupo de filtragem for indicado por [ sFilGrp ] na chamada da rotina
                 ' verifica se o controle pertence ao grupo, caso positivo prossegue com o Enable/Disable do controle
                 If sFilGrp <> "" Then
+'Stop
                     If dictFormFilGrpsEnDsAllCtrls(sForM)(sFilGrp).Exists(sTweakableCtrL) Then
                         Call pbSub01_CtrlsEnblDsble_Confirm(fForm, cTweakableCtrL, dictCtrlTypeShort(cTweakableCtrL.ControlType), bEnable, bVisible, bLockCombo, sCtrlNewTipText)
-                        Debug.Print "sFilGrp | " & cTweakableCtrL.Name & " | " & bEnable
-                    End If
-                ElseIf sBox <> "" Then
-                    If dictCtrlsInBox(sForM)(sBox).Exists(sTweakableCtrL) Then
-                        Call pbSub01_CtrlsEnblDsble_Confirm(fForm, cTweakableCtrL, dictCtrlTypeShort(cTweakableCtrL.ControlType), bEnable, bVisible, bLockCombo, sCtrlNewTipText)
-                        Debug.Print "sBox | " & cTweakableCtrL.Name & " | " & bEnable
                     End If
                 Else
                     Call pbSub01_CtrlsEnblDsble_Confirm(fForm, cTweakableCtrL, dictCtrlTypeShort(cTweakableCtrL.ControlType), bEnable, bVisible, bLockCombo, sCtrlNewTipText)
-                    Debug.Print cTweakableCtrL.Name & " | " & bEnable
                 End If
             Else
                 'Carrega pro Log de carga do sistema os controles indicados na tabela que não existam no [ Form ]

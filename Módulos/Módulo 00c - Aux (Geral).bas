@@ -45,7 +45,7 @@ Public Function GetsQryFieldID(clObjTargtCtrlParam As cls_01aTargtCtrlParams_Evn
     Dim rsTbE As Recordset
     'Recupera o [ sQryIDfield ] do [ cCtrl ]
     ' [ sQryIDfield ] é o nome do campo utilizado como ID em uma consulta
-    Set rsTbE = CurrentDb.OpenRecordset(clObjTargtCtrlParam.sClsLstbxSQL_eMAIN, dbOpenDynaset, dbReadOnly)
+    Set rsTbE = CurrentDb.OpenRecordset(clObjTargtCtrlParam.sClsLstbxSQL_gMAIN, dbOpenDynaset, dbReadOnly)
     GetsQryFieldID = rsTbE.Fields(0).Name
     rsTbE.Close
     Set rsTbE = Nothing
@@ -591,15 +591,15 @@ End Function
 Function GetQryFldOLD(sForM As String, sTrgtCtrl As String, sQryField As String) As vCheckQryFld
     Dim vA, vB, vC
     Dim rsTbE As Recordset
-    Dim sQuery As String
+    Dim sQuerY As String
     Dim sWhere As String
     Dim lngFoundRecs As Long
     Dim fField As Field
     
     'Abre a consulta que será usada pra filtragem e confirma se o campo de consulta
     ' informado nos parâmetros do [ TriggCtrl ] existe
-    sQuery = Forms(sForM).Controls(sTrgtCtrl).RowSource
-    Set rsTbE = CurrentDb.OpenRecordset(sQuery, dbOpenDynaset, dbReadOnly)
+    sQuerY = Forms(sForM).Controls(sTrgtCtrl).RowSource
+    Set rsTbE = CurrentDb.OpenRecordset(sQuerY, dbOpenDynaset, dbReadOnly)
     
     For Each fField In rsTbE.Fields
         If fField.Name = sQryField Then GetQryFld.bFoundQryFld = True
@@ -607,7 +607,7 @@ Function GetQryFldOLD(sForM As String, sTrgtCtrl As String, sQryField As String)
     Next fField
 'Stop
     
-    GetQryFld.sQry = sQuery
+    GetQryFld.sQry = sQuerY
 'Stop
 End Function
 

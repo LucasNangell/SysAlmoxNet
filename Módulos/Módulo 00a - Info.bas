@@ -291,8 +291,8 @@ Option Explicit
 ' '                         .sClsLstbxSQL_aSELECT
 ' '                         .sClsLstbxSQL_bFROM
 ' '                         .sClsLstbxSQL_cWHERE
-' '                         .sClsLstbxSQL_dOrderBy
-' '                         .sClsLstbxSQL_eMAIN
+' '                         .sClsLstbxSQL_fOrderBy
+' '                         .sClsLstbxSQL_gMAIN
 ' '                         .sFilGrp
 ' '                         .sRecCntCtrlName
 ' '   ---------------------------------------------------------------------------------------------

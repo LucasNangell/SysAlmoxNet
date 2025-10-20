@@ -166,11 +166,9 @@ Option Explicit
      ' objeto de classe pra armazenar parâmetros dos Controles pra alternar o Status Enable/Disable
        Public clObjUserParams As cls_08aLoggedUserParams   'declaração do objeto de classe
      '----------------
-      
-     '----------------
-     ' dict para guardar os controles internos de cada box
-       Public dictCtrlsInBox As New Dictionary
-     '----------------
+       
+       
+       
      '----------------
      ' dict pra guardar os [ Grupos de filtragem ] do formulário
      '  e os respectivos controles do Grupo
@@ -341,8 +339,10 @@ Option Explicit
           sLstbxSQL_aSELECT As String
           sLstbxSQL_bFROM As String
           sLstbxSQL_cWHERE As String
-          sLstbxSQL_dOrderBy As String
-          sLstbxSQL_eMAIN As String    'sLstbxSQL_aSELECT & " " & sLstbxSQL_bFROM
+          sLstbxSQL_dGROUPBY As String
+          sLstbxSQL_eHAVING As String
+          sLstbxSQL_fOrderBy As String
+          sLstbxSQL_gMAIN As String    'sLstbxSQL_aSELECT & " " & sLstbxSQL_bFROM
           
       End Type
       Public sGbQrySQLstr As sLstbxSQLstr

@@ -144,8 +144,8 @@ Private Sub mCommandButton_Click()
     Dim fForm As Form
     Dim sLstbxTag As String
     Dim vSplittedTAG As Variant
-    Dim vKeyCtrl As Variant, vKeyBox As Variant
-    Dim sBox As String
+    Dim vKeyCtrl As Variant
+    
 'MsgBox "testando RstArea commandbutton event"
 'Stop
     On Error Resume Next
@@ -174,7 +174,7 @@ Private Sub mCommandButton_Click()
     Select Case True
         
         '--- CANCEL EDIT ----------------------------------------------
-        Case sActType Like "CancelEdit"
+        Case sActType Like "Cancel*"
 'Stop
             If TempVars("bReply") = True Then
                 sFilGrp = clObjCommButtons.sFilGrp
@@ -193,38 +193,28 @@ Private Sub mCommandButton_Click()
                 On Error GoTo -1
                 Call pbSub00_CtrlsEnblDsble_GetParams(cCtrL.Parent, clObjCommButtons.sFrmMode, sFilGrp)
                 If gBbEnableErrorHandler Then On Error GoTo -1: On Error Resume Next
-                                
-                'código para recuperar em que [ Box ] o botão está inserido e executar a sub [ pbSub00_CtrlsEnblDsble_GetParams ]
-                sBox = ""
-                For Each vKeyBox In dictCtrlsInBox(sForM)
-                    If dictCtrlsInBox(sForM)(vKeyBox) = clObjCommButtons.sCtrlName Then sBox = vKeyBox
-                Next vKeyBox
-                If sBox <> "" Then
-                    Call pbSub00_CtrlsEnblDsble_GetParams(cCtrL.Parent, clObjCommButtons.sFrmMode, , sBox)
-                Else
-                    Call pbSub00_CtrlsEnblDsble_GetParams(cCtrL.Parent, clObjCommButtons.sFrmMode, sFilGrp)
-                End If
                 
                 'Mantém botão de edição habilitado caso haja algum item selecionado na lista
                 If cCtrL.ItemsSelected.Count > 0 Then
+                    
                     Call pbSub00_CtrlsEnblDsble_GetParams(fForm, "RecSelect", sFilGrp)
                 End If
             End If
             TempVars.RemoveAll
         
         '--- CANCEL NEW ----------------------------------------------
-        Case sActType Like "CancelNew"
-            sFilGrp = clObjCommButtons.sFilGrp
-            If sFilGrp <> "" Then
-                For Each vKeyCtrl In dictFormDataFlds00Ctrls(sForM)
-                    Set clObjCtrlDataFieds = dictFormDataFlds00Ctrls(sForM)(vKeyCtrl)
-                    If clObjCtrlDataFieds.sDataFieldGrp = sFilGrp Then
-                        If ControlExists(sCtrL, fForm) Then fForm.Controls(sCtrL).Value = ""
-                    End If
-                Next vKeyCtrl
+            If sActType = "CancelNew" Then
+                sFilGrp = clObjCommButtons.sFilGrp
+                If sFilGrp <> "" Then
+                    For Each vKeyCtrl In dictFormDataFlds00Ctrls(sForM)
+                        Set clObjCtrlDataFieds = dictFormDataFlds00Ctrls(sForM)(vKeyCtrl)
+                        If clObjCtrlDataFieds.sDataFieldGrp = sFilGrp Then
+                            If ControlExists(sCtrL, fForm) Then fForm.Controls(sCtrL).Value = ""
+                        End If
+                    Next vKeyCtrl
+                End If
+                'Call pbSub00_CtrlsEnblDsble_GetParams(cCtrL.Parent, clObjCommButtons.sFrmMode, sFilGrp)
             End If
-            Call pbSub00_CtrlsEnblDsble_GetParams(cCtrL.Parent, clObjCommButtons.sFrmMode, sFilGrp)
-        
         '--- CLOSE FORM ----------------------------------------------
         Case sActType Like "CloseForm"
             DoCmd.Close
@@ -268,7 +258,7 @@ Private Sub mCommandButton_Click()
 
         '--- NEW REC ----------------------------------------------
         Case sActType Like "NewRec"
-Stop
+'Stop
             sFilGrp = clObjCommButtons.sFilGrp
             If sFilGrp <> "" Then
                 For Each vKeyCtrl In dictFormDataFlds00Ctrls(sForM)

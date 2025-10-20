@@ -1,5 +1,5 @@
 -- Tabela: tbl_04(01)aProdutosFull
--- Registros: 11
+-- Registros: 12
 
 CREATE TABLE tbl_04(01)aProdutosFull (
     ProdutoFullID INTEGER AUTOINCREMENT,

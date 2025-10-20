@@ -141,7 +141,7 @@ End Sub
 ''        On Error GoTo -1
 
 
-Sub Teste()
+Sub teste()
 
      For Each cCtrL In clObjFormOpenParams.fTrgtForm
          

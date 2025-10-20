@@ -11,7 +11,27 @@ Function GetSortedSQL(sSQLList As String, sColToOrder As String, sOrderMode As S
     
 End Function
 
+Public Function UpdateTable()
 
+MsgBox "Teste Update"
+
+End Function
+Sub testez()
+Dim rs As Recordset
+Set rs = CurrentDb.OpenRecordset("tbl_04(01)aProdutosFull enxuto", dbOpenDynaset, dbPessimistic)
+
+rs.MoveFirst
+
+Do While Not rs.EOF
+rs.Edit
+    rs!ProdutoFull = DLookup("[tbl_02(03)aProdutosBase].ProdutoBaseDescriçao", "[tbl_02(03)aProdutosBase].ProdutoBaseID = " & rs!ProdutoBaseIDfk) & " " & rs!Variaçao & " " & rs!ProdCorIDfk & " " & rs!ProdMaterialIDfk & " " & rs!ProdMedidaIDfk & " " & rs!Complemento
+rs.Update
+rs.MoveNext
+Loop
+rs.Close
+
+Set rs = Nothing
+End Sub
 
 'Function GetFldInQryGrid(sForM As String, sTrgtCtrl As String, sQryField As String) As vCheckQryFld
 '    Dim vA, vB, vC

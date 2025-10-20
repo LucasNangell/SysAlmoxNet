@@ -27,9 +27,10 @@ Public sRecCntCtrlName As String 'Guarda o nome do controle que deve exibir a co
 Public sClsLstbxSQL_aSELECT As String   'SQL original do ListBox ou Combo ao carregar o Form (Select)
 Public sClsLstbxSQL_bFROM As String     'SQL original do ListBox ou Combo ao carregar o Form (From)
 Public sClsLstbxSQL_cWHERE As String    'SQL original do ListBox ou Combo ao carregar o Form (Where)
-Public sClsLstbxSQL_dOrderBy As String  'SQL original do ListBox ou Combo ao carregar o Form (OrderBy)
-
-Public sClsLstbxSQL_eMAIN As String     'SQL original do ListBox ou Combo ao carregar o Form (Select + From)
+Public sClsLstbxSQL_dGROUPBY As String
+Public sClsLstbxSQL_eHAVING As String
+Public sClsLstbxSQL_fOrderBy As String  'SQL original do ListBox ou Combo ao carregar o Form (OrderBy)
+Public sClsLstbxSQL_gMAIN As String     'SQL original do ListBox ou Combo ao carregar o Form (Select + From)
 
 Public dictTrgtQryFields As New Dictionary
 

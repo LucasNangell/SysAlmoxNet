@@ -46,13 +46,13 @@
     <Control>
       <Name>cmdCancel</Name>
       <Type>CommandButton</Type>
-      <Left>972</Left>
+      <Left>867</Left>
       <Top>2190</Top>
-      <Width>648</Width>
+      <Width>753</Width>
       <Height>302</Height>
       <Tag></Tag>
       <Enabled>Verdadeiro</Enabled>
-      <Caption>Cancel</Caption>
+      <Caption>Cancelar</Caption>
       <OnClick>[Event Procedure]</OnClick>
     </Control>
     <Control>
@@ -657,7 +657,7 @@
       <Type>CommandButton</Type>
       <Left>225</Left>
       <Top>2190</Top>
-      <Width>648</Width>
+      <Width>498</Width>
       <Height>302</Height>
       <Tag></Tag>
       <Enabled>Verdadeiro</Enabled>
@@ -673,7 +673,7 @@
       <Height>302</Height>
       <Tag></Tag>
       <Enabled>Verdadeiro</Enabled>
-      <Caption>&amp;Today</Caption>
+      <Caption>&amp;Hoje</Caption>
       <OnClick>[Event Procedure]</OnClick>
     </Control>
     <Control>

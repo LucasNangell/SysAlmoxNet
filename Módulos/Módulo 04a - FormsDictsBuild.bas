@@ -14,7 +14,7 @@ Public Sub pbSub00_UserPermissionsDictBuild(vLoginStR As Variant)
     Dim rsTbE As Recordset
     Dim iUserPermission As Integer
     Dim sStR1 As String, sStR2 As String
-    Dim sQuery As String
+    Dim sQuerY As String
     Dim sUserLoginSrch As String
     Dim iCount As Integer
     Dim lngFoundRecs As Long
@@ -47,7 +47,7 @@ Public Sub pbSub00_UserPermissionsDictBuild(vLoginStR As Variant)
     
     '------------------------------------------------
     'Define parâmetros pra consultar os [ dados de Usuário ]
-    sQuery = "qry_00(00)aSysUsers"
+    sQuerY = "qry_00(00)aSysUsers"
     sUserLoginSrch = "UserLoginStR"
     
     'Trata a String com o Login de usuário
@@ -77,7 +77,7 @@ Public Sub pbSub00_UserPermissionsDictBuild(vLoginStR As Variant)
 'Stop
     '------------------------------------------------
     'Verifica se o usuário logado foi identificado no sistema
-    Set rsTbE = CurrentDb.OpenRecordset(sQuery, dbOpenDynaset, dbReadOnly)
+    Set rsTbE = CurrentDb.OpenRecordset(sQuerY, dbOpenDynaset, dbReadOnly)
     rsTbE.Filter = sWhere
     Set rsTbE = rsTbE.OpenRecordset
     
@@ -87,7 +87,7 @@ Public Sub pbSub00_UserPermissionsDictBuild(vLoginStR As Variant)
         lngFoundRecs = rsTbE.RecordCount
     
     Else
-        sStR1 = "O usuário [ " & vLoginStR & " ] não foi localizado" & vbCr & "na Tabela [ " & sQuery & " ]" & vbCr & "-------------------------------------------------------------------------------"
+        sStR1 = "O usuário [ " & vLoginStR & " ] não foi localizado" & vbCr & "na Tabela [ " & sQuerY & " ]" & vbCr & "-------------------------------------------------------------------------------"
         sStR2 = vbCr & " Funcionalidades do sistema que exijam permissão" & vbCr & " de usuário diferenciada não estarão acessíveis."
         
         Call msgboxErrorAlert(sStR1, sStR2)
@@ -98,7 +98,7 @@ Public Sub pbSub00_UserPermissionsDictBuild(vLoginStR As Variant)
     
     'Confirma que não haja mais de um registro referente ao usuário
     If lngFoundRecs > 1 Then
-        sStR1 = "O usuário [ " & vLoginStR & " ] foi localizado em duplicidade" & vbCr & "na Tabela [ " & sQuery & " ]" & vbCr & "-------------------------------------------------------------------------------"
+        sStR1 = "O usuário [ " & vLoginStR & " ] foi localizado em duplicidade" & vbCr & "na Tabela [ " & sQuerY & " ]" & vbCr & "-------------------------------------------------------------------------------"
         sStR2 = vbCr & " Funcionalidades do sistema que exijam permissão" & vbCr & " de usuário diferenciada não estarão acessíveis."
         
         Call msgboxErrorAlert(sStR1, sStR2)
@@ -144,7 +144,7 @@ Public Sub pbSub00_UserPermissionsDictBuild(vLoginStR As Variant)
 
     '------------------------------------------------
     'Define parâmetros pra consultar as [ permissões do Usuário ]
-    sQuery = "qry_10(00)cSysUsersPrmissSetorJct(Edt)"
+    sQuerY = "qry_10(00)cSysUsersPrmissSetorJct(Edt)"
     sUserLoginSrch = "UserLoginStR"
     
     '------------------------------------------------
@@ -170,7 +170,7 @@ Stop
     '------------------------------------------------
     'Verifica se o usuário logado foi identificado na tabela de permissões
     ' se ele não tiver permissões será mantido o valor ZERO - Não identificado
-    Set rsTbE = CurrentDb.OpenRecordset(sQuery, dbOpenDynaset, dbReadOnly)
+    Set rsTbE = CurrentDb.OpenRecordset(sQuerY, dbOpenDynaset, dbReadOnly)
     rsTbE.Filter = sWhere
     Set rsTbE = rsTbE.OpenRecordset
     
@@ -229,7 +229,7 @@ FrM_ErrorHandler:
 '    Stop
     If (Err.Number = 3265) Then    'campo de dados não localizado
         vA = "UserPermissionID"
-        sStR1 = "Consulta/Tabela:  [ " & sQuery & " ]" & vbCr & "Campo de Tabela: " & " [ " & vA & " ]" & vbCr & "-------------------------------------------------------------------------------"
+        sStR1 = "Consulta/Tabela:  [ " & sQuerY & " ]" & vbCr & "Campo de Tabela: " & " [ " & vA & " ]" & vbCr & "-------------------------------------------------------------------------------"
         vB = "O Campo da Consulta/Tabela não foi localizado devido a erro" & vbCr & " na Rotina e o usuário logado não pode ser identificado."
         sStR2 = vB & vbCr & vbCr & " Funcionalidades do sistema que exijam permissão" & vbCr & " de usuário diferenciada não estarão acessíveis."
         vC = " Erro [ " & Err.Number & " ] "
@@ -239,7 +239,7 @@ FrM_ErrorHandler:
 'Stop
 
     ElseIf (Err.Number = 3078) Then     'tabela não localizada
-        sStR1 = "Consulta:  [ " & sQuery & " ]" & vbCr & "-------------------------------------------------------------------------------"
+        sStR1 = "Consulta:  [ " & sQuerY & " ]" & vbCr & "-------------------------------------------------------------------------------"
         vB = "A Consulta/Tabela não foi localizada no sistema e o" & vbCr & " usuário logado não poderá ser identificado."
         sStR2 = vB & vbCr & vbCr & " Funcionalidades do sistema que exijam permissão" & vbCr & " de usuário diferenciada não estarão acessíveis."
         vC = " Erro [ " & Err.Number & " ] "
@@ -578,8 +578,10 @@ If gBbDepurandoLv01c Then Stop
         .sClsLstbxSQL_aSELECT = sGbQrySQLstr.sLstbxSQL_aSELECT
         .sClsLstbxSQL_bFROM = sGbQrySQLstr.sLstbxSQL_bFROM
         .sClsLstbxSQL_cWHERE = sGbQrySQLstr.sLstbxSQL_cWHERE
-        .sClsLstbxSQL_dOrderBy = sGbQrySQLstr.sLstbxSQL_dOrderBy
-        .sClsLstbxSQL_eMAIN = sGbQrySQLstr.sLstbxSQL_eMAIN
+        .sClsLstbxSQL_dGROUPBY = sGbQrySQLstr.sLstbxSQL_dGROUPBY
+        .sClsLstbxSQL_eHAVING = sGbQrySQLstr.sLstbxSQL_eHAVING
+        .sClsLstbxSQL_fOrderBy = sGbQrySQLstr.sLstbxSQL_fOrderBy
+        .sClsLstbxSQL_gMAIN = sGbQrySQLstr.sLstbxSQL_gMAIN
     
     End With
     
@@ -637,8 +639,8 @@ If gBbDepurandoLv01c Then Stop
 '            .sClsLstbxSQL_aSELECT = sGbQrySQLstr.sLstbxSQL_aSELECT
 '            .sClsLstbxSQL_bFROM = sGbQrySQLstr.sLstbxSQL_bFROM
 '            .sClsLstbxSQL_cWHERE = sGbQrySQLstr.sLstbxSQL_cWHERE
-'            .sClsLstbxSQL_dOrderBy = sGbQrySQLstr.sLstbxSQL_dOrderBy
-'            .sClsLstbxSQL_eMAIN = sGbQrySQLstr.sLstbxSQL_eMAIN
+'            .sClsLstbxSQL_fOrderBy = sGbQrySQLstr.sLstbxSQL_fOrderBy
+'            .sClsLstbxSQL_gMAIN = sGbQrySQLstr.sLstbxSQL_gMAIN
 '
 '        End With
 '
@@ -710,7 +712,7 @@ End Sub
 Public Sub pbSub22_TargtCtrlsQryFieldsBuild(sForM As String, cTrgtCtrl As Control, sFilGrp As String)
     Dim vA, vB, vC
     Dim sRegExPattern As String
-    Dim sQuery As String
+    Dim sQuerY As String
     Dim regEx As New RegExp
     Dim mcRegExMatchColl As MatchCollection
     Dim vRegExKey As Variant
@@ -835,6 +837,8 @@ Public Function pbSub23_GetTargtCtrlsSQL(cTrgtCtrl As Control, Optional sQuerYna
     Dim sFiLnewFrmFROM As String
     Dim sFiLnewFrmWHERE As String
     Dim sFiLnewFrmTmpWHERE As String
+    Dim sFiLnewFrmGROUPBY As String
+    Dim sFiLnewFrmHAVING As String
     Dim sFiLnewFrmOrderBy As String
     Dim sStartSqL As String
     Dim iWhere As Integer
@@ -872,7 +876,8 @@ Public Function pbSub23_GetTargtCtrlsSQL(cTrgtCtrl As Control, Optional sQuerYna
     sFiLnewFrmSELECT = ""
     sFiLnewFrmWHERE = ""
     sFiLnewFrmTmpWHERE = ""
-
+    sFiLnewFrmGROUPBY = ""
+    sFiLnewFrmHAVING = ""
     sFiLnewFrmOrderBy = ""
     
 'Stop
@@ -953,6 +958,12 @@ Stop
     sStartSqL = Replace(sStartSqL, "WHERE ", ";WHERE ")
 '    Debug.Print sStartSQL
     
+    sStartSqL = Replace(sStartSqL, "GROUP BY ", ";GROUP BY ")
+'    Debug.Print sStartSQL
+    
+    sStartSqL = Replace(sStartSqL, "HAVING ", ";HAVING ")
+'    Debug.Print sStartSQL
+
     sStartSqL = Replace(sStartSqL, "ORDER BY ", ";ORDER BY ")
     'Debug.Print sStartSqL
 
@@ -978,6 +989,12 @@ Stop
         vA = InStrRev(sStR, "WHERE")
             If vA > 0 Then sFiLnewFrmWHERE = vArrTempSQL(lgInT)
         
+        vA = InStrRev(sStR, "GROUP")
+            If vA > 0 Then sFiLnewFrmGROUPBY = vArrTempSQL(lgInT)
+        
+        vA = InStrRev(sStR, "HAVING")
+            If vA > 0 Then sFiLnewFrmHAVING = vArrTempSQL(lgInT)
+            
         vA = InStrRev(sStR, "ORDER")
             If vA > 0 Then sFiLnewFrmOrderBy = vArrTempSQL(lgInT)
 
@@ -987,15 +1004,10 @@ Stop
     pbSub23_GetTargtCtrlsSQL.sLstbxSQL_aSELECT = sFiLnewFrmSELECT
     pbSub23_GetTargtCtrlsSQL.sLstbxSQL_bFROM = sFiLnewFrmFROM
     pbSub23_GetTargtCtrlsSQL.sLstbxSQL_cWHERE = sFiLnewFrmWHERE
-    pbSub23_GetTargtCtrlsSQL.sLstbxSQL_dOrderBy = sFiLnewFrmOrderBy
-    pbSub23_GetTargtCtrlsSQL.sLstbxSQL_eMAIN = sFiLnewFrmSELECT & " " & sFiLnewFrmFROM
-    
-'    sGbFiLnewFrmSELECT = sFiLnewFrmSELECT & " " & sFiLnewFrmFROM
-'    sgbFiLnewFrmWHERE = sFiLnewFrmWHERE
-'    sgbFiLnewFrmOrderBy = sFiLnewFrmOrderBy
-'    Debug.Print sGbFiLnewFrmSELECT
-'    Debug.Print sgbFiLnewFrmWHERE
-'    Debug.Print sgbFiLnewFrmOrderBy
+    pbSub23_GetTargtCtrlsSQL.sLstbxSQL_dGROUPBY = sFiLnewFrmGROUPBY
+    pbSub23_GetTargtCtrlsSQL.sLstbxSQL_eHAVING = sFiLnewFrmHAVING
+    pbSub23_GetTargtCtrlsSQL.sLstbxSQL_fOrderBy = sFiLnewFrmOrderBy
+    pbSub23_GetTargtCtrlsSQL.sLstbxSQL_gMAIN = sFiLnewFrmSELECT & " " & sFiLnewFrmFROM & " " & sFiLnewFrmGROUPBY
     
 'Stop
 End Function

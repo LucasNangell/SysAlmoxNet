@@ -22,13 +22,16 @@ Sub PbSubFillFieldsByList(cListBox As Control)
     Dim sLoadLogWarn As String
     Dim sQryOrder As String
     Dim fForm As Form
-
-    
+    Dim vKeyQDef As Variant
+    Dim vKeyField As Variant
+    Dim fField As Field
+    Dim rsJct As Recordset
+    Dim sFieldID As String
     Dim vKeyDataFieldCtrl As Variant
     Dim vWdthsCol As Variant
     Dim vDefItemsCmb() As Variant
     Dim vSrchItemsCmb() As Variant
-    
+    Dim qDefJct As QueryDef
     Dim rsTbE As Recordset
     Dim rsDefQry As Recordset
     Dim rsTbECmb As Recordset
@@ -164,7 +167,7 @@ Sub PbSubFillFieldsByList(cListBox As Control)
                     
                     'Confirma se o controle é uma combobox
                     If cDataFieldCtrl.ControlType = acComboBox Then
-            
+                        
                         'Descobre qual a coluna do controle contém os dados a serem pesquisados
                         ' para isso, verifica os [ Widths ] das colunas e atribui a [ iColIDCmb ] o número da coluna que possui width ZERO
                         vWdthsCol = Split(cDataFieldCtrl.ColumnWidths, ";")
@@ -204,7 +207,9 @@ Sub PbSubFillFieldsByList(cListBox As Control)
                         For iItem = 0 To UBound(vDefItemsCmb)
                 
                             'Monta o WHERE da consulta
+                            
                             vA = "([" & clObjCtrlDataFieds.sDataField & "]" & " = " & vDefItemsCmb(iItem) & ") AND ([" & sQryIDfield & "]" & " = " & iQryID & ")"
+                           
                             sQryOrder = ""
                             'Modifica consulta da lista filtrando pelo [ sQryIDfield ] e pelo valor do RecordSet do campo
                             If InStr(sQuerY, "WHERE") > 0 Then
@@ -273,7 +278,7 @@ Sub PbSubFillFieldsByList(cListBox As Control)
                         cDataFieldCtrl.RowSource = sDefQuerY
                         'Seleciona o primeiro item
                         cDataFieldCtrl.Value = cDataFieldCtrl.ItemData(0)
-                
+                        
                     End If
                     
                 End If

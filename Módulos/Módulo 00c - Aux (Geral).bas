@@ -4,7 +4,9 @@ Option Explicit
 
 'Calendar form variable:
 Public gBsCalTarget As TextBox 'Text box to return the date from the calendar to.
-Public Function GetTagSection(sSrchSection As String, sCtrlTag As String) As String
+
+
+Public Function GetTagSectionStr(sCtrlTag As String, sSectionStr As String) As String
     Dim vA, vB, vC
     Dim vSplittedTAG
     Dim iInT As Integer
@@ -12,13 +14,13 @@ Public Function GetTagSection(sSrchSection As String, sCtrlTag As String) As Str
     vSplittedTAG = Split(sCtrlTag, "-")
     
     For iInT = 0 To UBound(vSplittedTAG)
-        If InStr(vSplittedTAG(iInT), sSrchSection) > 0 Then
-            GetTagSection = vSplittedTAG(iInT)
+        If InStr(vSplittedTAG(iInT), sSectionStr) > 0 Then
+            GetTagSectionStr = vSplittedTAG(iInT)
             Exit Function
         End If
     Next iInT
     
-    GetTagSection = ""
+    GetTagSectionStr = ""
 
     
 End Function

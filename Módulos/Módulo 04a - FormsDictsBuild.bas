@@ -338,7 +338,7 @@ If gBbDepurandoLv01b Then Stop
                     'Separa os parâmetros do controle em quatro seções
                     'vSplittedTAG = Split(sLstbxTag, "-")
 
-                    sTagSection = GetTagSection("Trgt", sLstbxTag)
+                    sTagSection = GetTagSectionStr(sLstbxTag, "Trgt")
 
                     
                     'Avalia a 2a seção com parâmetros de TrgtCtrl
@@ -1118,7 +1118,7 @@ If gBbDepurandoLv01b Then Stop
                     '----------------------------------------------
                         'Separa os parâmetros do controle em quatro seções
 
-                        sTagSection = GetTagSection("Trgg", sCtrlTag)
+                        sTagSection = GetTagSectionStr(sCtrlTag, "Trgg")
 
 'Stop
                         'Avalia a 1a seção com parâmetros de TrggCtrl
@@ -1176,7 +1176,7 @@ If gBbDepurandoLv01b Then Stop
 '                If InStr(1, sCtrlTag, "RstAr") > 0 Then
 ''Stop
 '                   'Separa os parâmetros do controle em quatro seções
-                    sTagSection = GetTagSection("RstAr", sCtrlTag)
+                    sTagSection = GetTagSectionStr(sCtrlTag, "RstAr")
                     
                     'Avalia a 4a seção com parâmetros de [ RstArea ]
                     If sTagSection <> "" Then
@@ -1232,7 +1232,7 @@ If gBbDepurandoLv01c Then Stop
                 'Avaliação de [ DataFields ]
                 '-------------------------------------------
                     'Separa os parâmetros do controle em quatro seções
-                    sTagSection = GetTagSection("DataField>", sCtrlTag)
+                    sTagSection = GetTagSectionStr(sCtrlTag, "DataField>")
 
                 'Verifica se o Controle é um [ DataField ]
 '                If InStr(1, sCtrlTag, "DataField>") > 0 Then
@@ -1388,7 +1388,7 @@ On Error GoTo -1
                         bFoundParams = False
                         'Chama rotina pra montagem do dicionário [ CtrlsBehvrParams ]
 
-                        sTagSection = GetTagSection("HLclr", sCtrlTag)
+                        sTagSection = GetTagSectionStr(sCtrlTag, "HLclr")
 
     'Stop
                         
@@ -2689,7 +2689,7 @@ If gBbDepurandoLv01b Then Stop
                     '-------------------------------------------------------------------------------------------------------------
                     '----------------------------------------------
                     'Separa os parâmetros do controle (no caso do ResetBtn apenas um parâmetro)
-                    sTagSection = GetTagSection("RstArea", sCtrlTag)
+                    sTagSection = GetTagSectionStr(sCtrlTag, "RstArea")
 
                     
                         'Avalia a 1a seção com parâmetros de TrggCtrl

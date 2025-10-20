@@ -167,6 +167,9 @@ Option Explicit
        Public clObjUserParams As cls_08aLoggedUserParams   'declaração do objeto de classe
      '----------------
        
+     '----------------
+     ' dict pra guardar os campos das consultas do BD
+       Public dictQryFields As New Dictionary
        
        
      '----------------

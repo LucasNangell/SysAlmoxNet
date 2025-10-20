@@ -805,7 +805,7 @@ Nova Entrada</Caption>
       <Top>11569</Top>
       <Width>2496</Width>
       <Height>315</Height>
-      <Tag>DataField>ProdMarcaID.Grp11.RecQry>qry_02(2)dCategMarcaJct(Edt)--HLclr.OnDrty.Mskd.MSlct-RstAr03</Tag>
+      <Tag>DataField>MarcaIDfk.Grp11.RecQry>qry_10(02)bProdBase_MarcaJct--HLclr.OnDrty.Mskd.MSlct-RstAr03</Tag>
       <Enabled>Verdadeiro</Enabled>
       <RowSource>qry_02(07)aProdMarca</RowSource>
     </Control>

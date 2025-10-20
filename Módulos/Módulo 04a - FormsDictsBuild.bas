@@ -297,7 +297,7 @@ Public Function pbSub20_TargtCtrlsDictStartUp(fForm As Form) As Boolean
     Dim sTrgtCtrl As String
     Dim sLstbxTag As String
     Dim vSplittedTAG As Variant
-    Dim iTagSection As Integer
+    Dim sTagSection As String
     Dim dDicT As Dictionary
     Dim sStR1 As String, sStR2 As String
 
@@ -336,11 +336,13 @@ If gBbDepurandoLv01b Then Stop
                 '-------------------------------------------------------------------------------------------------------------
                 '----------------------------------------------
                     'Separa os parâmetros do controle em quatro seções
-                    vSplittedTAG = Split(sLstbxTag, "-")
-                    iTagSection = 1
+                    'vSplittedTAG = Split(sLstbxTag, "-")
+
+                    sTagSection = GetTagSection("Trgt", sLstbxTag)
+
                     
                     'Avalia a 2a seção com parâmetros de TrgtCtrl
-                    If vSplittedTAG(iTagSection - 1) <> "" Then
+                    If sTagSection <> "" Then
                         
 'pbSub20_TargtCtrlsDictStartUp
 vA = "----- pbSub20_TargtCtrlsDictStartUp --------------------------------------------" & vbCr & vbCr & "Chama " & "[" & Chr(160) & "pbSub21_TargtCtrlsDictBuild" & Chr(160) & "] pra inclusão de"
@@ -352,7 +354,7 @@ If gBbDepurandoLv01b Then Stop
 'Stop
                         If gBbDebugOn Then Debug.Print "  " & cTrgtCtrl.Name
                         On Error GoTo -1
-                        Call pbSub21_TargtCtrlsDictBuild(vSplittedTAG(iTagSection - 1), cTrgtCtrl)
+                        Call pbSub21_TargtCtrlsDictBuild(sTagSection, cTrgtCtrl)
                         If gBbEnableErrorHandler Then On Error GoTo -1: On Error GoTo FrM_ErrorHandler
 'Stop
 
@@ -416,7 +418,7 @@ Stop
 '    End If
 End Function
 
-Public Sub pbSub21_TargtCtrlsDictBuild(vTagSection As Variant, cListBox As Control)
+Public Sub pbSub21_TargtCtrlsDictBuild(sTagSection As String, cListBox As Control)
 
     Dim vA, vB, vC, vD
     Dim vTagSectionParams As Variant
@@ -451,7 +453,7 @@ If gBbDepurandoLv01b Then Stop
     
     'sTagSection = "teste"
     'sTagSection = sTempStR
-    vTagSectionParams = Split(vTagSection, ".")    'vSplittedTag(1)
+    vTagSectionParams = Split(sTagSection, ".")    'vSplittedTag(1)
     
     '-------------------------------------------------------------------------------------------------------
     'Recupera os parâmetros do controle informados na TAG
@@ -1021,10 +1023,10 @@ Public Sub pbSub30_TriggCtrlDictStartUp(fForm As Form)
     Dim cTriggCtrl As Control
     Dim sTriggCtrl As String
     'Dim sLstbxTag As String
-    Dim sCtrlTAG As String
+    Dim sCtrlTag As String
+    Dim sTagSection As String
     
     Dim vSplittedTAG As Variant
-    Dim iTagSection As Variant
     Dim sStR1 As String, sStR2 As String
     Dim lngEvalFormCtrls As Long, lngEvalTAGedCtrls As Long, lngCtrlsInDict As Long
     Dim bFoundParams As Boolean
@@ -1084,10 +1086,10 @@ If gBbDepurandoLv01b Then Stop
                 
 
                 'vA = sForM
-                sCtrlTAG = cTriggCtrl.Tag
+                sCtrlTag = cTriggCtrl.Tag
                 
 vA = "----- pbSub30_TriggCtrlDictStartUp ---------------------------------------------" & vbCr & vbCr & "Avalia se [ " & sTriggCtrl & "  ] tem a TAG necessária pra inclusão" & vbCr & "nos dicts [ dictTrgg00GrpsInForm ]"
-vB = vbCr & vbCr & "TAG [" & Chr(160) & sCtrlTAG & Chr(160) & "]"
+vB = vbCr & vbCr & "TAG [" & Chr(160) & sCtrlTag & Chr(160) & "]"
 If gBbDepurandoLv01b Then MsgBox vA & vB
 If gBbDepurandoLv01b Then Stop
 'Stop
@@ -1106,7 +1108,7 @@ If gBbDepurandoLv01b Then Stop
                     'Se o Controle for mesmo um TriggerCtrl chama rotina pra guardar os parâmetros no Dict.
                     ' Devem ser armazenados diversos parâmetros necessários pra alterar o SQL do controle
                     ' e fazer a filtragem
-                    If InStr(1, sCtrlTAG, "Trgg") > 0 Then
+                    'If InStr(1, sCtrlTag, "Trgg") > 0 Then
                         
 'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "chama Triggers Dict build, controle [ " & sTriggCtrl & " ]"
 'Stop
@@ -1115,11 +1117,12 @@ If gBbDepurandoLv01b Then Stop
                     '-------------------------------------------------------------------------------------------------------------
                     '----------------------------------------------
                         'Separa os parâmetros do controle em quatro seções
-                        vSplittedTAG = Split(sCtrlTAG, "-")
-                        iTagSection = 2
+
+                        sTagSection = GetTagSection("Trgg", sCtrlTag)
+
 'Stop
                         'Avalia a 1a seção com parâmetros de TrggCtrl
-                        If vSplittedTAG(iTagSection - 1) <> "" Then
+                        If sTagSection <> "" Then
 
 vA = "----- pbSub30_TriggCtrlDictStartUp ---------------------------------------------" & vbCr & "Chama [ pbSub31_TriggCtrlDictBuild ] pra inclusão de" & vbCr
 vB = "[ " & sTriggCtrl & " ] nos dicts [ dictTrgg00GrpsInForm ]"
@@ -1130,7 +1133,7 @@ If gBbDepurandoLv01b Then Stop
                             
 'MsgBox "erro vazio"
 'Stop
-                            Call pbSub31_TriggCtrlDictBuild(vSplittedTAG(iTagSection - 1), cTriggCtrl)
+                            Call pbSub31_TriggCtrlDictBuild(sTagSection, cTriggCtrl)
                             If gBbEnableErrorHandler Then On Error GoTo -1: On Error GoTo FrM_ErrorHandler
                             
 'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "back from Triggers Dict build"
@@ -1140,11 +1143,11 @@ If gBbDepurandoLv01b Then Stop
                         End If
 'Stop
     
-                    Else
+                    'Else
 If gBbDepurandoLv01b Then MsgBox "----- pbSub30_TriggCtrlDictStartUp ---------------------------------------------" & vbCr & vbCr & "[ " & sTriggCtrl & "  ] NÃO tem a TAG pra inclusão nos dicts" & vbCr & "[ dictTrgg00GrpsInForm ]" & vbCr & " " & vbCr & " "
 If gBbDepurandoLv01b Then Stop
                     
-                    End If
+                    'End If
         '----------------------------------------------
         '-------------------------------------------------------------------------------------------------------------
                 End If
@@ -1154,13 +1157,13 @@ If gBbDepurandoLv01b Then Stop
 
 
 vA = "----- pbSub30_TriggCtrlDictStartUp ---------------------------------------------" & vbCr & vbCr & "Avalia se [ " & sTriggCtrl & "  ] tem a TAG necessária pra inclusão" & vbCr & "no dict [ dictFrmResetAreas(sForM) ]"
-vB = vbCr & vbCr & "TAG [" & Chr(160) & sCtrlTAG & Chr(160) & "]"
+vB = vbCr & vbCr & "TAG [" & Chr(160) & sCtrlTag & Chr(160) & "]"
 If gBbDepurandoLv01b Then MsgBox vA & vB
 If gBbDepurandoLv01b Then Stop
 'Stop
 
                 
-                sCtrlTAG = cTriggCtrl.Tag
+                sCtrlTag = cTriggCtrl.Tag
 'Stop
                 
                 '-------------------------------------------
@@ -1170,14 +1173,13 @@ If gBbDepurandoLv01b Then Stop
                 'Verifica se o Controle pertence a alguma [ RstArea ] for mesmo um TriggerCtrl chama rotina pra guardar os parâmetros no Dict.
                 ' Devem ser armazenados diversos parâmetros necessários pra alterar o SQL do controle
                 ' e fazer a filtragem
-                If InStr(1, sCtrlTAG, "RstAr") > 0 Then
-'Stop
-                    'Separa os parâmetros do controle em quatro seções
-                    vSplittedTAG = Split(sCtrlTAG, "-")
-                    iTagSection = 4
-                
+'                If InStr(1, sCtrlTag, "RstAr") > 0 Then
+''Stop
+'                   'Separa os parâmetros do controle em quatro seções
+                    sTagSection = GetTagSection("RstAr", sCtrlTag)
+                    
                     'Avalia a 4a seção com parâmetros de [ RstArea ]
-                    If vSplittedTAG(iTagSection - 1) <> "" Then
+                    If sTagSection <> "" Then
                         
 vA = "----- pbSub30_TriggCtrlDictStartUp ---------------------------------------------" & vbCr & "Chama [ pbSub51_RstAreaDictBuild ] pra inclusão de" & vbCr
 vB = "[ " & sTriggCtrl & " ] no dict [ dictFrmResetAreas(sForM)  ]"
@@ -1186,12 +1188,12 @@ If gBbDepurandoLv01b Then Stop
 'Stop
                         If gBbDebugOn Then Debug.Print " " & cTriggCtrl.Name
                         On Error GoTo -1
-                        Call pbSub51_RstAreaDictBuild(vSplittedTAG(iTagSection - 1), cTriggCtrl)
+                        Call pbSub51_RstAreaDictBuild(sTagSection, cTriggCtrl)
                         If gBbEnableErrorHandler Then On Error GoTo -1: On Error GoTo FrM_ErrorHandler
 'Stop
                     End If
                 
-                End If
+                'End If
 'Stop
 
 If gBbDepurandoLv01b Then MsgBox "----- pbSub30_TriggCtrlDictStartUp ---------------------------------------------" & vbCr & vbCr & "[ " & sTriggCtrl & " ] está na categoria de [ BehvrCtrls ]?" & vbCr & " " & vbCr & " "
@@ -1229,16 +1231,17 @@ If gBbDepurandoLv01c Then Stop
                 '-------------------------------------------
                 'Avaliação de [ DataFields ]
                 '-------------------------------------------
-                
-                'Verifica se o Controle é um [ DataField ]
-                If InStr(1, sCtrlTAG, "DataField>") > 0 Then
-'Stop
                     'Separa os parâmetros do controle em quatro seções
-                    vSplittedTAG = Split(sCtrlTAG, "-")
-                    iTagSection = 1
+                    sTagSection = GetTagSection("DataField>", sCtrlTag)
+
+                'Verifica se o Controle é um [ DataField ]
+'                If InStr(1, sCtrlTag, "DataField>") > 0 Then
+''Stop
+'
+
                 
                     'Avalia a 4a seção com parâmetros de [ RstArea ]
-                    If vSplittedTAG(iTagSection - 1) <> "" Then
+                    If sTagSection <> "" Then
                         
 vA = "----- pbSub30_TriggCtrlDictStartUp ---------------------------------------------" & vbCr & "Chama [ pbSub51_RstAreaDictBuild ] pra inclusão de" & vbCr
 vB = "[ " & sTriggCtrl & " ] no dict [ dictFrmResetAreas(sForM)  ]"
@@ -1247,12 +1250,12 @@ If gBbDepurandoLv01b Then Stop
 'Stop
                         If gBbDebugOn Then Debug.Print " " & cTriggCtrl.Name
                         On Error GoTo -1
-                        Call pbSub71_DataFieldDictBuild(vSplittedTAG(iTagSection - 1), cTriggCtrl)
+                        Call pbSub71_DataFieldDictBuild(sTagSection, cTriggCtrl)
                         If gBbEnableErrorHandler Then On Error GoTo -1: On Error GoTo FrM_ErrorHandler
 'Stop
                     End If
 
-                End If
+'                End If
             
             
             
@@ -1301,7 +1304,7 @@ If gBbDepurandoLv01b Then Stop
     
     
     vA = "----- pbSub30_TriggCtrlDictStartUp ---------------------------------------------" & vbCr & vbCr & "Avalia se [ " & sTriggCtrl & "  ] tem a TAG pra inclusão no dict" & vbCr
-    vB = "[ dictCtrlBehvrParams(sForM) ]" & vbCr & vbCr & "TAG [" & Chr(160) & sCtrlTAG & Chr(160) & "]"
+    vB = "[ dictCtrlBehvrParams(sForM) ]" & vbCr & vbCr & "TAG [" & Chr(160) & sCtrlTag & Chr(160) & "]"
     If gBbDepurandoLv01b Then MsgBox vA & vB
     If gBbDepurandoLv01b Then Stop
     
@@ -1380,15 +1383,13 @@ On Error GoTo -1
                     '----------------------------------------------
                     'Busca a TAG de [ TriggCtrl ]
                     ' se a TAG do controle não for vazia verifica se possui a 3a seção
-                    If sCtrlTAG <> "" Then
+                    If sCtrlTag <> "" Then
                         
                         bFoundParams = False
                         'Chama rotina pra montagem do dicionário [ CtrlsBehvrParams ]
-                        '-------------------------------------------------------------
-                        
-                        'Separa os parâmetros do controle em quatro seções
-                        vSplittedTAG = Split(sCtrlTAG, "-")
-                        iTagSection = 3
+
+                        sTagSection = GetTagSection("HLclr", sCtrlTag)
+
     'Stop
                         
                         'Avalia a 3a seção com parâmetros de Behvr
@@ -1396,7 +1397,7 @@ On Error GoTo -1
                         '----------------------------------------------
                         
                         If gBbEnableErrorHandler Then On Error GoTo -1: On Error GoTo FrM_ErrorHandler
-                        If vSplittedTAG(iTagSection - 1) <> "" Then
+                        If sTagSection <> "" Then
 'vA = vSplittedTag(2)
 If gBbDepurandoLv01b Then MsgBox "----- pbSub30_TriggCtrlDictStartUp ---------------------------------------------" & vbCr & vbCr & "Chama [ pbSub41_CtrlsBehvrDictBuild ] pra" & vbCr & "inclusão de [ " & sTriggCtrl & " ] no dict [ dictCtrlBehvrParams(sForM) ]" & vbCr & " " & vbCr & " "
 If gBbDepurandoLv01b Then Stop
@@ -1406,7 +1407,7 @@ If gBbDepurandoLv01b Then Stop
                             'Chama rotina pra iniciar a montagem do dicionário de [ CtrlsBehvrParams ]
                             '-------------------------------------------------------------
                             On Error GoTo -1
-                            bFoundParams = pbSub41_CtrlsBehvrDictBuild(vSplittedTAG(iTagSection - 1), cTriggCtrl)
+                            bFoundParams = pbSub41_CtrlsBehvrDictBuild(sTagSection, cTriggCtrl)
                             If gBbEnableErrorHandler Then On Error GoTo -1: On Error GoTo FrM_ErrorHandler
                             
 'MsgBox "----- pbSub30_TriggCtrlDictStartUp ---------------------------------------------" & vbCr & vbCr & "Retorna de [ pbSub41_CtrlsBehvrDictBuild ]" & vbCr & " " & vbCr & " "
@@ -1429,7 +1430,7 @@ If gBbDepurandoLv01b Then Stop
                     'Controle não TAG e não é incluído no dict [ dictCtrlBehvrParams(sForM) ]
                     Else
 vA = "----- pbSub30_TriggCtrlDictStartUp ---------------------------------------------" & vbCr & vbCr & "[ " & sTriggCtrl & "  ] NÃO tem a TAG pra inclusão no dict" & vbCr
-vB = "[ dictCtrlBehvrParams(sForM) ]" & vbCr & vbCr & "TAG [" & Chr(160) & sCtrlTAG & Chr(160) & "]"
+vB = "[ dictCtrlBehvrParams(sForM) ]" & vbCr & vbCr & "TAG [" & Chr(160) & sCtrlTag & Chr(160) & "]"
 If gBbDepurandoLv01b Then MsgBox vA & vB
 If gBbDepurandoLv01b Then Stop
                     
@@ -1581,7 +1582,7 @@ Stop
 
 End Sub
 
-Public Sub pbSub31_TriggCtrlDictBuild(vTagSection As Variant, cTriggCtrl As Control)
+Public Sub pbSub31_TriggCtrlDictBuild(sTagSection As String, cTriggCtrl As Control)
 
     Dim vA, vB, vC, vD
     Dim vE, vF, vG, vH
@@ -1629,7 +1630,7 @@ Public Sub pbSub31_TriggCtrlDictBuild(vTagSection As Variant, cTriggCtrl As Cont
 If gBbDepurandoLv01c Then Stop
 'Stop
     
-    vTagSectionParams = Split(vTagSection, ".")
+    vTagSectionParams = Split(sTagSection, ".")
     
     'Verifica se foi identificado o parâmetro [ sFilGrp ] contendo o [ Grupo de Filtragem ] do TrggCtrl
     sParam = "Grp"
@@ -2141,14 +2142,14 @@ Stop
 End Sub
 
 
-Public Sub pbSub32_TriggCtrlDictBuild(vTagSection As Variant, cTriggCtrl As Control)
+Public Sub pbSub32_TriggCtrlDictBuild(sTagSection As String, cTriggCtrl As Control)
 
 
 End Sub
 
 
 
-Public Function pbSub41_CtrlsBehvrDictBuild(vTagSection As Variant, cCtrL As Control)
+Public Function pbSub41_CtrlsBehvrDictBuild(sTagSection As String, cCtrL As Control)
 
     Dim vA, vB, vC
     Dim sForM As String
@@ -2177,7 +2178,7 @@ If gBbDepurandoLv01c Then Stop
     'Recupera os parâmetros do controle armazenados na TAG
     '-------------------------------------------------------------------------------------------------------
     
-    vTagSectionParams = Split(vTagSection, ".")
+    vTagSectionParams = Split(sTagSection, ".")
 'Stop
     
     'Confirma se [ sCtrL ] ora avaliado possui o evento [ Change ] com a chamada pra rotina [ MskdTxtbox02_TextMask ]
@@ -2362,7 +2363,7 @@ Resume Next
 End Function
 
 
-Public Sub pbSub51_RstAreaDictBuild(vTagSection As Variant, cRstAreaCtrL As Control)
+Public Sub pbSub51_RstAreaDictBuild(sTagSection As String, cRstAreaCtrL As Control)
 
     Dim vA, vB, vC
     Dim vTagSectionParams As Variant 'vSplittedTag As Variant
@@ -2384,7 +2385,7 @@ If gBbDepurandoLv01c Then MsgBox "----- pbSub51_RstAreaDictBuild ---------------
 If gBbDepurandoLv01c Then Stop
 
     'Separa [ vTagSection ] em matriz de único elemento, com o parâmetro
-    vTagSectionParams = Split(vTagSection, ".")
+    vTagSectionParams = Split(sTagSection, ".")
     
     
     'Verifica se foi identificado o parâmetro [ sFilGrp ] contendo o [ Grupo de Filtragem ] do TrggCtrl
@@ -2498,7 +2499,7 @@ If gBbDepurandoLv01c Then Stop
 
 End Sub
 
-Public Sub pbSub52_RstAreaBTNsDictBuild(vTagSection As Variant, cCtrL As Control)
+Public Sub pbSub52_RstAreaBTNsDictBuild(sTagSection As String, cCtrL As Control)
     Dim vA, vB
     Dim vTagSectionParams As Variant
     Dim sParam As String
@@ -2517,7 +2518,7 @@ If gBbDepurandoLv01c Then Stop
 'Stop
     
     
-    vTagSectionParams = Split(vTagSection, ".")
+    vTagSectionParams = Split(sTagSection, ".")
     
     'Verifica se foi identificado o parâmetro [ sFilGrp ] contendo o [ Grupo de Filtragem ] do TrggCtrl
     sParam = "RstArea"
@@ -2628,9 +2629,9 @@ Public Sub pbSub60_CtrlsEnblDsblDictStartUp(fForm As Form)
     Dim cEnblDsblCtrl As Control
     Dim sForM As String
     Dim sCtrL As String
-    Dim sCtrlTAG As String
+    Dim sCtrlTag As String
     Dim vSplittedTAG As Variant
-    Dim iTagSection As Integer
+    Dim sTagSection As String
     
 'MsgBox "teste - carrega EnableDisable"
 'Stop
@@ -2671,10 +2672,10 @@ If gBbDepurandoLv01b Then Stop
                 If cEnblDsblCtrl.ControlType = acCommandButton Then
 
 'Stop
-                    sCtrlTAG = cEnblDsblCtrl.Tag
+                    sCtrlTag = cEnblDsblCtrl.Tag
                     
 vA = "----- pbSub60_CtrlsEnblDsblDictStartUp -----------------------------------------" & vbCr & vbCr & "Avalia se [ " & sCtrL & " ] tem a TAG necessária pra "
-vB = vbCr & "inclusão no dict [ dictRstArBTNsByNr(sForm) ]" & vbCr & vbCr & "TAG [" & Chr(160) & sCtrlTAG & Chr(160) & "]"
+vB = vbCr & "inclusão no dict [ dictRstArBTNsByNr(sForm) ]" & vbCr & vbCr & "TAG [" & Chr(160) & sCtrlTag & Chr(160) & "]"
 'MsgBox vA & vB
 If gBbDepurandoLv01b Then Stop
 'Stop
@@ -2682,26 +2683,26 @@ If gBbDepurandoLv01b Then Stop
                     'Se o Controle for mesmo um TriggerCtrl chama rotina pra guardar os parâmetros no Dict.
                     ' Devem ser armazenados diversos parâmetros necessários pra alterar o SQL do controle
                     ' e fazer a filtragem
-                    If InStr(1, sCtrlTAG, "RstArea") > 0 Then
+                    'If InStr(1, sCtrlTag, "RstArea") > 0 Then
                     
                     'Chama rotina pra montar o dicionário [ dictRstArBTNsByNr(sForm) ]
                     '-------------------------------------------------------------------------------------------------------------
                     '----------------------------------------------
-                        'Separa os parâmetros do controle (no caso do ResetBtn apenas um parâmetro)
-                        vSplittedTAG = Split(sCtrlTAG, "-")
-                        iTagSection = 1
+                    'Separa os parâmetros do controle (no caso do ResetBtn apenas um parâmetro)
+                    sTagSection = GetTagSection("RstArea", sCtrlTag)
 
+                    
                         'Avalia a 1a seção com parâmetros de TrggCtrl
-                        If vSplittedTAG(iTagSection - 1) <> "" Then
+                        If sTagSection <> "" Then
 'Stop
-                            Call pbSub52_RstAreaBTNsDictBuild(vSplittedTAG(iTagSection - 1), cEnblDsblCtrl)
+                            Call pbSub52_RstAreaBTNsDictBuild(sTagSection, cEnblDsblCtrl)
                             
                         End If
 
-                    End If
+                    'End If
                     
 vA = "----- pbSub60_CtrlsEnblDsblDictStartUp -----------------------------------------" & vbCr & vbCr & "Avalia se [ " & sCtrL & " ] tem a TAG necessária pra "
-vB = vbCr & "inclusão no dict [ dictFormCommButtons(sForm) ]" & vbCr & vbCr & "TAG [" & Chr(160) & sCtrlTAG & Chr(160) & "]"
+vB = vbCr & "inclusão no dict [ dictFormCommButtons(sForm) ]" & vbCr & vbCr & "TAG [" & Chr(160) & sCtrlTag & Chr(160) & "]"
 If gBbDepurandoLv01b Then MsgBox vA & vB
 If gBbDepurandoLv01b Then Stop
 'Stop
@@ -2711,7 +2712,7 @@ If gBbDepurandoLv01b Then Stop
                     ' e, se atendidos os requisitos, incluir os botões no dict [ dictCtrlsEvents(sForM) ]
                     '-------------------------------------------------------------------------------------------------------------
                     '----------------------------------------------
-                    Call pbSub81_CommButtonsEventBuild(sCtrlTAG, cEnblDsblCtrl)
+                    Call pbSub81_CommButtonsEventBuild(sCtrlTag, cEnblDsblCtrl)
                 
                 Else
 'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "Dict Events build"
@@ -2736,7 +2737,7 @@ If gBbDepurandoLv01b Then MsgBox "----- pbSub60_CtrlsEnblDsblDictStartUp -------
 If gBbDepurandoLv01b Then Stop
                     
                     On Error GoTo -1
-                    Call pbSub61_cCtrlsEnblDsblDictBuild(sForM, sCtrlTAG, cEnblDsblCtrl)
+                    Call pbSub61_cCtrlsEnblDsblDictBuild(sForM, sCtrlTag, cEnblDsblCtrl)
 'Stop
         Case acLabel
         
@@ -2757,7 +2758,7 @@ If gBbDepurandoLv01b Then Stop
 
 End Sub
 
-Public Sub pbSub61_cCtrlsEnblDsblDictBuild(sForM As String, sCtrlTAG As String, cEnblDsblCtrl As Control)
+Public Sub pbSub61_cCtrlsEnblDsblDictBuild(sForM As String, sCtrlTag As String, cEnblDsblCtrl As Control)
          
     Dim vA, vB, vC
     Dim sCtrL As String
@@ -2931,7 +2932,7 @@ Stop
 End Sub
 
 
-Public Sub pbSub71_DataFieldDictBuild(vTagSection As Variant, cDataField As Control)
+Public Sub pbSub71_DataFieldDictBuild(sTagSection As String, cDataField As Control)
     Dim vA, vB
     Dim sDataField As String
     Dim sForM As String
@@ -2945,7 +2946,7 @@ Public Sub pbSub71_DataFieldDictBuild(vTagSection As Variant, cDataField As Cont
 
     sForM = cDataField.Parent.Name
     sCtrlDataField = cDataField.Name
-    vA = Split(vTagSection, ".")
+    vA = Split(sTagSection, ".")
 
     '-------------------------------------------------------------------------------------------------------
     'Recupera os parâmetros do controle informados na TAG
@@ -3007,7 +3008,7 @@ Public Sub pbSub71_DataFieldDictBuild(vTagSection As Variant, cDataField As Cont
 End Sub
 
 
-Public Sub pbSub81_CommButtonsEventBuild(vTagSection As Variant, cCommButton As Control)
+Public Sub pbSub81_CommButtonsEventBuild(sTagSection As String, cCommButton As Control)
     Dim vA, vB
     
     Dim vTagSectionParams As Variant
@@ -3036,7 +3037,7 @@ Public Sub pbSub81_CommButtonsEventBuild(vTagSection As Variant, cCommButton As 
 If gBbDepurandoLv01c Then Stop
 'Stop
     
-    If vTagSection = "" Then
+    If sTagSection = "" Then
         'Mensagem de erro a ser incluída no Log de carga
         vA = "Nos seguintes botões não foram localizados nenhum parâmetro de funcionamento." & vbCrLf
         vB = "Esses botões não irão funcionar."
@@ -3051,12 +3052,12 @@ If gBbDepurandoLv01c Then Stop
     
     'O termo [ NotInDict ] incluído na TAG de botões indica que eles
     ' não devem ser incluídos no dict de botões [ dictFormCommButtons(sForM) ] nem no dict de eventos [ dictCtrlsEvents(sForM) ]
-    ElseIf vTagSection = "NotInDict" Then Exit Sub
+    ElseIf sTagSection = "NotInDict" Then Exit Sub
     
     End If
     
     
-    vTagSectionParams = Split(vTagSection, ".")
+    vTagSectionParams = Split(sTagSection, ".")
     
     '-----------------------------------------------------------------------------------------------------
     ' Recupera os parâmetros do [ cCommButton ]

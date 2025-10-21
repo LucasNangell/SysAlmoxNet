@@ -217,6 +217,7 @@ If bAjustando = False Then
 Else
     btnPreview.Caption = "Preview"
     bAjustando = False
+    DoCmd.Save acForm, fTrgtForm.Name
     DoCmd.OpenForm sTrgtForm, acDesign
     Set fTrgtForm = Forms(sTrgtForm)
 End If
@@ -243,6 +244,7 @@ Private Sub btnSalvar_Click()
     Dim iInT As Integer
     Dim iInT2 As Integer
     Dim bBoL As Boolean
+    Dim sTrgtForm As String
     
     Set cTrgtCtrl = fTrgtForm.Controls(txtSelectedList)
     sWidthColumns = ""
@@ -266,7 +268,9 @@ Private Sub btnSalvar_Click()
     cTrgtCtrl.ColumnCount = dictQryListFields.Count
     cTrgtCtrl.ColumnWidths = sWidthColumns
     bAjustando = False
-    DoCmd.OpenForm fTrgtForm.Name, acDesign
+    sTrgtForm = fTrgtForm.Name
+'    DoCmd.Close acForm, sTrgtForm, acSaveYes
+    DoCmd.OpenForm sTrgtForm, acDesign
     DoCmd.Close acForm, Me.Name, acSaveYes
     
 End Sub
@@ -286,7 +290,7 @@ Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
 End Sub
 
 Private Sub Form_Load()
-Dim fForm As Form
+Dim fForM As Form
 
 If Forms.Count > 2 Then
     MsgBox "Por favor deixe apenas o formulário que terá as listas manipuladas aberto antes de abrir este formulário.", vbInformation
@@ -299,9 +303,9 @@ dictSelectedFields.RemoveAll
 bSelectedList = False
 bSelectingHeads = False
 
-For Each fForm In Forms
-    If fForm.Name <> Me.Name Then Set fTrgtForm = fForm
-Next fForm
+For Each fForM In Forms
+    If fForM.Name <> Me.Name Then Set fTrgtForm = fForM
+Next fForM
 End Sub
 
 Private Sub Form_Timer()

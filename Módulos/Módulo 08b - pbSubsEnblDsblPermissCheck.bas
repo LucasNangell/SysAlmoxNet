@@ -21,7 +21,7 @@ Public Function bCheckUserPermissionLevel(sForM As String, sTweakableCtrL As Str
     ' Se não exigir permissão libera o [ Controle ] para ser habilitado
     sQuery = "qry_00(00)cSysRqrdPrmss"
     sWhere = "([ForM] Like " & """" & sForM & """" & ") And ([Control] Like " & """" & sTweakableCtrL & """" & ")"
-    If gBbDebugOn Then Debug.Print sWhere
+'* Modificado por código               If gBbDebugOn Then Debug.Print sWhere
 
     Set rsTbE = CurrentDb.OpenRecordset(sQuery, dbOpenDynaset, dbReadOnly)
     rsTbE.Filter = sWhere
@@ -85,14 +85,14 @@ Public Function bCheckUserPermissionLevel(sForM As String, sTweakableCtrL As Str
                     sCtrlTipTxtBuild1 = "As permissões do usuário [" & clObjUserParams.sUserName & " ]"
                     
                     sCtrlTipTxtBuild2 = sCtrlTipTxtBuild2 & Chr(13) & " [ " & vKey & " - " & clObjUserParams.dictUserPermissions(vKey) & " ]"
-                    If gBbDebugOn Then Debug.Print sCtrlTipTxtBuild2
+'* Modificado por código                          If gBbDebugOn Then Debug.Print sCtrlTipTxtBuild2
                           
                     sCtrlTipTxtBuild3 = Chr(13) & "não dão acesso a essa funcionalidade" & _
                          Chr(13) & "                                - - " & Chr(13) & "Nível de permissão requerido:"
                     
                     sCtrlTipTxtFrstSctn = sCtrlTipTxtBuild1 & sCtrlTipTxtBuild2 & sCtrlTipTxtBuild3
-                    If gBbDebugOn Then Debug.Print " ---------------- "
-                    If gBbDebugOn Then Debug.Print sCtrlTipTxtBuild1
+'* Modificado por código                          If gBbDebugOn Then Debug.Print " ---------------- "
+'* Modificado por código                          If gBbDebugOn Then Debug.Print sCtrlTipTxtBuild1
                           
                 Else
                     sCtrlTipTxtFrstSctn = "A permissão [ " & vKey & " - " & clObjUserParams.dictUserPermissions(vKey) & " ]  do usuário [ " & clObjUserParams.sUserName & " ]" & _

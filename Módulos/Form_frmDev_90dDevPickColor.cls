@@ -19,7 +19,7 @@ Option Explicit
     Private lngOriginalColor As Long
     'Private bManterCor As Boolean
 
-    Dim fForm As Form
+    Dim fForM As Form
     Dim cTrgtCtrl As Control
     Dim cVertBarLevels As Control
 
@@ -102,8 +102,8 @@ Private Sub Form_Load()
     If Not vA Then Exit Sub
     
     Me.btnSalvar.SetFocus
-    Set fForm = Forms(TempVars("sForM"))
-    Set cTrgtCtrl = fForm.Controls(TempVars("sTrgtCtrL"))
+    Set fForM = Forms(TempVars("sForM"))
+    Set cTrgtCtrl = fForM.Controls(TempVars("sTrgtCtrL"))
     
     'bManterCor = False
     lngOriginalColor = cTrgtCtrl.BackColor
@@ -113,7 +113,7 @@ Private Sub Form_Load()
     'chkViewRealTime.Value = True
     
     Me.txtColorCheck.Value = cTrgtCtrl.Name
-    Me.Move fForm.WindowLeft + cTrgtCtrl.Left + cTrgtCtrl.Width + 150, fForm.WindowTop + cTrgtCtrl.Top
+    Me.Move fForM.WindowLeft + cTrgtCtrl.Left + cTrgtCtrl.Width + 150, fForM.WindowTop + cTrgtCtrl.Top
     
     
     Call AtualizaCorDoPonto(Me, cTrgtCtrl, lngOriginalColor)
@@ -383,7 +383,7 @@ Private Function HexToOleColor(ByVal hex As String) As Long
 End Function
 
 
-Private Sub AtualizaCorDoPonto(fForm As Form, cTrgtCtrl As Control, Optional lngCor As Long)
+Private Sub AtualizaCorDoPonto(fForM As Form, cTrgtCtrl As Control, Optional lngCor As Long)
     Dim iBox As Integer
     Dim iPrct As Double
     Dim iPercTop As Integer
@@ -404,15 +404,15 @@ Private Sub AtualizaCorDoPonto(fForm As Form, cTrgtCtrl As Control, Optional lng
 
     If lngCor <> -1 Then
         'Me!boxPreview.BackColor = lngCor
-        dTam = fForm.LimitLineDown.Top - fForm.imgHB.Top
+        dTam = fForM.LimitLineDown.Top - fForM.imgHB.Top
         
-        iPercTop = Int(100 * ((fForm.boxSeletorHB.Top - fForm.imgHB.Top) / dTam) / 2)
+        iPercTop = Int(100 * ((fForM.boxSeletorHB.Top - fForM.imgHB.Top) / dTam) / 2)
         If iPercTop > 50 Then iPercTop = 50
         If iPercTop < 1 Then iPercTop = 1
-        fForm.boxPreview.BackColor = lngCor
+        fForM.boxPreview.BackColor = lngCor
         
-        If ControlExists("bx" & iPercTop, fForm) Then
-            Set cCtrlH = fForm.Controls("bx" & iPercTop)
+        If ControlExists("bx" & iPercTop, fForM) Then
+            Set cCtrlH = fForM.Controls("bx" & iPercTop)
             cCtrlH.BackColor = lngCor
             'fForM.boxPreview.BackColor = cCtrlH.BackColor
             'If chkViewRealTime.Value = True Then
@@ -423,21 +423,21 @@ Private Sub AtualizaCorDoPonto(fForm As Form, cTrgtCtrl As Control, Optional lng
                 End If
             
             'End If
-            fForm.txtHex.Value = ConverterCorVBAparaHex(fForm.boxPreview.BackColor)
-            fForm.txtOLEcolor.Value = lngCor
+            fForM.txtHex.Value = ConverterCorVBAparaHex(fForM.boxPreview.BackColor)
+            fForM.txtOLEcolor.Value = lngCor
 'Stop
         End If
             
-        If Not fForm!txtHex Is Nothing Then
-            fForm!txtHex.Value = sColor
+        If Not fForM!txtHex Is Nothing Then
+            fForM!txtHex.Value = sColor
             tRGB = HexToRGB(sColor)
-            fForm.txtR = tRGB.R
-            fForm.txtG = tRGB.G
-            fForm.txtB = tRGB.B
+            fForM.txtR = tRGB.R
+            fForM.txtG = tRGB.G
+            fForM.txtB = tRGB.B
             iConT = 0
             
             For iBox = 1 To 50
-                Set cVertBarLevels = fForm.Controls("bx" & iBox)
+                Set cVertBarLevels = fForM.Controls("bx" & iBox)
                 
                 cVertBarLevels.BackColor = MixColor(sColor, iPrct) 'HexToOleColor(ColorToHex(ColorFromBasePercent(sColor, iPrct)))
                 

@@ -10,15 +10,14 @@ Attribute VB_Exposed = False
 Option Compare Database
 Option Explicit
 
-Private Sub btnCalendar_Click()
-    Set clObjFormOpenParams = New cls_09cParamsToOpenForms
-    clObjFormOpenParams.sTrggForM = Me.Name
-    clObjFormOpenParams.lngFormLeft = btnCalendar.Left
-    clObjFormOpenParams.lngFormTop = btnCalendar.Top
-    
-    Call CalendarFor(Me.txtStkDataEntrada, "Selecione uma data de entrada")
-    Set clObjFormOpenParams = Nothing
+Private Sub btnCalendar1_Click()
+    Call CalendarButton(Me.Name, ActiveControl, Me.txtStkDataEntrada, "Selecione uma data de entrada")
 
+End Sub
+
+Private Sub btnCalendar2_Click()
+    Call CalendarButton(Me.Name, ActiveControl, Me.txtStkValidade, "Selecione uma data de validade")
+    
 End Sub
 
 Private Sub btnCancelarEntrada_Click()
@@ -77,6 +76,10 @@ Private Sub btnReset2Search_Click()
 
 End Sub
 
+Private Sub Comando545_Click()
+
+End Sub
+
 Private Sub Form_Load()
 
 'Stop
@@ -87,9 +90,17 @@ Private Sub Form_Load()
         Call FormLoad06a_BackFromFormLoad(clObjFormOpenParams)
     End If
 
-    Me.lstEstoqueIn.RowSource = ""
-    Me.lstEstoqueSaldo.RowSource = ""
+    'Me.lstEstoqueIn.RowSource = ""
+    'Me.lstEstoqueSaldo.RowSource = ""
+    Me.lstProdsBase.Selected(0) = True
+    
     
 End Sub
 
 
+Private Sub lstProdsBase_AfterUpdate()
+    
+'    'Seleciona o primeiro item da lista
+'    Me.lstEstoqueIn.Selected(0) = True
+
+End Sub

@@ -264,7 +264,7 @@ Sub ListarControlesDeTodosFormulariosComTag()
            "Os detalhes foram salvos na tabela 'TempControlesComTag'.", vbInformation
     
     ' Opcional: Abre o Immediate Window para ver a lista completa
-    If gBbDebugOn Then Debug.Print strLista
+'* Modificado por código               If gBbDebugOn Then Debug.Print strLista
     
     ' Opcional: Abre a tabela com os resultados
     DoCmd.OpenTable "TempControlesComTag", acViewNormal, acReadOnly

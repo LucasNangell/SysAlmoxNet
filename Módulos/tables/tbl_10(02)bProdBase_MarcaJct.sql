@@ -1,5 +1,5 @@
 -- Tabela: tbl_10(02)bProdBase_MarcaJct
--- Registros: 8
+-- Registros: 13
 
 CREATE TABLE tbl_10(02)bProdBase_MarcaJct (
     ProdBase_Marca_jct_ID INTEGER AUTOINCREMENT,

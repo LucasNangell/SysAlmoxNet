@@ -2,7 +2,7 @@ Attribute VB_Name = "_Testes3 LockRec"
 Option Compare Database
 Option Explicit
 
-Public Sub EditLockRecord(fForm As Form, lngCoD As Long, sTbE As String, sKeyField As String, bLockRcrd As Boolean)
+Public Sub EditLockRecord(fForM As Form, lngCoD As Long, sTbE As String, sKeyField As String, bLockRcrd As Boolean)
     Dim vA, vB, vC
     'Dim iFrmIndexID As Integer
     Dim rTbE As DAO.Recordset

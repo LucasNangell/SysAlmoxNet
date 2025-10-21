@@ -3,7 +3,73 @@ Option Compare Database
 Option Explicit
 
 'Calendar form variable:
-Public gBsCalTarget As TextBox 'Text box to return the date from the calendar to.
+Public gBcCalTarget As TextBox 'Text box to return the date from the calendar to.
+
+Sub CalendarButton(sForM, cCalendButton, cDateTxtCtrl, sCalendButtonTipTxt)
+'Sub CalendarButton(sForM, lngCalButtonLeft, lngCalButtonTop, cDateTxt, sCalButtonTipTxt)
+
+    'Dim txt As TextBox
+    'Dim strTitle As String
+
+'Stop
+
+    Set clObjFormOpenParams = New cls_09cParamsToOpenForms
+    clObjFormOpenParams.sTrggForM = sForM
+    clObjFormOpenParams.lngFormLeft = cCalendButton.Left
+    clObjFormOpenParams.lngFormTop = cCalendButton.Top
+    
+    
+    'Purpose:   Open the calendar form, identifying the text box to return the date to.
+    'Arguments: txt = the text box to return the date to.
+    '           sCalendButtonTipTxt = the caption for the calendar form (passed in OpenArgs).
+    
+
+'On Error GoTo Err_Handler
+    
+    'A função [ LockWindowUpdate ] é uma API do windows para bloquear as atualizações de tela
+    ' [ Application.hWndAccessApp ] é a identificação da janela no sistema
+    LockWindowUpdate Application.hWndAccessApp
+    
+    Set gBcCalTarget = cDateTxtCtrl
+    DoCmd.OpenForm "frm_00(1)eSysCalendar", windowmode:=acDialog, OpenArgs:=sCalendButtonTipTxt
+'Stop
+    
+    'Call CalendarFor(Me.txtStkDataEntrada, "Selecione uma data de entrada")
+    Set clObjFormOpenParams = Nothing
+    
+Exit_Handler:
+    Exit Sub
+
+Err_Handler:
+    MsgBox "Error " & Err.Number & " - " & Err.Description, vbExclamation, "CalendarButton()"
+    Resume Exit_Handler
+    
+    
+End Sub
+
+
+'Public Function CalendarFor(txt As TextBox, Optional strTitle As String)
+''On Error GoTo Err_Handler
+'    'Purpose:   Open the calendar form, identifying the text box to return the date to.
+'    'Arguments: txt = the text box to return the date to.
+'    '           strTitle = the caption for the calendar form (passed in OpenArgs).
+'
+'
+'
+'    'A função [ LockWindowUpdate ] é uma API do windows para bloquear as atualizações de tela
+'    ' [ Application.hWndAccessApp ] é a identificação da janela no sistema
+'    LockWindowUpdate Application.hWndAccessApp
+'
+'    Set gBsCalTarget = txt
+'    DoCmd.OpenForm "frm_00(1)eSysCalendar", windowmode:=acDialog, OpenArgs:=strTitle
+'
+'Exit_Handler:
+'    Exit Function
+'
+'Err_Handler:
+'    MsgBox "Error " & Err.Number & " - " & Err.Description, vbExclamation, "CalendarFor()"
+'    Resume Exit_Handler
+'End Function
 
 
 Public Function GetTagSectionStr(sCtrlTag As String, sSectionStr As String) As String
@@ -24,28 +90,7 @@ Public Function GetTagSectionStr(sCtrlTag As String, sSectionStr As String) As S
 
     
 End Function
-Public Function CalendarFor(txt As TextBox, Optional strTitle As String)
-'On Error GoTo Err_Handler
-    'Purpose:   Open the calendar form, identifying the text box to return the date to.
-    'Arguments: txt = the text box to return the date to.
-    '           strTitle = the caption for the calendar form (passed in OpenArgs).
-    
 
-    
-    'A função [ LockWindowUpdate ] é uma API do windows para bloquear as atualizações de tela
-    ' [ Application.hWndAccessApp ] é a identificação da janela no sistema
-    LockWindowUpdate Application.hWndAccessApp
-    
-    Set gBsCalTarget = txt
-    DoCmd.OpenForm "frm_00(1)eSysCalendar", windowmode:=acDialog, OpenArgs:=strTitle
-    
-Exit_Handler:
-    Exit Function
-
-Err_Handler:
-    MsgBox "Error " & Err.Number & " - " & Err.Description, vbExclamation, "CalendarFor()"
-    Resume Exit_Handler
-End Function
 
 Public Function LogError(lngErr As Long, strDescrip As String, strProc As String, _
     Optional bShowUser As Boolean = True, Optional varParam As Variant)
@@ -662,12 +707,12 @@ Sub msgboxErrorAlert(ByVal sMsgboxLine1 As String, Optional ByVal sMsgboxLine2 A
 End Sub
 
 
-Function ControlExists(sCtrL As String, fForm As Form) As Boolean
+Function ControlExists(sCtrL As String, fForM As Form) As Boolean
     Dim sTest As String
     
     'Testa se o Controle indicado existe
     If gBbEnableErrorHandler Then On Error Resume Next
-    sTest = fForm(sCtrL).Name
+    sTest = fForM(sCtrL).Name
     
     
     'A exmpressão Err.Number = 0 será falsa quando a tentativa de acessar
@@ -710,7 +755,7 @@ Public Function sGetClcltdField(sSQL As String, sField As String) As String
         'Parte final da SQL: a partir de SELECT DISTINCT
         
         sSQL = ", " & sSQL
-        If gBbDebugOn Then Debug.Print sSQL
+'* Modificado por código                   If gBbDebugOn Then Debug.Print sSQL
         '-----------------
         '-----------------------------------------------------------------------------------
 'Stop
@@ -738,7 +783,7 @@ Public Function sGetClcltdField(sSQL As String, sField As String) As String
         sGetClcltdField = Mid(sSQL, lngStartingPos + Len(", "), lng_AS_pos - (lngStartingPos + Len(", ")))
         
         '-----------------
-        If gBbDebugOn Then Debug.Print "a" & sGetClcltdField
+'* Modificado por código              If gBbDebugOn Then Debug.Print "a" & sGetClcltdField
         
     Else
         sGetClcltdField = "SELECT NotFound"

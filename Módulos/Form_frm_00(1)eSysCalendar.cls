@@ -40,13 +40,13 @@ On Error Resume Next
     'Purpose:   Transfer the result back to the calling text box (if there is one), and close.
     
     If Me.cmdOk.Enabled Then
-        If gBsCalTarget = Me.txtDate Then
+        If gBcCalTarget = Me.txtDate Then
             'do nothing
         Else
-            gBsCalTarget = Me.txtDate
+            gBcCalTarget = Me.txtDate
         End If
     End If
-    gBsCalTarget.SetFocus
+    gBcCalTarget.SetFocus
     DoCmd.Close acForm, Me.Name, acSaveNo
 End Sub
 
@@ -141,14 +141,14 @@ Private Sub Form_Open(Cancel As Integer)
     Dim bEnabled As Boolean
     
     'Initialize to the existing date, or today if null.
-    If IsDate(gBsCalTarget) Then
-        Me.txtDate = gBsCalTarget.Value
+    If IsDate(gBcCalTarget) Then
+        Me.txtDate = gBcCalTarget.Value
     Else
         Me.txtDate = Date
     End If
     
     'Lock the Ok button if the text box is locked or disabled.
-    bEnabled = (gBsCalTarget.Enabled) And (Not gBsCalTarget.Locked)
+    bEnabled = (gBcCalTarget.Enabled) And (Not gBcCalTarget.Locked)
     With Me.cmdOk
         If .Enabled <> bEnabled Then
             .Enabled = bEnabled

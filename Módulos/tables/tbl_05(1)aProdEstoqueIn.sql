@@ -1,5 +1,5 @@
 -- Tabela: tbl_05(1)aProdEstoqueIn
--- Registros: 7
+-- Registros: 12
 
 CREATE TABLE tbl_05(1)aProdEstoqueIn (
     EstoqueInID INTEGER AUTOINCREMENT,

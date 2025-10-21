@@ -27,7 +27,7 @@ Private Declare PtrSafe Function LockWindowUpdate Lib "user32" (ByVal hwndLock A
  '
 
 
-Public Sub pb_TargtCtrlUpdate00_TimerDelay(fForm As Form, cCtrL As Control)
+Public Sub pb_TargtCtrlUpdate00_TimerDelay(fForM As Form, cCtrL As Control)
 'Public Sub pb_TargtCtrlUpdate00_TimerDelay()
     
     Dim vA, vB
@@ -37,7 +37,7 @@ Public Sub pb_TargtCtrlUpdate00_TimerDelay(fForm As Form, cCtrL As Control)
 'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "TimerDelay trigger"
 'Stop
     
-    sForM = fForm.Name
+    sForM = fForM.Name
     sCtrL = cCtrL.Name
     
     'Confirma se o controle é um [ TriggCtrl ]
@@ -47,7 +47,7 @@ Public Sub pb_TargtCtrlUpdate00_TimerDelay(fForm As Form, cCtrL As Control)
         
         'Carrega as variáveis que serão usadas na rotina de atualização
         Set gBcTrggCtrl = cCtrL
-        Set gBfTrggCtrlForm = fForm
+        Set gBfTrggCtrlForm = fForM
         
         
 'parei aqui1: verificar se há necessidade de "On Error..."
@@ -115,7 +115,7 @@ Public Sub pb_TargtCtrlUpdate01_Start()
 End Sub
 
 
-Public Sub pb_TargtCtrlUpdate02_SetSearchType(fForm As Form, Optional cCtrL As Control, Optional sTagParams As String) ', Optional iResetArea As Integer)
+Public Sub pb_TargtCtrlUpdate02_SetSearchType(fForM As Form, Optional cCtrL As Control, Optional sTagParams As String) ', Optional iResetArea As Integer)
 
     '-----------------------------------------------------------------------------
     ' Identifica o tipo de atualização disparada:
@@ -149,14 +149,14 @@ Public Sub pb_TargtCtrlUpdate02_SetSearchType(fForm As Form, Optional cCtrL As C
 End Sub
 
 
-Public Sub pb_TargtCtrlUpdate03_UNIQUEupdate(fForm As Form, cTrggCtrL As Control) ' , Optional sTagParams As String) ', Optional iResetArea As Integer)
+Public Sub pb_TargtCtrlUpdate03_UNIQUEupdate(fForM As Form, cTrggCtrL As Control) ' , Optional sTagParams As String) ', Optional iResetArea As Integer)
     Dim vA, vB, vC
     Dim iResetArea As Integer
     Dim sForM As String
     Dim sTrggCtrL As String
     Dim sFilGrp As String
     
-    sForM = fForm.Name
+    sForM = fForM.Name
     'vA = cTrggCtrL.ItemData(cTrggCtrL.ListIndex)
 
 'Stop
@@ -187,7 +187,7 @@ Public Sub pb_TargtCtrlUpdate03_UNIQUEupdate(fForm As Form, cTrggCtrL As Control
                 '--------------------------------------------------------------------------------------------------------
                 On Error GoTo -1
 'Stop
-                Call pb_TargtCtrlUpdate06_BuildWHERE(fForm, sFilGrp)
+                Call pb_TargtCtrlUpdate06_BuildWHERE(fForM, sFilGrp)
 'Stop
             End If
             
@@ -202,13 +202,13 @@ Public Sub pb_TargtCtrlUpdate04_RESETarea(sForM As String, sResetAreaBtn As Stri
     Dim vA, vB, vC, vD, vE
     Dim sRstArea As String
     Dim vKeyCtrl As Variant, vKeyFilGrp As Variant
-    Dim fForm As Form
+    Dim fForM As Form
     Dim sFilGrp As String
     Dim sKeyFilGrp As String
     Dim cCtrL As Control
     
-    Set fForm = Forms(sForM)
-    vA = fForm.Name
+    Set fForM = Forms(sForM)
+    vA = fForM.Name
 'Stop
 
     'Confirma se o dict [ dictRstArBTNsByNr(sForM) ] existe o que indica que há botões associados a [ Areas de Reset ]
@@ -275,7 +275,7 @@ Public Sub pb_TargtCtrlUpdate04_RESETarea(sForM As String, sResetAreaBtn As Stri
 'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "Atualiza o grupo [ " & sKeyFilGrp & " ]"
 'Stop
                                   
-                            Call pb_TargtCtrlUpdate06_BuildWHERE(fForm, sKeyFilGrp)
+                            Call pb_TargtCtrlUpdate06_BuildWHERE(fForM, sKeyFilGrp)
                         
                         Next vKeyFilGrp
                     
@@ -401,7 +401,7 @@ If Not bgbSkipStops4b Then Stop     'Ctrl point
 End Sub
 
 
-Public Sub pb_TargtCtrlUpdate06_BuildWHERE(fForm As Form, sFilGrp As String)
+Public Sub pb_TargtCtrlUpdate06_BuildWHERE(fForM As Form, sFilGrp As String)
 
     Dim vA, vB, vC, vD, vE, vF
     Dim sForM As String
@@ -434,7 +434,7 @@ Public Sub pb_TargtCtrlUpdate06_BuildWHERE(fForm As Form, sFilGrp As String)
     Dim vKeyTrgtCtrl As Variant
     Dim sWHEREparticle As String
     
-    sForM = fForm.Name
+    sForM = fForM.Name
     
 'MsgBox "----- pb_TargtCtrlUpdate06_BuildWHERE ----------------------------------------" & vbCr & vbCr & "Inicia BuildWHERE." & vbCr & " " & vbCr & " "
 If gBbDepurandoLv03a Then Stop
@@ -494,7 +494,7 @@ If gBbDepurandoLv03a Then Stop
             Set clObjTargtCtrlParam = dictFormFilterGrpTrgts(sForM)(sFilGrp)(vA)
             sTargtCtrlSQLselect = clObjTargtCtrlParam.sClsLstbxSQL_aSELECT
         Next vA
-        'Debug.Print sTargtCtrlSQLselect
+'* Modificado por código                   'Debug.Print sTargtCtrlSQLselect
 'Stop
         
         
@@ -600,7 +600,7 @@ If gBbDepurandoLv03a Then Stop
 
         vA = clObjTriggCtrlParam.sGetSQLwhere
         vB = clObjTriggCtrlParam.sGetRecCntCptTxt
-        If gBbDebugOn Then Debug.Print vA
+'* Modificado por código              If gBbDebugOn Then Debug.Print vA
 
 'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "3- Incluindo dados do Controle [ " & vKeyControl & " ]" & vbCr & "     na string WHERE e no RecCnt"
 'Stop
@@ -620,7 +620,7 @@ If gBbDepurandoLv03a Then Stop
         sNewTrgtGrp_RecCntCpt = sNewTrgtGrp_RecCntCpt & sJoint_WHERE & vB
         sJoint_RecCntCpt = "": sJoint_WHERE = ""
         
-        If gBbDebugOn Then Debug.Print sNewTrgtGrp_WHERE
+'* Modificado por código              If gBbDebugOn Then Debug.Print sNewTrgtGrp_WHERE
 'Stop
         'Se for o último WHERE a ser incluído,
         ' fecha a string de contagem de Registros
@@ -641,7 +641,7 @@ If gBbDepurandoLv03a Then Stop
             
             'Fecha o WHERE do Grupo de Filtragem ora avaliado
             sNewTrgtGrp_WHERE = IIf(sNewTrgtGrp_WHERE <> "", sWHEREparticle & sNewTrgtGrp_WHERE, "")
-            If gBbDebugOn Then Debug.Print sNewTrgtGrp_WHERE
+'* Modificado por código                  If gBbDebugOn Then Debug.Print sNewTrgtGrp_WHERE
             
 'clObjTargtCtrlParam
             
@@ -676,7 +676,7 @@ If gBbDepurandoLv03a Then Stop
                     vE = vA & vbCr & vB & vbCr & sNewTrgtGrp_WHERE & vbCr & vD
                 End If
                 
-                If gBbDebugOn Then Debug.Print vE
+'* Modificado por código                      If gBbDebugOn Then Debug.Print vE
                 
 'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "Aplica RowSource com a filtragem [ " & sTargtCtrlName & " ]"
 'Stop
@@ -684,9 +684,47 @@ If gBbDepurandoLv03a Then Stop
                 vA = cCtrL.Name
                 cCtrL.RowSource = vE
                 
-                'Havendo algum item previamente selecionado na lista desmarca a seleção
-                vB = cCtrL.ListIndex
-                If vB > -1 Then cCtrL.Selected(cCtrL.ListIndex) = False
+'                'Havendo algum item previamente selecionado na lista desmarca a seleção
+'                vB = cCtrL.ListIndex
+'                If vB > -1 Then cCtrL.Selected(cCtrL.ListIndex) = False
+'Stop
+
+                'Se o controle ora filtrado for um [ Listbox ] seleciona o primeiro item por padrão
+'                ' pra funcionar, o DeafaultValue nas propriedades do controle não pode estar [ vazio ]
+'                ' pode-se usar [ 0 ] como padrão
+                    If cCtrL.ControlType = acListBox Then
+
+                        'Se houver pelo menos um item na lista, força a seleção do primeiro item
+                        If cCtrL.ListCount > 0 Then
+
+                            'Se DefaultValue não for [ vazio ]
+                            ' indica que o primeiro item deve ser selecionado
+                            If Not cCtrL.DefaultValue = "" Then
+                                cCtrL.Selected(0) = True
+
+                                'Chama a rotina de filtragem
+                                Call pb_TargtCtrlUpdate03_UNIQUEupdate(fForM, cCtrL)
+                                
+                            End If
+                        
+                        End If
+                        Call PbSubFillFieldsByList(cCtrL)
+                        
+                    End If
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
                 
                 'Se for uma Combobox e se o [ Trigger ] não estiver vazio exibe o primeiro item após o Trgt ser filtrado
                 If cCtrL.ControlType = acComboBox Then
@@ -716,7 +754,7 @@ If gBbDepurandoLv03a Then Stop
                 'If sRecCntCtrlName <> "" Then bBoL = ControlExists(sRecCntCtrlName, fForM)
                 
                 If sRecCntCtrlName <> "" Then
-                    bBoL = ControlExists(sRecCntCtrlName, fForm)
+                    bBoL = ControlExists(sRecCntCtrlName, fForM)
                 
                         If sRecCntCtrlName <> "" And bBoL Then
                             

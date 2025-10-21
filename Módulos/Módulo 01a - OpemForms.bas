@@ -415,7 +415,7 @@ Sub FormLoad06a_BackFromFormLoad(clObjFormOpenParams As cls_09cParamsToOpenForms
     Dim vKey As Variant
     Dim sLoadLogWarn As String
     Dim cCtrL As Control
-    Dim fForm As Form
+    Dim fForM As Form
     Dim sSQL As String
     Dim lngFilteredRecs As Long
     Dim sStR As String
@@ -521,7 +521,7 @@ If gBbDepurandoLv02a Then Stop
         If gBbInitCtrlEvents Then
             
             'Chama rotina pra montar o dict [ dictCtrlsEvents(sForM) ]
-            If gBbDebugOn Then Debug.Print "Ctrl Events dict init"
+'* Modificado por código                       If gBbDebugOn Then Debug.Print "Ctrl Events dict init"
             Call FormLoad07_GenCtrlsEventDictInit(clObjFormOpenParams.sTrgtForm)
         Else
             sLoadLogWarn = "A inicialização de [ Eventos de Classe ] está desativada." & vbCrLf & "CtrlsBehvr e pesquisas não irão funcionar."
@@ -709,7 +709,7 @@ Sub SysLoad01_SysDictsLoad(sSystemStartForm)
     Dim vA, vB, vC
     Dim oFrmObjct As Object     'Formulário a ser carregado
     Dim sForM As String         'Nome do formulário a ser carregado
-    Dim fForm As Form
+    Dim fForM As Form
     Dim vKey As Variant
     Dim vLoginStR As Variant
     Dim sLoadLogWarn As String
@@ -811,7 +811,7 @@ If gBbDepurandoLv01a Then Stop
             
             'acDesign evita que o código de abertura do formulário seja executado
             DoCmd.OpenForm sForM, acDesign, , , , acHidden
-            Set fForm = Forms(sForM)
+            Set fForM = Forms(sForM)
 
 
 'If gBbDepurandoLv01a Then MsgBox "teste --------------------------------------------------------------------------"
@@ -824,8 +824,8 @@ If gBbDepurandoLv01a Then Stop
         '-------------------------------------------------------------
         '-----------------------------------
             
-            If gBbDebugOn Then Debug.Print "------" & vbCr & sForM & "--"
-            If gBbDebugOn Then Debug.Print "Form Controls get parameters"
+'* Modificado por código                  If gBbDebugOn Then Debug.Print "------" & vbCr & sForM & "--"
+'* Modificado por código                  If gBbDebugOn Then Debug.Print "Form Controls get parameters"
 
 'GoTo SkipTo4
 'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "start TargtCtrlsDict"
@@ -839,7 +839,7 @@ If gBbDepurandoLv01a Then Stop
             ' e retorna se foram encontrados [ TargtCtrls ]
             '-------------------------------------------------------------
             '-----------------------------------
-            gBbTrgtCtrlsFound = pbSub20_TargtCtrlsDictStartUp(fForm)
+            gBbTrgtCtrlsFound = pbSub20_TargtCtrlsDictStartUp(fForM)
             '-----------------------------------
             '-------------------------------------------------------------
 
@@ -852,7 +852,7 @@ If gBbDepurandoLv01a Then Stop
 If gBbDepurandoLv01a Then MsgBox "----- SysLoad01_SysDictsLoad ---------------------------------------------------" & vbCr & vbCr & "Avalia [ ausência de TargtCtrls ] pra incluir na [ StatusBar ] do [ Form ]" & vbCr & " " & vbCr & " "
 If gBbDepurandoLv01a Then Stop
             'Se não houver [ TargtCtrls ] no Form usa a barra de status do formulário pra alertar o usuário
-            If gBbDebugOn Then Debug.Print "Trigger Controls"
+'* Modificado por código                  If gBbDebugOn Then Debug.Print "Trigger Controls"
 
             If Not gBbTrgtCtrlsFound Then
                 
@@ -877,7 +877,7 @@ If gBbDepurandoLv01a Then Stop
             ' e, se houverem sido localizados [ TargtCtrls ] no Form, também o dicionário de [ TriggCtrls ]
             '-------------------------------------------------------------
             '-----------------------------------
-            Call pbSub30_TriggCtrlDictStartUp(fForm)  'Call pbSub10_EventsDictBuild(sForM, sCtrL) chamado internamente
+            Call pbSub30_TriggCtrlDictStartUp(fForM)  'Call pbSub10_EventsDictBuild(sForM, sCtrL) chamado internamente
 
             '-----------------------------------
             '-------------------------------------------------------------
@@ -890,7 +890,7 @@ If gBbDepurandoLv01a Then Stop
 'Stop
 
 'GoTo SkipTo4
-            'Debug.Print "ResetAreas Controls"
+'* Modificado por código                  'Debug.Print "ResetAreas Controls"
             
 GoTo SkipTo4
 
@@ -907,7 +907,7 @@ If gBbDepurandoLv01a Then Stop
             'Chama rotina pra iniciar a montagem do dicionário de [ ctrls Enble/Dsble ]
             '-------------------------------------------------------------
             '-----------------------------------
-            Call pbSub60_CtrlsEnblDsblDictStartUp(fForm)
+            Call pbSub60_CtrlsEnblDsblDictStartUp(fForM)
             '-----------------------------------
             '-------------------------------------------------------------
 
@@ -1027,7 +1027,7 @@ Sub FormStatusBar01_Bld(sForM As String, sWarnID As String, sLoadLogWarn As Stri
 End Sub
 
 
-Sub FormStatusBar02_SetWarn(fForm As Form, bShowWarns As Boolean) ', oOjcT As Object) 'fForm As Form, sStatusTxt As String, sStatusTipText As String)
+Sub FormStatusBar02_SetWarn(fForM As Form, bShowWarns As Boolean) ', oOjcT As Object) 'fForm As Form, sStatusTxt As String, sStatusTipText As String)
     
     Dim vA, vB
     Dim sForM As String
@@ -1038,7 +1038,7 @@ Sub FormStatusBar02_SetWarn(fForm As Form, bShowWarns As Boolean) ', oOjcT As Ob
 
 'Stop
     'Configura o label [ StatusBar ] pra indicar que há alertas de carga do sistema
-    sForM = fForm.Name
+    sForM = fForM.Name
     Set cStatusBar = Forms(sForM).Controls("lblStatusBar")
     
     If bShowWarns Then
@@ -1054,7 +1054,7 @@ Sub FormStatusBar02_SetWarn(fForm As Form, bShowWarns As Boolean) ', oOjcT As Ob
     
 End Sub
 
-Sub FormStatusBar04_OpnLogForm(fForm As Form) ', oOjcT As Object) 'fForm As Form, sStatusTxt As String, sStatusTipText As String)
+Sub FormStatusBar04_OpnLogForm(fForM As Form) ', oOjcT As Object) 'fForm As Form, sStatusTxt As String, sStatusTipText As String)
     Dim vA, vB, vC, vD, vE
     Dim vFormCoords(1) As Variant
     Dim sForM As String
@@ -1069,7 +1069,7 @@ Sub FormStatusBar04_OpnLogForm(fForm As Form) ', oOjcT As Object) 'fForm As Form
 
 'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "Open Log form"
 'Stop
-    sForM = fForm.Name
+    sForM = fForM.Name
         
     'Confirma se há alertas de carga do sistema pra serem exibidos
     ' do contrário não abre o Formulário de Alertas
@@ -1089,7 +1089,7 @@ Sub FormStatusBar04_OpnLogForm(fForm As Form) ', oOjcT As Object) 'fForm As Form
                     Set clObjStatusBarWarn = clObjFormsParams.dForm_StatusBarWarns(vWarnID)
                     
                         sLogTitle = clObjStatusBarWarn.sWarnText
-                        If gBbDebugOn Then Debug.Print sLogTitle
+'* Modificado por código                              If gBbDebugOn Then Debug.Print sLogTitle
                     
                         'vB = ""
                         'vC = ""
@@ -1102,11 +1102,11 @@ Sub FormStatusBar04_OpnLogForm(fForm As Form) ', oOjcT As Object) 'fForm As Form
                         Next vCtrlsInWarn
 'Stop
                         
-'                    if gBbDebugOn then       Debug.Print sLogItems
+'* Modificado por código      '                    if gBbDebugOn then       Debug.Print sLogItems
                     vA = IIf(sLogItems <> "", vbCrLf, "")
                     sSysLoadingTmp = sLogTitle & vA & sLogItems
 
-'                    if gBbDebugOn then       Debug.Print sSysLoadingTmp
+'* Modificado por código      '                    if gBbDebugOn then       Debug.Print sSysLoadingTmp
                     
                     'vA = clObjFormsParams.dForm_StatusBarWarns(vWarnID)
                     'vA = IIf(sSysLoadingLog  <> "", " / ", "")
@@ -1115,11 +1115,11 @@ Sub FormStatusBar04_OpnLogForm(fForm As Form) ', oOjcT As Object) 'fForm As Form
                     vA = IIf(sSysLoadingLog <> "", vbNewLine & vbNewLine, "")
                     sSysLoadingLog = sSysLoadingLog & vA & sSysLoadingTmp
                     'sSysLoadingLog = IIf(sSysLoadingLog <> "", sSysLoadingLog & vbNewLine, "") & IIf(vA <> "", "- " & vA, "")
-'                    Debug.Print sSysLoadingLog
+'* Modificado por código      '                    Debug.Print sSysLoadingLog
 
                 Next vWarnID
                 
-                'Debug.Print sSysLoadingLog
+'* Modificado por código                      'Debug.Print sSysLoadingLog
                 'sSysLoadingLog = ""
                         
             End If

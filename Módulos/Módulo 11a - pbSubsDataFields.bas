@@ -1,4 +1,5 @@
 Attribute VB_Name = "Módulo 11a - pbSubsDataFields"
+
 Option Compare Database
 Option Explicit
 
@@ -21,7 +22,7 @@ Sub PbSubFillFieldsByList(cListBox As Control)
     Dim sLoadLogWarn As String
     Dim sQryOrder As String
     Dim sQryListBox As String
-    Dim fForm As Form
+    Dim fForM As Form
     Dim vKeyQDef As Variant
     Dim vKeyField As Variant
     Dim fField As Field
@@ -42,35 +43,37 @@ Sub PbSubFillFieldsByList(cListBox As Control)
     Dim iConT As Integer
     Dim iColIDCmb As Integer
     Dim sValue As String
-    Set fForm = cListBox.Parent
-    sForM = fForm.Name
+    Dim vCamposNecessarios As Variant
+    
+    Set fForM = cListBox.Parent
+    sForM = fForM.Name
 
     '--------------------------------------------------------------------
     '--                                                        ----------
-    '--  Função para preencher os campos alvos de uma listbox  ----------
+    '--  Fun??o para preencher os campos alvos de uma listbox  ----------
     '--                                                        ----------
     '--------------------------------------------------------------------
     
-    '----------------------------  Configurações necessárias para funcionamento ------------------------------
+    '----------------------------  Configura??es necess?rias para funcionamento ------------------------------
     '---------------------------------------------------------------------------------------------------------
     
-    '1. Declarar o dicionário no módulo de variáveis
+    '1. Declarar o dicion?rio no m?dulo de vari?veis
     '---------------------------------------------------------------------------------------------------------
-    '  'dict para guardar as consultas padrão dos controles, tanto [ TrgtCtrls ] que já estão no dict de [ Targets ]
-    '    como também as Combos e demais Listboxes do [ Form ]
+    '  'dict para guardar as consultas padr?o dos controles, tanto [ TrgtCtrls ] que j? est?o no dict de [ Targets ]
+    '    como tamb?m as Combos e demais Listboxes do [ Form ]
     '  Public dictFormQrysCtrls As New Dictionary
     
     '---------------------------------------------------------------------------------------------------------
-    '2. Adicionar a sub CleanDicts para remover os itens do dicionário
+    '2. Adicionar a sub CleanDicts para remover os itens do dicion?rio
     '---------------------------------------------------------------------------------------------------------
     'dictFormQrysCtrls.RemoveAll
     '---------------------------------------------------------------------------------------------------------
            
-    '3. Adicionar o código abaixo na sub de inicialização dos dicionários,
+    '3. Adicionar o c?digo abaixo na sub de inicializa??o dos dicion?rios,
     '     teste feito adicionando na sub [ pbSub30_TriggCtrlDictStartUp ]
-    '     após a linha [ Case acCheckBox, acOptionGroup, acTextBox, acListBox, acComboBox ]
+    '     ap?s a linha [ Case acCheckBox, acOptionGroup, acTextBox, acListBox, acComboBox ]
     '
-    '    'Código para carregar o dicionário com as consultas dos controles do tipo [ acListBox ] e [ acComboBox ]
+    '    'C?digo para carregar o dicion?rio com as consultas dos controles do tipo [ acListBox ] e [ acComboBox ]
     '    '---------------------------------------------------------------------------------------------------------
     '    'If cTriggCtrl.ControlType = acComboBox Or cTriggCtrl.ControlType = acListBox Then
     '    '    If Not IsObject(dictFormQrysCtrls(sForm)) Then Set dictFormQrysCtrls(sForm) = New Dictionary
@@ -87,18 +90,28 @@ Sub PbSubFillFieldsByList(cListBox As Control)
     sFilGrp = dictTrgtCtrlsFilterGrps(sForM)(cListBox.Name)
     
     '-------------------------------------------
-    'Inicia a consulta pra exibição dos dados
+    'Inicia a consulta pra exibi??o dos dados
     '-------------------------------------------
     
     'Identifica o registro selecionado na Listbox
     iListIndex = cListBox.ListIndex
-
+    
+    If iListIndex = -1 Then
+        If IsObject(dictFormDataFlds01Grps(sForM)(sFilGrp)) Then
+            For Each vKeyDataFieldCtrl In dictFormDataFlds01Grps(sForM)(sFilGrp)
+                Set cDataFieldCtrl = fForM.Controls(vKeyDataFieldCtrl)
+                cDataFieldCtrl.Value = ""
+                If cDataFieldCtrl.ControlType = acListBox Then cDataFieldCtrl.RowSource = ""
+            Next vKeyDataFieldCtrl
+        End If
+        Exit Sub
+    End If
     'Identifica o [ ID ] do registro selecionado, na Tabela da dados
     iQryID = cListBox.Column(0, iListIndex)
     
     'Recupera o SQL da lista
-    ' caso a propriedade [ RowSource ] da lista não contenha "SELECT" indica que se trata de um nome de consulta
-    ' caso contrário, indica que já se trata de um SQL
+    ' caso a propriedade [ RowSource ] da lista n?o contenha "SELECT" indica que se trata de um nome de consulta
+    ' caso contr?rio, indica que j? se trata de um SQL
     If dictFormQrysCtrls(sForM).Exists(cListBox.Name) Then
         sQryListBox = dictFormQrysCtrls(sForM)(cListBox.Name)
     Else
@@ -114,25 +127,25 @@ Sub PbSubFillFieldsByList(cListBox As Control)
     Set rsTbE = CurrentDb.OpenRecordset(sQryListBox, dbOpenDynaset, dbReadOnly)
     
     'O nome do campo da Consulta que armazena o ID do registro
-    ' é recuperado pra ser usado na montagem da filtragem, a partir da 1a Coluna da Tabela de Dados
+    ' ? recuperado pra ser usado na montagem da filtragem, a partir da 1a Coluna da Tabela de Dados
     sQryIDfield = rsTbE.Fields(0).Name
     
-    'Montagem dos parâmetros de busca
+    'Montagem dos par?metros de busca
     vA = "[" & sQryIDfield & "]" & " = " & iQryID
     rsTbE.Filter = vA
     Set rsTbE = rsTbE.OpenRecordset
 
     '------------------------------------------------
-    'Exibição dos dados recuperados da consulta
+    'Exibi??o dos dados recuperados da consulta
     '------------------------------------------------
     
-    'Se o [ sFilGrp ] não estiver no [ dictFormDataFlds01Grps(sForM) ],
-    ' sai da rotina pois não há [ DataFields ] associados ao brupo a serem preenchidos
+    'Se o [ sFilGrp ] n?o estiver no [ dictFormDataFlds01Grps(sForM) ],
+    ' sai da rotina pois n?o h? [ DataFields ] associados ao brupo a serem preenchidos
     If Not IsObject(dictFormDataFlds01Grps(sForM)(sFilGrp)) Then Exit Sub
 
     'Varre os controles [ DataField ] associados ao [ grupo de filtragem ]
     For Each vKeyDataFieldCtrl In dictFormDataFlds01Grps(sForM)(sFilGrp)
-        'Sai da rotina caso o último registro seja vazio, bug que costuma acontecer no VBA
+        'Sai da rotina caso o ?ltimo registro seja vazio, bug que costuma acontecer no VBA
         If IsEmpty(vKeyDataFieldCtrl) Then Exit Sub
         
         'Define o [ clObjCtrlDataFieds ] referente ao controle ora analisado
@@ -140,19 +153,19 @@ Sub PbSubFillFieldsByList(cListBox As Control)
         sDataFieldCtrl = vKeyDataFieldCtrl
     
         'Confirma se o controle [ vKeyDataFieldCtrl ] de fato existe no [ Form ]
-        If ControlExists(sDataFieldCtrl, fForm) Then
-            Set cDataFieldCtrl = fForm.Controls(sDataFieldCtrl)
+        If ControlExists(sDataFieldCtrl, fForM) Then
+            Set cDataFieldCtrl = fForM.Controls(sDataFieldCtrl)
             
             Set clObjTargtCtrlParam = dictFormFilterGrpTrgts(sForM)(sFilGrp)(cListBox.Name)
             
-            'Confirma se [ clObjCtrlDataFieds.sDataField ] é um dos campos da consulta de [ cListBox.Name ]
+            'Confirma se [ clObjCtrlDataFieds.sDataField ] ? um dos campos da consulta de [ cListBox.Name ]
             If clObjTargtCtrlParam.dictTrgtQryFields.Exists(clObjCtrlDataFieds.sDataField) Then
                 
                 vA = clObjTargtCtrlParam.dictTrgtQryFields(clObjCtrlDataFieds.sDataField)
                 
-                'Verifica se o campo está no grid da consulta
-                If vA = "Grid" Then
-                    'Atribui à variável tipo Field [ rstFieldDataField ] o campo da consulta da Listbox [ cListBox ],
+                'Verifica se o campo est? no grid da consulta
+                If vA = "Grid" And cDataFieldCtrl.ControlType <> acListBox Then
+                    'Atribui ? vari?vel tipo Field [ rstFieldDataField ] o campo da consulta da Listbox [ cListBox ],
                     ' indicado em [ clObjCtrlDataFieds.sDataField ] recuperado da TAG do controle [ vKeyDataFieldCtrl ] ora analisado
                     ' e retorna o valor armazenado na tabela de dados
                     Set rstFieldDataField = rsTbE.Fields(clObjCtrlDataFieds.sDataField)
@@ -162,16 +175,19 @@ Sub PbSubFillFieldsByList(cListBox As Control)
 
                 Else
                     
-                    'Confirma se o controle é uma combobox
-                    If cDataFieldCtrl.ControlType = acComboBox Then
+                    'Confirma se o controle ? uma combobox
+                    If cDataFieldCtrl.ControlType = acComboBox Or cDataFieldCtrl.ControlType = acListBox Then
                         
-                        'Descobre qual a coluna do controle contém os dados a serem pesquisados
-                        ' para isso, verifica os [ Widths ] das colunas e atribui a [ iColIDCmb ] o número da coluna que possui width ZERO
-                        vWdthsCol = Split(cDataFieldCtrl.ColumnWidths, ";")
-                        For iConT = 0 To UBound(vWdthsCol)
-                            If vWdthsCol(iConT) = "0" Then iColIDCmb = iConT
-                        Next iConT
-    
+                        'Descobre qual a coluna do controle cont?m os dados a serem pesquisados
+                        ' para isso, verifica os [ Widths ] das colunas e atribui a [ iColIDCmb ] o n?mero da coluna que possui width ZERO
+                        If cDataFieldCtrl.ControlType = acListBox Then
+                            iColIDCmb = 0
+                        Else
+                            vWdthsCol = Split(cDataFieldCtrl.ColumnWidths, ";")
+                            For iConT = 0 To UBound(vWdthsCol)
+                                If vWdthsCol(iConT) = "0" Then iColIDCmb = iConT
+                            Next iConT
+                        End If
                         'Recupera o SQL da consulta que alimenta o controle no [ dictFormQrysCtrls(sForm)(cCtrl) ]
                         If InStr(dictFormQrysCtrls(sForM)(sDataFieldCtrl), "SELECT") = 0 Then '4
                             Set qDef = CurrentDb.QueryDefs(dictFormQrysCtrls(sForM)(sDataFieldCtrl))
@@ -180,7 +196,7 @@ Sub PbSubFillFieldsByList(cListBox As Control)
                             sDefQuerY = cDataFieldCtrl.RowSource
                         End If
                 
-                        'Abre o recordset da consulta para capturar os valores que são exibidos por padrão em [ cDataFieldCtrl ]
+                        'Abre o recordset da consulta para capturar os valores que s?o exibidos por padr?o em [ cDataFieldCtrl ]
                         Set rsDefQry = CurrentDb.OpenRecordset(sDefQuerY, dbOpenDynaset, dbReadOnly)
                         rsDefQry.MoveLast: rsDefQry.MoveFirst
                         
@@ -196,15 +212,16 @@ Sub PbSubFillFieldsByList(cListBox As Control)
                         
                         rsDefQry.Close
                         
-                        'variável usada para redimensionar [ vDefItemsCmb ]
+                        'vari?vel usada para redimensionar [ vDefItemsCmb ]
                         iConT = 0
                         
                         bBoL = False
-                        'Percorre cada valor de [ vDefItemsCmb ] para verificar se esse valor é atribuído ao item selecionado na lista
+                        'Percorre cada valor de [ vDefItemsCmb ] para verificar se esse valor ? atribu?do ao item selecionado na lista
                         For iItem = 0 To UBound(vDefItemsCmb)
                 
-                            'Monta o WHERE da consulta
-                            vA = "([" & clObjCtrlDataFieds.sDataField & "]" & " = " & vDefItemsCmb(iItem) & ") AND ([" & sQryIDfield & "]" & " = " & iQryID & ")"
+                        'Monta o WHERE da consulta
+                        vA = "([" & clObjCtrlDataFieds.sDataField & "]" & " = " & vDefItemsCmb(iItem) & ") AND ([" & sQryIDfield & "]" & " = " & iQryID & ")"
+
                            
                             sQryOrder = ""
                             'Modifica consulta da lista filtrando pelo [ sQryIDfield ] e pelo valor do RecordSet do campo
@@ -234,17 +251,13 @@ Sub PbSubFillFieldsByList(cListBox As Control)
                             'Abre um RecordSet com o filtro
                             Set rsTbECmb = CurrentDb.OpenRecordset(sQuery, dbOpenDynaset, dbReadOnly)
                             
-                            'Caso o [ rsTbECmb ] retorne algo, indica que o [ iItem ] está atribuído
-                            ' então, armazena o [ iItem ] em [ vDefItemsCmb ]
+                            'Caso o [ rsTbECmb ] retorne algo, indica que o [ iItem ] est? atribu?do
+                            ' ent?o, armazena o [ iItem ] em [ vDefItemsCmb ]
                             If rsTbECmb.RecordCount > 0 Then
                                 ReDim Preserve vSrchItemsCmb(iConT)
                                 vSrchItemsCmb(iConT) = vDefItemsCmb(iItem)
                                 iConT = iConT + 1
                                 bBoL = True
-                            Else
-                                ReDim Preserve vSrchItemsCmb(iConT)
-                                vSrchItemsCmb(iConT) = "NÃO ENCONTRADO"
-                                iConT = iConT + 1
                             End If
                             
                             'Fecha o RecordSet
@@ -253,15 +266,17 @@ Sub PbSubFillFieldsByList(cListBox As Control)
                         Next iItem
     
                         sFilterCmb = ""
-                        'Percorre [ vDefItemsCmb ] para buscar quais itens deverão ser inclusos em [ cDataFieldCtrl ]
+                        'Percorre [ vDefItemsCmb ] para buscar quais itens dever?o ser inclusos em [ cDataFieldCtrl ]
                         If bBoL Then
                             For iItem = 0 To UBound(vSrchItemsCmb)
                                 sFilterCmb = sFilterCmb & "([" & sFieldCmb & "]" & " = " & vSrchItemsCmb(iItem) & ")"
-                                'Caso ainda não seja o último item adiciona [ OR ] ao final para continuar a montagem do filtro
+                                'Caso ainda n?o seja o ?ltimo item adiciona [ OR ] ao final para continuar a montagem do filtro
                                 If iItem < UBound(vSrchItemsCmb) Then sFilterCmb = sFilterCmb & " OR "
                             Next iItem
                         End If
-
+                        
+                        If sFilterCmb = "" Then sFilterCmb = "NÃO ENCONTRADO"
+                        
                         'Remonta a [ sDefQuerY ] aplicando o filtro dos items que devem ser exibidos
                         If InStr(sDefQuerY, "WHERE") > 0 Then sDefQuerY = Split(sDefQuerY, "WHERE")(0)
                         If InStr(sDefQuerY, "ORDER BY") > 0 Then '4
@@ -272,7 +287,7 @@ Sub PbSubFillFieldsByList(cListBox As Control)
                         Else
                             sDefQuerY = Replace(sDefQuerY, ";", "") & " WHERE " & sFilterCmb & ";"
                         End If
-                        
+
                         'Atribui a nova [ sDefQuerY ] ao [ cDataFieldCtrl ]
                         cDataFieldCtrl.RowSource = sDefQuerY
 '                        'Seleciona o primeiro item
@@ -282,10 +297,10 @@ Sub PbSubFillFieldsByList(cListBox As Control)
                         Set rsTbE = CurrentDb.OpenRecordset(sQryListBox, dbOpenDynaset, dbReadOnly)
                         
                         'O nome do campo da Consulta que armazena o ID do registro
-                        ' é recuperado pra ser usado na montagem da filtragem, a partir da 1a Coluna da Tabela de Dados
+                        ' ? recuperado pra ser usado na montagem da filtragem, a partir da 1a Coluna da Tabela de Dados
                         sQryIDfield = rsTbE.Fields(0).Name
                         
-                        'Montagem dos parâmetros de busca
+                        'Montagem dos par?metros de busca
                         vA = "[" & sQryIDfield & "]" & " = " & iQryID
                         rsTbE.Filter = vA
                         Set rsTbE = rsTbE.OpenRecordset
@@ -295,15 +310,15 @@ Sub PbSubFillFieldsByList(cListBox As Control)
                                 cDataFieldCtrl.Value = vB
                             End If
                         Next vB
-                            
+                    
                     End If
                     
                 End If
                 
             Else
                 'Inclui o erro no dict de Logs de Carga do sistema
-                vA = "Na TAG dos seguintes DataFields foi indicada uma coluna de dados não localizada na consulta fonte do [ TargtCtrl ] associado ao controle."
-                vB = vbCrLf & "Esses DataFields não exibirão dados."
+                vA = "Na TAG dos seguintes DataFields foi indicada uma coluna de dados n?o localizada na consulta fonte do [ TargtCtrl ] associado ao controle."
+                vB = vbCrLf & "Esses DataFields n?o exibir?o dados."
                 sLoadLogWarn = vA & vB
                 
                 Call FormStatusBar01_Bld(sForM, "MissingDataFieldQryField", sLoadLogWarn, sDataFieldCtrl)
@@ -351,13 +366,14 @@ Public Sub PbSubRecDataFields(cBtnSaveRec As Control)
     Dim sTrgtCtrl As String
     Dim fField As Field
     Dim sQryOrder As String
-
+    Dim qLstQryDef As QueryDef
+    
     
     sBtnSaveRec = cBtnSaveRec.Name
     sForM = cBtnSaveRec.Parent.Name
     
     If Not dictFormCommButtons(sForM).Exists(sBtnSaveRec) Then
-        'Montar mensagem de erro caso o botão não esteja no dicionário
+        'Montar mensagem de erro caso o bot?o n?o esteja no dicion?rio
         Exit Sub
     End If
     
@@ -392,7 +408,7 @@ Public Sub PbSubRecDataFields(cBtnSaveRec As Control)
         rsTbE.Close
         Set rsTbE = Nothing
         
-        'Abre o recordSet da consulta que será usada para edição
+        'Abre o recordSet da consulta que ser? usada para edi??o
         Set rsRecQry = CurrentDb.OpenRecordset(sRecQry, dbOpenDynaset)
         
         For Each vB In rsRecQry.Fields
@@ -414,7 +430,7 @@ Public Sub PbSubRecDataFields(cBtnSaveRec As Control)
                 
                 sDtFldRec = Replace(clObjCtrlDataFieds.sDataField, "IDfk", "ID")
 
-                    'Define [ rsRecQry ] para edição de registro
+                    'Define [ rsRecQry ] para edi??o de registro
                     rsRecQry.Edit
                     
                     Set DtFldRec = Nothing
@@ -426,8 +442,8 @@ Public Sub PbSubRecDataFields(cBtnSaveRec As Control)
                     'Se o campo foi localizado, altera o valor
                     If Not DtFldRec Is Nothing Then DtFldRec = cDataFieldCtrl.Value
                     
-                    Debug.Print sDataFieldCtrl
-                    'Salva alterações
+'* Modificado por código                               Debug.Print sDataFieldCtrl
+                    'Salva altera??es
                     rsRecQry.Update
 
             Next vDataFieldCtrl
@@ -435,82 +451,58 @@ Public Sub PbSubRecDataFields(cBtnSaveRec As Control)
             
         ElseIf sActType = "SaveNew" Then
                     
-            'Define [ rsRecQry ] para edição de registro
+            'Define [ rsRecQry ] para edi??o de registro
             rsRecQry.AddNew
-        
-            'Percorre os [ DataFieldCtrls ] do [ dictFormDataFlds01Grps(sForM)(sFilGrp) ]
-            For Each vDataFieldCtrl In dictFormDataFlds01Grps(sForM)(sFilGrp)
-                Set clObjCtrlDataFieds = dictFormDataFlds01Grps(sForM)(sFilGrp)(vDataFieldCtrl)
-                sDataFieldCtrl = vDataFieldCtrl
-                Set cDataFieldCtrl = Forms(sForM).Controls(sDataFieldCtrl)
-                
-        
-                'Verifica se a consulta de gravação está indicada no [ RecQry ] do controle
-                If clObjCtrlDataFieds.sRecQry = "" Then
-                  
-                    sDtFldRec = Replace(clObjCtrlDataFieds.sDataField, "IDfk", "ID")
-                    
-                    Set DtFldRec = Nothing
-                    
-                    For Each DtFld In rsRecQry.Fields
-                        If DtFld.Name Like sDtFldRec & "*" Then Set DtFldRec = DtFld
-                    Next DtFld
-                    
-                    'Se o campo foi localizado, altera o valor
-                    If Not DtFldRec Is Nothing And cDataFieldCtrl.Value <> "" Then DtFldRec = cDataFieldCtrl.Value
-                    Debug.Print sDataFieldCtrl & " - " & cDataFieldCtrl.Value
-                End If
-            Next vDataFieldCtrl
+                     
             
-            'Salva alterações
+            'Verifica todas as informações que são necessárias para gravação dos dados
+            For Each DtFld In rsRecQry.Fields
+                bBoL = False
+                If DtFld.CollectionIndex > 0 Then
+                    Debug.Print DtFld.Name
+                    For Each vA In dictFormDataFlds01Grps(sForM)(sFilGrp)
+                        Set clObjCtrlDataFieds = dictFormDataFlds01Grps(sForM)(sFilGrp)(vA)
+                        If DtFld.Name Like clObjCtrlDataFieds.sDataField & "*" Or clObjCtrlDataFieds.sDataField Like DtFld.Name & "*" Then
+                            Set cDataFieldCtrl = Forms(sForM).Controls(clObjCtrlDataFieds.sCtrlDataField)
+                            If Not cDataFieldCtrl.ControlType = acListBox And cDataFieldCtrl.Value <> "" Then
+                                DtFld = cDataFieldCtrl.Value
+                                bBoL = True
+                            ElseIf cDataFieldCtrl.Value <> "" Then
+                                bBoL = True
+                            End If
+                        End If
+                    Next vA
+                    If Not bBoL Then
+                        Set clObjTargtCtrlParam = dictFormFilterGrpTrgts(sForM)(sFilGrp)(cLstBox.Name)
+                        iInT = 0
+                        vB = -1
+                        'Confirma se [ clObjCtrlDataFieds.sDataField ] ? um dos campos da consulta de [ cListBox.Name ]
+                        For Each vA In clObjTargtCtrlParam.dictTrgtQryFields
+                            If DtFld.Name = vA Then
+                                vB = iInT
+                            End If
+                            iInT = iInT + 1
+                        Next vA
+                        
+                        If vB > -1 Then
+                        On Error Resume Next
+                        DtFld = cLstBox.Column(vB, iListIndex)
+                        On Error GoTo -1
+                        End If
+                    End If
+                End If
+                
+            Next DtFld
+                    
             rsRecQry.Update
             
-            rsRecQry.MoveLast
-            iQryID = rsRecQry(sDtFldID)
-            
-            rsRecQry.Close
-            Set rsRecQry = Nothing
-            
-            For Each vDataFieldCtrl In dictFormDataFlds01Grps(sForM)(sFilGrp)
-                Set clObjCtrlDataFieds = dictFormDataFlds01Grps(sForM)(sFilGrp)(vDataFieldCtrl)
-                
-                'Verifica se a consulta de gravação está indicada no [ RecQry ] do controle
-                If clObjCtrlDataFieds.sRecQry <> "" Then
-                    sDataFieldCtrl = vDataFieldCtrl
-                    Set cDataFieldCtrl = Forms(sForM).Controls(sDataFieldCtrl)
-                    
-                    sDtFldRec = Replace(clObjCtrlDataFieds.sDataField, "IDfk", "ID")
-                    sRecQry = clObjCtrlDataFieds.sRecQry
-                    
-                    Set rsRecQry = CurrentDb.OpenRecordset(sRecQry, dbOpenDynaset)
-                    
-                    Set DtFldRec = Nothing
-                    Set DtFldID = Nothing
-                    
-                    For Each DtFld In rsRecQry.Fields
-                        If DtFld.Name Like sDtFldRec & "*" Then Set DtFldRec = DtFld
-                        If DtFld.Name Like sDtFldID & "*" Then Set DtFldID = DtFld
-                    Next DtFld
-                    
-                    If Not DtFldRec Is Nothing And Not DtFldID Is Nothing Then
-                        For iItemID = 0 To cDataFieldCtrl.ListCount - 1
-                            rsRecQry.AddNew
-                            DtFldID = iQryID
-                            DtFldRec = cDataFieldCtrl.ItemData(iItemID)
-                            rsRecQry.Update
-                        Next iItemID
-                    End If
-                    
-                    rsRecQry.Close
-                    Set rsRecQry = Nothing
-                    
-                    Debug.Print sDtFldRec & " - "; bBoL
-        
-                End If
-            Next vDataFieldCtrl
-            
-        End If
+            For Each vA In dictFormFilterGrpTrgts(sForM)(sFilGrp)
+                Set cLstBox = Forms(sForM).Controls(vA)
+                cLstBox.Requery
+            Next vA
+      End If
 NextTrgt:
     Next vKeyTrgtCtrl
+
     
 End Sub

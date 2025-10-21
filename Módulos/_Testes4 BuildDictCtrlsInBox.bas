@@ -57,5 +57,35 @@ Public Function CtrlIsInBox(cCtrL As Control, cBox As Control) As Boolean
 
 End Function
 
+Sub EditarCodigo(sOldTxt As String, sNewTxt As String)
+    
+    Dim vbProj As Object
+    Dim vbComp As Object
+    Dim codeMod As Object
+    Dim codeContent As Variant
+    Dim iInT As Integer, iInT2 As Integer
+    Dim Linha
+    
+    Set vbProj = Application.VBE.ActiveVBProject
+    For Each vbComp In vbProj.VBComponents
+        If InStr(vbComp.Name, "Módulo") > 0 Then
+            Set codeMod = vbComp.CodeModule
+            
+            With codeMod
+                Linha = 1
+                ' Procura pelo texto antigo no código
+                Do While Linha <= .CountOfLines
+                    If InStr(.Lines(Linha, 1), sOldTxt) > 0 Then
+                        Debug.Print vbComp.Name & " | " & .Lines(Linha, 1)
+                        .ReplaceLine Linha, sNewTxt & "            '*Modificado por código"
+                        'Exit Do
+                    End If
+                    Linha = Linha + 1
+                Loop
+            End With
+        End If
+    Next vbComp
+    
 
+End Sub
 

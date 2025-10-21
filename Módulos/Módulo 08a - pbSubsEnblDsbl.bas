@@ -3,7 +3,7 @@ Option Compare Database
 Option Explicit
 
 
-Public Sub pbSub00_CtrlsEnblDsble_GetParams(fForm As Form, sSysFormMode As String, Optional sFilGrp As String, Optional sBox As String, Optional cPressedCtrl As Control)
+Public Sub pbSub00_CtrlsEnblDsble_GetParams(fForM As Form, sSysFormMode As String, Optional sFilGrp As String, Optional sBox As String, Optional cPressedCtrl As Control)
     Dim vA, vB, vC, vD, vE, vF
     Dim rsTbE As Recordset
     Dim sQuery As String
@@ -23,14 +23,14 @@ Public Sub pbSub00_CtrlsEnblDsble_GetParams(fForm As Form, sSysFormMode As Strin
     Dim sForM As String
     
     
-    sForM = fForm.Name
+    sForM = fForM.Name
     
     'Recupera na tabela [ qry_00(3)bSysEnblDisblParms(Edt) ] os parâmetros necessários
     ' com a indicação dos ajustes a serem feitos nos Controles do [ Form ]
     ' a partir da ação iniciada (ex.: FormLoad, pressionamento do botão Editar, etc)
     
     
-    sSysForM = fForm.Name
+    sSysForM = fForM.Name
     If Not cPressedCtrl Is Nothing Then sPressedCtrL = cPressedCtrl.Name
     
     
@@ -39,13 +39,13 @@ Public Sub pbSub00_CtrlsEnblDsble_GetParams(fForm As Form, sSysFormMode As Strin
     
     'Monta a filtragem
     vA = "([sSysForM] Like " & """" & sSysForM & """" & ")"
-     'Debug.Print vA
+'* Modificado por código                'Debug.Print vA
     vB = IIf(Not cPressedCtrl Is Nothing, " And " & "([sTriggerCtrl] Like " & """" & sPressedCtrL & """" & ")", "")
-     'Debug.Print vB
+'* Modificado por código           'Debug.Print vB
     vC = IIf(Not IsNull(sSysFormMode), " And " & "([sSysFormMode] Like " & """" & sSysFormMode & """" & ")", "")
-     'Debug.Print vC
+'* Modificado por código           'Debug.Print vC
     sWhere = vA & vB & vC
-     If gBbDebugOn Then Debug.Print sWhere
+'* Modificado por código           If gBbDebugOn Then Debug.Print sWhere
 
 'Stop
     
@@ -71,7 +71,7 @@ Public Sub pbSub00_CtrlsEnblDsble_GetParams(fForm As Form, sSysFormMode As Strin
         Do Until rsTbE.EOF = True
             sTweakableCtrL = rsTbE.Fields("sTweakbleCtrl")
 'Stop
-            'Debug.Print sTweakableCtrL
+'* Modificado por código                  'Debug.Print sTweakableCtrL
             If ControlExists(sTweakableCtrL, Forms(sSysForM)) Then
                 Set cTweakableCtrL = Forms(sSysForM).Controls(sTweakableCtrL)
 'Stop
@@ -120,24 +120,24 @@ Public Sub pbSub00_CtrlsEnblDsble_GetParams(fForm As Form, sSysFormMode As Strin
         
             
 'Stop
-                vA = fForm.Name
+                vA = fForM.Name
                 vB = cTweakableCtrL.Name
                 
                 'Se o grupo de filtragem for indicado por [ sFilGrp ] na chamada da rotina
                 ' verifica se o controle pertence ao grupo, caso positivo prossegue com o Enable/Disable do controle
                 If sFilGrp <> "" Then
                     If dictFormFilGrpsEnDsAllCtrls(sForM)(sFilGrp).Exists(sTweakableCtrL) Then
-                        Call pbSub01_CtrlsEnblDsble_Confirm(fForm, cTweakableCtrL, dictCtrlTypeShort(cTweakableCtrL.ControlType), bEnable, bVisible, bLockCombo, sCtrlNewTipText)
-                        Debug.Print "sFilGrp | " & cTweakableCtrL.Name & " | " & bEnable
+                        Call pbSub01_CtrlsEnblDsble_Confirm(fForM, cTweakableCtrL, dictCtrlTypeShort(cTweakableCtrL.ControlType), bEnable, bVisible, bLockCombo, sCtrlNewTipText)
+'* Modificado por código                              Debug.Print "sFilGrp | " & cTweakableCtrL.Name & " | " & bEnable
                     End If
                 ElseIf sBox <> "" Then
                     If dictCtrlsInBox(sForM)(sBox).Exists(sTweakableCtrL) Then
-                        Call pbSub01_CtrlsEnblDsble_Confirm(fForm, cTweakableCtrL, dictCtrlTypeShort(cTweakableCtrL.ControlType), bEnable, bVisible, bLockCombo, sCtrlNewTipText)
-                        Debug.Print "sBox | " & cTweakableCtrL.Name & " | " & bEnable
+                        Call pbSub01_CtrlsEnblDsble_Confirm(fForM, cTweakableCtrL, dictCtrlTypeShort(cTweakableCtrL.ControlType), bEnable, bVisible, bLockCombo, sCtrlNewTipText)
+'* Modificado por código                              Debug.Print "sBox | " & cTweakableCtrL.Name & " | " & bEnable
                     End If
                 Else
-                    Call pbSub01_CtrlsEnblDsble_Confirm(fForm, cTweakableCtrL, dictCtrlTypeShort(cTweakableCtrL.ControlType), bEnable, bVisible, bLockCombo, sCtrlNewTipText)
-                    Debug.Print cTweakableCtrL.Name & " | " & bEnable
+                    Call pbSub01_CtrlsEnblDsble_Confirm(fForM, cTweakableCtrL, dictCtrlTypeShort(cTweakableCtrL.ControlType), bEnable, bVisible, bLockCombo, sCtrlNewTipText)
+'* Modificado por código                          Debug.Print cTweakableCtrL.Name & " | " & bEnable
                 End If
             Else
                 'Carrega pro Log de carga do sistema os controles indicados na tabela que não existam no [ Form ]
@@ -161,7 +161,7 @@ Public Sub pbSub00_CtrlsEnblDsble_GetParams(fForm As Form, sSysFormMode As Strin
 
 End Sub
 
-Public Sub pbSub01_CtrlsEnblDsble_Confirm(ByVal fForm As Form, cTweakableCtrL As Control, sCtrlType As String, bEnable As Boolean, bVisible As Boolean, Optional bLocked As Boolean, Optional sCtrlNewTipText As String)
+Public Sub pbSub01_CtrlsEnblDsble_Confirm(ByVal fForM As Form, cTweakableCtrL As Control, sCtrlType As String, bEnable As Boolean, bVisible As Boolean, Optional bLocked As Boolean, Optional sCtrlNewTipText As String)
 
     Dim vA, vB
     Dim cOptBttn As Control
@@ -172,7 +172,7 @@ Public Sub pbSub01_CtrlsEnblDsble_Confirm(ByVal fForm As Form, cTweakableCtrL As
     ' desmembra os controls [ acOptionGroup ] pra aplicar as alterações nos
     ' itens internos ao invez de aplicar no controle Pai
     
-    sForM = fForm.Name
+    sForM = fForM.Name
     vA = cTweakableCtrL.Name
 
 'MsgBox "teste - aplicando Enable/Disable para: [ " & vA & " ]"
@@ -182,13 +182,13 @@ Public Sub pbSub01_CtrlsEnblDsble_Confirm(ByVal fForm As Form, cTweakableCtrL As
         For Each cOptBttn In cTweakableCtrL.Controls
             vA = cOptBttn.Name
 'Stop
-            Call pbSub02_CtrlsEnblDsbl_Apply(fForm, cOptBttn, dictCtrlTypeShort(cOptBttn.ControlType), bEnable, bVisible, bLocked, sCtrlNewTipText)
+            Call pbSub02_CtrlsEnblDsbl_Apply(fForM, cOptBttn, dictCtrlTypeShort(cOptBttn.ControlType), bEnable, bVisible, bLocked, sCtrlNewTipText)
             
         Next cOptBttn
     
     
     Else
-        Call pbSub02_CtrlsEnblDsbl_Apply(fForm, cTweakableCtrL, dictCtrlTypeShort(cTweakableCtrL.ControlType), bEnable, bVisible, bLocked, sCtrlNewTipText)
+        Call pbSub02_CtrlsEnblDsbl_Apply(fForM, cTweakableCtrL, dictCtrlTypeShort(cTweakableCtrL.ControlType), bEnable, bVisible, bLocked, sCtrlNewTipText)
 
     End If
 
@@ -196,7 +196,7 @@ Public Sub pbSub01_CtrlsEnblDsble_Confirm(ByVal fForm As Form, cTweakableCtrL As
 End Sub
 
 
-Public Sub pbSub02_CtrlsEnblDsbl_Apply(ByVal fForm As Form, cTweakableCtrL As Control, sCtrlType As String, bEnable As Variant, bVisible As Boolean, Optional bLocked As Boolean, Optional sCtrlNewTipText As String)
+Public Sub pbSub02_CtrlsEnblDsbl_Apply(ByVal fForM As Form, cTweakableCtrL As Control, sCtrlType As String, bEnable As Variant, bVisible As Boolean, Optional bLocked As Boolean, Optional sCtrlNewTipText As String)
 
     Dim vA, vB, vC
     Dim sForM As String
@@ -210,7 +210,7 @@ Public Sub pbSub02_CtrlsEnblDsbl_Apply(ByVal fForm As Form, cTweakableCtrL As Co
     Dim iLckdStatusSpecialEffect As Long
 
 
-    sForM = fForm.Name
+    sForM = fForM.Name
     If Not cTweakableCtrL Is Nothing Then sCtrL = cTweakableCtrL.Name
 
 'MsgBox "teste - aplicando Enable/Disable para: [ " & sCtrl & " ]"
@@ -265,7 +265,7 @@ Public Sub pbSub02_CtrlsEnblDsbl_Apply(ByVal fForm As Form, cTweakableCtrL As Co
                     'identifica o tipo de controle
                     'a cor de controle desabilitado para Botões e para Textos ou Listas é diferente
 '                        sHexColor = IIf(sCtrlType = "1", sgbBtnGREyBackColor, IIf(sCtrlType = "2", sgbTxtBRownDsablBackColor, "#0"))
-'                            Debug.Print sHexColor
+'* Modificado por código      '                            Debug.Print sHexColor
 'Stop
                     .BackColor = lngLckdStatusBackColor
                     .BorderColor = lngLckdStatusBorderColor

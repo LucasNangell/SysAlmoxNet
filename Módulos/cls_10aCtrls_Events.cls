@@ -123,14 +123,14 @@ End Property
 
 
 Private Sub mComboBox_AfterUpdate()
-    Dim fForm As Form
+    Dim fForM As Form
     Dim cCtrL As Control
     
     Set cCtrL = mComboBox
-    Set fForm = cCtrL.Parent
+    Set fForM = cCtrL.Parent
     
     'Aciona a atualização do [ TargetCtrl ] associado ao controle
-    Call pb_TargtCtrlUpdate00_TimerDelay(fForm, cCtrL)
+    Call pb_TargtCtrlUpdate00_TimerDelay(fForM, cCtrL)
     
 
 End Sub
@@ -141,17 +141,20 @@ Private Sub mCommandButton_Click()
     Dim sMode As String, sForM As String, sActType As String, sFilGrp As String
     Dim cCtrL As Control, cEdtCtrl As Control
     Dim sCtrL As String
-    Dim fForm As Form
+    Dim fForM As Form
     Dim sLstbxTag As String
     Dim vSplittedTAG As Variant
     Dim vKeyCtrl As Variant, vKeyBox As Variant
     Dim sBox As String
+    Dim sQry As String, sQry2 As String
+    
+    
 'MsgBox "testando RstArea commandbutton event"
 'Stop
     On Error Resume Next
     Set cCtrL = mCommandButton
     sCtrL = cCtrL.Name
-    Set fForm = cCtrL.Parent
+    Set fForM = cCtrL.Parent
     
     If Err.Number = 5 Then Exit Sub
     On Error GoTo -1
@@ -182,9 +185,9 @@ Private Sub mCommandButton_Click()
                     Set clObjTargtCtrlParam = dictFormFilterGrpTrgts(sForM)(sFilGrp)
                     sCtrL = clObjTargtCtrlParam.sTargtCtrlName
                     
-                    If ControlExists(sCtrL, fForm) Then
-                        Set cCtrL = fForm.Controls(sCtrL)
-                        If fForm.Controls(sCtrL).ControlType = acListBox Then Call PbSubFillFieldsByList(cCtrL)
+                    If ControlExists(sCtrL, fForM) Then
+                        Set cCtrL = fForM.Controls(sCtrL)
+                        If fForM.Controls(sCtrL).ControlType = acListBox Then Call PbSubFillFieldsByList(cCtrL)
                         On Error GoTo -1
     'Stop
                     End If
@@ -208,13 +211,13 @@ Private Sub mCommandButton_Click()
                 
                 'Mantém botão de edição habilitado caso haja algum item selecionado na lista
                 If cCtrL.ItemsSelected.Count > 0 Then
-                    Call pbSub00_CtrlsEnblDsble_GetParams(fForm, "RecSelect", sFilGrp)
+                    Call pbSub00_CtrlsEnblDsble_GetParams(fForM, "RecSelect", sFilGrp)
                 End If
                 
                 'Mantém botão de edição habilitado caso haja algum item selecionado na lista
                 If cCtrL.ItemsSelected.Count > 0 Then
                     
-                    Call pbSub00_CtrlsEnblDsble_GetParams(fForm, "RecSelect", sFilGrp)
+                    Call pbSub00_CtrlsEnblDsble_GetParams(fForM, "RecSelect", sFilGrp)
                 End If
             End If
             TempVars.RemoveAll
@@ -226,7 +229,22 @@ Private Sub mCommandButton_Click()
                     For Each vKeyCtrl In dictFormDataFlds00Ctrls(sForM)
                         Set clObjCtrlDataFieds = dictFormDataFlds00Ctrls(sForM)(vKeyCtrl)
                         If clObjCtrlDataFieds.sDataFieldGrp = sFilGrp Then
-                            If ControlExists(sCtrL, fForm) Then fForm.Controls(sCtrL).Value = ""
+                            If clObjCtrlDataFieds.sRecQry = "" Then
+                                fForM.Controls(sCtrL).Value = ""
+                            Else
+                                sQry = fForM.Controls(sCtrL).RowSource
+                                If InStr(sQry, "WHERE") > 0 Then
+                                    If InStr(sQry, "GROUP BY") > 0 Then
+                                        sQry2 = "GROUP BY " & Split(sQry, "GROUP BY")(1)
+                                    ElseIf InStr(sQry, "ORDER BY") > 0 Then
+                                        sQry2 = "ORDER BY " & Split(sQry, "ORDER BY")(1)
+                                    End If
+                                    sQry = Split(sQry, "WHERE")(0)
+                                    sQry = sQry & vbCrLf & sQry2
+                                    sQry = Replace(sQry, ";", "")
+                                End If
+                                fForM.Controls(sCtrL).RowSource = sQry
+                            End If
                         End If
                     Next vKeyCtrl
                 End If
@@ -243,8 +261,8 @@ Private Sub mCommandButton_Click()
                 Set clObjTargtCtrlParam = dictFormFilterGrpTrgts(sForM)(sFilGrp)
                 sCtrL = clObjTargtCtrlParam.sTargtCtrlName
     
-                If ControlExists(sCtrL, fForm) Then
-                    Set cCtrL = fForm.Controls(sCtrL)
+                If ControlExists(sCtrL, fForM) Then
+                    Set cCtrL = fForM.Controls(sCtrL)
                     If cCtrL.ControlType = acListBox Then
                     
                         If cCtrL.ListIndex > -1 Then
@@ -282,7 +300,25 @@ Private Sub mCommandButton_Click()
                     Set clObjCtrlDataFieds = dictFormDataFlds00Ctrls(sForM)(vKeyCtrl)
                     If clObjCtrlDataFieds.sDataFieldGrp = sFilGrp Then
                         sCtrL = vKeyCtrl
-                        If ControlExists(sCtrL, fForm) Then fForm.Controls(sCtrL).Value = ""
+                        If ControlExists(sCtrL, fForM) Then
+                            If clObjCtrlDataFieds.sRecQry = "" Then
+                                fForM.Controls(sCtrL).Value = ""
+                            Else
+                                sQry = fForM.Controls(sCtrL).RowSource
+                                If InStr(sQry, "WHERE") > 0 Then
+                                    If InStr(sQry, "GROUP BY") > 0 Then
+                                        sQry2 = "GROUP BY " & Split(sQry, "GROUP BY")(1)
+                                    ElseIf InStr(sQry, "ORDER BY") > 0 Then
+                                        sQry2 = "ORDER BY " & Split(sQry, "ORDER BY")(1)
+                                    End If
+                                    sQry = Split(sQry, "WHERE")(0)
+                                    sQry = sQry & vbCrLf & sQry2
+                                    sQry = Replace(sQry, ";", "")
+                                End If
+                                fForM.Controls(sCtrL).RowSource = sQry
+                            End If
+                        End If
+                        
                     End If
                 Next vKeyCtrl
                 
@@ -300,7 +336,7 @@ Private Sub mCommandButton_Click()
             sFilGrp = clObjCommButtons.sFilGrp
             Set clObjTargtCtrlParam = dictFormFilterGrpTrgts(sForM)(sFilGrp)
             sCtrL = clObjTargtCtrlParam.sTargtCtrlName
-            Set cCtrL = fForm.Controls(sCtrL)
+            Set cCtrL = fForM.Controls(sCtrL)
             
             'Atribuição dos valores a [ clObjFormOpenParams ] usados nas rotinas de abertura de formulários
             Set clObjFormOpenParams = New cls_09cParamsToOpenForms
@@ -394,16 +430,16 @@ End Sub
 
 
 Private Sub mLabel_DblClick(Cancel As Integer)
-    Dim fForm As Form
+    Dim fForM As Form
     Dim cCtrL As Control
     
     Set cCtrL = mLabel
-    Set fForm = cCtrL.Parent
+    Set fForM = cCtrL.Parent
     
 'Stop
 
     
-    Call FormStatusBar04_OpnLogForm(fForm)
+    Call FormStatusBar04_OpnLogForm(fForM)
     
     
 End Sub
@@ -415,10 +451,10 @@ Private Sub mListBox_BeforeUpdate(Cancel As Integer)
     Dim iControlType As Integer
     Dim cCtrL As Control
     Dim sCtrL As String
-    Dim fForm As Form
+    Dim fForM As Form
 
     Set cCtrL = mListBox
-    Set fForm = cCtrL.Parent
+    Set fForM = cCtrL.Parent
     
     sCtrL = cCtrL.Name
     
@@ -437,13 +473,13 @@ End Sub
 Private Sub mTextBox_Change()
 
     Dim vA, vB
-    Dim fForm As Form
+    Dim fForM As Form
     Dim cCtrL As Control
 
 'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "Txtbox change"
 'Stop
     Set cCtrL = mTextBox
-    Set fForm = cCtrL.Parent
+    Set fForM = cCtrL.Parent
      
     ''-- Máscara de texto do controle ----
     ''Deve ser usado no evento Change do controle no próprio formulário
@@ -451,7 +487,7 @@ Private Sub mTextBox_Change()
     'Call MskdTxtbox02_TextMask(ActiveControl, ActiveControl.Text, "P_###,###", 6)
     
     'Aciona a atualização do [ TargetCtrl ] associado ao controle
-    Call pb_TargtCtrlUpdate00_TimerDelay(fForm, cCtrL)
+    Call pb_TargtCtrlUpdate00_TimerDelay(fForM, cCtrL)
     
 
 End Sub

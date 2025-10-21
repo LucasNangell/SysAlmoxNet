@@ -63,20 +63,20 @@ Public Property Set InitCtrl(cCtrL As Control)
 
 End Property
 
-
 Private Sub mListBox_BeforeUpdate(Cancel As Integer)
 
-    Dim vA
+    Dim vA, vC, vD
+    Dim vB
     Dim cCtrL As Control
     Dim sCtrL As String
-    Dim fForm As Form
-    
-    'Dim bLostFocus As Boolean
-    'Dim fForM As Form
+    Dim fForM As Form
+    Dim sFilGrp As String
+    Dim sForM As String
+
     
     Set cCtrL = mListBox
-    Set fForm = cCtrL.Parent
-    
+    Set fForM = cCtrL.Parent
+    sForM = fForM.Name
     sCtrL = cCtrL.Name
 
 'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "Aciona [ HighlightClrChange ] LostFocus, controle [ " & sCtrL & "]   "
@@ -85,11 +85,41 @@ Private Sub mListBox_BeforeUpdate(Cancel As Integer)
     ' [ Application.hWndAccessApp ] é a identificação da janela no sistema
     
     
-    'Chama a rotina de filtragem
-    Call pb_TargtCtrlUpdate03_UNIQUEupdate(fForm, cCtrL)
+'    'Chama a rotina de filtragem
+    Call pb_TargtCtrlUpdate03_UNIQUEupdate(fForM, cCtrL)
     Call PbSubFillFieldsByList(cCtrL)
-    
+'
+'    For Each vA In dictTrgg00GrpsInForm(sForM)
+'        For Each vB In dictTrgg00GrpsInForm(sForM)(vA)
+'            If vB = cCtrL.Name Then
+'                sFilGrp = vA
+'                For Each vC In dictFormFilterGrpTrgts(sForM)(sFilGrp)
+'
+'                    Set cCtrL = fForm.Controls(vC)
+'
+'                    If cCtrL.ControlType = acListBox Then
+'
+'                        'Se houver pelo menos um item na lista, força a seleção do primeiro item
+'                        If cCtrL.ListCount > 0 Then
+'
+'                            'Se DefaultValue não for [ vazio ]
+'                            ' indica que o primeiro item deve ser selecionado
+'                            If Not cCtrL.DefaultValue = "" Then
+'                                cCtrL.Selected(0) = True
+'
+'                                'Chama a rotina de filtragem
+'                                Call pb_TargtCtrlUpdate03_UNIQUEupdate(fForm, cCtrL)
+'                                Call PbSubFillFieldsByList(cCtrL)
+'                            End If
+'                        End If
+'                    End If
+'                Next vC
+'            End If
+'        Next vB
+'    Next vA
+''
 
+                                
 End Sub
 
 
@@ -98,14 +128,14 @@ Private Sub mListBox_MouseDown(Button As Integer, Shift As Integer, x As Single,
     Dim vKeyGrp, vKeyCtrl
     Dim sFilGrp As String, sForM As String
     Dim cEdtCtrl As Control
-    Dim fForm As Form
+    Dim fForM As Form
     
     '---------------------------------------------------------------
     ' chama pbSub00_CtrlsEnblDsble_GetParams
     ' pra habilitar/desabilitar os controles depois que um valor é selecionado na Listbox
     '---------------------------------------------------------------
 'Stop
-    Set fForm = mListBox.Parent
+    Set fForM = mListBox.Parent
 'MsgBox "Mouse Down [ " & mListBox.Name & " ]"
 'Stop
     'Quando um item é selecionado na listbox
@@ -134,7 +164,7 @@ Private Sub mListBox_MouseDown(Button As Integer, Shift As Integer, x As Single,
         End If
 'Stop
         
-        Call pbSub00_CtrlsEnblDsble_GetParams(fForm, "RecSelect", sFilGrp)
+        Call pbSub00_CtrlsEnblDsble_GetParams(fForM, "RecSelect", sFilGrp)
         
         'Identifica o botão de edição do grupo de filtragem pra habilitá-lo,
         ' por meio do parâmetro ActType> n TAG do botão

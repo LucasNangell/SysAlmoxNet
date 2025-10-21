@@ -194,30 +194,13 @@ Private Sub mCommandButton_Click()
                 End If
                 
                 On Error GoTo -1
-                Call pbSub00_CtrlsEnblDsble_GetParams(cCtrL.Parent, clObjCommButtons.sFrmMode, sFilGrp)
+                Call pbSub00_CtrlsEnblDsble_GetParams(cCtrL.Parent, clObjCommButtons.sFrmMode)
                 If gBbEnableErrorHandler Then On Error GoTo -1: On Error Resume Next
 
-                                
-                'código para recuperar em que [ Box ] o botão está inserido e executar a sub [ pbSub00_CtrlsEnblDsble_GetParams ]
-                sBox = ""
-                For Each vKeyBox In dictCtrlsInBox(sForM)
-                    If dictCtrlsInBox(sForM)(vKeyBox) = clObjCommButtons.sCtrlName Then sBox = vKeyBox
-                Next vKeyBox
-                If sBox <> "" Then
-                    Call pbSub00_CtrlsEnblDsble_GetParams(cCtrL.Parent, clObjCommButtons.sFrmMode, , sBox)
-                Else
-                    Call pbSub00_CtrlsEnblDsble_GetParams(cCtrL.Parent, clObjCommButtons.sFrmMode, sFilGrp)
-                End If
-                
-                'Mantém botão de edição habilitado caso haja algum item selecionado na lista
-                If cCtrL.ItemsSelected.Count > 0 Then
-                    Call pbSub00_CtrlsEnblDsble_GetParams(fForM, "RecSelect", sFilGrp)
-                End If
-                
                 'Mantém botão de edição habilitado caso haja algum item selecionado na lista
                 If cCtrL.ItemsSelected.Count > 0 Then
                     
-                    Call pbSub00_CtrlsEnblDsble_GetParams(fForM, "RecSelect", sFilGrp)
+                    Call pbSub00_CtrlsEnblDsble_GetParams(fForM, "RecSelect")
                 End If
             End If
             TempVars.RemoveAll
@@ -282,7 +265,7 @@ Private Sub mCommandButton_Click()
                     
                 End If
             End If
-                      
+            Call pbSub00_CtrlsEnblDsble_GetParams(cCtrL.Parent, clObjCommButtons.sFrmMode)
         '--- HIDE ACCESS ----------------------------------------------
         Case sActType Like "HideAcc"
             'Oculta a janela do Access
@@ -328,7 +311,7 @@ Private Sub mCommandButton_Click()
                 Next vKeyCtrl
             End If
             
-            Call pbSub00_CtrlsEnblDsble_GetParams(cCtrL.Parent, clObjCommButtons.sFrmMode, sFilGrp)
+            Call pbSub00_CtrlsEnblDsble_GetParams(cCtrL.Parent, clObjCommButtons.sFrmMode)
 
         '--- OPEN FORM ----------------------------------------------
         Case sActType Like "OpenForm"
@@ -383,7 +366,7 @@ Private Sub mCommandButton_Click()
             For Each vA In dictFormFilterGrpTrgts(sForM)(sFilGrp)
                 cCtrL.Parent.Controls(vA).Requery
             Next vA
-            Call pbSub00_CtrlsEnblDsble_GetParams(cCtrL.Parent, clObjCommButtons.sFrmMode, sFilGrp)
+            Call pbSub00_CtrlsEnblDsble_GetParams(cCtrL.Parent, clObjCommButtons.sFrmMode)
             
         
         '--- SORT ----------------------------------------------

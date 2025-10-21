@@ -521,7 +521,7 @@ If gBbDepurandoLv02a Then Stop
         If gBbInitCtrlEvents Then
             
             'Chama rotina pra montar o dict [ dictCtrlsEvents(sForM) ]
-'* Modificado por código                       If gBbDebugOn Then Debug.Print "Ctrl Events dict init"
+                       If gBbDebugOn Then Debug.Print "Ctrl Events dict init"
             Call FormLoad07_GenCtrlsEventDictInit(clObjFormOpenParams.sTrgtForm)
         Else
             sLoadLogWarn = "A inicialização de [ Eventos de Classe ] está desativada." & vbCrLf & "CtrlsBehvr e pesquisas não irão funcionar."
@@ -824,8 +824,8 @@ If gBbDepurandoLv01a Then Stop
         '-------------------------------------------------------------
         '-----------------------------------
             
-'* Modificado por código                  If gBbDebugOn Then Debug.Print "------" & vbCr & sForM & "--"
-'* Modificado por código                  If gBbDebugOn Then Debug.Print "Form Controls get parameters"
+                  If gBbDebugOn Then Debug.Print "------" & vbCr & sForM & "--"
+                  If gBbDebugOn Then Debug.Print "Form Controls get parameters"
 
 'GoTo SkipTo4
 'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "start TargtCtrlsDict"
@@ -852,7 +852,7 @@ If gBbDepurandoLv01a Then Stop
 If gBbDepurandoLv01a Then MsgBox "----- SysLoad01_SysDictsLoad ---------------------------------------------------" & vbCr & vbCr & "Avalia [ ausência de TargtCtrls ] pra incluir na [ StatusBar ] do [ Form ]" & vbCr & " " & vbCr & " "
 If gBbDepurandoLv01a Then Stop
             'Se não houver [ TargtCtrls ] no Form usa a barra de status do formulário pra alertar o usuário
-'* Modificado por código                  If gBbDebugOn Then Debug.Print "Trigger Controls"
+                  If gBbDebugOn Then Debug.Print "Trigger Controls"
 
             If Not gBbTrgtCtrlsFound Then
                 
@@ -890,7 +890,7 @@ If gBbDepurandoLv01a Then Stop
 'Stop
 
 'GoTo SkipTo4
-'* Modificado por código                  'Debug.Print "ResetAreas Controls"
+                  'Debug.Print "ResetAreas Controls"
             
 GoTo SkipTo4
 
@@ -1089,7 +1089,7 @@ Sub FormStatusBar04_OpnLogForm(fForM As Form) ', oOjcT As Object) 'fForm As Form
                     Set clObjStatusBarWarn = clObjFormsParams.dForm_StatusBarWarns(vWarnID)
                     
                         sLogTitle = clObjStatusBarWarn.sWarnText
-'* Modificado por código                              If gBbDebugOn Then Debug.Print sLogTitle
+                              If gBbDebugOn Then Debug.Print sLogTitle
                     
                         'vB = ""
                         'vC = ""
@@ -1102,11 +1102,11 @@ Sub FormStatusBar04_OpnLogForm(fForM As Form) ', oOjcT As Object) 'fForm As Form
                         Next vCtrlsInWarn
 'Stop
                         
-'* Modificado por código      '                    if gBbDebugOn then       Debug.Print sLogItems
+      '                    if gBbDebugOn then       Debug.Print sLogItems
                     vA = IIf(sLogItems <> "", vbCrLf, "")
                     sSysLoadingTmp = sLogTitle & vA & sLogItems
 
-'* Modificado por código      '                    if gBbDebugOn then       Debug.Print sSysLoadingTmp
+      '                    if gBbDebugOn then       Debug.Print sSysLoadingTmp
                     
                     'vA = clObjFormsParams.dForm_StatusBarWarns(vWarnID)
                     'vA = IIf(sSysLoadingLog  <> "", " / ", "")
@@ -1115,11 +1115,11 @@ Sub FormStatusBar04_OpnLogForm(fForM As Form) ', oOjcT As Object) 'fForm As Form
                     vA = IIf(sSysLoadingLog <> "", vbNewLine & vbNewLine, "")
                     sSysLoadingLog = sSysLoadingLog & vA & sSysLoadingTmp
                     'sSysLoadingLog = IIf(sSysLoadingLog <> "", sSysLoadingLog & vbNewLine, "") & IIf(vA <> "", "- " & vA, "")
-'* Modificado por código      '                    Debug.Print sSysLoadingLog
+      '                    Debug.Print sSysLoadingLog
 
                 Next vWarnID
                 
-'* Modificado por código                      'Debug.Print sSysLoadingLog
+                      'Debug.Print sSysLoadingLog
                 'sSysLoadingLog = ""
                         
             End If

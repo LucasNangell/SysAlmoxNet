@@ -755,7 +755,7 @@ Public Function sGetClcltdField(sSQL As String, sField As String) As String
         'Parte final da SQL: a partir de SELECT DISTINCT
         
         sSQL = ", " & sSQL
-'* Modificado por código                   If gBbDebugOn Then Debug.Print sSQL
+                   If gBbDebugOn Then Debug.Print sSQL
         '-----------------
         '-----------------------------------------------------------------------------------
 'Stop
@@ -783,7 +783,7 @@ Public Function sGetClcltdField(sSQL As String, sField As String) As String
         sGetClcltdField = Mid(sSQL, lngStartingPos + Len(", "), lng_AS_pos - (lngStartingPos + Len(", ")))
         
         '-----------------
-'* Modificado por código              If gBbDebugOn Then Debug.Print "a" & sGetClcltdField
+              If gBbDebugOn Then Debug.Print "a" & sGetClcltdField
         
     Else
         sGetClcltdField = "SELECT NotFound"

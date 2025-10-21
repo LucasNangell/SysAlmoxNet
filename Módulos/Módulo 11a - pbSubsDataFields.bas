@@ -442,7 +442,7 @@ Public Sub PbSubDataFields_Rec(cBtnSaveRec As Control)
                     'Se o campo foi localizado, altera o valor
                     If Not DtFldRec Is Nothing Then DtFldRec = cDataFieldCtrl.Value
                     
-'* Modificado por código                               Debug.Print sDataFieldCtrl
+                               Debug.Print sDataFieldCtrl
                     'Salva altera??es
                     rsRecQry.Update
 
@@ -473,22 +473,11 @@ Public Sub PbSubDataFields_Rec(cBtnSaveRec As Control)
                         End If
                     Next vA
                     If Not bBoL Then
-                        Set clObjTargtCtrlParam = dictFormFilterGrpTrgts(sForM)(sFilGrp)(cLstBox.Name)
-                        iInT = 0
-                        vB = -1
-                        'Confirma se [ clObjCtrlDataFieds.sDataField ] ? um dos campos da consulta de [ cListBox.Name ]
-                        For Each vA In clObjTargtCtrlParam.dictTrgtQryFields
-                            If DtFld.Name = vA Then
-                                vB = iInT
+                        For Each vA In dictFieldsSelectedItem(sForM)(sFilGrp)
+                            If Replace(DtFld.Name, "IDfk", "ID") = Replace(vA, "IDfk", "ID") Then
+                                DtFld = dictFieldsSelectedItem(sForM)(sFilGrp)(vA)
                             End If
-                            iInT = iInT + 1
                         Next vA
-                        
-                        If vB > -1 Then
-                        On Error Resume Next
-                        DtFld = cLstBox.Column(vB, iListIndex)
-                        On Error GoTo -1
-                        End If
                     End If
                 End If
                 

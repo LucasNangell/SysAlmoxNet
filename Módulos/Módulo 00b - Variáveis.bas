@@ -156,7 +156,9 @@ Option Explicit
      '----------------
        Public dictCtrlsInBox As New Dictionary
      '----------------
-       
+     '----------------
+       Public dictFieldsSelectedItem As New Dictionary 'dicionário para armazenar os valores dos campos do item selecionado na lista
+     '----------------
        
      '----------------
        Public dictCtrlTypeStR As New Dictionary     'dicionário de tipos de variável, com a String do nome

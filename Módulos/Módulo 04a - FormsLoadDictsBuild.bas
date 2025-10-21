@@ -352,7 +352,7 @@ If gBbDepurandoLv01b Then Stop
 'Stop
                         
 'Stop
-'* Modificado por código                                   If gBbDebugOn Then Debug.Print "  " & cTrgtCtrl.Name
+                                   If gBbDebugOn Then Debug.Print "  " & cTrgtCtrl.Name
                         On Error GoTo -1
                         Call pbSub21_TargtCtrlsDictBuild(sTagSection, cTrgtCtrl)
                         If gBbEnableErrorHandler Then On Error GoTo -1: On Error GoTo FrM_ErrorHandler
@@ -791,7 +791,7 @@ Public Sub pbSub22_TargtCtrlsQryFieldsBuild(sForM As String, cTrgtCtrl As Contro
             If Err.Number = 3265 Then Err = 0
             If Not fField Is Nothing Then
                 If Not clObjTargtCtrlParam.dictTrgtQryFields.Exists(fField.Name) Then
-'* Modificado por código                          Debug.Print fField.Name
+                          Debug.Print fField.Name
                     clObjTargtCtrlParam.dictTrgtQryFields.Add fField.Name, "offGrid"
                 End If
             End If
@@ -895,7 +895,7 @@ Public Function pbSub23_GetTargtCtrlsSQL(cTrgtCtrl As Control, Optional sQuerYna
     iWhere = InStr(sStartSqL, "SELECT")
     
     
-'* Modificado por código      '    Debug.Print sStartSQL
+      '    Debug.Print sStartSQL
 'Stop
     '''
 'Stop
@@ -904,7 +904,7 @@ Public Function pbSub23_GetTargtCtrlsSQL(cTrgtCtrl As Control, Optional sQuerYna
         
         If sStartSqL = "" Then
             
-'* Modificado por código                  If gBbDebugOn Then Debug.Print sStartSqL
+                  If gBbDebugOn Then Debug.Print sStartSqL
             
             sStR1 = "Formulário:  [ " & sForM & " ]" & vbCr & "Listbox: " & "       [ " & sTrgtCtrl & " ]" & vbCr & "-------------------------------------------------------------------------------"
             sStR2 = "A SQL do Listbox está vazia." & vbCr & "  Este TrgtCtrl não exibirá registros" & vbCr & "  e não poderá ser filtrado"
@@ -916,7 +916,7 @@ Stop
         
         Else
         
-'* Modificado por código                  If gBbDebugOn Then Debug.Print sStartSqL
+                  If gBbDebugOn Then Debug.Print sStartSqL
             
             
             Set qDef = CurrentDb.QueryDefs(sStartSqL)
@@ -950,24 +950,24 @@ Stop
 
     'remove o ; ao final do SQL
     If iWhere > 0 Then sStartSqL = Mid(sStartSqL, 1, iWhere - 1)
-'* Modificado por código          'Debug.Print sStartSqL
+          'Debug.Print sStartSqL
     '----------------------------------
 'Stop
     'inclui ; como separação entre os quatro trechos possíveis da SQL
     sStartSqL = Replace(sStartSqL, "FROM ", ";FROM ")
-'* Modificado por código          'Debug.Print sStartSqL
+          'Debug.Print sStartSqL
     
     sStartSqL = Replace(sStartSqL, "WHERE ", ";WHERE ")
-'* Modificado por código      '    Debug.Print sStartSQL
+      '    Debug.Print sStartSQL
     
     sStartSqL = Replace(sStartSqL, "GROUP BY ", ";GROUP BY ")
-'* Modificado por código      '    Debug.Print sStartSQL
+      '    Debug.Print sStartSQL
     
     sStartSqL = Replace(sStartSqL, "HAVING ", ";HAVING ")
-'* Modificado por código      '    Debug.Print sStartSQL
+      '    Debug.Print sStartSQL
 
     sStartSqL = Replace(sStartSqL, "ORDER BY ", ";ORDER BY ")
-'* Modificado por código          'Debug.Print sStartSqL
+          'Debug.Print sStartSqL
 
 'Stop
     'carrega na Matriz, cada um dos trechos localizados
@@ -1103,7 +1103,7 @@ If gBbDepurandoLv01b Then Stop
                 'Monta o dicionário de [ TriggCtrl ] mas antes confirma se existem [ TargtCtrls ] no Form
                 If gBbTrgtCtrlsFound Then
                 
-'* Modificado por código                      If gBbDebugOn Then Debug.Print "Trigger Controls"
+                      If gBbDebugOn Then Debug.Print "Trigger Controls"
                     lngEvalFormCtrls = lngEvalFormCtrls + 1
                     
 'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "Dict pbSub06_TriggBuild do controle [ " & sTriggCtrl & "  ]"
@@ -1131,7 +1131,7 @@ vA = "----- pbSub30_TriggCtrlDictStartUp ---------------------------------------
 vB = "[ " & sTriggCtrl & " ] nos dicts [ dictTrgg00GrpsInForm ]"
 If gBbDepurandoLv01b Then MsgBox vA & vB
 If gBbDepurandoLv01b Then Stop
-'* Modificado por código                                  If gBbDebugOn Then Debug.Print " " & cTriggCtrl.Name
+                                  If gBbDebugOn Then Debug.Print " " & cTriggCtrl.Name
                             On Error GoTo -1
                             
 'MsgBox "erro vazio"
@@ -1189,7 +1189,7 @@ vB = "[ " & sTriggCtrl & " ] no dict [ dictFrmResetAreas(sForM)  ]"
 If gBbDepurandoLv01b Then MsgBox vA & vB
 If gBbDepurandoLv01b Then Stop
 'Stop
-'* Modificado por código                              If gBbDebugOn Then Debug.Print " " & cTriggCtrl.Name
+                              If gBbDebugOn Then Debug.Print " " & cTriggCtrl.Name
                         On Error GoTo -1
                         Call pbSub51_RstAreaDictBuild(sTagSection, cTriggCtrl)
                         If gBbEnableErrorHandler Then On Error GoTo -1: On Error GoTo FrM_ErrorHandler
@@ -1251,7 +1251,7 @@ vB = "[ " & sTriggCtrl & " ] no dict [ dictFrmResetAreas(sForM)  ]"
 If gBbDepurandoLv01b Then MsgBox vA & vB
 If gBbDepurandoLv01b Then Stop
 'Stop
-'* Modificado por código                              Debug.Print " " & cTriggCtrl.Name
+                              Debug.Print " " & cTriggCtrl.Name
                         On Error GoTo -1
                         Call pbSub71_DataFieldDictBuild(sTagSection, cTriggCtrl)
                         If gBbEnableErrorHandler Then On Error GoTo -1: On Error GoTo FrM_ErrorHandler
@@ -2240,7 +2240,7 @@ If gBbDepurandoLv01c Then Stop
             ' há controles que não são [ TrggCtrl ] marcados pra Destacar o valor preenchido
             sLoadLogWarn = "Há controles configurados com [ OnDirty ] mas NÃO carregados como [ Trigger ]." & vbNewLine & "Esses controles não irão mudar de cor no ""sujo""."
     
-'* Modificado por código          If gBbDebugOn Then Debug.Print sLoadLogWarn
+          If gBbDebugOn Then Debug.Print sLoadLogWarn
 vA = "----- pbSub41_CtrlsBehvrDictBuild ----------------------------------------------" & vbCr & vbCr & "Chama [ FormStatusBar01_Bld ] pra incluir [ " & sCtrL & " ] em"
 vB = vbCr & "[ dictFormsParams(sForM).clObjFormsParams.dForm_StatusBarWarns ]" & vbCr & "indicando erro na carga do controle"
 If gBbDepurandoLv01c Then MsgBox vA & vB
@@ -2733,7 +2733,7 @@ If gBbDepurandoLv01b Then Stop
     
                 'Chama a rotina pra guardar os parâmetros no Dict.
                 ' Guarda por exemplo, o tipText original do controle no caso dele ser alterado conforme situações no sistema
-'* Modificado por código                          If gBbDebugOn Then Debug.Print " " & sCtrL
+                          If gBbDebugOn Then Debug.Print " " & sCtrL
 'Stop
                     
 If gBbDepurandoLv01b Then MsgBox "----- pbSub60_CtrlsEnblDsblDictStartUp -----------------------------------------" & vbCr & vbCr & "Chama [ pbSub61_cCtrlsEnblDsblDictBuild ] pra incluir" & vbCr & "[ " & sCtrL & " ] no dict [ dictCtrlEnblDsblParams(sForM) ]" & vbCr & " " & vbCr & " "
@@ -2880,11 +2880,11 @@ Stop
             
             End If
             
-'* Modificado por código                  'Debug.Print "BackColor: " & .lngLckdStatusBackColor
-'* Modificado por código                  'Debug.Print "ForeColor: " & .lngLckdStatusForeColor
-'* Modificado por código                  'Debug.Print "BorderColor: " & .lngLckdStatusBorderColor
-'* Modificado por código                  'Debug.Print "SpecialEffect: " & .iLckdStatusSpecialEffect
-'* Modificado por código                  'Debug.Print "BorderStyle: " & .lngLckdStatusBorderStyle
+                  'Debug.Print "BackColor: " & .lngLckdStatusBackColor
+                  'Debug.Print "ForeColor: " & .lngLckdStatusForeColor
+                  'Debug.Print "BorderColor: " & .lngLckdStatusBorderColor
+                  'Debug.Print "SpecialEffect: " & .iLckdStatusSpecialEffect
+                  'Debug.Print "BorderStyle: " & .lngLckdStatusBorderStyle
             
         End With
         
@@ -2920,11 +2920,11 @@ Stop
             
             End If
 'Stop
-'* Modificado por código                  'Debug.Print "BackColor: " & .lngLckdStatusBackColor
-'* Modificado por código                  'Debug.Print "ForeColor: " & .lngLckdStatusForeColor
-'* Modificado por código                  'Debug.Print "BorderColor: " & .lngLckdStatusBorderColor
-'* Modificado por código                  'Debug.Print "SpecialEffect: " & .iLckdStatusSpecialEffect
-'* Modificado por código                  'Debug.Print "BorderStyle: " & .lngLckdStatusBorderStyle
+                  'Debug.Print "BackColor: " & .lngLckdStatusBackColor
+                  'Debug.Print "ForeColor: " & .lngLckdStatusForeColor
+                  'Debug.Print "BorderColor: " & .lngLckdStatusBorderColor
+                  'Debug.Print "SpecialEffect: " & .iLckdStatusSpecialEffect
+                  'Debug.Print "BorderStyle: " & .lngLckdStatusBorderStyle
         
         
         End With
@@ -3097,7 +3097,7 @@ If gBbDepurandoLv01c Then Stop
 
         On Error GoTo -1
         sRecQry = GetTagParams(sParam, vTagSectionParams, , False, "", 1, , False, , , False, , cCommButton)
-'* Modificado por código              Debug.Print "pbsub81 - " & cCommButton.Name
+              Debug.Print "pbsub81 - " & cCommButton.Name
 'Stop
     
     'Verifica s'e foi identificado o parâmetro [ Form ] contendo o [ Grupo de Filtragem ] do cCommButton

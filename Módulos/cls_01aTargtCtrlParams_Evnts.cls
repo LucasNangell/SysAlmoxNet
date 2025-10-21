@@ -81,44 +81,10 @@ Private Sub mListBox_BeforeUpdate(Cancel As Integer)
 
 'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "Aciona [ HighlightClrChange ] LostFocus, controle [ " & sCtrL & "]   "
 'Stop
-    'A função [ LockWindowUpdate ] é uma API do windows para bloquear as atualizações de tela
-    ' [ Application.hWndAccessApp ] é a identificação da janela no sistema
     
-    
-'    'Chama a rotina de filtragem
+'   'Chama a rotina de filtragem
     Call pb_TargtCtrlUpdate03_UNIQUEupdate(fForM, cCtrL)
     Call PbSubDataFields_FillFromListbox(cCtrL)
-'
-'    For Each vA In dictTrgg00GrpsInForm(sForM)
-'        For Each vB In dictTrgg00GrpsInForm(sForM)(vA)
-'            If vB = cCtrL.Name Then
-'                sFilGrp = vA
-'                For Each vC In dictFormFilterGrpTrgts(sForM)(sFilGrp)
-'
-'                    Set cCtrL = fForm.Controls(vC)
-'
-'                    If cCtrL.ControlType = acListBox Then
-'
-'                        'Se houver pelo menos um item na lista, força a seleção do primeiro item
-'                        If cCtrL.ListCount > 0 Then
-'
-'                            'Se DefaultValue não for [ vazio ]
-'                            ' indica que o primeiro item deve ser selecionado
-'                            If Not cCtrL.DefaultValue = "" Then
-'                                cCtrL.Selected(0) = True
-'
-'                                'Chama a rotina de filtragem
-'                                Call pb_TargtCtrlUpdate03_UNIQUEupdate(fForm, cCtrL)
-'                                Call PbSubDataFields_FillFromListbox(cCtrL)
-'                            End If
-'                        End If
-'                    End If
-'                Next vC
-'            End If
-'        Next vB
-'    Next vA
-''
-
                                 
 End Sub
 
@@ -127,9 +93,11 @@ Private Sub mListBox_MouseDown(Button As Integer, Shift As Integer, x As Single,
     Dim vA, vB
     Dim vKeyGrp, vKeyCtrl
     Dim sTrgtCtrlFilGrp As String, sForM As String
-    
+    Dim sTrggCtrlFilGrp As String
     Dim cEdtCtrl As Control
     Dim fForM As Form
+    Dim rsList As Recordset
+    Dim fField As Field
     
     '---------------------------------------------------------------
     ' chama pbSub00_CtrlsEnblDsble_GetParams
@@ -146,7 +114,26 @@ Private Sub mListBox_MouseDown(Button As Integer, Shift As Integer, x As Single,
     If mListBox.Locked = False Then
 
         sForM = mListBox.Parent.Name
-
+        
+        'Verifica se o listbox é um [ TrggCtrl ], caso seja
+        ' adiciona os valores dos campos do item selecionado ao [ dictFieldsSelectedItem ]
+        If IsObject(dictTrggCtrlsInForm(sForM)(mListBox.Name)) Then
+            sTrggCtrlFilGrp = dictTrggCtrlsInForm(sForM)(mListBox.Name).sFilGrpToFilter
+            
+            If Not IsObject(dictFieldsSelectedItem(sForM)) Then Set dictFieldsSelectedItem(sForM) = New Dictionary
+            If Not IsObject(dictFieldsSelectedItem(sForM)(sTrggCtrlFilGrp)) Then Set dictFieldsSelectedItem(sForM)(sTrggCtrlFilGrp) = New Dictionary
+            dictFieldsSelectedItem(sForM)(sTrggCtrlFilGrp).RemoveAll
+            
+            Set rsList = CurrentDb.OpenRecordset(mListBox.RowSource)
+            
+            For Each fField In rsList.Fields
+                dictFieldsSelectedItem(sForM)(sTrggCtrlFilGrp).Add fField.Name, fField.Value
+            Next fField
+            
+            rsList.Close
+            Set rsList = Nothing
+            
+        End If
         'Encontra o grupo de filtragem da lista [ TrgtCtrl ]
         ' verifica se a lista existe no dict [ dictTrgtCtrlsFilterGrps(sForM) ] pra buscar o grupo diretamente
         If dictTrgtCtrlsFilterGrps(sForM).Exists(mListBox.Name) Then
@@ -163,28 +150,11 @@ Private Sub mListBox_MouseDown(Button As Integer, Shift As Integer, x As Single,
             Next vKeyGrp
         
         End If
-'Stop
-        
-        Call pbSub00_CtrlsEnblDsble_GetParams(fForM, "RecSelect", sTrgtCtrlFilGrp)
-        
-        'Identifica o botão de edição do grupo de filtragem pra habilitá-lo,
-        ' por meio do parâmetro ActType> n TAG do botão
-        ' se for confirmada a existência da lista em [ dictTrgtCtrlsFilterGrps(sForM) ]
-        ' encontra o botão [ EditRec ] referente ao [ sTrgtCtrlFilGrp ] da [ mListBox ]
-'        For Each vKeyCtrl In dictFormCommButtons(sForM)
-'            Set clObjCommButtons = dictFormCommButtons(sForM)(vKeyCtrl)
-'            Select Case clObjCommButtons.sActType
-'
-'                Case "EditRec", "DupRec", "ExcRec"
-'                    Set cEdtCtrl = Forms(sForM).Controls(clObjCommButtons.sCtrlName)
-'                    If cEdtCtrl.Enabled = False And clObjCommButtons.sTrgtCtrlFilGrp = sTrgtCtrlFilGrp Then
-'                        'Chama [ pbSub02_CtrlsEnblDsbl_Apply ] pra habilitar o botão específico sem precisar percorrer por todos os controles
-'                        Call pbSub02_CtrlsEnblDsbl_Apply(mListBox.Parent, cEdtCtrl, "btn", True, True)
-'                    End If
-'                End Select
-'
-'        Next vKeyCtrl
 
+        
+        Call pbSub00_CtrlsEnblDsble_GetParams(fForM, sTrgtCtrlFilGrp & "Select")
+        
+        
     End If
 End Sub
 

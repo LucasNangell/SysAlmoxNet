@@ -494,7 +494,7 @@ If gBbDepurandoLv03a Then Stop
             Set clObjTargtCtrlParam = dictFormFilterGrpTrgts(sForM)(sFilGrp)(vA)
             sTargtCtrlSQLselect = clObjTargtCtrlParam.sClsLstbxSQL_aSELECT
         Next vA
-'* Modificado por código                   'Debug.Print sTargtCtrlSQLselect
+                   'Debug.Print sTargtCtrlSQLselect
 'Stop
         
         
@@ -600,7 +600,7 @@ If gBbDepurandoLv03a Then Stop
 
         vA = clObjTriggCtrlParam.sGetSQLwhere
         vB = clObjTriggCtrlParam.sGetRecCntCptTxt
-'* Modificado por código              If gBbDebugOn Then Debug.Print vA
+              If gBbDebugOn Then Debug.Print vA
 
 'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "3- Incluindo dados do Controle [ " & vKeyControl & " ]" & vbCr & "     na string WHERE e no RecCnt"
 'Stop
@@ -620,7 +620,7 @@ If gBbDepurandoLv03a Then Stop
         sNewTrgtGrp_RecCntCpt = sNewTrgtGrp_RecCntCpt & sJoint_WHERE & vB
         sJoint_RecCntCpt = "": sJoint_WHERE = ""
         
-'* Modificado por código              If gBbDebugOn Then Debug.Print sNewTrgtGrp_WHERE
+              If gBbDebugOn Then Debug.Print sNewTrgtGrp_WHERE
 'Stop
         'Se for o último WHERE a ser incluído,
         ' fecha a string de contagem de Registros
@@ -641,7 +641,7 @@ If gBbDepurandoLv03a Then Stop
             
             'Fecha o WHERE do Grupo de Filtragem ora avaliado
             sNewTrgtGrp_WHERE = IIf(sNewTrgtGrp_WHERE <> "", sWHEREparticle & sNewTrgtGrp_WHERE, "")
-'* Modificado por código                  If gBbDebugOn Then Debug.Print sNewTrgtGrp_WHERE
+                  If gBbDebugOn Then Debug.Print sNewTrgtGrp_WHERE
             
 'clObjTargtCtrlParam
             
@@ -676,7 +676,7 @@ If gBbDepurandoLv03a Then Stop
                     vE = vA & vbCr & vB & vbCr & sNewTrgtGrp_WHERE & vbCr & vD
                 End If
                 
-'* Modificado por código                      If gBbDebugOn Then Debug.Print vE
+                      If gBbDebugOn Then Debug.Print vE
                 
 'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "Aplica RowSource com a filtragem [ " & sTargtCtrlName & " ]"
 'Stop

@@ -875,7 +875,7 @@ Nova Entrada</Caption>
       <Top>3211</Top>
       <Width>1284</Width>
       <Height>510</Height>
-      <Tag>Grp10.ActType>NewRec.FormMode>RecEdit.FrmToOpen></Tag>
+      <Tag>Grp10.ActType>NewRec.FormMode>ProdEdit.FrmToOpen></Tag>
       <Enabled>Verdadeiro</Enabled>
       <Caption>Novo</Caption>
       <OnClick></OnClick>
@@ -955,7 +955,7 @@ Nova Entrada</Caption>
       <Top>7992</Top>
       <Width>1284</Width>
       <Height>510</Height>
-      <Tag>Grp11.ActType>NewRec.FormMode>RecEdit.FrmToOpen></Tag>
+      <Tag>Grp11.ActType>NewRec.FormMode>EntradaEdit.FrmToOpen></Tag>
       <Enabled>Verdadeiro</Enabled>
       <Caption>Nova</Caption>
       <OnClick></OnClick>
@@ -1231,7 +1231,7 @@ Nova Entrada</Caption>
       <Top>10050</Top>
       <Width>1284</Width>
       <Height>510</Height>
-      <Tag>Grp11.ActType>EditRec.FormMode>RecEdit.FrmToOpen></Tag>
+      <Tag>Grp11.ActType>EditRec.FormMode>EntradaEdit.FrmToOpen></Tag>
       <Enabled>Verdadeiro</Enabled>
       <Caption>Editar</Caption>
       <OnClick>[Event Procedure]</OnClick>
@@ -1243,7 +1243,7 @@ Nova Entrada</Caption>
       <Top>5269</Top>
       <Width>1284</Width>
       <Height>510</Height>
-      <Tag>Grp10.ActType>OpenForm.FormMode>RecEdit.Form>frm_02(1)aProdCadastro</Tag>
+      <Tag>Grp10.ActType>OpenForm.FormMode>ProdEdit.Form>frm_02(1)aProdCadastro</Tag>
       <Enabled>Verdadeiro</Enabled>
       <Caption>Editar</Caption>
       <OnClick></OnClick>
@@ -1375,36 +1375,13 @@ Nova Entrada</Caption>
       <OnClick>[Event Procedure]</OnClick>
     </Control>
     <Control>
-      <Name>Texto549</Name>
-      <Type>TextBox</Type>
-      <Left>10537</Left>
-      <Top>11950</Top>
-      <Width>2496</Width>
-      <Height>330</Height>
-      <Tag>DataField>Lote.Grp11--HLclr.OnDrty.Mskd.MSlct-RstAr03</Tag>
-      <Enabled>Verdadeiro</Enabled>
-      <ControlSource></ControlSource>
-      <Format></Format>
-    </Control>
-    <Control>
-      <Name>Rótulo550</Name>
-      <Type>Label</Type>
-      <Left>9892</Left>
-      <Top>11965</Top>
-      <Width>645</Width>
-      <Height>315</Height>
-      <Tag></Tag>
-      <Enabled></Enabled>
-      <Caption>Lote</Caption>
-    </Control>
-    <Control>
-      <Name>Texto551</Name>
+      <Name>txtPrecoEmb</Name>
       <Type>TextBox</Type>
       <Left>7202</Left>
       <Top>12423</Top>
       <Width>1463</Width>
       <Height>315</Height>
-      <Tag>DataField>Prods_Emb.Grp11--HLclr.OnDrty.Mskd.MSlct-RstAr03</Tag>
+      <Tag>DataField>Preço_Embalagem.Grp11--HLclr.OnDrty.Mskd.MSlct-RstAr03</Tag>
       <Enabled>Verdadeiro</Enabled>
       <ControlSource></ControlSource>
       <Format></Format>
@@ -1419,6 +1396,29 @@ Nova Entrada</Caption>
       <Tag></Tag>
       <Enabled></Enabled>
       <Caption>Preço da Emb.</Caption>
+    </Control>
+    <Control>
+      <Name>Texto553</Name>
+      <Type>TextBox</Type>
+      <Left>11480</Left>
+      <Top>11955</Top>
+      <Width>1566</Width>
+      <Height>330</Height>
+      <Tag>DataField>QtdCons_Prod.Grp11--HLclr.OnDrty.Mskd.MSlct-RstAr03</Tag>
+      <Enabled>Verdadeiro</Enabled>
+      <ControlSource></ControlSource>
+      <Format></Format>
+    </Control>
+    <Control>
+      <Name>Rótulo554</Name>
+      <Type>Label</Type>
+      <Left>9885</Left>
+      <Top>11970</Top>
+      <Width>1575</Width>
+      <Height>315</Height>
+      <Tag></Tag>
+      <Enabled></Enabled>
+      <Caption>Qtd. Cons. Prod.</Caption>
     </Control>
   </Controls>
 </Form>

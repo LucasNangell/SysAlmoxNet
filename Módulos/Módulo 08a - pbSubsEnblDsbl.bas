@@ -39,13 +39,13 @@ Public Sub pbSub00_CtrlsEnblDsble_GetParams(fForM As Form, sSysFormMode As Strin
     
     'Monta a filtragem
     vA = "([sSysForM] Like " & """" & sSysForM & """" & ")"
-'* Modificado por código                'Debug.Print vA
+                'Debug.Print vA
     vB = IIf(Not cPressedCtrl Is Nothing, " And " & "([sTriggerCtrl] Like " & """" & sPressedCtrL & """" & ")", "")
-'* Modificado por código           'Debug.Print vB
+           'Debug.Print vB
     vC = IIf(Not IsNull(sSysFormMode), " And " & "([sSysFormMode] Like " & """" & sSysFormMode & """" & ")", "")
-'* Modificado por código           'Debug.Print vC
+           'Debug.Print vC
     sWhere = vA & vB & vC
-'* Modificado por código           If gBbDebugOn Then Debug.Print sWhere
+           If gBbDebugOn Then Debug.Print sWhere
 
 'Stop
     
@@ -71,7 +71,7 @@ Public Sub pbSub00_CtrlsEnblDsble_GetParams(fForM As Form, sSysFormMode As Strin
         Do Until rsTbE.EOF = True
             sTweakableCtrL = rsTbE.Fields("sTweakbleCtrl")
 'Stop
-'* Modificado por código                  'Debug.Print sTweakableCtrL
+                  'Debug.Print sTweakableCtrL
             If ControlExists(sTweakableCtrL, Forms(sSysForM)) Then
                 Set cTweakableCtrL = Forms(sSysForM).Controls(sTweakableCtrL)
 'Stop
@@ -105,40 +105,14 @@ Public Sub pbSub00_CtrlsEnblDsble_GetParams(fForM As Form, sSysFormMode As Strin
                     'vB = GetPrmissGrntedType.sCtrlNewTipText
 'Stop
                 End If
-                    
-'                vA = Not IsNull(rsTbE.Fields("sAltTipText"))
-'                If vA Then sCtrlNewTipText = rsTbE.Fields("sAltTipText")
-                    
-'                'Se o usuário não tiver a permissão requerida pra acessar o Controle
-'                If Not GetPrmissGrntedType.bPermissionGrated Then
-'
-'                    bEnable = False
-'                    sCtrlNewTipText = GetPrmissGrntedType.sCtrlNewTipText
-'                    'cTweakableCtrL.ControlTipText = GetPrmissGrntedType.sCtrlNewTipText
-'
-'                End If
-        
+                           
             
 'Stop
                 vA = fForM.Name
                 vB = cTweakableCtrL.Name
-                
-                'Se o grupo de filtragem for indicado por [ sFilGrp ] na chamada da rotina
-                ' verifica se o controle pertence ao grupo, caso positivo prossegue com o Enable/Disable do controle
-                If sFilGrp <> "" Then
-                    If dictFormFilGrpsEnDsAllCtrls(sForM)(sFilGrp).Exists(sTweakableCtrL) Then
-                        Call pbSub01_CtrlsEnblDsble_Confirm(fForM, cTweakableCtrL, dictCtrlTypeShort(cTweakableCtrL.ControlType), bEnable, bVisible, bLockCombo, sCtrlNewTipText)
-'* Modificado por código                              Debug.Print "sFilGrp | " & cTweakableCtrL.Name & " | " & bEnable
-                    End If
-                ElseIf sBox <> "" Then
-                    If dictCtrlsInBox(sForM)(sBox).Exists(sTweakableCtrL) Then
-                        Call pbSub01_CtrlsEnblDsble_Confirm(fForM, cTweakableCtrL, dictCtrlTypeShort(cTweakableCtrL.ControlType), bEnable, bVisible, bLockCombo, sCtrlNewTipText)
-'* Modificado por código                              Debug.Print "sBox | " & cTweakableCtrL.Name & " | " & bEnable
-                    End If
-                Else
+
                     Call pbSub01_CtrlsEnblDsble_Confirm(fForM, cTweakableCtrL, dictCtrlTypeShort(cTweakableCtrL.ControlType), bEnable, bVisible, bLockCombo, sCtrlNewTipText)
-'* Modificado por código                          Debug.Print cTweakableCtrL.Name & " | " & bEnable
-                End If
+
             Else
                 'Carrega pro Log de carga do sistema os controles indicados na tabela que não existam no [ Form ]
                 sLoadLogWarn = "Os seguintes controles foram indicados na tabela [" & Chr(160) & "qry_01(03)bSysEnblDisblParams" & Chr(160) & "] para configuração de Status Enabled mas não existem no formulário"
@@ -265,7 +239,7 @@ Public Sub pbSub02_CtrlsEnblDsbl_Apply(ByVal fForM As Form, cTweakableCtrL As Co
                     'identifica o tipo de controle
                     'a cor de controle desabilitado para Botões e para Textos ou Listas é diferente
 '                        sHexColor = IIf(sCtrlType = "1", sgbBtnGREyBackColor, IIf(sCtrlType = "2", sgbTxtBRownDsablBackColor, "#0"))
-'* Modificado por código      '                            Debug.Print sHexColor
+      '                            Debug.Print sHexColor
 'Stop
                     .BackColor = lngLckdStatusBackColor
                     .BorderColor = lngLckdStatusBorderColor

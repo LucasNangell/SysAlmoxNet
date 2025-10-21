@@ -51,7 +51,7 @@ Sub ExportarTodosObjetosVBADetallado()
 
     ' --- EXPORTAR CÓDIGO VBA ---
     For Each vbComp In Application.VBE.VBProjects(1).VBComponents
-'* Modificado por código                   'debug.print vbComp.Type & "| " & vbComp.Name
+                   'debug.print vbComp.Type & "| " & vbComp.Name
         Select Case vbComp.Type
             Case vbext_ct_StdModule
                 strExtension = ".bas"
@@ -91,9 +91,9 @@ Sub ExportarTodosObjetosVBADetallado()
         
         If Err.Number = 0 Then
             intContador = intContador + 1
-'* Modificado por código                  'debug.print "Formulário exportado: " & obj.Name
+                  'debug.print "Formulário exportado: " & obj.Name
         Else
-'* Modificado por código                  'debug.print "Erro ao exportar formulário " & obj.Name & ": " & Err.Description
+                  'debug.print "Erro ao exportar formulário " & obj.Name & ": " & Err.Description
             Err.Clear
         End If
         DoCmd.Close acForm, obj.Name
@@ -113,9 +113,9 @@ Sub ExportarTodosObjetosVBADetallado()
         
         If Err.Number = 0 Then
             intContador = intContador + 1
-'* Modificado por código                  'debug.print "Relatório exportado: " & obj.Name
+                  'debug.print "Relatório exportado: " & obj.Name
         Else
-'* Modificado por código                  'debug.print "Erro ao exportar relatório " & obj.Name & ": " & Err.Description
+                  'debug.print "Erro ao exportar relatório " & obj.Name & ": " & Err.Description
             Err.Clear
         End If
         On Error GoTo 0
@@ -129,9 +129,9 @@ Sub ExportarTodosObjetosVBADetallado()
             Call ExportarQueryParaSQL(qry, strFolderPath & "queries\" & qry.Name & ".sql")
             If Err.Number = 0 Then
                 intContador = intContador + 1
-'* Modificado por código                      'debug.print "Consulta exportada: " & qry.Name
+                      'debug.print "Consulta exportada: " & qry.Name
             Else
-'* Modificado por código                      'debug.print "Erro ao exportar consulta " & qry.Name & ": " & Err.Description
+                      'debug.print "Erro ao exportar consulta " & qry.Name & ": " & Err.Description
                 Err.Clear
             End If
             On Error GoTo 0
@@ -146,9 +146,9 @@ Sub ExportarTodosObjetosVBADetallado()
             Call ExportarTabelaParaSQL(tdf, strFolderPath & "tables\" & tdf.Name & ".sql")
             If Err.Number = 0 Then
                 intContador = intContador + 1
-'* Modificado por código                      'debug.print "Tabela exportada: " & tdf.Name
+                      'debug.print "Tabela exportada: " & tdf.Name
             Else
-'* Modificado por código                      'debug.print "Erro ao exportar tabela " & tdf.Name & ": " & Err.Description
+                      'debug.print "Erro ao exportar tabela " & tdf.Name & ": " & Err.Description
                 Err.Clear
             End If
             On Error GoTo 0
@@ -161,9 +161,9 @@ Sub ExportarTodosObjetosVBADetallado()
         Application.SaveAsText acMacro, obj.Name, strFolderPath & "macros\" & obj.Name & ".macro"
         If Err.Number = 0 Then
             intContador = intContador + 1
-'* Modificado por código                  'debug.print "Macro exportada: " & obj.Name
+                  'debug.print "Macro exportada: " & obj.Name
         Else
-'* Modificado por código                  'debug.print "Erro ao exportar macro " & obj.Name & ": " & Err.Description
+                  'debug.print "Erro ao exportar macro " & obj.Name & ": " & Err.Description
             Err.Clear
         End If
         On Error GoTo 0

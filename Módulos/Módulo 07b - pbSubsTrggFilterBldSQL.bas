@@ -379,7 +379,7 @@ Public Sub BuildSQL_TextBox(cCtrL As Control, sTargtCtrlSQLselect As String, bMs
     vB = cCtrL.Value
     'vC = cCtrl.Text
 
-'* Modificado por código               Debug.Print sTargtCtrlSQLselect
+               Debug.Print sTargtCtrlSQLselect
     
 'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "BuildSQL Textbox [ " & vA & " ]"
 'Stop

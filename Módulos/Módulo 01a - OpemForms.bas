@@ -496,7 +496,7 @@ If gBbDepurandoLv02a Then Stop
                                 cTargtCtrl.Selected(clObjFormOpenParams.lngRecID) = True
                                 cTargtCtrl.ListIndex = clObjFormOpenParams.lngRecID
                         
-                                Call PbSubFillFieldsByList(cTargtCtrl)
+                                Call PbSubDataFields_FillFromListbox(cTargtCtrl)
                         End If
                         
                     End If

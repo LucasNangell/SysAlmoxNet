@@ -187,7 +187,7 @@ Private Sub mCommandButton_Click()
                     
                     If ControlExists(sCtrL, fForM) Then
                         Set cCtrL = fForM.Controls(sCtrL)
-                        If fForM.Controls(sCtrL).ControlType = acListBox Then Call PbSubFillFieldsByList(cCtrL)
+                        If fForM.Controls(sCtrL).ControlType = acListBox Then Call PbSubDataFields_FillFromListbox(cCtrL)
                         On Error GoTo -1
     'Stop
                     End If
@@ -377,9 +377,9 @@ Private Sub mCommandButton_Click()
             
         '--- SAVE ----------------------------------------------
         Case sActType Like "Save*"      '* é usado como Wildcard
-                            'o botão pode ser tipo [ SaveNew ] ou [ SaveEdit ]. a avaliação é feita na rotina [ PbSubRecDataFields ]
+                            'o botão pode ser tipo [ SaveNew ] ou [ SaveEdit ]. a avaliação é feita na rotina [ PbSubDataFields_Rec ]
             sFilGrp = clObjCommButtons.sFilGrp
-            Call PbSubRecDataFields(cCtrL)
+            Call PbSubDataFields_Rec(cCtrL)
             For Each vA In dictFormFilterGrpTrgts(sForM)(sFilGrp)
                 cCtrL.Parent.Controls(vA).Requery
             Next vA

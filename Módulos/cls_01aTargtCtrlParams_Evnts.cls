@@ -87,7 +87,7 @@ Private Sub mListBox_BeforeUpdate(Cancel As Integer)
     
 '    'Chama a rotina de filtragem
     Call pb_TargtCtrlUpdate03_UNIQUEupdate(fForM, cCtrL)
-    Call PbSubFillFieldsByList(cCtrL)
+    Call PbSubDataFields_FillFromListbox(cCtrL)
 '
 '    For Each vA In dictTrgg00GrpsInForm(sForM)
 '        For Each vB In dictTrgg00GrpsInForm(sForM)(vA)
@@ -109,7 +109,7 @@ Private Sub mListBox_BeforeUpdate(Cancel As Integer)
 '
 '                                'Chama a rotina de filtragem
 '                                Call pb_TargtCtrlUpdate03_UNIQUEupdate(fForm, cCtrL)
-'                                Call PbSubFillFieldsByList(cCtrL)
+'                                Call PbSubDataFields_FillFromListbox(cCtrL)
 '                            End If
 '                        End If
 '                    End If
@@ -126,7 +126,8 @@ End Sub
 Private Sub mListBox_MouseDown(Button As Integer, Shift As Integer, x As Single, Y As Single)
     Dim vA, vB
     Dim vKeyGrp, vKeyCtrl
-    Dim sFilGrp As String, sForM As String
+    Dim sTrgtCtrlFilGrp As String, sForM As String
+    
     Dim cEdtCtrl As Control
     Dim fForM As Form
     
@@ -149,7 +150,7 @@ Private Sub mListBox_MouseDown(Button As Integer, Shift As Integer, x As Single,
         'Encontra o grupo de filtragem da lista [ TrgtCtrl ]
         ' verifica se a lista existe no dict [ dictTrgtCtrlsFilterGrps(sForM) ] pra buscar o grupo diretamente
         If dictTrgtCtrlsFilterGrps(sForM).Exists(mListBox.Name) Then
-            sFilGrp = dictTrgtCtrlsFilterGrps(sForM)(mListBox.Name)
+            sTrgtCtrlFilGrp = dictTrgtCtrlsFilterGrps(sForM)(mListBox.Name)
         
         Else
         
@@ -157,26 +158,26 @@ Private Sub mListBox_MouseDown(Button As Integer, Shift As Integer, x As Single,
         ' percorre cada item do [ dictFormFilterGrpTrgts(sForM)] para encontrar o grupo da lista
             For Each vKeyGrp In dictFormFilterGrpTrgts(sForM)
                 Set clObjTargtCtrlParam = dictFormFilterGrpTrgts(sForM)(vKeyGrp)
-                If clObjTargtCtrlParam.sTargtCtrlName = mListBox.Name Then sFilGrp = vKeyGrp
+                If clObjTargtCtrlParam.sTargtCtrlName = mListBox.Name Then sTrgtCtrlFilGrp = vKeyGrp
             
             Next vKeyGrp
         
         End If
 'Stop
         
-        Call pbSub00_CtrlsEnblDsble_GetParams(fForM, "RecSelect", sFilGrp)
+        Call pbSub00_CtrlsEnblDsble_GetParams(fForM, "RecSelect", sTrgtCtrlFilGrp)
         
         'Identifica o botão de edição do grupo de filtragem pra habilitá-lo,
         ' por meio do parâmetro ActType> n TAG do botão
         ' se for confirmada a existência da lista em [ dictTrgtCtrlsFilterGrps(sForM) ]
-        ' encontra o botão [ EditRec ] referente ao [ sFilGrp ] da [ mListBox ]
+        ' encontra o botão [ EditRec ] referente ao [ sTrgtCtrlFilGrp ] da [ mListBox ]
 '        For Each vKeyCtrl In dictFormCommButtons(sForM)
 '            Set clObjCommButtons = dictFormCommButtons(sForM)(vKeyCtrl)
 '            Select Case clObjCommButtons.sActType
 '
 '                Case "EditRec", "DupRec", "ExcRec"
 '                    Set cEdtCtrl = Forms(sForM).Controls(clObjCommButtons.sCtrlName)
-'                    If cEdtCtrl.Enabled = False And clObjCommButtons.sFilGrp = sFilGrp Then
+'                    If cEdtCtrl.Enabled = False And clObjCommButtons.sTrgtCtrlFilGrp = sTrgtCtrlFilGrp Then
 '                        'Chama [ pbSub02_CtrlsEnblDsbl_Apply ] pra habilitar o botão específico sem precisar percorrer por todos os controles
 '                        Call pbSub02_CtrlsEnblDsbl_Apply(mListBox.Parent, cEdtCtrl, "btn", True, True)
 '                    End If

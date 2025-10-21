@@ -4,7 +4,7 @@ Option Compare Database
 Option Explicit
 
 
-Sub PbSubFillFieldsByList(cListBox As Control)
+Sub PbSubDataFields_FillFromListbox(cListBox As Control)
 
     Dim vA, vB, vC
     Dim sQuery As String
@@ -335,7 +335,7 @@ Sub PbSubFillFieldsByList(cListBox As Control)
 
 End Sub
 
-Public Sub PbSubRecDataFields(cBtnSaveRec As Control)
+Public Sub PbSubDataFields_Rec(cBtnSaveRec As Control)
 
     Dim vA, vB, vC
     Dim sForM As String

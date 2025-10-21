@@ -708,7 +708,7 @@ If gBbDepurandoLv03a Then Stop
                             End If
                         
                         End If
-                        Call PbSubFillFieldsByList(cCtrL)
+                        Call PbSubDataFields_FillFromListbox(cCtrL)
                         
                     End If
                 

@@ -192,7 +192,7 @@
       <Left>2125</Left>
       <Top>10711</Top>
       <Width>16743</Width>
-      <Height>1880</Height>
+      <Height>2315</Height>
       <Tag></Tag>
       <Enabled></Enabled>
     </Control>
@@ -386,7 +386,7 @@
       <Name>txtStkValidade</Name>
       <Type>TextBox</Type>
       <Left>3717</Left>
-      <Top>11500</Top>
+      <Top>11490</Top>
       <Width>1463</Width>
       <Height>330</Height>
       <Tag>DataField>Validade.Grp11--HLclr.OnDrty.Mskd.MSlct-RstAr03</Tag>
@@ -515,7 +515,7 @@
       <Name>txtStkProdsEmb</Name>
       <Type>TextBox</Type>
       <Left>7202</Left>
-      <Top>11989</Top>
+      <Top>11964</Top>
       <Width>1463</Width>
       <Height>315</Height>
       <Tag>DataField>Prods_Emb.Grp11--HLclr.OnDrty.Mskd.MSlct-RstAr03</Tag>
@@ -527,7 +527,7 @@
       <Name>Rótulo418</Name>
       <Type>Label</Type>
       <Left>5867</Left>
-      <Top>11989</Top>
+      <Top>11964</Top>
       <Width>1305</Width>
       <Height>315</Height>
       <Tag></Tag>
@@ -628,7 +628,7 @@ Nova Entrada</Caption>
       <Name>cmbStkUnEmb</Name>
       <Type>ComboBox</Type>
       <Left>7201</Left>
-      <Top>11500</Top>
+      <Top>11490</Top>
       <Width>1463</Width>
       <Height>330</Height>
       <Tag>DataField>UnDaEmb_UnMedIDfk.Grp11--HLclr.OnDrty.Mskd.MSlct-RstAr03</Tag>
@@ -639,7 +639,7 @@ Nova Entrada</Caption>
       <Name>Rótulo415</Name>
       <Type>Label</Type>
       <Left>5867</Left>
-      <Top>11500</Top>
+      <Top>11490</Top>
       <Width>1305</Width>
       <Height>315</Height>
       <Tag></Tag>
@@ -1373,6 +1373,52 @@ Nova Entrada</Caption>
       <Enabled>Verdadeiro</Enabled>
       <Caption> </Caption>
       <OnClick>[Event Procedure]</OnClick>
+    </Control>
+    <Control>
+      <Name>Texto549</Name>
+      <Type>TextBox</Type>
+      <Left>10537</Left>
+      <Top>11950</Top>
+      <Width>2496</Width>
+      <Height>330</Height>
+      <Tag>DataField>Lote.Grp11--HLclr.OnDrty.Mskd.MSlct-RstAr03</Tag>
+      <Enabled>Verdadeiro</Enabled>
+      <ControlSource></ControlSource>
+      <Format></Format>
+    </Control>
+    <Control>
+      <Name>Rótulo550</Name>
+      <Type>Label</Type>
+      <Left>9892</Left>
+      <Top>11965</Top>
+      <Width>645</Width>
+      <Height>315</Height>
+      <Tag></Tag>
+      <Enabled></Enabled>
+      <Caption>Lote</Caption>
+    </Control>
+    <Control>
+      <Name>Texto551</Name>
+      <Type>TextBox</Type>
+      <Left>7202</Left>
+      <Top>12423</Top>
+      <Width>1463</Width>
+      <Height>315</Height>
+      <Tag>DataField>Prods_Emb.Grp11--HLclr.OnDrty.Mskd.MSlct-RstAr03</Tag>
+      <Enabled>Verdadeiro</Enabled>
+      <ControlSource></ControlSource>
+      <Format></Format>
+    </Control>
+    <Control>
+      <Name>Rótulo552</Name>
+      <Type>Label</Type>
+      <Left>5865</Left>
+      <Top>12419</Top>
+      <Width>1380</Width>
+      <Height>315</Height>
+      <Tag></Tag>
+      <Enabled></Enabled>
+      <Caption>Preço da Emb.</Caption>
     </Control>
   </Controls>
 </Form>

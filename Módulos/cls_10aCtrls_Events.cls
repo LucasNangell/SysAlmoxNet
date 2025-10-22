@@ -200,7 +200,7 @@ Private Sub mCommandButton_Click()
                 'Mantém botão de edição habilitado caso haja algum item selecionado na lista
                 If cCtrL.ItemsSelected.Count > 0 Then
                     
-                    Call pbSub00_CtrlsEnblDsble_GetParams(fForM, "RecSelect")
+                    Call pbSub00_CtrlsEnblDsble_GetParams(fForM, "StartView")
                 End If
             End If
             TempVars.RemoveAll
@@ -238,34 +238,88 @@ Private Sub mCommandButton_Click()
             DoCmd.Close
         
         '--- EDIT REC ----------------------------------------------
-        Case sActType Like "EditRec"
+        Case sActType Like "EditRec", sActType Like "DupRec"
+            'Recupera o grupo o qual pertence o botão pressionado
             sFilGrp = clObjCommButtons.sFilGrp
-            If sFilGrp <> "" Then
-                Set clObjTargtCtrlParam = dictFormFilterGrpTrgts(sForM)(sFilGrp)
-                sCtrL = clObjTargtCtrlParam.sTargtCtrlName
-    
-                If ControlExists(sCtrL, fForM) Then
-                    Set cCtrL = fForM.Controls(sCtrL)
-                    If cCtrL.ControlType = acListBox Then
+            'Recupera as informações do [ TrgtCtrl ] relacionado ao grupo
+            Set clObjTargtCtrlParam = dictFormFilterGrpTrgts(sForM)(sFilGrp)
+            sCtrL = clObjTargtCtrlParam.sTargtCtrlName
+            'Confirma a existência do controle apenas por redundância e define [ cCtrL ]
+            If ControlExists(sCtrL, fForM) Then Set cCtrL = fForM.Controls(sCtrL)
+            'Se não houver nenhum item selecionado no [ ListBox ], exibe mensagem de alerta e sai da rotina
+            If cCtrL.ListIndex = -1 Then
+                MsgBox "Selecione qual registro deseja editar antes de pressionar o botão.", vbInformation
+                Exit Sub
+            End If
+            
+            If cCtrL.ControlType = acListBox Then
+            
+                Call pbSub00_CtrlsEnblDsble_GetParams(cCtrL.Parent, clObjCommButtons.sFrmMode)
+                
+                For Each vKeyCtrl In dictFormCommButtons(sForM)
                     
-                        If cCtrL.ListIndex > -1 Then
-                            
-                            Call pbSub00_CtrlsEnblDsble_GetParams(cCtrL.Parent, clObjCommButtons.sFrmMode, sFilGrp)
-                            For Each vKeyCtrl In dictFormCommButtons(sForM)
-                                Set clObjCommButtons = dictFormCommButtons(sForM)(vKeyCtrl)
-                                If clObjCommButtons.sFilGrp = sFilGrp Then
-                                    If InStr(clObjCommButtons.sActType, "Cancel") > 0 Then clObjCommButtons.sActType = "CancelEdit"
-                                    If InStr(clObjCommButtons.sActType, "Save") > 0 Then clObjCommButtons.sActType = "SaveEdit"
-                                End If
-                            Next vKeyCtrl
+                    Set clObjCommButtons = dictFormCommButtons(sForM)(vKeyCtrl)
+                    
+                    If clObjCommButtons.sFilGrp = sFilGrp Then
+                        
+                        If InStr(clObjCommButtons.sActType, "Cancel") > 0 Then clObjCommButtons.sActType = "CancelEdit"
+                        
+                        If sActType Like "DupRec" Then
+                            If InStr(clObjCommButtons.sActType, "Save") > 0 Then clObjCommButtons.sActType = "SaveNew"
                         Else
-                            MsgBox "Selecione qual registro você deseja editar clicando na lista.", vbInformation
+                            If InStr(clObjCommButtons.sActType, "Save") > 0 Then clObjCommButtons.sActType = "SaveEdit"
                         End If
                     End If
-                    
-                End If
+                Next vKeyCtrl
             End If
+            
             Call pbSub00_CtrlsEnblDsble_GetParams(cCtrL.Parent, clObjCommButtons.sFrmMode)
+        
+        Case sActType Like "ExcRec"
+'Stop
+            'Recupera o grupo o qual pertence o botão pressionado
+            sFilGrp = clObjCommButtons.sFilGrp
+            'Recupera as informações do [ TrgtCtrl ] relacionado ao grupo
+            Set clObjTargtCtrlParam = dictFormFilterGrpTrgts(sForM)(sFilGrp)
+            sCtrL = clObjTargtCtrlParam.sTargtCtrlName
+            'Confirma a existência do controle apenas por redundância e define [ cCtrL ]
+            If ControlExists(sCtrL, fForM) Then Set cCtrL = fForM.Controls(sCtrL)
+            'Se não houver nenhum item selecionado no [ ListBox ], exibe mensagem de alerta e sai da rotina
+            If cCtrL.ListIndex = -1 Then
+                MsgBox "Selecione qual registro deseja excluir antes de pressionar o botão.", vbInformation
+                Exit Sub
+            End If
+            'A variável temporária [ TempVars("bReply") ] recebe a confirmação da ação através do formulário [ frm_00(1)dSysDialogBox ]
+            ' que é aberto pela função [ DialogBoxReply ], os parâmetros exigidos pela função são:
+            '  - sTitulo: Esse texto aparecerá no cabeçalho do formulário
+            '  - sTexto: É o texto principal com o questionamento ao usuário
+            TempVars("bReply") = DialogBoxReply("Exclusão de registro", "O registro será excluído permanentemente." & vbCrLf & "Confirma?", sForM)
+            
+            'Caso o usuário confirme a ação [ TemVars("bReply") ] recebe TRUE e a ação é executada
+            If TempVars("bReply") = True Then
+                
+                'Chama rotina para exclusão do registro
+                Call PbSubDataFields_Delete(mCommandButton)
+                
+                'Esvazia os [ DataFields ] do grupo indicado na TAG do Botão
+
+                'Confirma se o [ TrgtCtrl ] é um [ ListBox ]
+                If fForM.Controls(sCtrL).ControlType = acListBox Then
+                    'Remove a seleção dos itens da lista
+                    cCtrL.Selected(cCtrL.ListIndex) = False
+                    'Chama a rotina para preenchimento dos [ DataFields ]
+                    ' como a lista está sem itens selecionados essa rotina esvazia os campos
+                    Call PbSubDataFields_FillFromListbox(cCtrL)
+                End If
+
+                'Chama a rotina para Enable/Disable dos controles conforme [ sFrmMode ] indicado na TAG do botão
+                Call pbSub00_CtrlsEnblDsble_GetParams(cCtrL.Parent, clObjCommButtons.sFrmMode)
+                If gBbEnableErrorHandler Then On Error GoTo -1: On Error Resume Next
+
+            End If
+            'Remove todos os valores das [ TempVars ]
+            TempVars.RemoveAll
+        
         '--- HIDE ACCESS ----------------------------------------------
         Case sActType Like "HideAcc"
             'Oculta a janela do Access
@@ -275,7 +329,7 @@ Private Sub mCommandButton_Click()
             Call Scr_FormAlwaysOnTop(cCtrL.Parent, False)
 
         '--- NEW REC ----------------------------------------------
-        Case sActType Like "NewRec"
+        Case sActType = "NewRec"
 'Stop
             sFilGrp = clObjCommButtons.sFilGrp
             If sFilGrp <> "" Then
@@ -305,13 +359,15 @@ Private Sub mCommandButton_Click()
                     End If
                 Next vKeyCtrl
                 
+                Call pbSub00_CtrlsEnblDsble_GetParams(cCtrL.Parent, clObjCommButtons.sFrmMode)
+                
                 For Each vKeyCtrl In dictFormCommButtons(sForM)
                     Set clObjCommButtons = dictFormCommButtons(sForM)(vKeyCtrl)
                     If clObjCommButtons.sFilGrp = sFilGrp And InStr(clObjCommButtons.sActType, "Save") > 0 Then clObjCommButtons.sActType = "SaveNew"
                 Next vKeyCtrl
             End If
             
-            Call pbSub00_CtrlsEnblDsble_GetParams(cCtrL.Parent, clObjCommButtons.sFrmMode)
+            
 
         '--- OPEN FORM ----------------------------------------------
         Case sActType Like "OpenForm"

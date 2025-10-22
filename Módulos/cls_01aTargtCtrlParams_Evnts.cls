@@ -64,7 +64,9 @@ Public Property Set InitCtrl(cCtrL As Control)
 End Property
 
 Private Sub mListBox_BeforeUpdate(Cancel As Integer)
-
+    'Congela tela duranta a execução da rotina
+    LockWindowUpdate Application.hWndAccessApp
+    
     Dim vA, vC, vD
     Dim vB
     Dim cCtrL As Control
@@ -72,7 +74,15 @@ Private Sub mListBox_BeforeUpdate(Cancel As Integer)
     Dim fForM As Form
     Dim sFilGrp As String
     Dim sForM As String
-
+    Dim sTrggCtrlFilGrp As String
+    Dim rsList As Recordset
+    Dim fField As Field
+    Dim iQryID As Integer
+    Dim sQryIDName As String
+    Dim qDef As QueryDef
+    Dim sSQL As String
+    Dim sWhere As String
+    Dim sLastPartSQL As String
     
     Set cCtrL = mListBox
     Set fForM = cCtrL.Parent
@@ -81,11 +91,57 @@ Private Sub mListBox_BeforeUpdate(Cancel As Integer)
 
 'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "Aciona [ HighlightClrChange ] LostFocus, controle [ " & sCtrL & "]   "
 'Stop
-    
-'   'Chama a rotina de filtragem
+
+    'Verifica se o listbox é um [ TrggCtrl ], caso seja
+    ' adiciona os valores dos campos do item selecionado ao [ dictFieldsSelectedItem ]
+    If IsObject(dictTrggCtrlsInForm(sForM)(mListBox.Name)) Then
+        sTrggCtrlFilGrp = dictTrggCtrlsInForm(sForM)(mListBox.Name).sFilGrpToFilter
+        
+        If Not IsObject(dictFieldsSelectedItem(sForM)) Then Set dictFieldsSelectedItem(sForM) = New Dictionary
+        If Not IsObject(dictFieldsSelectedItem(sForM)(sTrggCtrlFilGrp)) Then Set dictFieldsSelectedItem(sForM)(sTrggCtrlFilGrp) = New Dictionary
+        dictFieldsSelectedItem(sForM)(sTrggCtrlFilGrp).RemoveAll
+        
+        If InStr(mListBox.RowSource, "SELECT") > 0 Then
+            sSQL = mListBox.RowSource
+        Else
+            sSQL = Replace(CurrentDb.QueryDefs(mListBox.RowSource).sql, ";", "")
+        End If
+        'sSQL = IIf(InStr(mListBox.RowSource, "SELECT") > 0, mListBox.RowSource, CurrentDb.QueryDefs(mListBox.RowSource).sql)
+        If InStr(sSQL, "GROUP BY") > 0 Then
+            sLastPartSQL = "GROUP BY " & Split(sSQL, "GROUP BY")(1)
+            sSQL = Split(sSQL, "GROUP BY")(0)
+        ElseIf InStr(sSQL, "ORDER BY") > 0 Then
+            sLastPartSQL = "ORDER BY " & Split(sSQL, "ORDER BY")(1)
+            sSQL = Split(sSQL, "ORDER BY")(0)
+        End If
+                
+        Set rsList = CurrentDb.OpenRecordset(mListBox.RowSource)
+        
+        sQryIDName = rsList.Fields(0).Name
+        iQryID = mListBox.Column(0, mListBox.ListIndex)
+            
+        sWhere = "WHERE ([" & sQryIDName & "] = " & iQryID & ")"
+        
+        sSQL = sSQL & sWhere & vbCr & sLastPartSQL
+        
+        Set rsList = CurrentDb.OpenRecordset(sSQL, dbOpenDynaset, dbReadOnly)
+        
+        If rsList.RecordCount = 1 Then
+            For Each fField In rsList.Fields
+                dictFieldsSelectedItem(sForM)(sTrggCtrlFilGrp).Add fField.Name, fField.Value
+            Next fField
+        End If
+        
+        rsList.Close
+        Set rsList = Nothing
+        
+    End If
+    'Chama a rotina de filtragem
     Call pb_TargtCtrlUpdate03_UNIQUEupdate(fForM, cCtrL)
     Call PbSubDataFields_FillFromListbox(cCtrL)
                                 
+    'Libera atualização de tela
+    LockWindowUpdate 0
 End Sub
 
 
@@ -93,12 +149,11 @@ Private Sub mListBox_MouseDown(Button As Integer, Shift As Integer, x As Single,
     Dim vA, vB
     Dim vKeyGrp, vKeyCtrl
     Dim sTrgtCtrlFilGrp As String, sForM As String
-    Dim sTrggCtrlFilGrp As String
     Dim cEdtCtrl As Control
     Dim fForM As Form
-    Dim rsList As Recordset
-    Dim fField As Field
     
+    'Congela tela duranta a execução da rotina
+    LockWindowUpdate Application.hWndAccessApp
     '---------------------------------------------------------------
     ' chama pbSub00_CtrlsEnblDsble_GetParams
     ' pra habilitar/desabilitar os controles depois que um valor é selecionado na Listbox
@@ -115,29 +170,13 @@ Private Sub mListBox_MouseDown(Button As Integer, Shift As Integer, x As Single,
 
         sForM = mListBox.Parent.Name
         
-        'Verifica se o listbox é um [ TrggCtrl ], caso seja
-        ' adiciona os valores dos campos do item selecionado ao [ dictFieldsSelectedItem ]
-        If IsObject(dictTrggCtrlsInForm(sForM)(mListBox.Name)) Then
-            sTrggCtrlFilGrp = dictTrggCtrlsInForm(sForM)(mListBox.Name).sFilGrpToFilter
-            
-            If Not IsObject(dictFieldsSelectedItem(sForM)) Then Set dictFieldsSelectedItem(sForM) = New Dictionary
-            If Not IsObject(dictFieldsSelectedItem(sForM)(sTrggCtrlFilGrp)) Then Set dictFieldsSelectedItem(sForM)(sTrggCtrlFilGrp) = New Dictionary
-            dictFieldsSelectedItem(sForM)(sTrggCtrlFilGrp).RemoveAll
-            
-            Set rsList = CurrentDb.OpenRecordset(mListBox.RowSource)
-            
-            For Each fField In rsList.Fields
-                dictFieldsSelectedItem(sForM)(sTrggCtrlFilGrp).Add fField.Name, fField.Value
-            Next fField
-            
-            rsList.Close
-            Set rsList = Nothing
-            
-        End If
 
         Call pbSub00_CtrlsEnblDsble_GetParams(fForM, mListBox.Name & "Select")
         
         
     End If
+
+    'Libera ataulização de tela
+    LockWindowUpdate 0
 End Sub
 

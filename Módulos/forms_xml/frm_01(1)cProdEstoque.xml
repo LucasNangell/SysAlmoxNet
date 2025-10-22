@@ -851,7 +851,7 @@ Nova Entrada</Caption>
       <Top>3822</Top>
       <Width>1284</Width>
       <Height>510</Height>
-      <Tag>Grp10.ActType>ExcRec.FormMode>RecEdit.FrmToOpen></Tag>
+      <Tag>Grp10.ActType>ExcRec.FormMode>StartView.RecQry>qry_04(01)bProdutosFull_Setor(Edt-Lst)</Tag>
       <Enabled>Verdadeiro</Enabled>
       <Caption>Excluir</Caption>
       <OnClick></OnClick>
@@ -927,11 +927,11 @@ Nova Entrada</Caption>
     <Control>
       <Name>btnExcluirEntrada</Name>
       <Type>CommandButton</Type>
-      <Left>539</Left>
-      <Top>8603</Top>
+      <Left>538</Left>
+      <Top>8588</Top>
       <Width>1284</Width>
       <Height>510</Height>
-      <Tag>Grp11.ActType>ExcRec.FormMode>RecEdit.FrmToOpen></Tag>
+      <Tag>Grp11.ActType>ExcRec.FormMode>StartView.RecQry>qry_05(1)aProdEstoqueIn(Edt)</Tag>
       <Enabled>Verdadeiro</Enabled>
       <Caption>Excluir</Caption>
       <OnClick></OnClick>
@@ -943,7 +943,7 @@ Nova Entrada</Caption>
       <Top>9327</Top>
       <Width>1284</Width>
       <Height>510</Height>
-      <Tag>Grp11.ActType>DupRec.FormMode>RecEdit.FrmToOpen></Tag>
+      <Tag>Grp11.ActType>DupRec.FormMode>EntradaEdit.FrmToOpen></Tag>
       <Enabled>Verdadeiro</Enabled>
       <Caption>Duplicar</Caption>
       <OnClick></OnClick>
@@ -951,8 +951,8 @@ Nova Entrada</Caption>
     <Control>
       <Name>btnNovaEntrada</Name>
       <Type>CommandButton</Type>
-      <Left>539</Left>
-      <Top>7992</Top>
+      <Left>540</Left>
+      <Top>7995</Top>
       <Width>1284</Width>
       <Height>510</Height>
       <Tag>Grp11.ActType>NewRec.FormMode>EntradaEdit.FrmToOpen></Tag>
@@ -1353,8 +1353,8 @@ Nova Entrada</Caption>
     <Control>
       <Name>Comando543</Name>
       <Type>CommandButton</Type>
-      <Left>566</Left>
-      <Top>12387</Top>
+      <Left>21288</Left>
+      <Top>12415</Top>
       <Width>1284</Width>
       <Height>510</Height>
       <Tag>Grp10.ActType>DupRec.FormMode>RecEdit.FrmToOpen></Tag>

@@ -48,31 +48,10 @@ Private Sub btnEditarEntrada_Click()
     
 End Sub
 
-Private Sub btnExcluirEntrada_Click()
-   Dim sTitulo As String, sTexto As String, sForM As String
-   sForM = Me.Name
-
-    sTitulo = "Exclusão de Entrada no estoque"
-    sTexto = "A entrada selecionada será excluída permanentemente." & vbCrLf & "Confirma?"
-    TempVars("bReply") = DialogBoxReply(sTitulo, sTexto, sForM)
-
-End Sub
-
-Private Sub btnExcluirPrd_Click()
-   Dim sTitulo As String, sTexto As String, sForM As String
-   sForM = Me.Name
-
-    sTitulo = "Exclusão de Produto"
-    sTexto = "O produto selecionado será excluído permanentemente." & vbCrLf & "Confirma?"
-    TempVars("bReply") = DialogBoxReply(sTitulo, sTexto, sForM)
-End Sub
 
 Private Sub btnReset2Search_Click()
     
     Me.txtSrchDescProd.SetFocus
-
-'Stop
-    
 
 End Sub
 

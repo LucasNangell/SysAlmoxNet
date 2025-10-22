@@ -3,9 +3,40 @@ Attribute VB_Name = "Módulo 11a - pbSubsDataFields"
 Option Compare Database
 Option Explicit
 
+Public Function BuildFilterSQL(sQry As String, Optional sWhere As String) As String
+    Dim vA, vB, vC: Dim sFirstSecSQL As String: Dim sLastSecSQL As String: Dim sSQL As String
+    
+    If InStr(sQry, "SELECT") > 0 Then sSQL = sQry Else sSQL = Replace(CurrentDb.QueryDefs(sQry).sql, ";", "")
+    
+    If InStr(sSQL, "GROUP BY") > 0 Then
+        sFirstSecSQL = Split(sSQL, "GROUP BY")(0)
+        sLastSecSQL = "GROUP BY" & Split(sSQL, "GROUP BY")(1)
+    ElseIf InStr(sSQL, "ORDER BY") > 0 Then
+        sFirstSecSQL = Split(sSQL, "ORDER BY")(0)
+        sLastSecSQL = "ORDER BY" & Split(sSQL, "ORDER BY")(1)
+    End If
+
+    If InStr(sFirstSecSQL, "WHERE") > 0 Then sFirstSecSQL = Split(sFirstSecSQL, "WHERE")(0)
+    If InStr(sWhere, "WHERE") = 0 Then sWhere = "WHERE " & sWhere
+    sSQL = sFirstSecSQL & sWhere & sLastSecSQL
+    
+    'Formata a estrutura de [ sSQL ] para facilitar a leitura do usuário
+    sSQL = Replace(Replace(Replace(Replace(Replace(Replace(sSQL, vbCrLf, ""), _
+                                                    "FROM", vbCrLf & "FROM"), _
+                                                    "WHERE", vbCrLf & "WHERE"), _
+                                                    "GROUP", vbCrLf & "GROUP"), _
+                                                    "ORDER", vbCrLf & "ORDER"), _
+                                                    "HAVING", vbCrLf & "HAVING")
+    
+    BuildFilterSQL = sSQL
+
+End Function
+
 
 Sub PbSubDataFields_FillFromListbox(cListBox As Control)
-
+    'Congela tela duranta a execução da rotina
+    LockWindowUpdate Application.hWndAccessApp
+    
     Dim vA, vB, vC
     Dim sQuery As String
     Dim sDefQuerY As String
@@ -44,6 +75,7 @@ Sub PbSubDataFields_FillFromListbox(cListBox As Control)
     Dim iColIDCmb As Integer
     Dim sValue As String
     Dim vCamposNecessarios As Variant
+    Dim sWhere As String
     
     Set fForM = cListBox.Parent
     sForM = fForM.Name
@@ -219,35 +251,15 @@ Sub PbSubDataFields_FillFromListbox(cListBox As Control)
                         'Percorre cada valor de [ vDefItemsCmb ] para verificar se esse valor ? atribu?do ao item selecionado na lista
                         For iItem = 0 To UBound(vDefItemsCmb)
                 
-                        'Monta o WHERE da consulta
-                        vA = "([" & clObjCtrlDataFieds.sDataField & "]" & " = " & vDefItemsCmb(iItem) & ") AND ([" & sQryIDfield & "]" & " = " & iQryID & ")"
-
-                           
-                            sQryOrder = ""
-                            'Modifica consulta da lista filtrando pelo [ sQryIDfield ] e pelo valor do RecordSet do campo
-                            If InStr(sQryListBox, "WHERE") > 0 Then
-                                If InStr(sQryListBox, "GROUP BY") > 0 Then
-                                    sQryOrder = "GROUP BY " & Split(sQryListBox, "GROUP BY")(1)
-                                ElseIf InStr(sQryListBox, "ORDER BY") > 0 Then
-                                    sQryOrder = "ORDER BY " & Split(sQryListBox, "ORDER BY")(1)
-                                End If
-                                sQuery = Split(sQryListBox, "WHERE")(0)
-                                sQuery = sQuery & " WHERE " & vA & vbCrLf & sQryOrder
-                                sQuery = Replace(sQuery, ";", "")
-                                sQuery = sQuery & ";"
+                            'Monta o WHERE da consulta
+                            If Not IsNull(vDefItemsCmb(iItem)) Then
+                                sWhere = "([" & clObjCtrlDataFieds.sDataField & "]" & " = " & vDefItemsCmb(iItem) & ") AND ([" & sQryIDfield & "]" & " = " & iQryID & ")"
                             Else
-                                If InStr(sQryListBox, "GROUP BY") > 0 Then
-                                    vB = "GROUP BY " & Split(sQryListBox, "GROUP BY")(1) & ";"
-                                    sQuery = Split(sQryListBox, "GROUP BY")(0)
-                                    sQuery = sQuery & " WHERE " & vA & vbCrLf & vB
-                                ElseIf InStr(sQryListBox, "ORDER BY") > 0 Then
-                                    vB = "ORDER BY " & Split(sQryListBox, "ORDER BY")(1) & ";"
-                                    sQuery = Split(sQuery, "ORDER BY")(0)
-                                    sQuery = sQuery & " WHERE " & vA & vbCrLf & vB
-                                End If
+                                sWhere = "([" & sQryIDfield & "]" & " = " & iQryID & ")"
                             End If
-                            
-                            sQuery = Replace(sQuery, vbCr, "")
+                           
+                            sQuery = BuildFilterSQL(sQryListBox, sWhere)
+
                             'Abre um RecordSet com o filtro
                             Set rsTbECmb = CurrentDb.OpenRecordset(sQuery, dbOpenDynaset, dbReadOnly)
                             
@@ -277,16 +289,7 @@ Sub PbSubDataFields_FillFromListbox(cListBox As Control)
                         
                         If sFilterCmb = "" Then sFilterCmb = "NÃO ENCONTRADO"
                         
-                        'Remonta a [ sDefQuerY ] aplicando o filtro dos items que devem ser exibidos
-                        If InStr(sDefQuerY, "WHERE") > 0 Then sDefQuerY = Split(sDefQuerY, "WHERE")(0)
-                        If InStr(sDefQuerY, "ORDER BY") > 0 Then '4
-                            vB = "ORDER BY " & Split(sDefQuerY, "ORDER BY")(1) & ";"
-                            sDefQuerY = Split(sDefQuerY, "ORDER BY")(0)
-                            sDefQuerY = sDefQuerY & " WHERE " & sFilterCmb & vB
-                            sDefQuerY = Replace(sDefQuerY, ";", "")
-                        Else
-                            sDefQuerY = Replace(sDefQuerY, ";", "") & " WHERE " & sFilterCmb & ";"
-                        End If
+                        sDefQuerY = BuildFilterSQL(sDefQuerY, sFilterCmb)
 
                         'Atribui a nova [ sDefQuerY ] ao [ cDataFieldCtrl ]
                         cDataFieldCtrl.RowSource = sDefQuerY
@@ -332,11 +335,15 @@ Sub PbSubDataFields_FillFromListbox(cListBox As Control)
         vDefItemsCmb(0) = ""
         
     Next vKeyDataFieldCtrl
-
+    
+    'Libera atualização de tela
+    LockWindowUpdate 0
 End Sub
 
 Public Sub PbSubDataFields_Rec(cBtnSaveRec As Control)
-
+    'Congela tela duranta a execução da rotina
+    LockWindowUpdate Application.hWndAccessApp
+    
     Dim vA, vB, vC
     Dim sForM As String
     Dim sBtnSaveRec As String
@@ -368,7 +375,6 @@ Public Sub PbSubDataFields_Rec(cBtnSaveRec As Control)
     Dim sQryOrder As String
     Dim qLstQryDef As QueryDef
     
-    
     sBtnSaveRec = cBtnSaveRec.Name
     sForM = cBtnSaveRec.Parent.Name
     
@@ -380,6 +386,7 @@ Public Sub PbSubDataFields_Rec(cBtnSaveRec As Control)
     sFilGrp = clObjCommButtons.sFilGrp
     sRecQry = clObjCommButtons.sRecQry
     sActType = clObjCommButtons.sActType
+    
     For Each vKeyTrgtCtrl In dictFormFilterGrpTrgts(sForM)(sFilGrp)
         
         sTrgtCtrl = vKeyTrgtCtrl
@@ -387,34 +394,32 @@ Public Sub PbSubDataFields_Rec(cBtnSaveRec As Control)
         Set clObjTargtCtrlParam = dictFormFilterGrpTrgts(sForM)(sFilGrp)(sTrgtCtrl)
     
         Set cLstBox = Forms(sForM).Controls(clObjTargtCtrlParam.sTargtCtrlName)
-        
-        'Identifica o registro selecionado na Listbox
-        iListIndex = cLstBox.ListIndex
-        
-        'Identifica o ID do registro selecionado
-        If iListIndex > -1 Then
-            iQryID = cLstBox.Column(0, iListIndex)
-        Else
-         GoTo NextTrgt
-        End If
-        
-        sQuerYLstBox = clObjTargtCtrlParam.sClsLstbxSQL_gMAIN
-        
-        Set rsTbE = CurrentDb.OpenRecordset(sQuerYLstBox, dbOpenDynaset, dbReadOnly)
-        
-        sQryIDfield = rsTbE.Fields(0).Name
-        sDtFldID = Replace(sQryIDfield, "IDfk", "ID")
-        
-        rsTbE.Close
-        Set rsTbE = Nothing
-        
+
         'Abre o recordSet da consulta que ser? usada para edi??o
         Set rsRecQry = CurrentDb.OpenRecordset(sRecQry, dbOpenDynaset)
         
-        For Each vB In rsRecQry.Fields
-            If InStr(vB.Name, Replace(sQryIDfield, "IDfk", "ID")) > 0 Then sQryIDfield = vB.Name
-        Next vB
         If sActType = "SaveEdit" Then
+            
+            'Identifica o registro selecionado na Listbox
+            iListIndex = cLstBox.ListIndex
+            
+            'Identifica o ID do registro selecionado
+            If iListIndex > -1 Then
+                iQryID = cLstBox.Column(0, iListIndex)
+
+            Else
+             GoTo NextTrgt
+            End If
+            
+            sQuerYLstBox = clObjTargtCtrlParam.sClsLstbxSQL_gMAIN
+            
+            Set rsTbE = CurrentDb.OpenRecordset(sQuerYLstBox, dbOpenDynaset, dbReadOnly)
+            
+            sQryIDfield = rsTbE.Fields(0).Name
+            sDtFldID = Replace(sQryIDfield, "IDfk", "ID")
+            
+            rsTbE.Close
+            Set rsTbE = Nothing
         
             'Aplica filtro na consulta para retornar apenas o item que deve ser editado
             vA = "[" & sQryIDfield & "]" & " = " & iQryID
@@ -450,10 +455,10 @@ Public Sub PbSubDataFields_Rec(cBtnSaveRec As Control)
             
             
         ElseIf sActType = "SaveNew" Then
-                    
+
+            
             'Define [ rsRecQry ] para edi??o de registro
             rsRecQry.AddNew
-                     
             
             'Verifica todas as informações que são necessárias para gravação dos dados
             For Each DtFld In rsRecQry.Fields
@@ -467,8 +472,7 @@ Public Sub PbSubDataFields_Rec(cBtnSaveRec As Control)
                             If Not cDataFieldCtrl.ControlType = acListBox And cDataFieldCtrl.Value <> "" Then
                                 DtFld = cDataFieldCtrl.Value
                                 bBoL = True
-                            ElseIf cDataFieldCtrl.Value <> "" Then
-                                bBoL = True
+                                Exit For
                             End If
                         End If
                     Next vA
@@ -476,6 +480,7 @@ Public Sub PbSubDataFields_Rec(cBtnSaveRec As Control)
                         For Each vA In dictFieldsSelectedItem(sForM)(sFilGrp)
                             If Replace(DtFld.Name, "IDfk", "ID") = Replace(vA, "IDfk", "ID") Then
                                 DtFld = dictFieldsSelectedItem(sForM)(sFilGrp)(vA)
+                                Exit For
                             End If
                         Next vA
                     End If
@@ -485,13 +490,105 @@ Public Sub PbSubDataFields_Rec(cBtnSaveRec As Control)
                     
             rsRecQry.Update
             
-            For Each vA In dictFormFilterGrpTrgts(sForM)(sFilGrp)
-                Set cLstBox = Forms(sForM).Controls(vA)
-                cLstBox.Requery
-            Next vA
       End If
 NextTrgt:
     Next vKeyTrgtCtrl
-
     
+    'Atualiza os [ TrgtCtrls ] do grupo
+    For Each vA In dictFormFilterGrpTrgts(sForM)(sFilGrp)
+        Set cLstBox = Forms(sForM).Controls(vA)
+        cLstBox.Requery
+        Call PbSubDataFields_FillFromListbox(cLstBox)
+    Next vA
+
+    LockWindowUpdate 0
+End Sub
+
+Public Sub PbSubDataFields_Delete(cBtnExcRec As Control)
+    'Congela tela duranta a execução da rotina
+    LockWindowUpdate Application.hWndAccessApp
+    
+    Dim vA, vB, vC
+    Dim sBtnExcRec As String
+    Dim sForM As String
+    Dim sFilGrp As String
+    Dim sRecQry As String
+    Dim sActType As String
+    Dim vKeyTrgtCtrl As Variant
+    Dim sTrgtCtrl As String
+    Dim cLstBox As Control
+    Dim iListIndex As Integer
+    Dim iQryID As Integer
+    Dim sSQL As String
+    Dim qDef As QueryDef
+    Dim sWhere As String
+    Dim rsTbE As Recordset
+    Dim sQryIDfield As String
+    Dim bBoL As Boolean
+    
+    bBoL = False
+    
+    sBtnExcRec = cBtnExcRec.Name
+    sForM = cBtnExcRec.Parent.Name
+    
+    If Not dictFormCommButtons(sForM).Exists(sBtnExcRec) Then
+        'Montar mensagem de erro caso o bot?o n?o esteja no dicion?rio
+        Exit Sub
+    End If
+    
+    sFilGrp = clObjCommButtons.sFilGrp
+    sRecQry = clObjCommButtons.sRecQry
+    sActType = clObjCommButtons.sActType
+    For Each vKeyTrgtCtrl In dictFormFilterGrpTrgts(sForM)(sFilGrp)
+        
+        sTrgtCtrl = vKeyTrgtCtrl
+        Set clObjCommButtons = dictFormCommButtons(sForM)(sBtnExcRec)
+        Set clObjTargtCtrlParam = dictFormFilterGrpTrgts(sForM)(sFilGrp)(sTrgtCtrl)
+    
+        Set cLstBox = Forms(sForM).Controls(clObjTargtCtrlParam.sTargtCtrlName)
+        
+        'Identifica o registro selecionado na Listbox
+        iListIndex = cLstBox.ListIndex
+        
+        'Identifica o ID do registro selecionado
+        If iListIndex > -1 Then
+            iQryID = cLstBox.Column(0, iListIndex)
+            bBoL = True
+        Else
+            GoTo NextTrgt
+        End If
+        
+        Set qDef = CurrentDb.QueryDefs(sRecQry)
+        
+        sQryIDfield = qDef.Fields(0).Name
+        sSQL = qDef.sql
+
+        sSQL = Replace(sSQL, ";", "")
+        If InStr(sSQL, "GROUP BY") > 0 Then sSQL = Split(sSQL, "GROUP BY")(0)
+        If InStr(sSQL, "ORDER BY") > 0 Then sSQL = Split(sSQL, "ORDER BY")(0)
+        
+        sWhere = "WHERE [" & sQryIDfield & "]" & " = " & iQryID
+        
+        sSQL = sSQL & vbCrLf & sWhere
+        
+        sSQL = BuildFilterSQL(sRecQry, sWhere)
+        Set rsTbE = CurrentDb.OpenRecordset(sSQL, dbOpenDynaset)
+        
+        If rsTbE.RecordCount = 1 Then
+            rsTbE.Delete
+        Else
+            'Mensagem de erro caso o registro não seja encontrado ou
+            ' haja mais de um registro para o [ iQryID ] recuperado
+        End If
+    
+        rsTbE.Close
+        Set rsTbE = Nothing
+        cLstBox.Requery
+NextTrgt:
+    
+    Next vKeyTrgtCtrl
+    
+    If Not bBoL Then MsgBox "É necessário selecionar algum item da lista antes de clicar no botão [ Excluir ]", vbCritical
+    'Libera atualização de tela
+    LockWindowUpdate 0
 End Sub

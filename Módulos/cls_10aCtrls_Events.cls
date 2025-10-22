@@ -178,18 +178,31 @@ Private Sub mCommandButton_Click()
         
         '--- CANCEL EDIT ----------------------------------------------
         Case sActType Like "Cancel*"
-'Stop
+            'Recupera o grupo o qual pertence o botão pressionado
+            sFilGrp = clObjCommButtons.sFilGrp
+            'Recupera as informações do [ TrgtCtrl ] relacionado ao grupo
+            Set clObjTargtCtrlParam = dictFormFilterGrpTrgts(sForM)(sFilGrp)
+            sCtrL = clObjTargtCtrlParam.sTargtCtrlName
+            'Confirma a existência do controle apenas por redundância e define [ cCtrL ]
+            If ControlExists(sCtrL, fForM) Then Set cCtrL = fForM.Controls(sCtrL)
+            'Se não houver nenhum item selecionado no [ ListBox ], exibe mensagem de alerta e sai da rotina
+            If cCtrL.ListIndex = -1 Then
+                MsgBox "Selecione qual registro deseja excluir antes de pressionar o botão.", vbInformation
+                Exit Sub
+            End If
+            'A variável temporária [ TempVars("bReply") ] recebe a confirmação da ação através do formulário [ frm_00(1)dSysDialogBox ]
+            ' que é aberto pela função [ DialogBoxReply ], os parâmetros exigidos pela função são:
+            '  - sTitulo: Esse texto aparecerá no cabeçalho do formulário
+            '  - sTexto: É o texto principal com o questionamento ao usuário
+            TempVars("bReply") = DialogBoxReply("Cancelamento de Edição de Dados", "As alterações realizadas serão perdidas." & vbCrLf & "Confirma?", sForM)
+            
+            'Caso o usuário confirme a ação [ TemVars("bReply") ] recebe TRUE e a ação é executada
             If TempVars("bReply") = True Then
-                sFilGrp = clObjCommButtons.sFilGrp
                 If sFilGrp <> "" Then
-                    Set clObjTargtCtrlParam = dictFormFilterGrpTrgts(sForM)(sFilGrp)
-                    sCtrL = clObjTargtCtrlParam.sTargtCtrlName
-                    
                     If ControlExists(sCtrL, fForM) Then
                         Set cCtrL = fForM.Controls(sCtrL)
                         If fForM.Controls(sCtrL).ControlType = acListBox Then Call PbSubDataFields_FillFromListbox(cCtrL)
                         On Error GoTo -1
-    'Stop
                     End If
                 End If
                 

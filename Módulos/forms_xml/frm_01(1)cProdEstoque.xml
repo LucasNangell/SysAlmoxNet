@@ -106,7 +106,7 @@
       <Tag>Grp11.ActType>CancelNew.FormMode>StartView.FrmToOpen></Tag>
       <Enabled>Verdadeiro</Enabled>
       <Caption>Cancelar</Caption>
-      <OnClick>[Event Procedure]</OnClick>
+      <OnClick></OnClick>
     </Control>
     <Control>
       <Name>btnSalvarEntrada</Name>

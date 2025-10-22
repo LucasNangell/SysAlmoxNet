@@ -3,9 +3,10 @@ Attribute VB_Name = "Módulo 11a - pbSubsDataFields"
 Option Compare Database
 Option Explicit
 
-Public Function BuildFilterSQL(Optional sQry As String, Optional sWhere As String, Optional cLstBox As ListBox) As String
+Public Function BuildFilterSQL(Optional sQry As String, Optional sWhere As String, Optional cLstBox As ListBox, Optional bManterWhere As Boolean) As String
 Dim vA, vB, vC, sFirstSecSQL As String, sLastSecSQL As String, sSQL As String, iListIndex As Integer, iQryID As Integer
-Dim rsDef As Recordset, sQryIDfield As String
+Dim rsDef As Recordset, sQryIDfield As String, sOldWhere As String
+
     
     If Not cLstBox Is Nothing Then
         iListIndex = cLstBox.ListIndex
@@ -14,7 +15,7 @@ Dim rsDef As Recordset, sQryIDfield As String
             iQryID = cLstBox.Column(0, iListIndex)
         End If
         
-        If sQry = "" Then sSQL = cLstBox.RowSource Else sSQL = sQry
+        If sQry = "" Then sSQL = Replace(cLstBox.RowSource, ";", "") Else sSQL = Replace(sQry, ";", "")
         If InStr(sSQL, "SELECT") > 0 Then sSQL = sSQL Else sSQL = Replace(CurrentDb.QueryDefs(sSQL).sql, ";", "")
         If InStr(sSQL, "GROUP BY") > 0 Then
             sFirstSecSQL = Split(sSQL, "GROUP BY")(0)
@@ -36,7 +37,7 @@ Dim rsDef As Recordset, sQryIDfield As String
         End If
         
     Else
-        If InStr(sQry, "SELECT") > 0 Then sSQL = sQry Else sSQL = Replace(CurrentDb.QueryDefs(sQry).sql, ";", "")
+        If InStr(sQry, "SELECT") > 0 Then sSQL = Replace(sQry, ";", "") Else sSQL = Replace(CurrentDb.QueryDefs(sQry).sql, ";", "")
         
         If InStr(sSQL, "GROUP BY") > 0 Then
             sFirstSecSQL = Split(sSQL, "GROUP BY")(0)
@@ -49,7 +50,17 @@ Dim rsDef As Recordset, sQryIDfield As String
         End If
     End If
            
-    If InStr(sFirstSecSQL, "WHERE") > 0 Then sFirstSecSQL = Split(sFirstSecSQL, "WHERE")(0)
+    If InStr(sFirstSecSQL, "WHERE") > 0 Then
+        If bManterWhere Then
+            If sWhere <> "" Then
+                sWhere = sWhere & " AND " & Split(sFirstSecSQL, "WHERE")(1)
+            Else
+                sWhere = Split(sFirstSecSQL, "WHERE")(1)
+            End If
+        End If
+        sFirstSecSQL = Split(sFirstSecSQL, "WHERE")(0)
+        
+    End If
     If InStr(sWhere, "WHERE") = 0 Then sWhere = "WHERE " & sWhere
         
     sSQL = sFirstSecSQL & sWhere & sLastSecSQL
@@ -271,7 +282,7 @@ Sub PbSubDataFields_FillFromListbox(cListBox As Control)
                             If Not IsNull(vDefItemsCmb(iItem)) Then
                                 sWhere = "([" & clObjCtrlDataFieds.sDataField & "]" & " = " & vDefItemsCmb(iItem) & ")"
                                 
-                                sQuery = BuildFilterSQL(, sWhere, cListBox)
+                                sQuery = BuildFilterSQL(cListBox.RowSource, sWhere, , True)
         
                                 'Abre um RecordSet com o filtro
                                 Set rsTbECmb = CurrentDb.OpenRecordset(sQuery, dbOpenDynaset, dbReadOnly)

@@ -20,20 +20,6 @@ Private Sub btnCalendar2_Click()
     
 End Sub
 
-Private Sub btnCancelarEntrada_Click()
-
-   Dim vA, vB, vC
-   Dim sTitulo As String, sTexto As String, sForM As String
-   sForM = Me.Name
-
-'Stop
-    
-    sTitulo = "Cancelamento de Edição de Dados"
-    sTexto = "As alterações realizadas serão perdidas." & vbCrLf & "Confirma?"
-    TempVars("bReply") = DialogBoxReply(sTitulo, sTexto, sForM)
-'Stop
-
-End Sub
 
 Private Sub btnClose_Click()
 

@@ -134,25 +134,8 @@ Private Sub mListBox_MouseDown(Button As Integer, Shift As Integer, x As Single,
             Set rsList = Nothing
             
         End If
-        'Encontra o grupo de filtragem da lista [ TrgtCtrl ]
-        ' verifica se a lista existe no dict [ dictTrgtCtrlsFilterGrps(sForM) ] pra buscar o grupo diretamente
-        If dictTrgtCtrlsFilterGrps(sForM).Exists(mListBox.Name) Then
-            sTrgtCtrlFilGrp = dictTrgtCtrlsFilterGrps(sForM)(mListBox.Name)
-        
-        Else
-        
-        'Caso a [ mListBox ] não exista em [ dictTrgtCtrlsFilterGrps(sForM) ],
-        ' percorre cada item do [ dictFormFilterGrpTrgts(sForM)] para encontrar o grupo da lista
-            For Each vKeyGrp In dictFormFilterGrpTrgts(sForM)
-                Set clObjTargtCtrlParam = dictFormFilterGrpTrgts(sForM)(vKeyGrp)
-                If clObjTargtCtrlParam.sTargtCtrlName = mListBox.Name Then sTrgtCtrlFilGrp = vKeyGrp
-            
-            Next vKeyGrp
-        
-        End If
 
-        
-        Call pbSub00_CtrlsEnblDsble_GetParams(fForM, sTrgtCtrlFilGrp & "Select")
+        Call pbSub00_CtrlsEnblDsble_GetParams(fForM, mListBox.Name & "Select")
         
         
     End If

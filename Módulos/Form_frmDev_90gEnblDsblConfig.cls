@@ -19,6 +19,7 @@ Dim sSQL As String
 Dim rsQry As Recordset
 Dim dictFormModes As New Dictionary
 Dim sID As String
+Dim sSQLORDER As String
 
 
 Private Sub btnCancelar_Click()
@@ -70,20 +71,6 @@ Call FiltraQryEnblDsbl
 End Sub
 
 
-
-Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
-'    If bAjustando Then
-'        Select Case KeyCode
-'            Case vbKeyAdd
-'                btnAdd_Click
-'                KeyCode = 0
-'
-'            Case vbKeySubtract
-'                btnMin_Click
-'                KeyCode = 0
-'        End Select
-'    End If
-End Sub
 
 Private Sub Form_Load()
 Dim fForM As Form
@@ -144,14 +131,15 @@ Dim qDef As QueryDef
 
 Set qDef = CurrentDb.QueryDefs("qry_01(03)bSysEnblDisblParams")
 sSQL = qDef.sql
-
+sSQLORDER = " ORDER BY " & Split(sSQL, "ORDER BY")(1)
 sSQL = Split(sSQL, "ORDER BY")(0)
+
 sFilterForm = "([sSysForM] = " & """" & cmbForm.Value & """" & ")"
 sFilterMode = "([sSysFormMode] = " & """" & cmbFormModes.Value & """" & ")"
 
 sWhere = "WHERE " & sFilterForm & " AND " & sFilterMode
 
-sSQL = sSQL & vbCrLf & sWhere
+sSQL = sSQL & vbCrLf & sWhere & vbCrLf & sSQLORDER
 
 lstCtrls.RowSource = sSQL
 
@@ -190,12 +178,14 @@ Else
                 sTrgtCtrl = cTrgtCtrl.Name
                 
                 sSQL = qDef.sql
+                sSQLORDER = " ORDER BY " & Split(sSQL, "ORDER BY")(1)
                 sSQL = Split(sSQL, "ORDER BY")(0)
+                
                 vA = "([sSysForM] = " & """" & cmbForm.Value & """" & ")"
                 vB = "([sSysFormMode] = " & """" & cmbFormModes.Value & """" & ")"
                 vC = "([sTweakbleCtrl] = " & """" & sTrgtCtrl & """" & ")"
                 sWhere = "WHERE " & vA & " AND " & vB & " AND " & vC
-                sSQL = sSQL & vbCrLf & sWhere & " ORDER BY sTweakbleCtrl"
+                sSQL = sSQL & vbCrLf & sWhere & sSQLORDER
                 
                 Set rsQry = CurrentDb.OpenRecordset(sSQL, dbOpenDynaset)
                 
@@ -237,14 +227,16 @@ Dim vA, vB, vC
 Set qDef = CurrentDb.QueryDefs("qry_01(03)bSysEnblDisblParams")
 sSQL = qDef.sql
 iLstIndex = lstCtrls.ListIndex
+sSQLORDER = " ORDER BY " & Split(sSQL, "ORDER BY")(1)
 sSQL = Split(sSQL, "ORDER BY")(0)
+
 sID = qDef.Fields(0).Name
 sIDValue = lstCtrls.Column(0, iLstIndex)
 
 vA = "([" & sID & "] = " & sIDValue & ")"
 
 sWhere = "WHERE " & vA
-sSQL = sSQL & vbCrLf & sWhere
+sSQL = sSQL & vbCrLf & sWhere & vbCrLf & sSQLORDER
 
 Set rsQry = CurrentDb.OpenRecordset(sSQL, dbOpenDynaset)
 
@@ -280,14 +272,15 @@ Dim sWhere As String
 Dim vA, vB, vC
 Set qDef = CurrentDb.QueryDefs("qry_01(03)bSysEnblDisblParams")
 sSQL = qDef.sql
-
+sSQLORDER = " ORDER BY " & Split(sSQL, "ORDER BY")(1)
 sSQL = Split(sSQL, "ORDER BY")(0)
+
 sID = qDef.Fields(0).Name
 sIDValue = lstCtrls.Column(0, iLstIndex)
 
 vA = "([" & sID & "] = " & sIDValue & ")"
 
-sWhere = "WHERE " & vA
+sWhere = "WHERE " & vA & vbCrLf & sSQLORDER
 sSQL = sSQL & vbCrLf & sWhere
 
 Set rsQry = CurrentDb.OpenRecordset(sSQL, dbOpenDynaset)

@@ -191,7 +191,7 @@
       <Type>Rectangle</Type>
       <Left>2125</Left>
       <Top>10711</Top>
-      <Width>16743</Width>
+      <Width>12168</Width>
       <Height>2315</Height>
       <Tag></Tag>
       <Enabled></Enabled>
@@ -537,8 +537,8 @@
     <Control>
       <Name>chkStkMultiplo</Name>
       <Type>CheckBox</Type>
-      <Left>14626</Left>
-      <Top>11515</Top>
+      <Left>10459</Left>
+      <Top>12512</Top>
       <Width>260</Width>
       <Height>240</Height>
       <Tag>DataField>Multiplo.Grp11--HLclr.OnDrty.Mskd.MSlct-RstAr03</Tag>
@@ -547,13 +547,13 @@
     <Control>
       <Name>Rótulo420</Name>
       <Type>Label</Type>
-      <Left>14954</Left>
-      <Top>11475</Top>
+      <Left>10787</Left>
+      <Top>12472</Top>
       <Width>2250</Width>
       <Height>315</Height>
       <Tag></Tag>
       <Enabled></Enabled>
-      <Caption>Múltiplo = Prods./Emb.</Caption>
+      <Caption>Múltiplo para pedido</Caption>
     </Control>
     <Control>
       <Name>Rótulo430</Name>
@@ -1261,8 +1261,8 @@ Nova Entrada</Caption>
     <Control>
       <Name>btnTeste</Name>
       <Type>CommandButton</Type>
-      <Left>17631</Left>
-      <Top>11962</Top>
+      <Left>13266</Left>
+      <Top>12415</Top>
       <Width>737</Width>
       <Height>405</Height>
       <Tag>ActType>RstArea03</Tag>
@@ -1381,7 +1381,7 @@ Nova Entrada</Caption>
       <Top>12423</Top>
       <Width>1463</Width>
       <Height>315</Height>
-      <Tag>DataField>Preço_Embalagem.Grp11--HLclr.OnDrty.Mskd.MSlct-RstAr03</Tag>
+      <Tag>DataField>Preço_Embalagem.Grp11--HLclr.OnDrty.Mskd1.MSlct-RstAr03</Tag>
       <Enabled>Verdadeiro</Enabled>
       <ControlSource></ControlSource>
       <Format></Format>
@@ -1398,11 +1398,11 @@ Nova Entrada</Caption>
       <Caption>Preço da Emb.</Caption>
     </Control>
     <Control>
-      <Name>Texto553</Name>
+      <Name>txtQtdConsByProd</Name>
       <Type>TextBox</Type>
-      <Left>11480</Left>
+      <Left>12110</Left>
       <Top>11955</Top>
-      <Width>1566</Width>
+      <Width>936</Width>
       <Height>330</Height>
       <Tag>DataField>QtdCons_Prod.Grp11--HLclr.OnDrty.Mskd.MSlct-RstAr03</Tag>
       <Enabled>Verdadeiro</Enabled>
@@ -1414,11 +1414,11 @@ Nova Entrada</Caption>
       <Type>Label</Type>
       <Left>9885</Left>
       <Top>11970</Top>
-      <Width>1575</Width>
+      <Width>2220</Width>
       <Height>315</Height>
       <Tag></Tag>
       <Enabled></Enabled>
-      <Caption>Qtd. Cons. Prod.</Caption>
+      <Caption>Qtd. de Cons. por Prod.</Caption>
     </Control>
   </Controls>
 </Form>

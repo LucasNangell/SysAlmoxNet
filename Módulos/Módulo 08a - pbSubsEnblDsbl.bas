@@ -316,6 +316,6 @@ Stop
 
     End Select
     
-    cTweakableCtrL.ControlTipText = sCtrlNewTipText & Chr(160) & Chr(160)
+    If sCtrlNewTipText <> "" Then cTweakableCtrL.ControlTipText = sCtrlNewTipText & Chr(160) & Chr(160)
 
 End Sub

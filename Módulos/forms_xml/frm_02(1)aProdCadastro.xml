@@ -90,7 +90,7 @@
       <Name>Caixa548</Name>
       <Type>Rectangle</Type>
       <Left>311</Left>
-      <Top>6925</Top>
+      <Top>7055</Top>
       <Width>22856</Width>
       <Height>6131</Height>
       <Tag>BxProdutos</Tag>
@@ -100,7 +100,7 @@
       <Name>Rótulo549</Name>
       <Type>Label</Type>
       <Left>311</Left>
-      <Top>6701</Top>
+      <Top>6831</Top>
       <Width>22856</Width>
       <Height>345</Height>
       <Tag></Tag>
@@ -741,34 +741,11 @@
       <OnClick></OnClick>
     </Control>
     <Control>
-      <Name>txtEdtProd</Name>
-      <Type>TextBox</Type>
-      <Left>1549</Left>
-      <Top>7934</Top>
-      <Width>5466</Width>
-      <Height>315</Height>
-      <Tag>DataField>ProdutoBaseDescriçao.Grp10--HLclr1.OnDrty.Mskd.MSlct-RstAr</Tag>
-      <Enabled>Verdadeiro</Enabled>
-      <ControlSource></ControlSource>
-      <Format></Format>
-    </Control>
-    <Control>
-      <Name>Rótulo102</Name>
-      <Type>Label</Type>
-      <Left>544</Left>
-      <Top>7936</Top>
-      <Width>1005</Width>
-      <Height>315</Height>
-      <Tag></Tag>
-      <Enabled></Enabled>
-      <Caption>Produto</Caption>
-    </Control>
-    <Control>
       <Name>txtEdtVariaç</Name>
       <Type>TextBox</Type>
-      <Left>8657</Left>
-      <Top>7919</Top>
-      <Width>2106</Width>
+      <Left>9671</Left>
+      <Top>8050</Top>
+      <Width>2391</Width>
       <Height>315</Height>
       <Tag>DataField>Variaçao.Grp10--HLclr1.OnDrty.Mskd.MSlct-RstAr</Tag>
       <Enabled>Verdadeiro</Enabled>
@@ -778,8 +755,8 @@
     <Control>
       <Name>Rótulo104</Name>
       <Type>Label</Type>
-      <Left>7574</Left>
-      <Top>7919</Top>
+      <Left>8588</Left>
+      <Top>8050</Top>
       <Width>1125</Width>
       <Height>315</Height>
       <Tag></Tag>
@@ -789,8 +766,8 @@
     <Control>
       <Name>txtEdtComplem</Name>
       <Type>TextBox</Type>
-      <Left>8714</Left>
-      <Top>8480</Top>
+      <Left>12440</Left>
+      <Top>8645</Top>
       <Width>2361</Width>
       <Height>315</Height>
       <Tag>DataField>Complemento.Grp10--HLclr1.OnDrty.Mskd.MSlct-RstAr</Tag>
@@ -801,8 +778,8 @@
     <Control>
       <Name>Rótulo111</Name>
       <Type>Label</Type>
-      <Left>7574</Left>
-      <Top>8480</Top>
+      <Left>11300</Left>
+      <Top>8645</Top>
       <Width>1125</Width>
       <Height>315</Height>
       <Tag></Tag>
@@ -812,8 +789,8 @@
     <Control>
       <Name>Linha274</Name>
       <Type>Line</Type>
-      <Left>544</Left>
-      <Top>9841</Top>
+      <Left>642</Left>
+      <Top>10857</Top>
       <Width>13608</Width>
       <Height>0</Height>
       <Tag></Tag>
@@ -822,8 +799,8 @@
     <Control>
       <Name>txtEdtMinEstoque</Name>
       <Type>TextBox</Type>
-      <Left>9395</Left>
-      <Top>10636</Top>
+      <Left>12605</Left>
+      <Top>11594</Top>
       <Width>2196</Width>
       <Height>315</Height>
       <Tag>DataField>QtdMinEmEstoque.Grp10--HLclr1.OnDrty.Mskd.MSlct-RstAr</Tag>
@@ -834,8 +811,8 @@
     <Control>
       <Name>Rótulo132</Name>
       <Type>Label</Type>
-      <Left>7007</Left>
-      <Top>10635</Top>
+      <Left>10295</Left>
+      <Top>11593</Top>
       <Width>2310</Width>
       <Height>315</Height>
       <Tag></Tag>
@@ -843,55 +820,11 @@
       <Caption>Qtd. Mínima no estoque</Caption>
     </Control>
     <Control>
-      <Name>cmbEdtSetor</Name>
-      <Type>ComboBox</Type>
-      <Left>10252</Left>
-      <Top>9239</Top>
-      <Width>1311</Width>
-      <Height>315</Height>
-      <Tag>DataField>SetorIDfk.Grp10.RecQry>qry_10(04)aProdutoFull_SetorJct--HLclr1.OnDrty.Mskd.MSlct-RstAr</Tag>
-      <Enabled>Verdadeiro</Enabled>
-      <RowSource>qry_02(12)aSetores</RowSource>
-    </Control>
-    <Control>
-      <Name>Rótulo139</Name>
-      <Type>Label</Type>
-      <Left>9514</Left>
-      <Top>9239</Top>
-      <Width>738</Width>
-      <Height>315</Height>
-      <Tag></Tag>
-      <Enabled></Enabled>
-      <Caption>Setor</Caption>
-    </Control>
-    <Control>
-      <Name>cmbEdtCateg</Name>
-      <Type>ComboBox</Type>
-      <Left>1508</Left>
-      <Top>9239</Top>
-      <Width>2376</Width>
-      <Height>315</Height>
-      <Tag>DataField>CategIDfk.Grp10.RecQry>qry_10(02)aProdBase_CategJct--HLclr1.OnDrty.Mskd.MSlct-RstAr</Tag>
-      <Enabled>Verdadeiro</Enabled>
-      <RowSource>qry_02(08)aProdCateg</RowSource>
-    </Control>
-    <Control>
-      <Name>Rótulo142</Name>
-      <Type>Label</Type>
-      <Left>548</Left>
-      <Top>9239</Top>
-      <Width>960</Width>
-      <Height>315</Height>
-      <Tag></Tag>
-      <Enabled></Enabled>
-      <Caption>Categoria</Caption>
-    </Control>
-    <Control>
       <Name>cmbEdtAplic</Name>
       <Type>ComboBox</Type>
-      <Left>5803</Left>
-      <Top>9239</Top>
-      <Width>2676</Width>
+      <Left>1714</Left>
+      <Top>9512</Top>
+      <Width>2541</Width>
       <Height>315</Height>
       <Tag>DataField>ProdAplicaçaoIDfk.Grp10--HLclr1.OnDrty.Mskd.MSlct-RstAr</Tag>
       <Enabled>Verdadeiro</Enabled>
@@ -900,31 +833,19 @@
     <Control>
       <Name>Rótulo144</Name>
       <Type>Label</Type>
-      <Left>4839</Left>
-      <Top>9239</Top>
-      <Width>918</Width>
+      <Left>651</Left>
+      <Top>9512</Top>
+      <Width>1080</Width>
       <Height>315</Height>
       <Tag></Tag>
       <Enabled></Enabled>
       <Caption>Aplicação</Caption>
     </Control>
     <Control>
-      <Name>btnResetEdt</Name>
-      <Type>CommandButton</Type>
-      <Left>12110</Left>
-      <Top>10635</Top>
-      <Width>737</Width>
-      <Height>405</Height>
-      <Tag>NotInDict</Tag>
-      <Enabled>Falso</Enabled>
-      <Caption></Caption>
-      <OnClick></OnClick>
-    </Control>
-    <Control>
       <Name>txtEdtNomeFull</Name>
       <Type>TextBox</Type>
       <Left>544</Left>
-      <Top>7363</Top>
+      <Top>7493</Top>
       <Width>13619</Width>
       <Height>315</Height>
       <Tag></Tag>
@@ -935,8 +856,8 @@
     <Control>
       <Name>Linha180</Name>
       <Type>Line</Type>
-      <Left>544</Left>
-      <Top>9047</Top>
+      <Left>648</Left>
+      <Top>9234</Top>
       <Width>13608</Width>
       <Height>0</Height>
       <Tag></Tag>
@@ -945,8 +866,8 @@
     <Control>
       <Name>cmbEdtMed</Name>
       <Type>ComboBox</Type>
-      <Left>4691</Left>
-      <Top>8480</Top>
+      <Left>7113</Left>
+      <Top>8667</Top>
       <Width>2331</Width>
       <Height>330</Height>
       <Tag>DataField>ProdMedidaIDfk.Grp10--HLclr1.OnDrty.Mskd.MSlct-RstAr</Tag>
@@ -956,8 +877,8 @@
     <Control>
       <Name>Rótulo115</Name>
       <Type>Label</Type>
-      <Left>3833</Left>
-      <Top>8480</Top>
+      <Left>6255</Left>
+      <Top>8667</Top>
       <Width>813</Width>
       <Height>315</Height>
       <Tag></Tag>
@@ -967,9 +888,9 @@
     <Control>
       <Name>cmbEdtMat</Name>
       <Type>ComboBox</Type>
-      <Left>1509</Left>
-      <Top>8480</Top>
-      <Width>1701</Width>
+      <Left>1703</Left>
+      <Top>8667</Top>
+      <Width>2541</Width>
       <Height>330</Height>
       <Tag>DataField>ProdMaterialIDfk.Grp10--HLclr1.OnDrty.Mskd.MSlct-RstAr</Tag>
       <Enabled>Verdadeiro</Enabled>
@@ -978,9 +899,9 @@
     <Control>
       <Name>Rótulo109</Name>
       <Type>Label</Type>
-      <Left>549</Left>
-      <Top>8495</Top>
-      <Width>960</Width>
+      <Left>623</Left>
+      <Top>8682</Top>
+      <Width>1080</Width>
       <Height>315</Height>
       <Tag></Tag>
       <Enabled></Enabled>
@@ -989,8 +910,8 @@
     <Control>
       <Name>cmbEdtCor</Name>
       <Type>ComboBox</Type>
-      <Left>12109</Left>
-      <Top>7913</Top>
+      <Left>13123</Left>
+      <Top>8050</Top>
       <Width>1701</Width>
       <Height>330</Height>
       <Tag>DataField>ProdCorID.Grp10--HLclr1.OnDrty.Mskd.MSlct-RstAr</Tag>
@@ -1000,8 +921,8 @@
     <Control>
       <Name>Rótulo107</Name>
       <Type>Label</Type>
-      <Left>11599</Left>
-      <Top>7913</Top>
+      <Left>12613</Left>
+      <Top>8050</Top>
       <Width>510</Width>
       <Height>315</Height>
       <Tag></Tag>
@@ -1011,9 +932,9 @@
     <Control>
       <Name>cmbEdtUnProd</Name>
       <Type>ComboBox</Type>
-      <Left>1849</Left>
-      <Top>10068</Top>
-      <Width>1701</Width>
+      <Left>1866</Left>
+      <Top>11027</Top>
+      <Width>1431</Width>
       <Height>315</Height>
       <Tag>DataField>UnProdutoIDfk.Grp10--HLclr1.OnDrty.Mskd.MSlct-RstAr</Tag>
       <Enabled>Verdadeiro</Enabled>
@@ -1022,9 +943,9 @@
     <Control>
       <Name>Rótulo117</Name>
       <Type>Label</Type>
-      <Left>544</Left>
-      <Top>10071</Top>
-      <Width>1305</Width>
+      <Left>651</Left>
+      <Top>11030</Top>
+      <Width>1215</Width>
       <Height>315</Height>
       <Tag></Tag>
       <Enabled></Enabled>
@@ -1033,9 +954,9 @@
     <Control>
       <Name>cmbEdtUnCons</Name>
       <Type>ComboBox</Type>
-      <Left>5803</Left>
-      <Top>10068</Top>
-      <Width>1701</Width>
+      <Left>5910</Left>
+      <Top>11027</Top>
+      <Width>1431</Width>
       <Height>315</Height>
       <Tag>DataField>UnMedConsumoIDfk.Grp10--HLclr1.OnDrty.Mskd.MSlct-RstAr</Tag>
       <Enabled>Verdadeiro</Enabled>
@@ -1044,8 +965,8 @@
     <Control>
       <Name>Rótulo119</Name>
       <Type>Label</Type>
-      <Left>4453</Left>
-      <Top>10068</Top>
+      <Left>4560</Left>
+      <Top>11027</Top>
       <Width>1350</Width>
       <Height>315</Height>
       <Tag></Tag>
@@ -1055,9 +976,9 @@
     <Control>
       <Name>cmbEdtUnPed</Name>
       <Type>ComboBox</Type>
-      <Left>9862</Left>
-      <Top>10070</Top>
-      <Width>1701</Width>
+      <Left>9969</Left>
+      <Top>11029</Top>
+      <Width>1431</Width>
       <Height>315</Height>
       <Tag>DataField>UnPedidoIDfk.Grp10--HLclr1.OnDrty.Mskd.MSlct-RstAr</Tag>
       <Enabled>Verdadeiro</Enabled>
@@ -1066,8 +987,8 @@
     <Control>
       <Name>Rótulo127</Name>
       <Type>Label</Type>
-      <Left>8362</Left>
-      <Top>10070</Top>
+      <Left>8469</Left>
+      <Top>11029</Top>
       <Width>1500</Width>
       <Height>315</Height>
       <Tag></Tag>
@@ -1077,18 +998,18 @@
     <Control>
       <Name>imgSolicitante</Name>
       <Type>Image</Type>
-      <Left>18098</Left>
-      <Top>7313</Top>
-      <Width>3162</Width>
-      <Height>2577</Height>
+      <Left>15618</Left>
+      <Top>7426</Top>
+      <Width>4287</Width>
+      <Height>3342</Height>
       <Tag></Tag>
       <Enabled></Enabled>
     </Control>
     <Control>
       <Name>btnImportImg</Name>
       <Type>CommandButton</Type>
-      <Left>19244</Left>
-      <Top>10374</Top>
+      <Left>16664</Left>
+      <Top>11508</Top>
       <Width>1590</Width>
       <Height>405</Height>
       <Tag>NotInDict</Tag>
@@ -1099,8 +1020,8 @@
     <Control>
       <Name>btnLocalizarImg</Name>
       <Type>CommandButton</Type>
-      <Left>18793</Left>
-      <Top>10374</Top>
+      <Left>16213</Left>
+      <Top>11508</Top>
       <Width>330</Width>
       <Height>405</Height>
       <Tag>NotInDict</Tag>
@@ -1146,10 +1067,10 @@
     <Control>
       <Name>btnSalvar</Name>
       <Type>CommandButton</Type>
-      <Left>13606</Left>
-      <Top>11310</Top>
-      <Width>1419</Width>
-      <Height>454</Height>
+      <Left>878</Left>
+      <Top>6009</Top>
+      <Width>489</Width>
+      <Height>259</Height>
       <Tag>Grp10.ActType>SaveEdit.FormMode>StartView..RecQry>qry_04(01)aProdutosFull(Edt)</Tag>
       <Enabled>Verdadeiro</Enabled>
       <Caption>Salvar</Caption>
@@ -1158,14 +1079,188 @@
     <Control>
       <Name>btnCancelar</Name>
       <Type>CommandButton</Type>
-      <Left>15307</Left>
-      <Top>11310</Top>
-      <Width>1419</Width>
-      <Height>454</Height>
+      <Left>850</Left>
+      <Top>6491</Top>
+      <Width>489</Width>
+      <Height>259</Height>
       <Tag>Grp10.ActType>CancelNew.FormMode>StartView.FrmToOpen></Tag>
       <Enabled>Verdadeiro</Enabled>
       <Caption>Cancelar</Caption>
       <OnClick>[Event Procedure]</OnClick>
+    </Control>
+    <Control>
+      <Name>cmbEdtProdBase</Name>
+      <Type>ComboBox</Type>
+      <Left>1703</Left>
+      <Top>8064</Top>
+      <Width>5421</Width>
+      <Height>330</Height>
+      <Tag>DataField>ProdutoBaseDescriçao.Grp10--HLclr1.OnDrty.Mskd.MSlct-RstAr</Tag>
+      <Enabled>Verdadeiro</Enabled>
+      <RowSource></RowSource>
+    </Control>
+    <Control>
+      <Name>Rótulo102</Name>
+      <Type>Label</Type>
+      <Left>623</Left>
+      <Top>8065</Top>
+      <Width>1080</Width>
+      <Height>315</Height>
+      <Tag></Tag>
+      <Enabled></Enabled>
+      <Caption>Prod. Base</Caption>
+    </Control>
+    <Control>
+      <Name>cmbEdtCateg</Name>
+      <Type>ListBox</Type>
+      <Left>7004</Left>
+      <Top>9496</Top>
+      <Width>2571</Width>
+      <Height>1207</Height>
+      <Tag>DataField>CategIDfk.Grp10.RecQry>qry_10(02)aProdBase_CategJct--HLclr1.OnDrty.Mskd.MSlct-RstAr</Tag>
+      <Enabled>Verdadeiro</Enabled>
+      <RowSource>qry_02(08)aProdCateg</RowSource>
+    </Control>
+    <Control>
+      <Name>Rótulo142</Name>
+      <Type>Label</Type>
+      <Left>5954</Left>
+      <Top>9513</Top>
+      <Width>1050</Width>
+      <Height>315</Height>
+      <Tag></Tag>
+      <Enabled></Enabled>
+      <Caption>Categoria</Caption>
+    </Control>
+    <Control>
+      <Name>cmbEdtSetor</Name>
+      <Type>ListBox</Type>
+      <Left>11964</Left>
+      <Top>9496</Top>
+      <Width>1356</Width>
+      <Height>1207</Height>
+      <Tag>DataField>SetorIDfk.Grp10.RecQry>qry_10(04)aProdutoFull_SetorJct--HLclr1.OnDrty.Mskd.MSlct-RstAr</Tag>
+      <Enabled>Verdadeiro</Enabled>
+      <RowSource>qry_02(12)aSetores</RowSource>
+    </Control>
+    <Control>
+      <Name>Rótulo139</Name>
+      <Type>Label</Type>
+      <Left>11226</Left>
+      <Top>9496</Top>
+      <Width>738</Width>
+      <Height>315</Height>
+      <Tag></Tag>
+      <Enabled></Enabled>
+      <Caption>Setor</Caption>
+    </Control>
+    <Control>
+      <Name>btnResetEdt</Name>
+      <Type>CommandButton</Type>
+      <Left>17007</Left>
+      <Top>12699</Top>
+      <Width>737</Width>
+      <Height>405</Height>
+      <Tag>ActType>RstArea03</Tag>
+      <Enabled>Verdadeiro</Enabled>
+      <Caption></Caption>
+      <OnClick></OnClick>
+    </Control>
+    <Control>
+      <Name>btnEditProdBase</Name>
+      <Type>CommandButton</Type>
+      <Left>7313</Left>
+      <Top>8050</Top>
+      <Width>570</Width>
+      <Height>377</Height>
+      <Tag></Tag>
+      <Enabled>Verdadeiro</Enabled>
+      <Caption></Caption>
+      <OnClick></OnClick>
+    </Control>
+    <Control>
+      <Name>Comando552</Name>
+      <Type>CommandButton</Type>
+      <Left>15051</Left>
+      <Top>8050</Top>
+      <Width>570</Width>
+      <Height>377</Height>
+      <Tag></Tag>
+      <Enabled>Verdadeiro</Enabled>
+      <Caption></Caption>
+      <OnClick></OnClick>
+    </Control>
+    <Control>
+      <Name>Comando553</Name>
+      <Type>CommandButton</Type>
+      <Left>4497</Left>
+      <Top>8645</Top>
+      <Width>570</Width>
+      <Height>377</Height>
+      <Tag></Tag>
+      <Enabled>Verdadeiro</Enabled>
+      <Caption></Caption>
+      <OnClick></OnClick>
+    </Control>
+    <Control>
+      <Name>Comando554</Name>
+      <Type>CommandButton</Type>
+      <Left>9685</Left>
+      <Top>8645</Top>
+      <Width>570</Width>
+      <Height>377</Height>
+      <Tag></Tag>
+      <Enabled>Verdadeiro</Enabled>
+      <Caption></Caption>
+      <OnClick></OnClick>
+    </Control>
+    <Control>
+      <Name>Comando555</Name>
+      <Type>CommandButton</Type>
+      <Left>15048</Left>
+      <Top>8645</Top>
+      <Width>570</Width>
+      <Height>377</Height>
+      <Tag></Tag>
+      <Enabled>Verdadeiro</Enabled>
+      <Caption></Caption>
+      <OnClick></OnClick>
+    </Control>
+    <Control>
+      <Name>Comando556</Name>
+      <Type>CommandButton</Type>
+      <Left>9837</Left>
+      <Top>9496</Top>
+      <Width>570</Width>
+      <Height>377</Height>
+      <Tag></Tag>
+      <Enabled>Verdadeiro</Enabled>
+      <Caption></Caption>
+      <OnClick></OnClick>
+    </Control>
+    <Control>
+      <Name>Comando557</Name>
+      <Type>CommandButton</Type>
+      <Left>13493</Left>
+      <Top>9496</Top>
+      <Width>570</Width>
+      <Height>377</Height>
+      <Tag></Tag>
+      <Enabled>Verdadeiro</Enabled>
+      <Caption></Caption>
+      <OnClick></OnClick>
+    </Control>
+    <Control>
+      <Name>Comando558</Name>
+      <Type>CommandButton</Type>
+      <Left>4508</Left>
+      <Top>9467</Top>
+      <Width>570</Width>
+      <Height>377</Height>
+      <Tag></Tag>
+      <Enabled>Verdadeiro</Enabled>
+      <Caption></Caption>
+      <OnClick></OnClick>
     </Control>
   </Controls>
 </Form>

@@ -104,3 +104,9 @@ Private Sub lstProdsBase_AfterUpdate()
 '    Me.lstEstoqueIn.Selected(0) = True
 
 End Sub
+
+Private Sub txtPrecoEmb_Change()
+    Call MskdTxtbox02_TextMask(ActiveControl, ActiveControl.Text, "R$ #,###.00", 6)
+    'Call MskdTxtbox02_TextMask(ActiveControl, ActiveControl.Text, "P_###,###", 6)
+    
+End Sub

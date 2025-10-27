@@ -333,7 +333,7 @@ Public Function GetTagParams(sParam As String, vTagSectionParams As Variant, _
                     If bErrorOnScreen Then
                         vB = "Erro de parametrização de Controle do formulário"
                         Call msgboxErrorAlert(sScreenStR1, sScreenStR2, vbExclamation, vB)
-    Stop
+'    Stop
                     End If
                     
                     If bErrorOnLog Then

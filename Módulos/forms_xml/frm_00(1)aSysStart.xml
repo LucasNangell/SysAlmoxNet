@@ -54,7 +54,7 @@ pro incício do sistema</Caption>
       <OnClick>[Event Procedure]</OnClick>
     </Control>
     <Control>
-      <Name>btnProdEstoque</Name>
+      <Name>btnTxtboxChange</Name>
       <Type>CommandButton</Type>
       <Left>10828</Left>
       <Top>1474</Top>
@@ -62,7 +62,7 @@ pro incício do sistema</Caption>
       <Height>405</Height>
       <Tag></Tag>
       <Enabled>Verdadeiro</Enabled>
-      <Caption>Open TrggForm</Caption>
+      <Caption>Textbox Change</Caption>
       <OnClick>[Event Procedure]</OnClick>
     </Control>
     <Control>
@@ -133,29 +133,6 @@ pro incício do sistema</Caption>
       <Tag></Tag>
       <Enabled></Enabled>
       <Caption>Variação</Caption>
-    </Control>
-    <Control>
-      <Name>txtSrchMed</Name>
-      <Type>TextBox</Type>
-      <Left>1363</Left>
-      <Top>1380</Top>
-      <Width>2361</Width>
-      <Height>315</Height>
-      <Tag>Trg.ProdMedida.Grp01.Rmv04.WdCrd2.SrchDlay0.CascUpDt(_)---RstAr02</Tag>
-      <Enabled>Verdadeiro</Enabled>
-      <ControlSource></ControlSource>
-      <Format></Format>
-    </Control>
-    <Control>
-      <Name>Rótulo215</Name>
-      <Type>Label</Type>
-      <Left>235</Left>
-      <Top>1380</Top>
-      <Width>1083</Width>
-      <Height>315</Height>
-      <Tag></Tag>
-      <Enabled></Enabled>
-      <Caption>Medida</Caption>
     </Control>
     <Control>
       <Name>btnCheckColor</Name>
@@ -296,6 +273,29 @@ pro incício do sistema</Caption>
       <Tag>-TrgtCtrl.Grp01.RCnt>lblRegs1-HLclr1.OnDrty0.Mskd1.MSlct0-</Tag>
       <Enabled>Verdadeiro</Enabled>
       <RowSource>_qry_04(01)cProdutosFull_Setor(Viw-Pre not Grp)</RowSource>
+    </Control>
+    <Control>
+      <Name>txtPreço</Name>
+      <Type>TextBox</Type>
+      <Left>1354</Left>
+      <Top>1360</Top>
+      <Width>2361</Width>
+      <Height>315</Height>
+      <Tag>Trg.ProdMedida.Grp01.Rmv04.WdCrd2.SrchDlay0.CascUpDt(_)---RstAr02</Tag>
+      <Enabled>Verdadeiro</Enabled>
+      <ControlSource></ControlSource>
+      <Format></Format>
+    </Control>
+    <Control>
+      <Name>Rótulo215</Name>
+      <Type>Label</Type>
+      <Left>226</Left>
+      <Top>1360</Top>
+      <Width>1083</Width>
+      <Height>315</Height>
+      <Tag></Tag>
+      <Enabled></Enabled>
+      <Caption>Preço</Caption>
     </Control>
   </Controls>
 </Form>

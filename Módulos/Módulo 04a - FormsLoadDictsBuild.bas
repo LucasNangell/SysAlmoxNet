@@ -2321,7 +2321,7 @@ If gBbDepurandoLv01c Then Stop
         vB = " Erro [ " & Err.Number & " ] "
            
         Call msgboxErrorAlert(sStR1, sStR2, vbExclamation, vB)
-Stop
+'Stop
     End If
 
 

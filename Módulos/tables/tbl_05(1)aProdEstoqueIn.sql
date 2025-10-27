@@ -12,7 +12,7 @@ CREATE TABLE tbl_05(1)aProdEstoqueIn (
     Multiplo BIT DEFAULT 0,
     QtdEmbsIn INTEGER,
     Saldo INTEGER,
-    Preço_Embalagem INTEGER,
+    Preço_Embalagem FLOAT DEFAULT 0,
     Lote VARCHAR(255),
     Validade DATETIME
 );

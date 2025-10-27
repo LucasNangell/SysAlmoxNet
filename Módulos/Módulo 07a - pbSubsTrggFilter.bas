@@ -447,6 +447,11 @@ If gBbDepurandoLv03a Then Stop
     
     'Se não houver [ TrggCtrls ] no [ grupo de filtragem ] atualmente avaliado não é necessário recuperar
     ' SQL e outros elementos já que não haverá filtragens
+    If Not IsObject(dictTrgg00GrpsInForm(sForM)) Then
+        Exit Sub
+        
+    End If
+    
     If Not IsObject(dictTrgg00GrpsInForm(sForM)(sFilGrp)) Then
         Exit Sub
         

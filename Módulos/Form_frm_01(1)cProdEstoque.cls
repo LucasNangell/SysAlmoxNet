@@ -57,7 +57,7 @@ Private Sub Form_Load()
 
     'Me.lstEstoqueIn.RowSource = ""
     'Me.lstEstoqueSaldo.RowSource = ""
-    Me.lstProdsBase.Selected(0) = True
+    Me.lstEstoqueIn.Selected(0) = True
     
     
 End Sub
@@ -71,7 +71,6 @@ Private Sub lstProdsBase_AfterUpdate()
 End Sub
 
 Private Sub txtPrecoEmb_Change()
-    Call MskdTxtbox02_TextMask(ActiveControl, ActiveControl.Text, "R$ #,###.00", 6)
-    'Call MskdTxtbox02_TextMask(ActiveControl, ActiveControl.Text, "P_###,###", 6)
+    Call MskdTxtbox_TextMask(ActiveControl, "#,###.00", "R$ ")
     
 End Sub

@@ -11,6 +11,28 @@ Option Compare Database
 Option Explicit
 
 
+Private Sub btnTxtboxChange_Click()
+    Dim vA, vB
+Stop
+    txtPreço.SetFocus
+    txtPreço.Value = 2
+    
+    txtPreço.SetFocus
+    txtPreço.Text = 2
+
+End Sub
+
+
+
+Private Sub txtPreço_Change()
+Exit Sub
+Stop
+    'Call MskdTxtbox_TextMask(ActiveControl, "P_###,###", , 6)
+    Call MskdTxtbox_TextMask(ActiveControl, "#,###.00", "R$ ")
+
+End Sub
+
+
 
 Private Sub cmbSrcCateg_BeforeUpdate(Cancel As Integer)
     Dim vA, vB, vC, vD, vE
@@ -26,7 +48,7 @@ End Sub
 
 Private Sub Form_Load()
     
-    Call SysLoad00_SysStartLoad
+'    Call SysLoad00_SysStartLoad
 
 End Sub
 
@@ -215,3 +237,4 @@ Private Sub btnProdEstoque_Click()
 
     
 End Sub
+

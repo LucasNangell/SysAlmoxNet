@@ -121,6 +121,8 @@ Sub PbSubDataFields_FillFromListbox(cListBox As Control)
     Dim sValue As String
     Dim vCamposNecessarios As Variant
     Dim sWhere As String
+    Dim bMskdCtrl As Boolean
+    Dim sCustomFormat As String
     
     Set fForM = cListBox.Parent
     sForM = fForM.Name
@@ -206,7 +208,16 @@ Sub PbSubDataFields_FillFromListbox(cListBox As Control)
         'Define o [ clObjCtrlDataFieds ] referente ao controle ora analisado
         Set clObjCtrlDataFieds = dictFormDataFlds01Grps(sForM)(sFilGrp)(vKeyDataFieldCtrl)
         sDataFieldCtrl = vKeyDataFieldCtrl
-    
+        
+        'Verifica se o controle possui alguma máscara
+        If IsObject(dictCtrlBehvrParams(sForM)) Then
+        'dictCtrlBehvrParams(sForM)(sCtrL)
+            If dictCtrlBehvrParams(sForM).Exists(sDataFieldCtrl) = True Then
+                Set clObjCtrlBehvrParams = dictCtrlBehvrParams(sForM)(sDataFieldCtrl)
+                bMskdCtrl = clObjCtrlBehvrParams.bMskdCtrl
+            End If
+        End If
+                    
         'Confirma se o controle [ vKeyDataFieldCtrl ] de fato existe no [ Form ]
         If ControlExists(sDataFieldCtrl, fForM) Then
             Set cDataFieldCtrl = fForM.Controls(sDataFieldCtrl)
@@ -227,7 +238,15 @@ Sub PbSubDataFields_FillFromListbox(cListBox As Control)
                     
                     'Exibe no controle ora analisado, o valor recuperado na tabela de dados
                     cDataFieldCtrl.Value = rstFieldDataField
-
+                    
+                    'Caso o controle possua máscara, aplica a formatação através da rotina [ MskdTxtbox_TextMask ]
+                    If bMskdCtrl Then
+                        sCustomFormat = rstFieldDataField.Properties("Format")
+                        If InStr(sCustomFormat, ";") > 0 Then sCustomFormat = Split(sCustomFormat, ";")(0)
+                        sCustomFormat = Replace(sCustomFormat, """", "")
+                        Call MskdTxtbox_TextMask(cDataFieldCtrl, sCustomFormat)
+                    End If
+                    
                 Else
                     
                     'Confirma se o controle ? uma combobox

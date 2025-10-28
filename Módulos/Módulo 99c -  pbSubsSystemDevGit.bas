@@ -189,6 +189,8 @@ Sub ExportarTodosObjetosVBADetallado()
     SendKeys ("{ENTER}")
     
     'MsgBox "Exportação e commit concluídos! " & intContador & " objetos exportados.", vbInformation
+
+
 End Sub
 
 ' --- NOVAS FUNÇÕES CORRIGIDAS PARA EXPORTAR EM XML ---

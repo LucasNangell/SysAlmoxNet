@@ -2986,7 +2986,10 @@ Public Sub pbSub71_DataFieldDictBuild(sTagSection As String, cDataField As Contr
         'Adiciona [ sCtrlDataField ] em [ dictFormDataFlds00Ctrls(sForM) ]
         If dictFormDataFlds00Ctrls(sForM).Exists(sCtrlDataField) = True Then
             Set clObjCtrlDataFieds = dictFormDataFlds00Ctrls(sForM)(sCtrlDataField)
-    
+            clObjCtrlDataFieds.sCtrlDataField = sCtrlDataField
+            clObjCtrlDataFieds.sDataFieldGrp = sDataFieldGrp
+            clObjCtrlDataFieds.sDataField = sDataField
+            clObjCtrlDataFieds.sRecQry = sRecQry
         Else
            'Cria um novo objeto [ clObjCtrlDataFieds ] da Classe [ cls_04aCtrlsDataFields ] pra ser incluído no Dict
             Set clObjCtrlDataFieds = New cls_04aCtrlsDataFields

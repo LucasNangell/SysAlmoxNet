@@ -127,7 +127,7 @@
       <Top>6026</Top>
       <Width>1284</Width>
       <Height>510</Height>
-      <Tag>Grp11.ActType>CancelNew.FormMode>StartView.FrmToOpen></Tag>
+      <Tag>Grp10.ActType>CancelNew.FormMode>StartView.FrmToOpen></Tag>
       <Enabled>Verdadeiro</Enabled>
       <Caption>Cancelar</Caption>
       <OnClick></OnClick>
@@ -139,7 +139,7 @@
       <Top>5415</Top>
       <Width>1284</Width>
       <Height>510</Height>
-      <Tag>Grp11.ActType>SaveNew.FormMode>StartView..RecQry>qry_05(1)aProdEstoqueIn(Edt)</Tag>
+      <Tag>Grp10.ActType>SaveNew.FormMode>StartView..RecQry>qry_05(1)aProdEstoqueIn(Edt)</Tag>
       <Enabled>Verdadeiro</Enabled>
       <Caption>Salvar</Caption>
       <OnClick></OnClick>
@@ -204,7 +204,7 @@
       <Top>5347</Top>
       <Width>4243</Width>
       <Height>2587</Height>
-      <Tag>DataField>ProdutoFullIDfk.Grp11</Tag>
+      <Tag>DataField>ProdutoFullID.Grp10</Tag>
       <Enabled>Verdadeiro</Enabled>
       <RowSource>qry_05(1)dProdEstoqueInSaldoByMarca(Viw)</RowSource>
     </Control>
@@ -239,7 +239,7 @@
       <Top>11093</Top>
       <Width>1463</Width>
       <Height>330</Height>
-      <Tag>DataField>Validade.Grp11--HLclr.OnDrty.Mskd.MSlct-RstAr03</Tag>
+      <Tag>DataField>Validade.Grp10--HLclr.OnDrty.Mskd.MSlct-RstAr03</Tag>
       <Enabled>Verdadeiro</Enabled>
       <ControlSource></ControlSource>
       <Format>Short Date</Format>
@@ -262,7 +262,7 @@
       <Top>11103</Top>
       <Width>2496</Width>
       <Height>330</Height>
-      <Tag>DataField>Lote.Grp11--HLclr.OnDrty.Mskd.MSlct-RstAr03</Tag>
+      <Tag>DataField>Lote.Grp10--HLclr.OnDrty.Mskd.MSlct-RstAr03</Tag>
       <Enabled>Verdadeiro</Enabled>
       <ControlSource></ControlSource>
       <Format></Format>
@@ -321,7 +321,7 @@
       <Top>10619</Top>
       <Width>1463</Width>
       <Height>330</Height>
-      <Tag>DataField>DataEntrada.Grp11--HLclr.OnDrty.Mskd.MSlct-RstAr03</Tag>
+      <Tag>DataField>DataEntrada.Grp10--HLclr.OnDrty.Mskd.MSlct-RstAr03</Tag>
       <Enabled>Verdadeiro</Enabled>
       <ControlSource></ControlSource>
       <Format>Short Date</Format>
@@ -368,7 +368,7 @@
       <Top>11567</Top>
       <Width>1463</Width>
       <Height>315</Height>
-      <Tag>DataField>Prods_Emb.Grp11--HLclr.OnDrty.Mskd.MSlct-RstAr03</Tag>
+      <Tag>DataField>Prods_Emb.Grp10--HLclr.OnDrty.Mskd.MSlct-RstAr03</Tag>
       <Enabled>Verdadeiro</Enabled>
       <ControlSource></ControlSource>
       <Format></Format>
@@ -391,7 +391,7 @@
       <Top>12115</Top>
       <Width>260</Width>
       <Height>240</Height>
-      <Tag>DataField>Multiplo.Grp11--HLclr.OnDrty.Mskd.MSlct-RstAr03</Tag>
+      <Tag>DataField>Multiplo.Grp10--HLclr.OnDrty.Mskd.MSlct-RstAr03</Tag>
       <Enabled>Verdadeiro</Enabled>
     </Control>
     <Control>
@@ -481,7 +481,7 @@ Nova Entrada</Caption>
       <Top>11093</Top>
       <Width>1463</Width>
       <Height>330</Height>
-      <Tag>DataField>UnDaEmb_UnMedIDfk.Grp11--HLclr.OnDrty.Mskd.MSlct-RstAr03</Tag>
+      <Tag>DataField>UnDaEmb_UnMedIDfk.Grp10--HLclr.OnDrty.Mskd.MSlct-RstAr03</Tag>
       <Enabled>Verdadeiro</Enabled>
       <RowSource>qry_02(10)aProdUnMedida</RowSource>
     </Control>
@@ -503,7 +503,7 @@ Nova Entrada</Caption>
       <Top>10634</Top>
       <Width>1463</Width>
       <Height>315</Height>
-      <Tag>DataField>QtdEmbsIn.Grp11--HLclr.OnDrty.Mskd.MSlct-RstAr03</Tag>
+      <Tag>DataField>QtdEmbsIn.Grp10--HLclr.OnDrty.Mskd.MSlct-RstAr03</Tag>
       <Enabled>Verdadeiro</Enabled>
       <ControlSource></ControlSource>
       <Format></Format>
@@ -631,7 +631,7 @@ Nova Entrada</Caption>
       <Top>10629</Top>
       <Width>2496</Width>
       <Height>315</Height>
-      <Tag>DataField>MarcaIDfk.Grp11.RecQry>qry_10(02)bProdBase_MarcaJct--HLclr.OnDrty.Mskd.MSlct-RstAr03</Tag>
+      <Tag>DataField>ProdMarcaID.Grp10.RecQry>qry_10(02)bProdBase_MarcaJct--HLclr.OnDrty.Mskd.MSlct-RstAr03</Tag>
       <Enabled>Verdadeiro</Enabled>
       <RowSource>qry_02(07)aProdMarca</RowSource>
     </Control>
@@ -697,7 +697,7 @@ Nova Entrada</Caption>
       <Top>6011</Top>
       <Width>1284</Width>
       <Height>510</Height>
-      <Tag>Grp11.ActType>ExcRec.FormMode>StartView.RecQry>qry_05(1)aProdEstoqueIn(Edt)</Tag>
+      <Tag>Grp10.ActType>ExcRec.FormMode>StartView.RecQry>qry_05(1)aProdEstoqueIn(Edt)</Tag>
       <Enabled>Verdadeiro</Enabled>
       <Caption>Excluir</Caption>
       <OnClick></OnClick>
@@ -709,7 +709,7 @@ Nova Entrada</Caption>
       <Top>6750</Top>
       <Width>1284</Width>
       <Height>510</Height>
-      <Tag>Grp11.ActType>DupRec.FormMode>EntradaEdit.FrmToOpen></Tag>
+      <Tag>Grp10.ActType>DupRec.FormMode>EntradaEdit.FrmToOpen></Tag>
       <Enabled>Verdadeiro</Enabled>
       <Caption>Duplicar</Caption>
       <OnClick></OnClick>
@@ -721,7 +721,7 @@ Nova Entrada</Caption>
       <Top>5418</Top>
       <Width>1284</Width>
       <Height>510</Height>
-      <Tag>Grp11.ActType>NewRec.FormMode>EntradaEdit.FrmToOpen></Tag>
+      <Tag>Grp10.ActType>NewRec.FormMode>EntradaEdit.FrmToOpen></Tag>
       <Enabled>Verdadeiro</Enabled>
       <Caption>Nova</Caption>
       <OnClick></OnClick>
@@ -882,7 +882,7 @@ Nova Entrada</Caption>
       <Top>7473</Top>
       <Width>1284</Width>
       <Height>510</Height>
-      <Tag>Grp11.ActType>EditRec.FormMode>EntradaEdit.FrmToOpen></Tag>
+      <Tag>Grp10.ActType>EditRec.FormMode>EntradaEdit.FrmToOpen></Tag>
       <Enabled>Verdadeiro</Enabled>
       <Caption>Editar</Caption>
       <OnClick>[Event Procedure]</OnClick>
@@ -918,7 +918,7 @@ Nova Entrada</Caption>
       <Top>5345</Top>
       <Width>15988</Width>
       <Height>4207</Height>
-      <Tag>TrgtCtrl.Grp10.RCnt>lblRegs1-HLclr.OnDrty.Mskd.MSlct0-</Tag>
+      <Tag>TrgtCtrl.Grp10.RCnt>lblRegs1--HLclr.OnDrty.Mskd.MSlct0-</Tag>
       <Enabled>Verdadeiro</Enabled>
       <RowSource>qry_05(1)aProdEstoqueIn(Viw)</RowSource>
     </Control>
@@ -963,7 +963,7 @@ Nova Entrada</Caption>
       <Top>12026</Top>
       <Width>1463</Width>
       <Height>315</Height>
-      <Tag>DataField>Preço_Embalagem.Grp11--HLclr.OnDrty.Mskd1.MSlct-RstAr03</Tag>
+      <Tag>DataField>Preço_Embalagem.Grp10--HLclr.OnDrty.Mskd1.MSlct-RstAr03</Tag>
       <Enabled>Verdadeiro</Enabled>
       <ControlSource></ControlSource>
       <Format></Format>
@@ -986,7 +986,7 @@ Nova Entrada</Caption>
       <Top>11558</Top>
       <Width>936</Width>
       <Height>330</Height>
-      <Tag>DataField>QtdCons_Prod.Grp11--HLclr.OnDrty.Mskd.MSlct-RstAr03</Tag>
+      <Tag>DataField>QtdCons_Prod.Grp10--HLclr.OnDrty.Mskd.MSlct-RstAr03</Tag>
       <Enabled>Verdadeiro</Enabled>
       <ControlSource></ControlSource>
       <Format></Format>
@@ -1009,7 +1009,7 @@ Nova Entrada</Caption>
       <Top>3024</Top>
       <Width>2496</Width>
       <Height>330</Height>
-      <Tag>DataField>Lote.Grp10--HLclr.OnDrty.Mskd.MSlct-RstAr03</Tag>
+      <Tag></Tag>
       <Enabled>Verdadeiro</Enabled>
       <ControlSource></ControlSource>
       <Format></Format>
@@ -1032,7 +1032,7 @@ Nova Entrada</Caption>
       <Top>2550</Top>
       <Width>2496</Width>
       <Height>315</Height>
-      <Tag>DataField>MarcaIDfk.Grp10.RecQry>qry_10(02)bProdBase_MarcaJct--HLclr.OnDrty.Mskd.MSlct-RstAr03</Tag>
+      <Tag></Tag>
       <Enabled>Verdadeiro</Enabled>
       <RowSource>qry_02(07)aProdMarca</RowSource>
     </Control>

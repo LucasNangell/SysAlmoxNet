@@ -109,16 +109,16 @@
       <OnClick></OnClick>
     </Control>
     <Control>
-      <Name>txtDataEntrada2</Name>
+      <Name>txtSrchDataEntrada2</Name>
       <Type>TextBox</Type>
       <Left>2721</Left>
       <Top>3456</Top>
       <Width>1463</Width>
       <Height>330</Height>
-      <Tag> </Tag>
+      <Tag> HLclr1.OnDrty1.Mskd1.MSlct0-RstAr01</Tag>
       <Enabled>Verdadeiro</Enabled>
       <ControlSource></ControlSource>
-      <Format>Short Date</Format>
+      <Format></Format>
     </Control>
     <Control>
       <Name>btnCancelarEntrada</Name>
@@ -127,7 +127,7 @@
       <Top>6026</Top>
       <Width>1284</Width>
       <Height>510</Height>
-      <Tag>Grp10.ActType>CancelNew.FormMode>StartView.FrmToOpen></Tag>
+      <Tag>Grp11.ActType>CancelNew.FormMode>StartView.FrmToOpen></Tag>
       <Enabled>Verdadeiro</Enabled>
       <Caption>Cancelar</Caption>
       <OnClick></OnClick>
@@ -139,13 +139,13 @@
       <Top>5415</Top>
       <Width>1284</Width>
       <Height>510</Height>
-      <Tag>Grp10.ActType>SaveNew.FormMode>StartView..RecQry>qry_05(1)aProdEstoqueIn(Edt)</Tag>
+      <Tag>Grp11.ActType>SaveNew.FormMode>StartView..RecQry>qry_05(1)aProdEstoqueIn(Edt)</Tag>
       <Enabled>Verdadeiro</Enabled>
       <Caption>Salvar</Caption>
       <OnClick></OnClick>
     </Control>
     <Control>
-      <Name>Comando546</Name>
+      <Name>btnShoppingCart</Name>
       <Type>CommandButton</Type>
       <Left>596</Left>
       <Top>890</Top>
@@ -179,10 +179,10 @@
     <Control>
       <Name>imgSolicitante</Name>
       <Type>Image</Type>
-      <Left>14938</Left>
-      <Top>10314</Top>
-      <Width>3162</Width>
-      <Height>2495</Height>
+      <Left>18453</Left>
+      <Top>8248</Top>
+      <Width>4243</Width>
+      <Height>3230</Height>
       <Tag></Tag>
       <Enabled></Enabled>
     </Control>
@@ -262,7 +262,7 @@
       <Top>11103</Top>
       <Width>2496</Width>
       <Height>330</Height>
-      <Tag>DataField>Lote.Grp10--HLclr.OnDrty.Mskd.MSlct-RstAr03</Tag>
+      <Tag>DataField>LoteStr.Grp10--HLclr.OnDrty.Mskd.MSlct-RstAr03</Tag>
       <Enabled>Verdadeiro</Enabled>
       <ControlSource></ControlSource>
       <Format></Format>
@@ -443,8 +443,8 @@ Nova Entrada</Caption>
     <Control>
       <Name>btnImportImg</Name>
       <Type>CommandButton</Type>
-      <Left>18819</Left>
-      <Top>12359</Top>
+      <Left>18989</Left>
+      <Top>11565</Top>
       <Width>1590</Width>
       <Height>405</Height>
       <Tag>NotInDict</Tag>
@@ -455,24 +455,14 @@ Nova Entrada</Caption>
     <Control>
       <Name>btnLocalizarImg</Name>
       <Type>CommandButton</Type>
-      <Left>18368</Left>
-      <Top>12359</Top>
+      <Left>18538</Left>
+      <Top>11565</Top>
       <Width>330</Width>
       <Height>405</Height>
       <Tag>NotInDict</Tag>
       <Enabled>Verdadeiro</Enabled>
       <Caption></Caption>
       <OnClick>[Event Procedure]</OnClick>
-    </Control>
-    <Control>
-      <Name>Linha441</Name>
-      <Type>Line</Type>
-      <Left>22762</Left>
-      <Top>9808</Top>
-      <Width>0</Width>
-      <Height>1531</Height>
-      <Tag></Tag>
-      <Enabled></Enabled>
     </Control>
     <Control>
       <Name>cmbStkUnEmb</Name>
@@ -523,7 +513,7 @@ Nova Entrada</Caption>
       <Name>txtStkUnProdEmb</Name>
       <Type>TextBox</Type>
       <Left>8771</Left>
-      <Top>11593</Top>
+      <Top>11567</Top>
       <Width>711</Width>
       <Height>315</Height>
       <Tag>DataField>UnProdStr.Grp11---RstAr03</Tag>
@@ -631,7 +621,7 @@ Nova Entrada</Caption>
       <Top>10629</Top>
       <Width>2496</Width>
       <Height>315</Height>
-      <Tag>DataField>ProdMarcaID.Grp10.RecQry>qry_10(02)bProdBase_MarcaJct--HLclr.OnDrty.Mskd.MSlct-RstAr03</Tag>
+      <Tag>DataField>MarcaIDfk.Grp10.RecQry>qry_10(02)bProdBase_MarcaJct--HLclr.OnDrty.Mskd.MSlct-RstAr03</Tag>
       <Enabled>Verdadeiro</Enabled>
       <RowSource>qry_02(07)aProdMarca</RowSource>
     </Control>
@@ -733,7 +723,7 @@ Nova Entrada</Caption>
       <Top>1049</Top>
       <Width>8616</Width>
       <Height>315</Height>
-      <Tag>-Trgg.ProdutoFull.Grp01.Rmv.WdCrd2.SrchOnChg0.CascUpDt>-HLclr1.OnDrty1.Mskd.MSlct0-RstAr01</Tag>
+      <Tag>-Trgg.ProdutoFull.Grp01.Rmv.WdCrd2.SrchOnChg0.CascUpDt>-HLclr1.OnDrty0.Mskd.MSlct0-RstAr01</Tag>
       <Enabled>Verdadeiro</Enabled>
       <ControlSource></ControlSource>
       <Format></Format>
@@ -888,7 +878,7 @@ Nova Entrada</Caption>
       <OnClick>[Event Procedure]</OnClick>
     </Control>
     <Control>
-      <Name>btnTeste</Name>
+      <Name>btnReset3Search</Name>
       <Type>CommandButton</Type>
       <Left>13295</Left>
       <Top>12018</Top>
@@ -918,7 +908,7 @@ Nova Entrada</Caption>
       <Top>5345</Top>
       <Width>15988</Width>
       <Height>4207</Height>
-      <Tag>TrgtCtrl.Grp10.RCnt>lblRegs1--HLclr.OnDrty.Mskd.MSlct0-</Tag>
+      <Tag>TrgtCtrl.Grp10.RCnt>lblRegs1-HLclr.OnDrty.Mskd.MSlct0-</Tag>
       <Enabled>Verdadeiro</Enabled>
       <RowSource>qry_05(1)aProdEstoqueIn(Viw)</RowSource>
     </Control>
@@ -1003,13 +993,13 @@ Nova Entrada</Caption>
       <Caption>Qtd. de Cons. por Prod.</Caption>
     </Control>
     <Control>
-      <Name>Texto605</Name>
+      <Name>txtSrchLote</Name>
       <Type>TextBox</Type>
       <Left>9460</Left>
       <Top>3024</Top>
       <Width>2496</Width>
       <Height>330</Height>
-      <Tag></Tag>
+      <Tag>Trgg.LoteStr.Grp10.Rmv02.WdCrd2.SrchOnChg0-HLclr1.OnDrty1.Mskd.MSlct0-RstAr01</Tag>
       <Enabled>Verdadeiro</Enabled>
       <ControlSource></ControlSource>
       <Format></Format>
@@ -1026,13 +1016,13 @@ Nova Entrada</Caption>
       <Caption>Lote</Caption>
     </Control>
     <Control>
-      <Name>Combinação619</Name>
+      <Name>cmbSrchMarca</Name>
       <Type>ComboBox</Type>
       <Left>9460</Left>
       <Top>2550</Top>
       <Width>2496</Width>
       <Height>315</Height>
-      <Tag></Tag>
+      <Tag>Trgg.ProdMarcaIDfk.Grp10.Rmv02.WdCrd2.SrchOnChg0.CascUpDt>.TxtClmn01  -HLclr1.OnDrty1.Mskd.MSlct0-RstAr01</Tag>
       <Enabled>Verdadeiro</Enabled>
       <RowSource>qry_02(07)aProdMarca</RowSource>
     </Control>
@@ -1048,19 +1038,19 @@ Nova Entrada</Caption>
       <Caption>Marca</Caption>
     </Control>
     <Control>
-      <Name>txtDataEntrada1</Name>
+      <Name>txtSrchDataEntrada1</Name>
       <Type>TextBox</Type>
       <Left>2721</Left>
       <Top>3005</Top>
       <Width>1463</Width>
       <Height>330</Height>
-      <Tag></Tag>
+      <Tag>HLclr1.OnDrty1.Mskd1.MSlct0-RstAr01</Tag>
       <Enabled>Verdadeiro</Enabled>
       <ControlSource></ControlSource>
-      <Format>Short Date</Format>
+      <Format></Format>
     </Control>
     <Control>
-      <Name>btnCalendarEstoqueIn1</Name>
+      <Name>btnCalendarSrchEstoqueIn1</Name>
       <Type>CommandButton</Type>
       <Left>4219</Left>
       <Top>3004</Top>
@@ -1069,10 +1059,10 @@ Nova Entrada</Caption>
       <Tag>NotInDict</Tag>
       <Enabled>Verdadeiro</Enabled>
       <Caption> </Caption>
-      <OnClick></OnClick>
+      <OnClick>[Event Procedure]</OnClick>
     </Control>
     <Control>
-      <Name>btnCalendarValidade2</Name>
+      <Name>btnCalendarSrchValidade2</Name>
       <Type>CommandButton</Type>
       <Left>7479</Left>
       <Top>3455</Top>
@@ -1081,10 +1071,10 @@ Nova Entrada</Caption>
       <Tag>NotInDict</Tag>
       <Enabled>Verdadeiro</Enabled>
       <Caption> </Caption>
-      <OnClick></OnClick>
+      <OnClick>[Event Procedure]</OnClick>
     </Control>
     <Control>
-      <Name>txtValidade2</Name>
+      <Name>txtSrchValidade2</Name>
       <Type>TextBox</Type>
       <Left>5981</Left>
       <Top>3456</Top>
@@ -1093,10 +1083,10 @@ Nova Entrada</Caption>
       <Tag> </Tag>
       <Enabled>Verdadeiro</Enabled>
       <ControlSource></ControlSource>
-      <Format>Short Date</Format>
+      <Format></Format>
     </Control>
     <Control>
-      <Name>txtValidade1</Name>
+      <Name>txtSrchValidade1</Name>
       <Type>TextBox</Type>
       <Left>5981</Left>
       <Top>3005</Top>
@@ -1105,10 +1095,10 @@ Nova Entrada</Caption>
       <Tag> </Tag>
       <Enabled>Verdadeiro</Enabled>
       <ControlSource></ControlSource>
-      <Format>Short Date</Format>
+      <Format></Format>
     </Control>
     <Control>
-      <Name>btnCalendarValidade1</Name>
+      <Name>btnCalendarSrchValidade1</Name>
       <Type>CommandButton</Type>
       <Left>7479</Left>
       <Top>3004</Top>
@@ -1117,7 +1107,7 @@ Nova Entrada</Caption>
       <Tag>NotInDict</Tag>
       <Enabled>Verdadeiro</Enabled>
       <Caption> </Caption>
-      <OnClick></OnClick>
+      <OnClick>[Event Procedure]</OnClick>
     </Control>
     <Control>
       <Name>Rótulo642</Name>
@@ -1236,24 +1226,24 @@ Nova Entrada</Caption>
     <Control>
       <Name>Rótulo648</Name>
       <Type>Label</Type>
-      <Left>18794</Left>
-      <Top>10764</Top>
+      <Left>18481</Left>
+      <Top>12500</Top>
       <Width>3390</Width>
       <Height>285</Height>
       <Tag></Tag>
       <Enabled></Enabled>
-      <Caption>Imagem do Produto Base/ Recebido</Caption>
+      <Caption>(imagem do Produto Base)</Caption>
     </Control>
     <Control>
       <Name>Rótulo649</Name>
       <Type>Label</Type>
-      <Left>18396</Left>
-      <Top>10289</Top>
-      <Width>3975</Width>
+      <Left>18480</Left>
+      <Top>12165</Top>
+      <Width>4125</Width>
       <Height>285</Height>
       <Tag></Tag>
       <Enabled></Enabled>
-      <Caption>Imagem do Produto Recebido em estoque</Caption>
+      <Caption>(imagem do Produto Recebido em estoque)</Caption>
     </Control>
     <Control>
       <Name>Comando650</Name>
@@ -1280,7 +1270,7 @@ Nova Entrada</Caption>
       <OnClick></OnClick>
     </Control>
     <Control>
-      <Name>cmbProdutoDescriçao</Name>
+      <Name>cmbSrchProdDescriçao</Name>
       <Type>ComboBox</Type>
       <Left>3344</Left>
       <Top>1559</Top>
@@ -1315,7 +1305,7 @@ Nova Entrada</Caption>
       <OnClick></OnClick>
     </Control>
     <Control>
-      <Name>btnCalendarEstoqueIn2</Name>
+      <Name>btnCalendarSrchEstoqueIn2</Name>
       <Type>CommandButton</Type>
       <Left>4219</Left>
       <Top>3455</Top>
@@ -1324,10 +1314,10 @@ Nova Entrada</Caption>
       <Tag>NotInDict</Tag>
       <Enabled>Verdadeiro</Enabled>
       <Caption> </Caption>
-      <OnClick></OnClick>
+      <OnClick>[Event Procedure]</OnClick>
     </Control>
     <Control>
-      <Name>txtAnoEntrada1</Name>
+      <Name>txtSrchAnoEntrada1</Name>
       <Type>TextBox</Type>
       <Left>2721</Left>
       <Top>2522</Top>
@@ -1350,7 +1340,7 @@ Nova Entrada</Caption>
       <Caption>Ano</Caption>
     </Control>
     <Control>
-      <Name>txtAnoEntrada2</Name>
+      <Name>txtSrchAnoEntrada2</Name>
       <Type>TextBox</Type>
       <Left>3925</Left>
       <Top>2522</Top>
@@ -1373,7 +1363,7 @@ Nova Entrada</Caption>
       <Caption>a</Caption>
     </Control>
     <Control>
-      <Name>txtAnoValidade1</Name>
+      <Name>txtSrchAnoValidade1</Name>
       <Type>TextBox</Type>
       <Left>5981</Left>
       <Top>2522</Top>
@@ -1396,7 +1386,7 @@ Nova Entrada</Caption>
       <Caption>Ano</Caption>
     </Control>
     <Control>
-      <Name>txtAnoValidade2</Name>
+      <Name>txtSrchAnoValidade2</Name>
       <Type>TextBox</Type>
       <Left>7185</Left>
       <Top>2522</Top>
@@ -1417,6 +1407,41 @@ Nova Entrada</Caption>
       <Tag></Tag>
       <Enabled></Enabled>
       <Caption>a</Caption>
+    </Control>
+    <Control>
+      <Name>txtSrchMarca</Name>
+      <Type>TextBox</Type>
+      <Left>9432</Left>
+      <Top>2040</Top>
+      <Width>2496</Width>
+      <Height>315</Height>
+      <Tag>Trgg.ProdMarcaStr.Grp10.Rmv02.WdCrd2.SrchOnChg0.CascUpDt>.TxtClmn01  -HLclr1.OnDrty1.Mskd.MSlct0-RstAr01</Tag>
+      <Enabled>Verdadeiro</Enabled>
+      <ControlSource></ControlSource>
+      <Format></Format>
+    </Control>
+    <Control>
+      <Name>Rótulo658</Name>
+      <Type>Label</Type>
+      <Left>8787</Left>
+      <Top>2040</Top>
+      <Width>645</Width>
+      <Height>315</Height>
+      <Tag></Tag>
+      <Enabled></Enabled>
+      <Caption>Marca</Caption>
+    </Control>
+    <Control>
+      <Name>btnTeste2</Name>
+      <Type>CommandButton</Type>
+      <Left>20891</Left>
+      <Top>1218</Top>
+      <Width>1817</Width>
+      <Height>405</Height>
+      <Tag>notInDict</Tag>
+      <Enabled>Verdadeiro</Enabled>
+      <Caption>Teste</Caption>
+      <OnClick>[Event Procedure]</OnClick>
     </Control>
   </Controls>
 </Form>

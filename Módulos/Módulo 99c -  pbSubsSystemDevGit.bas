@@ -175,7 +175,7 @@ Sub ExportarTodosObjetosVBADetallado()
 
 
     x = Shell("cmd.exe /K ""cd /d " & CurrentProject.Path, 1)
-    Sleep (500)
+    Sleep (1000)
     
     SendKeys ("git add *.accdb Módulos/")
     SendKeys ("{ENTER}")
@@ -189,8 +189,6 @@ Sub ExportarTodosObjetosVBADetallado()
     SendKeys ("{ENTER}")
     
     'MsgBox "Exportação e commit concluídos! " & intContador & " objetos exportados.", vbInformation
-
-
 End Sub
 
 ' --- NOVAS FUNÇÕES CORRIGIDAS PARA EXPORTAR EM XML ---

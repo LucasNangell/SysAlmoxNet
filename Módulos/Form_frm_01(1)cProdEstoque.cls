@@ -10,15 +10,45 @@ Attribute VB_Exposed = False
 Option Compare Database
 Option Explicit
 
+
 Private Sub btnCalendar1_Click()
-    Call CalendarButton(Me.Name, ActiveControl, Me.txtStkDataEntrada, "Selecione uma data de entrada")
+    Call CalendarButton(Me.Name, ActiveControl, Me.txtDataEntrada1, "Selecione uma data de entrada")
 
 End Sub
 
 Private Sub btnCalendar2_Click()
-    Call CalendarButton(Me.Name, ActiveControl, Me.txtStkValidade, "Selecione uma data de validade")
-    
+    Call CalendarButton(Me.Name, ActiveControl, Me.txtDataEntrada2, "Selecione uma data de entrada")
+
 End Sub
+
+
+Private Sub btnCalendarSrchEstoqueIn1_Click()
+    Call CalendarButton(Me.Name, ActiveControl, Me.txtSrchDataEntrada1, "Selecione uma data de entrada")
+
+End Sub
+
+Private Sub btnCalendarSrchEstoqueIn2_Click()
+    Call CalendarButton(Me.Name, ActiveControl, Me.txtSrchDataEntrada2, "Selecione uma data de entrada")
+
+End Sub
+
+Private Sub btnCalendarSrchValidade1_Click()
+    Call CalendarButton(Me.Name, ActiveControl, Me.txtSrchValidade1, "Selecione uma data de entrada")
+
+End Sub
+
+Private Sub btnCalendarSrchValidade2_Click()
+    Call CalendarButton(Me.Name, ActiveControl, Me.txtSrchValidade2, "Selecione uma data de entrada")
+
+End Sub
+
+
+
+
+
+
+
+
 
 
 Private Sub btnClose_Click()
@@ -45,6 +75,13 @@ Private Sub Comando545_Click()
 
 End Sub
 
+Private Sub btnTeste2_Click()
+Stop
+    lstEstoqueIn.Requery
+    
+End Sub
+
+
 Private Sub Form_Load()
 
 'Stop
@@ -70,7 +107,19 @@ Private Sub lstProdsBase_AfterUpdate()
 
 End Sub
 
+Private Sub txtSrchDataEntrada1_Change()
+'Stop
+    Call MskdTxtbox_TextMask(ActiveControl, "##/##/####", , 8)
+
+End Sub
+
 Private Sub txtPrecoEmb_Change()
     Call MskdTxtbox_TextMask(ActiveControl, "#,###.00", "R$ ")
     
+End Sub
+
+Private Sub txtSrchDataEntrada2_Change()
+'Stop
+    Call MskdTxtbox_TextMask(ActiveControl, "##/##/####", , 8)
+
 End Sub

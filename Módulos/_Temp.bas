@@ -140,6 +140,10 @@ Public Sub MskdTxtbox_TextMask(cTrgtTxtbox As Control, sCustomFormat As String, 
         Else
             sActualText = sCleanTxt
             sActualText = sPrefix & Format(sActualText, sCustomFormat)
+'Stop
+            'vA = Format(sActualText, "##/##/####")
+            
+            
             cTrgtTxtbox.Value = sActualText
             
         End If

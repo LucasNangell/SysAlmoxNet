@@ -5,6 +5,7 @@ Option Explicit
 
 Public Sub FormLoad00a_FindSysPaths(sForM As String)
     
+Exit Sub
     '------------------------------------------------------------------------------------
     'Essa função pra confirmar se os caminhos de arquivo usados pelo sistema estão acessíveis
     ' poderia ser chamada apenas no Start do sistema
@@ -82,8 +83,11 @@ Public Sub FormLoad00a_FindSysPaths(sForM As String)
                     'Adiciona a [ sVariavel ] ao dicionário com o caminho já concatenado
                     If Not dictFndFldrVars.Exists(sVariavel) Then dictFndFldrVars.Add sVariavel, sPathFull
                     
+                    
+'parei aqui: problema ao rodar o sistema em computadore fora da camara
+' erro 52, nome de arquivo incorreto
                     'Verifica se o caminho existe e está acessível ao sistema, caso não esteja carrega no log do sistema
-                    If Dir(sPathFull) = "" Then
+                    If Dir() = "" Then
                         If InStr(sPathFull, ".") > 0 Then
                             sFile = Split(sPathFull, "\")(UBound(Split(sPathFull, "\")))
                             sPathFull = Replace(sPathFull, sFile, "")

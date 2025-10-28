@@ -681,7 +681,7 @@ If gBbDepurandoLv03a Then Stop
                     vE = vA & vbCr & vB & vbCr & sNewTrgtGrp_WHERE & vbCr & vD
                 End If
                 
-                      If gBbDebugOn Then Debug.Print vE
+                      Debug.Print vE
                 
 'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "Aplica RowSource com a filtragem [ " & sTargtCtrlName & " ]"
 'Stop

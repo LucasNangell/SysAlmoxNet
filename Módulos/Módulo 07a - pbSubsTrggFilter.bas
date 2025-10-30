@@ -31,17 +31,17 @@ Public Sub pb_TargtCtrlUpdate00_TimerDelay(fForM As Form, cCtrL As Control)
 'Public Sub pb_TargtCtrlUpdate00_TimerDelay()
     
     Dim vA, vB
-    Dim sCtrL As String
+    Dim sCtrl As String
     Dim sForM As String
     
 'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "TimerDelay trigger"
 'Stop
     
     sForM = fForM.Name
-    sCtrL = cCtrL.Name
+    sCtrl = cCtrL.Name
     
     'Confirma se o controle é um [ TriggCtrl ]
-    If IsObject(dictTrggCtrlsInForm(sForM)(sCtrL)) Then
+    If IsObject(dictTrggCtrlsInForm(sForM)(sCtrl)) Then
         
         If gBbEnableErrorHandler Then On Error Resume Next
         
@@ -155,7 +155,7 @@ Public Sub pb_TargtCtrlUpdate03_UNIQUEupdate(fForM As Form, cTrggCtrL As Control
     Dim sForM As String
     Dim sTrggCtrL As String
     Dim sFilGrp As String
-    
+    Dim cCascCtrL As Control
     sForM = fForM.Name
     'vA = cTrggCtrL.ItemData(cTrggCtrL.ListIndex)
 
@@ -188,7 +188,14 @@ Public Sub pb_TargtCtrlUpdate03_UNIQUEupdate(fForM As Form, cTrggCtrL As Control
                 On Error GoTo -1
 'Stop
                 Call pb_TargtCtrlUpdate06_BuildWHERE(fForM, sFilGrp)
-'Stop
+
+                Set clObjTriggCtrlParam = dictTrgg00GrpsInForm(sForM)(sFilGrp)(sTrggCtrL)
+                
+                If clObjTriggCtrlParam.sCascUpDtTrgCtrl <> "" Then
+                    Set cCascCtrL = fForM.Controls(clObjTriggCtrlParam.sCascUpDtTrgCtrl)
+                    Call pb_TargtCtrlUpdate03_UNIQUEupdate(fForM, cCascCtrL)
+                End If
+            
             End If
             
         End If
@@ -405,7 +412,7 @@ Public Sub pb_TargtCtrlUpdate06_BuildWHERE(fForM As Form, sFilGrp As String)
 
     Dim vA, vB, vC, vD, vE, vF
     Dim sForM As String
-    Dim sCtrL As String
+    Dim sCtrl As String
     Dim cCtrL As Control
     Dim vKeyControl As Variant
     Dim iCtrlType As Integer
@@ -469,7 +476,7 @@ If gBbDepurandoLv03a Then Stop
         'vB = cCtrl.Value
 'Stop
         iCtrlType = cCtrL.ControlType
-        sCtrL = cCtrL.Name
+        sCtrl = cCtrL.Name
 
 'MsgBox "----- pb_TargtCtrlUpdate06_BuildWHERE ----------------------------------------" & vbCr & vbCr & "1- Captura dados do controle [ " & sCtrL & " ]" & vbCr & "     do Grupo de Filtragem [ " & sFilGrp & " ]"
 'If gBbDepurandoLv03a Then Stop
@@ -503,7 +510,7 @@ If gBbDepurandoLv03a Then Stop
 'Stop
         
         
-If gBbDepurandoLv03a Then MsgBox "----- pb_TargtCtrlUpdate06_BuildWHERE ----------------------------------------" & vbCr & vbCr & "pass bMsked to TextBox filter: [ " & sCtrL & " ]" & vbCr & " " & vbCr & " "
+If gBbDepurandoLv03a Then MsgBox "----- pb_TargtCtrlUpdate06_BuildWHERE ----------------------------------------" & vbCr & vbCr & "pass bMsked to TextBox filter: [ " & sCtrl & " ]" & vbCr & " " & vbCr & " "
 If gBbDepurandoLv03a Then Stop
         
 'Stop
@@ -513,13 +520,13 @@ If gBbDepurandoLv03a Then Stop
         ' será iniciada a rotina de descarte da máscara
         
 
-If gBbDepurandoLv03a Then MsgBox "----- pb_TargtCtrlUpdate06_BuildWHERE ----------------------------------------" & vbCr & vbCr & "Avalia se há erros em [ BuildWhere ]: [ " & sCtrL & " ]"
+If gBbDepurandoLv03a Then MsgBox "----- pb_TargtCtrlUpdate06_BuildWHERE ----------------------------------------" & vbCr & vbCr & "Avalia se há erros em [ BuildWhere ]: [ " & sCtrl & " ]"
 If gBbDepurandoLv03a Then Stop
         
         'Verifica se o Controle existe no dict [ dictCtrlBehvrParams(sForM) ]
         ' e verifica se há erros referentes à carga do dicionário que devam ser registradas no Log de carga
-        If dictCtrlBehvrParams(sForM).Exists(sCtrL) = True Then
-            Set clObjCtrlBehvrParams = dictCtrlBehvrParams(sForM)(sCtrL)
+        If dictCtrlBehvrParams(sForM).Exists(sCtrl) = True Then
+            Set clObjCtrlBehvrParams = dictCtrlBehvrParams(sForM)(sCtrl)
 'Stop
             bMskdCtrl = clObjCtrlBehvrParams.bMskdCtrl
             bMskdCtrlEventFound = clObjCtrlBehvrParams.bMskdCtrlEventFound
@@ -540,7 +547,7 @@ If gBbDepurandoLv03a Then Stop
             Else
                 bActivateMask = False
                 
-If gBbDepurandoLv03a Then MsgBox "----- pb_TargtCtrlUpdate06_BuildWHERE ----------------------------------------" & vbCr & vbCr & "Mask error em [ " & sCtrL & " ]"
+If gBbDepurandoLv03a Then MsgBox "----- pb_TargtCtrlUpdate06_BuildWHERE ----------------------------------------" & vbCr & vbCr & "Mask error em [ " & sCtrl & " ]"
 If gBbDepurandoLv03a Then Stop
                 
                 If bMskdCtrl Then
@@ -550,7 +557,7 @@ If gBbDepurandoLv03a Then Stop
                     sLoadLogWarn = vA & vB
 'MsgBox sLoadLogWarn
 'Stop
-                    Call FormStatusBar01_Bld(sForM, "MskdMissingEvent", sLoadLogWarn, sCtrL)
+                    Call FormStatusBar01_Bld(sForM, "MskdMissingEvent", sLoadLogWarn, sCtrl)
                 
                 Else
                     vA = "Há controles COM a chamada [" & Chr(160) & "MskdTxtbox02_TextMask" & Chr(160) & "] no seu" & vbCrLf
@@ -558,7 +565,7 @@ If gBbDepurandoLv03a Then Stop
                     sLoadLogWarn = vA & vB
 'MsgBox sLoadLogWarn
 'Stop
-                    Call FormStatusBar01_Bld(sForM, "MskdMissingParam", sLoadLogWarn, sCtrL)
+                    Call FormStatusBar01_Bld(sForM, "MskdMissingParam", sLoadLogWarn, sCtrl)
                 
                 End If
     
@@ -614,13 +621,15 @@ If gBbDepurandoLv03a Then Stop
         If vA <> "" Then lngCounT = lngCounT + 1
         
         'Define se haverá inclusão de texto conector entre o trecho Anterior e o Atual
-        If sNewTrgtGrp_RecCntCpt <> "" And vA <> "" Then
+        'If sNewTrgtGrp_RecCntCpt <> "" And vA <> "" Then
+        If sNewTrgtGrp_WHERE <> "" And vA <> "" Then
             sJoint_RecCntCpt = " AND "
             sJoint_WHERE = " / "
             
         End If
 'Stop
         'Adiciona o novo trecho e inclui o WHERE nos parâmetros do Controle ora avaliado
+        
         sNewTrgtGrp_WHERE = sNewTrgtGrp_WHERE & sJoint_RecCntCpt & vA
         sNewTrgtGrp_RecCntCpt = sNewTrgtGrp_RecCntCpt & sJoint_WHERE & vB
         sJoint_RecCntCpt = "": sJoint_WHERE = ""

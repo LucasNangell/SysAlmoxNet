@@ -54,19 +54,19 @@ Private Sub Form_Load()
     Dim vKeyCtrl As Variant
     Dim iCount As Integer
     Dim sFontName As String
-    Dim sCtrL As String
+    Dim sCtrl As String
     Dim sListboxColor As String
     
 'Stop
     For Each vKeyCtrl In Me.Controls
-        sCtrL = vKeyCtrl.Name
+        sCtrl = vKeyCtrl.Name
         
         vA = vKeyCtrl.ControlType
         If vA = acListBox Then
 'Stop
             vKeyCtrl.Selected(2) = True
             
-            vB = InStr(sCtrL, "lstFont")
+            vB = InStr(sCtrl, "lstFont")
             If vB > 0 Then
                 iCount = iCount + 1
                 sFontName = Me.Controls("lstFont" & Format(iCount, "00")).FontName

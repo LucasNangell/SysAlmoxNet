@@ -4,8 +4,7 @@ Option Explicit
 
 
 Public Sub FormLoad00a_FindSysPaths(sForM As String)
-    
-Exit Sub
+
     '------------------------------------------------------------------------------------
     'Essa função pra confirmar se os caminhos de arquivo usados pelo sistema estão acessíveis
     ' poderia ser chamada apenas no Start do sistema
@@ -26,8 +25,6 @@ Exit Sub
     Dim vCodMod As Variant
     Dim vPath As Variant
     Dim vKey As Variant
-    
-    
     
     Set objVbComp = Application.VBE.ActiveVBProject.VBComponents("Módulo 00b - Variáveis")
     
@@ -84,10 +81,8 @@ Exit Sub
                     If Not dictFndFldrVars.Exists(sVariavel) Then dictFndFldrVars.Add sVariavel, sPathFull
                     
                     
-'parei aqui: problema ao rodar o sistema em computadore fora da camara
-' erro 52, nome de arquivo incorreto
                     'Verifica se o caminho existe e está acessível ao sistema, caso não esteja carrega no log do sistema
-                    If Dir() = "" Then
+                    If Dir(sPathFull) = "" Then
                         If InStr(sPathFull, ".") > 0 Then
                             sFile = Split(sPathFull, "\")(UBound(Split(sPathFull, "\")))
                             sPathFull = Replace(sPathFull, sFile, "")
@@ -957,7 +952,7 @@ SKIP_ALL:       'apagar quando sistema estiver finalizado
 End Sub
 
 
-Sub FormStatusBar01_Bld(sForM As String, sWarnID As String, sLoadLogWarn As String, Optional sCtrL As String)
+Sub FormStatusBar01_Bld(sForM As String, sWarnID As String, sLoadLogWarn As String, Optional sCtrl As String)
 'Sub FormStatusBar01_Bld(sForM As String, sLoadLogWarn As String, Optional sCtrL As String, Optional sRecCntCtrl As String, Optional sNoTrgtCtrlsWarn As String, Optional bHLclrWarn As Boolean, Optional sCtrL As String)
 'Sub FormStatusBar01_Bld(sForM As String, Optional sNoTrgtCtrlsWarn As String, Optional bHLclrWarn As Boolean, Optional sCtrL As String)
     Dim vA, vB, vC, vD, vE
@@ -1012,9 +1007,9 @@ Sub FormStatusBar01_Bld(sForM As String, sWarnID As String, sLoadLogWarn As Stri
 
     clObjStatusBarWarn.sWarnText = sLoadLogWarn
     
-    If Not clObjStatusBarWarn.dForm_StatusBarCtrls.Exists(sCtrL) Then
+    If Not clObjStatusBarWarn.dForm_StatusBarCtrls.Exists(sCtrl) Then
 'Stop
-        clObjStatusBarWarn.dForm_StatusBarCtrls.Add sCtrL, sCtrL
+        clObjStatusBarWarn.dForm_StatusBarCtrls.Add sCtrl, sCtrl
         
     End If
 

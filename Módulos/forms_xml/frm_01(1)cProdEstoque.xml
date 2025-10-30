@@ -115,7 +115,7 @@
       <Top>3456</Top>
       <Width>1463</Width>
       <Height>330</Height>
-      <Tag> HLclr1.OnDrty1.Mskd1.MSlct0-RstAr01</Tag>
+      <Tag>- Trgg.DataEntrada<.Grp10.Rmv0.WdCrd0.SrchOnChg0.CascUpDt>.TxtClmn-HLclr1.OnDrty1.Mskd1.MSlct0-RstAr01</Tag>
       <Enabled>Verdadeiro</Enabled>
       <ControlSource></ControlSource>
       <Format></Format>
@@ -723,7 +723,7 @@ Nova Entrada</Caption>
       <Top>1049</Top>
       <Width>8616</Width>
       <Height>315</Height>
-      <Tag>-Trgg.ProdutoFull.Grp01.Rmv.WdCrd2.SrchOnChg0.CascUpDt>-HLclr1.OnDrty0.Mskd.MSlct0-RstAr01</Tag>
+      <Tag>-Trgg.ProdutoFull.Grp01.Rmv.WdCrd2.SrchOnChg0.CascUpDt>cmbSrchProdDescriçao-HLclr1.OnDrty0.Mskd.MSlct0-RstAr01</Tag>
       <Enabled>Verdadeiro</Enabled>
       <ControlSource></ControlSource>
       <Format></Format>
@@ -1044,10 +1044,10 @@ Nova Entrada</Caption>
       <Top>3005</Top>
       <Width>1463</Width>
       <Height>330</Height>
-      <Tag>HLclr1.OnDrty1.Mskd1.MSlct0-RstAr01</Tag>
+      <Tag>- Trgg.DataEntrada>.Grp10.Rmv0.WdCrd0.SrchOnChg0.CascUpDt>.TxtClmn-HLclr1.OnDrty1.Mskd1.MSlct0-RstAr01</Tag>
       <Enabled>Verdadeiro</Enabled>
       <ControlSource></ControlSource>
-      <Format></Format>
+      <Format>Short Date</Format>
     </Control>
     <Control>
       <Name>btnCalendarSrchEstoqueIn1</Name>
@@ -1080,7 +1080,7 @@ Nova Entrada</Caption>
       <Top>3456</Top>
       <Width>1463</Width>
       <Height>330</Height>
-      <Tag> </Tag>
+      <Tag> - Trgg.Validade<.Grp10.Rmv0.WdCrd0.SrchOnChg0.CascUpDt>.TxtClmn-HLclr1.OnDrty1.Mskd1.MSlct0-RstAr01</Tag>
       <Enabled>Verdadeiro</Enabled>
       <ControlSource></ControlSource>
       <Format></Format>
@@ -1092,7 +1092,7 @@ Nova Entrada</Caption>
       <Top>3005</Top>
       <Width>1463</Width>
       <Height>330</Height>
-      <Tag> </Tag>
+      <Tag> - Trgg.Validade>.Grp10.Rmv0.WdCrd0.SrchOnChg0.CascUpDt>.TxtClmn-HLclr1.OnDrty1.Mskd1.MSlct0-RstAr01</Tag>
       <Enabled>Verdadeiro</Enabled>
       <ControlSource></ControlSource>
       <Format></Format>
@@ -1276,7 +1276,7 @@ Nova Entrada</Caption>
       <Top>1559</Top>
       <Width>8616</Width>
       <Height>330</Height>
-      <Tag>TrgtCtrl.Grp01.RCnt>- Trgg.ProdutoFullID.Grp10.Rmv02.WdCrd2.SrchOnChg0.CascUpDt>.TxtClmn01  -HLclr1.OnDrty1.Mskd.MSlct0-RstAr02</Tag>
+      <Tag>TrgtCtrl.Grp01.RCnt>- Trgg.ProdutoFullID.Grp10.Rmv02.WdCrd2.SrchOnChg0.CascUpDt>.TxtClmn01  -HLclr1.OnDrty1.Mskd.MSlct0-RstAr01</Tag>
       <Enabled>Verdadeiro</Enabled>
       <RowSource>_qry_04(01)dProdutosFull_Setor(Viw-Pre Grp)</RowSource>
     </Control>
@@ -1323,7 +1323,7 @@ Nova Entrada</Caption>
       <Top>2522</Top>
       <Width>715</Width>
       <Height>315</Height>
-      <Tag> </Tag>
+      <Tag>- Trgg.DataEntrada>.Grp10.Rmv0.WdCrd0.SrchOnChg0.CascUpDt>.TxtClmn-HLclr1.OnDrty1.Mskd1.MSlct0-RstAr01</Tag>
       <Enabled>Verdadeiro</Enabled>
       <ControlSource></ControlSource>
       <Format></Format>
@@ -1346,7 +1346,7 @@ Nova Entrada</Caption>
       <Top>2522</Top>
       <Width>715</Width>
       <Height>315</Height>
-      <Tag> </Tag>
+      <Tag>- Trgg.DataEntrada<.Grp10.Rmv0.WdCrd0.SrchOnChg0.CascUpDt>.TxtClmn-HLclr1.OnDrty1.Mskd1.MSlct0-RstAr01</Tag>
       <Enabled>Verdadeiro</Enabled>
       <ControlSource></ControlSource>
       <Format></Format>
@@ -1369,7 +1369,7 @@ Nova Entrada</Caption>
       <Top>2522</Top>
       <Width>715</Width>
       <Height>315</Height>
-      <Tag> </Tag>
+      <Tag> - Trgg.Validade>.Grp10.Rmv0.WdCrd0.SrchOnChg0.CascUpDt>.TxtClmn-HLclr1.OnDrty1.Mskd1.MSlct0-RstAr01</Tag>
       <Enabled>Verdadeiro</Enabled>
       <ControlSource></ControlSource>
       <Format></Format>
@@ -1392,7 +1392,7 @@ Nova Entrada</Caption>
       <Top>2522</Top>
       <Width>715</Width>
       <Height>315</Height>
-      <Tag> </Tag>
+      <Tag> - Trgg.Validade<.Grp10.Rmv0.WdCrd0.SrchOnChg0.CascUpDt>.TxtClmn-HLclr1.OnDrty1.Mskd1.MSlct0-RstAr01</Tag>
       <Enabled>Verdadeiro</Enabled>
       <ControlSource></ControlSource>
       <Format></Format>

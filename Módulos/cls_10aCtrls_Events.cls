@@ -35,10 +35,10 @@ Attribute mTextBox.VB_VarHelpID = -1
 '----------------------------------
 Public Property Set InitCtrl(cCtrL As Control)
     Dim vA, vB
-    Dim sCtrL As String
+    Dim sCtrl As String
 
     'vA = bOnDirty
-    sCtrL = cCtrL.Name
+    sCtrl = cCtrL.Name
     vB = cCtrL.ControlType
 
 'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "InitCtrl: [ " & sCtrl & " ]"
@@ -140,7 +140,7 @@ Private Sub mCommandButton_Click()
     Dim vA
     Dim sMode As String, sForM As String, sActType As String, sFilGrp As String
     Dim cCtrL As Control, cEdtCtrl As Control
-    Dim sCtrL As String
+    Dim sCtrl As String
     Dim fForM As Form
     Dim sLstbxTag As String
     Dim vSplittedTAG As Variant
@@ -153,7 +153,7 @@ Private Sub mCommandButton_Click()
 'Stop
     On Error Resume Next
     Set cCtrL = mCommandButton
-    sCtrL = cCtrL.Name
+    sCtrl = cCtrL.Name
     Set fForM = cCtrL.Parent
     
     If Err.Number = 5 Then Exit Sub
@@ -182,9 +182,9 @@ Private Sub mCommandButton_Click()
             sFilGrp = clObjCommButtons.sFilGrp
             'Recupera as informações do [ TrgtCtrl ] relacionado ao grupo
             Set clObjTargtCtrlParam = dictFormFilterGrpTrgts(sForM)(sFilGrp)
-            sCtrL = clObjTargtCtrlParam.sTargtCtrlName
+            sCtrl = clObjTargtCtrlParam.sTargtCtrlName
             'Confirma a existência do controle apenas por redundância e define [ cCtrL ]
-            If ControlExists(sCtrL, fForM) Then Set cCtrL = fForM.Controls(sCtrL)
+            If ControlExists(sCtrl, fForM) Then Set cCtrL = fForM.Controls(sCtrl)
             'Se não houver nenhum item selecionado no [ ListBox ], exibe mensagem de alerta e sai da rotina
             If cCtrL.ListIndex = -1 Then
                 MsgBox "Selecione qual registro deseja excluir antes de pressionar o botão.", vbInformation
@@ -199,9 +199,9 @@ Private Sub mCommandButton_Click()
             'Caso o usuário confirme a ação [ TemVars("bReply") ] recebe TRUE e a ação é executada
             If TempVars("bReply") = True Then
                 If sFilGrp <> "" Then
-                    If ControlExists(sCtrL, fForM) Then
-                        Set cCtrL = fForM.Controls(sCtrL)
-                        If fForM.Controls(sCtrL).ControlType = acListBox Then Call PbSubDataFields_FillFromListbox(cCtrL)
+                    If ControlExists(sCtrl, fForM) Then
+                        Set cCtrL = fForM.Controls(sCtrl)
+                        If fForM.Controls(sCtrl).ControlType = acListBox Then Call PbSubDataFields_FillFromListbox(cCtrL)
                         On Error GoTo -1
                     End If
                 End If
@@ -226,9 +226,9 @@ Private Sub mCommandButton_Click()
                         Set clObjCtrlDataFieds = dictFormDataFlds00Ctrls(sForM)(vKeyCtrl)
                         If clObjCtrlDataFieds.sDataFieldGrp = sFilGrp Then
                             If clObjCtrlDataFieds.sRecQry = "" Then
-                                fForM.Controls(sCtrL).Value = ""
+                                fForM.Controls(sCtrl).Value = ""
                             Else
-                                sQry = fForM.Controls(sCtrL).RowSource
+                                sQry = fForM.Controls(sCtrl).RowSource
                                 If InStr(sQry, "WHERE") > 0 Then
                                     If InStr(sQry, "GROUP BY") > 0 Then
                                         sQry2 = "GROUP BY " & Split(sQry, "GROUP BY")(1)
@@ -239,7 +239,7 @@ Private Sub mCommandButton_Click()
                                     sQry = sQry & vbCrLf & sQry2
                                     sQry = Replace(sQry, ";", "")
                                 End If
-                                fForM.Controls(sCtrL).RowSource = sQry
+                                fForM.Controls(sCtrl).RowSource = sQry
                             End If
                         End If
                     Next vKeyCtrl
@@ -256,9 +256,9 @@ Private Sub mCommandButton_Click()
             sFilGrp = clObjCommButtons.sFilGrp
             'Recupera as informações do [ TrgtCtrl ] relacionado ao grupo
             Set clObjTargtCtrlParam = dictFormFilterGrpTrgts(sForM)(sFilGrp)
-            sCtrL = clObjTargtCtrlParam.sTargtCtrlName
+            sCtrl = clObjTargtCtrlParam.sTargtCtrlName
             'Confirma a existência do controle apenas por redundância e define [ cCtrL ]
-            If ControlExists(sCtrL, fForM) Then Set cCtrL = fForM.Controls(sCtrL)
+            If ControlExists(sCtrl, fForM) Then Set cCtrL = fForM.Controls(sCtrl)
             'Se não houver nenhum item selecionado no [ ListBox ], exibe mensagem de alerta e sai da rotina
             If cCtrL.ListIndex = -1 Then
                 MsgBox "Selecione qual registro deseja editar antes de pressionar o botão.", vbInformation
@@ -294,9 +294,9 @@ Private Sub mCommandButton_Click()
             sFilGrp = clObjCommButtons.sFilGrp
             'Recupera as informações do [ TrgtCtrl ] relacionado ao grupo
             Set clObjTargtCtrlParam = dictFormFilterGrpTrgts(sForM)(sFilGrp)
-            sCtrL = clObjTargtCtrlParam.sTargtCtrlName
+            sCtrl = clObjTargtCtrlParam.sTargtCtrlName
             'Confirma a existência do controle apenas por redundância e define [ cCtrL ]
-            If ControlExists(sCtrL, fForM) Then Set cCtrL = fForM.Controls(sCtrL)
+            If ControlExists(sCtrl, fForM) Then Set cCtrL = fForM.Controls(sCtrl)
             'Se não houver nenhum item selecionado no [ ListBox ], exibe mensagem de alerta e sai da rotina
             If cCtrL.ListIndex = -1 Then
                 MsgBox "Selecione qual registro deseja excluir antes de pressionar o botão.", vbInformation
@@ -317,7 +317,7 @@ Private Sub mCommandButton_Click()
                 'Esvazia os [ DataFields ] do grupo indicado na TAG do Botão
 
                 'Confirma se o [ TrgtCtrl ] é um [ ListBox ]
-                If fForM.Controls(sCtrL).ControlType = acListBox Then
+                If fForM.Controls(sCtrl).ControlType = acListBox Then
                     'Remove a seleção dos itens da lista
                     cCtrL.Selected(cCtrL.ListIndex) = False
                     'Chama a rotina para preenchimento dos [ DataFields ]
@@ -349,12 +349,12 @@ Private Sub mCommandButton_Click()
                 For Each vKeyCtrl In dictFormDataFlds00Ctrls(sForM)
                     Set clObjCtrlDataFieds = dictFormDataFlds00Ctrls(sForM)(vKeyCtrl)
                     If clObjCtrlDataFieds.sDataFieldGrp = sFilGrp Then
-                        sCtrL = vKeyCtrl
-                        If ControlExists(sCtrL, fForM) Then
+                        sCtrl = vKeyCtrl
+                        If ControlExists(sCtrl, fForM) Then
                             If clObjCtrlDataFieds.sRecQry = "" Then
-                                fForM.Controls(sCtrL).Value = ""
+                                fForM.Controls(sCtrl).Value = ""
                             Else
-                                sQry = fForM.Controls(sCtrL).RowSource
+                                sQry = fForM.Controls(sCtrl).RowSource
                                 If InStr(sQry, "WHERE") > 0 Then
                                     If InStr(sQry, "GROUP BY") > 0 Then
                                         sQry2 = "GROUP BY " & Split(sQry, "GROUP BY")(1)
@@ -365,7 +365,7 @@ Private Sub mCommandButton_Click()
                                     sQry = sQry & vbCrLf & sQry2
                                     sQry = Replace(sQry, ";", "")
                                 End If
-                                fForM.Controls(sCtrL).RowSource = sQry
+                                fForM.Controls(sCtrl).RowSource = sQry
                             End If
                         End If
                         
@@ -387,8 +387,8 @@ Private Sub mCommandButton_Click()
             
             sFilGrp = clObjCommButtons.sFilGrp
             Set clObjTargtCtrlParam = dictFormFilterGrpTrgts(sForM)(sFilGrp)
-            sCtrL = clObjTargtCtrlParam.sTargtCtrlName
-            Set cCtrL = fForM.Controls(sCtrL)
+            sCtrl = clObjTargtCtrlParam.sTargtCtrlName
+            Set cCtrL = fForM.Controls(sCtrl)
             
             'Atribuição dos valores a [ clObjFormOpenParams ] usados nas rotinas de abertura de formulários
             Set clObjFormOpenParams = New cls_09cParamsToOpenForms
@@ -502,13 +502,13 @@ Private Sub mListBox_BeforeUpdate(Cancel As Integer)
     Dim vA
     Dim iControlType As Integer
     Dim cCtrL As Control
-    Dim sCtrL As String
+    Dim sCtrl As String
     Dim fForM As Form
 
     Set cCtrL = mListBox
     Set fForM = cCtrL.Parent
     
-    sCtrL = cCtrL.Name
+    sCtrl = cCtrL.Name
     
     
 'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "Aciona [ HighlightClrChange ] LostFocus, controle [ " & sCtrL & "]   "
@@ -526,21 +526,34 @@ Private Sub mTextBox_Change()
 
     Dim vA, vB
     Dim fForM As Form
-    Dim cCtrL As Control
-
+    Dim cCtrL As Control, cCascCtrL As Control
+    Dim sFilGrp As String
+    Dim sCtrl As String, sForM As String
+    Dim bMskdCtrl As Boolean
+    
 'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "Txtbox change"
 'Stop
     Set cCtrL = mTextBox
+    sCtrl = cCtrL.Name
+    
     Set fForM = cCtrL.Parent
-     
+    sForM = fForM.Name
+
     ''-- Máscara de texto do controle ----
     ''Deve ser usado no evento Change do controle no próprio formulário
     '' pra que seja possível personalizar a máscara pra cada controle
     'Call MskdTxtbox02_TextMask(ActiveControl, ActiveControl.Text, "P_###,###", 6)
     
+'    If IsObject(dictCtrlBehvrParams(sForM)) Then
+'        If dictCtrlBehvrParams(sForM).Exists(sCtrl) = True Then
+'            Set clObjCtrlBehvrParams = dictCtrlBehvrParams(sForM)(sCtrl)
+'            bMskdCtrl = clObjCtrlBehvrParams.bMskdCtrl
+'        End If
+'    End If
+    
     'Aciona a atualização do [ TargetCtrl ] associado ao controle
     Call pb_TargtCtrlUpdate00_TimerDelay(fForM, cCtrL)
-    
+
 
 End Sub
 
@@ -549,13 +562,13 @@ Private Sub mTextBox_GotFocus()
     Dim iControlType As Integer
     Dim vA
     Dim cCtrL As Control
-    Dim sCtrL As String
+    Dim sCtrl As String
     Dim bLostFocus As Boolean
     
     'Dim fForM As Form
     
     Set cCtrL = mTextBox
-    sCtrL = cCtrL.Name
+    sCtrl = cCtrL.Name
     bLostFocus = False
 
 'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "Aciona [ HighlightClrChange ]"
@@ -573,12 +586,12 @@ Private Sub mTextBox_LostFocus()
     Dim vA
     Dim iControlType As Integer
     Dim cCtrL As Control
-    Dim sCtrL As String
+    Dim sCtrl As String
     Dim bLostFocus As Boolean
     'Dim fForM As Form
     
     Set cCtrL = mTextBox
-    sCtrL = cCtrL.Name
+    sCtrl = cCtrL.Name
     bLostFocus = False
 
 'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "Aciona [ HighlightClrChange ]"

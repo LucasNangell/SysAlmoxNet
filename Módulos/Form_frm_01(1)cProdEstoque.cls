@@ -106,20 +106,23 @@ Private Sub lstProdsBase_AfterUpdate()
 '    Me.lstEstoqueIn.Selected(0) = True
 
 End Sub
-
-Private Sub txtSrchDataEntrada1_Change()
-'Stop
-    Call MskdTxtbox_TextMask(ActiveControl, "##/##/####", , 8)
-
-End Sub
-
 Private Sub txtPrecoEmb_Change()
     Call MskdTxtbox_TextMask(ActiveControl, "#,###.00", "R$ ")
     
 End Sub
+Private Sub txtSrchDataEntrada1_Change()
+    'Call MskdTxtbox_TextMask(ActiveControl, "##/##/####", , 8)
 
+End Sub
 Private Sub txtSrchDataEntrada2_Change()
-'Stop
+    Call MskdTxtbox_TextMask(ActiveControl, "##/##/####", , 8)
+
+End Sub
+Private Sub txtSrchValidade1_Change()
+    Call MskdTxtbox_TextMask(ActiveControl, "##/##/####", , 8)
+
+End Sub
+Private Sub txtSrchValidade2_Change()
     Call MskdTxtbox_TextMask(ActiveControl, "##/##/####", , 8)
 
 End Sub

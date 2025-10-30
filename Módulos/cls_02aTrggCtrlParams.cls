@@ -45,9 +45,9 @@ Public bOnDirty As Boolean    'indica se o controle deve mudar de cor no sujo
                                 ' (se pertencer a um Grupo de Filtragem ou se for um TgtCtrl com indicação de mudança de cor no Sujo)
 
 
-Public iSrchOnChange As Integer         'Indica se o Trgt Ctrl deve ser atualizado no evento Change ou no LostFocus
-                                    ' .se 0   pesquisar durante a digitação
-                                    ' .se 1   pesquisar após perder o foco
+Public iSrchOnChange As Integer     'Indica se o Trgt Ctrl deve ser atualizado no evento Change ou no LostFocus
+                                    ' .se 0   pesquisar após perder o foco
+                                    ' .se 1   pesquisar durante a digitação
                                 
                                     ' quando o disparador de filtragem for alterado
 Public iListboxTxtClmn As Integer  'Indica qual coluna de dados do controle da consulta armazena o valor textual exibido no listbox (usado apenas em Listbox e Combobox)
@@ -102,6 +102,7 @@ Public sGetSQLwhere As String           'String de pesquisa do controle que deve
 Public sGetRecCntCptTxt As String          'String a ser exibida no Controle de contagem de registros
 
 
+Public sCondDateFilter As String
 
 
 

@@ -10,7 +10,10 @@ Sub CalendarButton(sForM, cCalendButton, cDateTxtCtrl, sCalendButtonTipTxt)
 
     'Dim txt As TextBox
     'Dim strTitle As String
-
+    Dim cCtrL As Control
+    
+    Set cCtrL = cDateTxtCtrl
+    
 'Stop
 
     Set clObjFormOpenParams = New cls_09cParamsToOpenForms
@@ -34,6 +37,7 @@ Sub CalendarButton(sForM, cCalendButton, cDateTxtCtrl, sCalendButtonTipTxt)
     DoCmd.OpenForm "frm_00(1)eSysCalendar", windowmode:=acDialog, OpenArgs:=sCalendButtonTipTxt
 'Stop
     
+    Call pb_TargtCtrlUpdate03_UNIQUEupdate(Forms(sForM), cCtrL)
     'Call CalendarFor(Me.txtStkDataEntrada, "Selecione uma data de entrada")
     Set clObjFormOpenParams = Nothing
     
@@ -707,12 +711,12 @@ Sub msgboxErrorAlert(ByVal sMsgboxLine1 As String, Optional ByVal sMsgboxLine2 A
 End Sub
 
 
-Function ControlExists(sCtrL As String, fForM As Form) As Boolean
+Function ControlExists(sCtrl As String, fForM As Form) As Boolean
     Dim sTest As String
     
     'Testa se o Controle indicado existe
     If gBbEnableErrorHandler Then On Error Resume Next
-    sTest = fForM(sCtrL).Name
+    sTest = fForM(sCtrl).Name
     
     
     'A exmpressão Err.Number = 0 será falsa quando a tentativa de acessar

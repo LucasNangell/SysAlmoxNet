@@ -6,6 +6,10 @@ Option Explicit
 '-----------------------------------
 'pendências
 '-----------------------------------
+'   Ok - Disparar CascadeUpdate de Textbox filtrado
+'   Ok - botão reset só atualiza a listbox no segundo lique
+'   Ok - checagem de caminhos dando pau
+
 ' Ok -ResetArea
 
 ' Ok -Migração de eventos de controle pra Classe

@@ -111,7 +111,7 @@ Private Sub btnSalvar_Click()
     Dim iIndeX As Integer
     Dim bBoL As Boolean
     Dim vKeyIndex As Variant
-    
+    Dim cCtrL As Control
     
     For Each vKeyIndex In dictTabIndexCtrls
         Set cCtrL = dictTabIndexCtrls(vKeyIndex)

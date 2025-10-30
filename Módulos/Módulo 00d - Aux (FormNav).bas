@@ -7,7 +7,7 @@ Public Sub HighlightClrChange(iCtrlType As Integer, cCtrL As Control, bLostFocus
     Dim vA, vB, vC, vD, vE
     Dim sLockdStatus As String
     Dim sStR1 As String, sStR2 As String
-    Dim sCtrL As String
+    Dim sCtrl As String
     Dim sForM As String
     Dim bIsDirty As Boolean
     
@@ -21,7 +21,7 @@ Public Sub HighlightClrChange(iCtrlType As Integer, cCtrL As Control, bLostFocus
     Dim lgInT As Integer
     Dim vItem As Variant
     
-    sCtrL = cCtrL.Name
+    sCtrl = cCtrL.Name
     
 'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "Executa [ HighlightClrChange ], controle [ " & sCtrL & " ] "
 'Stop
@@ -37,7 +37,7 @@ Public Sub HighlightClrChange(iCtrlType As Integer, cCtrL As Control, bLostFocus
 
 '    cCtrL.Value = cCtrL.Value
 
-    sCtrL = cCtrL.Name
+    sCtrl = cCtrL.Name
     sForM = cCtrL.Parent.Name
     sLockdStatus = IIf(cCtrL.Locked Or Not cCtrL.Enabled, "Dsbld", "Enbld")
     Set clObjLckdStatusParam = Nothing
@@ -52,8 +52,8 @@ Public Sub HighlightClrChange(iCtrlType As Integer, cCtrL As Control, bLostFocus
         '---------------------------------------------------------------
         If IsObject(dictCtrlEnblDsblParams(sForM)) Then
         'If dictCtrlEnblDsblParams.Exists(sForM) = True Then
-            If dictCtrlEnblDsblParams(sForM).Exists(sCtrL) = True Then
-                Set clObjCtrlsEnblDsblParams = dictCtrlEnblDsblParams(sForM)(sCtrL)
+            If dictCtrlEnblDsblParams(sForM).Exists(sCtrl) = True Then
+                Set clObjCtrlsEnblDsblParams = dictCtrlEnblDsblParams(sForM)(sCtrl)
                     If clObjCtrlsEnblDsblParams.dictParamByLckdStatus.Exists(sLockdStatus) = True Then
                         Set clObjLckdStatusParam = clObjCtrlsEnblDsblParams.dictParamByLckdStatus(sLockdStatus)
                 
@@ -72,8 +72,8 @@ Public Sub HighlightClrChange(iCtrlType As Integer, cCtrL As Control, bLostFocus
         If IsObject(dictCtrlBehvrParams(sForM)) Then
         
             'Verifica se o Controle existe no [ dictCtrlBehvrParams(sForM) ]
-            If dictCtrlBehvrParams(sForM).Exists(sCtrL) = True Then
-                Set clObjCtrlBehvrParams = dictCtrlBehvrParams(sForM)(sCtrL)
+            If dictCtrlBehvrParams(sForM).Exists(sCtrl) = True Then
+                Set clObjCtrlBehvrParams = dictCtrlBehvrParams(sForM)(sCtrl)
                     
                 bColorHighlight = clObjCtrlBehvrParams.bColorHighlight
                 bOnDirty = clObjCtrlBehvrParams.bOnDirty
@@ -139,7 +139,7 @@ Public Sub MskdTxtbox02_TextMask(cTxtboxCtrl As Control, sTypedText As String, s
     Dim iInT As Integer
     Dim sTxtboxNrValue As String
     Dim sTxtboxNrTypedTxt As String
-    Dim sCtrL As String
+    Dim sCtrl As String
     Dim sForM As String
     Dim sStR1 As String, sStR2 As String
     Dim bMskdCtrl As Boolean
@@ -156,7 +156,7 @@ Public Sub MskdTxtbox02_TextMask(cTxtboxCtrl As Control, sTypedText As String, s
     'Chamada da função
     'Call MskdTxtbox02_TextMask(ActiveControl, ActiveControl.Text, "P_###,###", 6)
     
-    sCtrL = cTxtboxCtrl.Name
+    sCtrl = cTxtboxCtrl.Name
     sForM = cTxtboxCtrl.Parent.Name
     
     vA = cTxtboxCtrl.Value
@@ -167,8 +167,8 @@ Public Sub MskdTxtbox02_TextMask(cTxtboxCtrl As Control, sTypedText As String, s
     ' verifica se ele existe no dict [ dictCtrlBehvrParams(sForM) ]
     If IsObject(dictCtrlBehvrParams(sForM)) Then
     'dictCtrlBehvrParams(sForM)(sCtrL)
-        If dictCtrlBehvrParams(sForM).Exists(sCtrL) = True Then
-            Set clObjCtrlBehvrParams = dictCtrlBehvrParams(sForM)(sCtrL)
+        If dictCtrlBehvrParams(sForM).Exists(sCtrl) = True Then
+            Set clObjCtrlBehvrParams = dictCtrlBehvrParams(sForM)(sCtrl)
 'Stop
             bMskdCtrl = clObjCtrlBehvrParams.bMskdCtrl
         

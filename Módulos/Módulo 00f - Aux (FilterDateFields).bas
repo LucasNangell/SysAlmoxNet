@@ -1,4 +1,5 @@
 Attribute VB_Name = "Módulo 00f - Aux (FilterDateFields)"
+
 Option Compare Database
 Option Explicit
 
@@ -7,7 +8,7 @@ Option Explicit
 ' (GetDataEntrada2() Is Null   OR DataEntrada <= GetDataEntrada2())
 
 Public Function GetSrchDataEntrada1() As Variant
-Stop
+'Stop
     On Error Resume Next
     If CurrentProject.AllForms("frm_01(1)cProdEstoque").IsLoaded Then
         GetSrchDataEntrada1 = Forms("frm_01(1)cProdEstoque")!txtSrchDataEntrada1
@@ -17,7 +18,7 @@ Stop
 End Function
 
 Public Function GetSrchDataEntrada2() As Variant
-Stop
+'Stop
     On Error Resume Next
     If CurrentProject.AllForms("frm_01(1)cProdEstoque").IsLoaded Then
         GetSrchDataEntrada2 = Forms("frm_01(1)cProdEstoque")!txtSrchDataEntrada2

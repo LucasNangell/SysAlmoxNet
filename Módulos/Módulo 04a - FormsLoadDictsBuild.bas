@@ -1607,7 +1607,7 @@ Public Sub pbSub31_TriggCtrlDictBuild(sTagSection As String, cTriggCtrl As Contr
     Dim iListboxTxtClmn As Integer
     Dim sTargtCtrlSQLselect As String
     Dim bBolClctd As Boolean
-        
+    
     Dim sTrggCtrL As String
     Dim sTrgtCtrl As String
     Dim sForM As String
@@ -1617,6 +1617,7 @@ Public Sub pbSub31_TriggCtrlDictBuild(sTagSection As String, cTriggCtrl As Contr
     Dim vKeyGrp As Variant, vKeyTrgt As Variant
     Dim sLoadLogWarn As String
     Dim sSQLtablesString As String
+    Dim sCondDateFilter As String
     
     If gBbEnableErrorHandler Then On Error GoTo -1: On Error GoTo FrM_ErrorHandler
     
@@ -1677,7 +1678,11 @@ If gBbDepurandoLv01c Then Stop
 'Stop
     'Identifica na Tag do controle, o [ Campo da Consulta ] a ser usado na filtragem
     sQryField = vTagSectionParams(1)
-
+    sCondDateFilter = ""
+    If InStr(sQryField, "<") > 0 Or InStr(sQryField, ">") > 0 Then
+        sCondDateFilter = Right(sQryField, 1)
+        sQryField = Replace(sQryField, sCondDateFilter, "")
+    End If
     If gBbEnableErrorHandler Then On Error Resume Next
     
     
@@ -2039,6 +2044,7 @@ If gBbDepurandoLv01c Then Stop
                 .iSrchOnChange = iSrchOnChange
                 .sCascUpDtTrgCtrl = sCascUpDtTrgCtrl
                 .iListboxTxtClmn = iListboxTxtClmn
+                .sCondDateFilter = sCondDateFilter
     '           clObjTriggCtrlParam.iClctdStrSze = iClctdStrSze
     '           clObjTriggCtrlParam.iBdCln=
     
@@ -2156,7 +2162,7 @@ Public Function pbSub41_CtrlsBehvrDictBuild(sTagSection As String, cCtrL As Cont
 
     Dim vA, vB, vC
     Dim sForM As String
-    Dim sCtrL As String
+    Dim sCtrl As String
     Dim sParam As String
     Dim iWhere As Integer
     Dim vTagSectionParams As Variant
@@ -2172,9 +2178,9 @@ Public Function pbSub41_CtrlsBehvrDictBuild(sTagSection As String, cCtrL As Cont
     If gBbEnableErrorHandler Then On Error GoTo -1: On Error GoTo FrM_ErrorHandler
     
     sForM = cCtrL.Parent.Name
-    sCtrL = cCtrL.Name
+    sCtrl = cCtrL.Name
     
-If gBbDepurandoLv01c Then MsgBox "----- pbSub41_CtrlsBehvrDictBuild ----------------------------------------------" & vbCr & vbCr & "Recupera os parâmetros de [ " & sCtrL & " ] pra inclusão" & vbCr & "em [ dictCtrlBehvrParams(sForM) ]" & vbCr & " " & vbCr & " "
+If gBbDepurandoLv01c Then MsgBox "----- pbSub41_CtrlsBehvrDictBuild ----------------------------------------------" & vbCr & vbCr & "Recupera os parâmetros de [ " & sCtrl & " ] pra inclusão" & vbCr & "em [ dictCtrlBehvrParams(sForM) ]" & vbCr & " " & vbCr & " "
 If gBbDepurandoLv01c Then Stop
     
     '-------------------------------------------------------------------------------------------------------
@@ -2186,7 +2192,7 @@ If gBbDepurandoLv01c Then Stop
     
     'Confirma se [ sCtrL ] ora avaliado possui o evento [ Change ] com a chamada pra rotina [ MskdTxtbox02_TextMask ]
     sModName = "Form_" & sForM ' "frm_01(1)cProdEstoque"
-    sSubName = sCtrL & "_Change"
+    sSubName = sCtrl & "_Change"
     sSearchTerm = "MskdTxtbox02_TextMask"
     
     bMskdCtrlEventFound = FindCodeLineInSub(sModName, sSubName, sSearchTerm)
@@ -2220,7 +2226,7 @@ If gBbDepurandoLv01c Then Stop
     ' confirma se ele é um [ Trigger ]
     If sOnDrty = 1 Then
     
-If gBbDepurandoLv01c Then MsgBox "----- pbSub41_CtrlsBehvrDictBuild ----------------------------------------------" & vbCr & vbCr & "Inclui [ " & sCtrL & " ]  no Log de erros de carga do sistema caso " & vbCr & "esteja configurado como [ bOnDirty ] mas não seja um [ Trigger ]" & vbCr & " " & vbCr & " "
+If gBbDepurandoLv01c Then MsgBox "----- pbSub41_CtrlsBehvrDictBuild ----------------------------------------------" & vbCr & vbCr & "Inclui [ " & sCtrl & " ]  no Log de erros de carga do sistema caso " & vbCr & "esteja configurado como [ bOnDirty ] mas não seja um [ Trigger ]" & vbCr & " " & vbCr & " "
 If gBbDepurandoLv01c Then Stop
     
         'Confirma se [ sCtrL ] é um [ Trigger ]
@@ -2228,7 +2234,7 @@ If gBbDepurandoLv01c Then Stop
         vA = IsObject(dictTrggCtrlsInForm(sForM))
         
         'Se o dicionário de [ TrggCtrls ] não existir ou se ele existir mas [ sCtrL ] não tiver sido incluído, indica que ele NÃO é um trigger
-        If vA Then vB = dictTrggCtrlsInForm(sForM).Exists(sCtrL) Else vB = False
+        If vA Then vB = dictTrggCtrlsInForm(sForM).Exists(sCtrl) Else vB = False
     
         
         'Se o controle NÃO for um [ TrggCtrl ] e foi identificado o parâmetro [ OnDrty ] TRUE, muda o parâmetro pra FALSE
@@ -2241,13 +2247,13 @@ If gBbDepurandoLv01c Then Stop
             sLoadLogWarn = "Há controles configurados com [ OnDirty ] mas NÃO carregados como [ Trigger ]." & vbNewLine & "Esses controles não irão mudar de cor no ""sujo""."
     
           If gBbDebugOn Then Debug.Print sLoadLogWarn
-vA = "----- pbSub41_CtrlsBehvrDictBuild ----------------------------------------------" & vbCr & vbCr & "Chama [ FormStatusBar01_Bld ] pra incluir [ " & sCtrL & " ] em"
+vA = "----- pbSub41_CtrlsBehvrDictBuild ----------------------------------------------" & vbCr & vbCr & "Chama [ FormStatusBar01_Bld ] pra incluir [ " & sCtrl & " ] em"
 vB = vbCr & "[ dictFormsParams(sForM).clObjFormsParams.dForm_StatusBarWarns ]" & vbCr & "indicando erro na carga do controle"
 If gBbDepurandoLv01c Then MsgBox vA & vB
 If gBbDepurandoLv01c Then Stop
 'Stop
             On Error GoTo -1
-            Call FormStatusBar01_Bld(sForM, "DirtyTrue_NoTrgg", sLoadLogWarn, sCtrL)
+            Call FormStatusBar01_Bld(sForM, "DirtyTrue_NoTrgg", sLoadLogWarn, sCtrl)
             If gBbEnableErrorHandler Then On Error GoTo -1: On Error GoTo FrM_ErrorHandler
         
         End If
@@ -2274,7 +2280,7 @@ If gBbDepurandoLv01c Then Stop
     '------------------------------------------------------------------------------------------------------------------------
     
     
-If gBbDepurandoLv01c Then MsgBox "----- pbSub41_CtrlsBehvrDictBuild ----------------------------------------------" & vbCr & vbCr & "Salva os parâmetros de [ " & sCtrL & " ] em" & vbCr & "[ dictCtrlBehvrParams(sForM) ]" & vbCr & " " & vbCr & " "
+If gBbDepurandoLv01c Then MsgBox "----- pbSub41_CtrlsBehvrDictBuild ----------------------------------------------" & vbCr & vbCr & "Salva os parâmetros de [ " & sCtrl & " ] em" & vbCr & "[ dictCtrlBehvrParams(sForM) ]" & vbCr & " " & vbCr & " "
 If gBbDepurandoLv01c Then Stop
 
     '-------------------------------------------------------------------------------------------------------
@@ -2286,8 +2292,8 @@ If gBbDepurandoLv01c Then Stop
     If Not IsObject(dictCtrlBehvrParams(sForM)) Then Set dictCtrlBehvrParams(sForM) = New Dictionary
 
     'Verifica se o Controle já foi incluído no [ Dict ]
-    If dictCtrlBehvrParams(sForM).Exists(sCtrL) = True Then
-        Set clObjCtrlBehvrParams = dictCtrlBehvrParams(sForM)(sCtrL)
+    If dictCtrlBehvrParams(sForM).Exists(sCtrl) = True Then
+        Set clObjCtrlBehvrParams = dictCtrlBehvrParams(sForM)(sCtrl)
 'Stop
     Else
         'Cria um novo objeto [ clObjCtrlBehvrParams ] da Classe [ cls_11aCtrlBehvrParams ] pra ser incluído no Dict
@@ -2295,12 +2301,12 @@ If gBbDepurandoLv01c Then Stop
 
         'Adiciona um novo item no dicionário [ dictFormFilterGrpTrgts ] e guarda nele o objeto [ clObjCtrlBehvrParams ]
         ' com os respectivos parâmetros do Grupo de Filtragem definidos na classe [ cls_11aCtrlBehvrParams ]
-        dictCtrlBehvrParams(sForM).Add sCtrL, clObjCtrlBehvrParams
+        dictCtrlBehvrParams(sForM).Add sCtrl, clObjCtrlBehvrParams
 'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "build [ " & sCtrL & " ]" & vbCr & "" & vbCr & "" & vbCr & "" & vbCr & ""
 'Stop
         With clObjCtrlBehvrParams
             'Atribui ao controle os parâmetros esperados pela Classe [ cls_11aCtrlBehvrParams ]
-            .sCtrlName = sCtrL
+            .sCtrlName = sCtrl
             .bColorHighlight = IIf(sHLclr = 0, False, True)
             .bOnDirty = IIf(sOnDrty = 0, False, True)
             .bMskdCtrl = IIf(sMskd = 0, False, True)
@@ -2315,7 +2321,7 @@ If gBbDepurandoLv01c Then Stop
 'Stop
     'Confirma se todos os parâmetros do Controle foram encontrados
     If UBound(vTagSectionParams) < 3 Then
-        sStR1 = "Formulário:  [ " & sForM & " ]" & vbCr & "Controle: " & "     [ " & sCtrL & " ]" & vbCr & "-------------------------------------------------------------------------------"
+        sStR1 = "Formulário:  [ " & sForM & " ]" & vbCr & "Controle: " & "     [ " & sCtrl & " ]" & vbCr & "-------------------------------------------------------------------------------"
         sStR2 = "A seção [ " & "BehvrParams" & " ] da TAG do Controle não tem" & vbCr & " todos os parâmetros necessários." & vbCr & vbCr & " O controle poderá NÃO se comportar como esperado."
     
         vB = " Erro [ " & Err.Number & " ] "
@@ -2371,7 +2377,7 @@ Public Sub pbSub51_RstAreaDictBuild(sTagSection As String, cRstAreaCtrL As Contr
     Dim vA, vB, vC
     Dim vTagSectionParams As Variant 'vSplittedTag As Variant
     Dim sParam As String
-    Dim sCtrL As String
+    Dim sCtrl As String
     Dim sForM As String
     Dim sStR1 As String, sStR2 As String
     Dim sRstAr As String
@@ -2382,9 +2388,9 @@ Public Sub pbSub51_RstAreaDictBuild(sTagSection As String, cRstAreaCtrL As Contr
    'Localiza dentro da TAG do Controle qual a área de reset que deve ser tratada
     'iWhere = InStr(1, vTAGsectionParams(0), "TrgtCtrl")
     sForM = cRstAreaCtrL.Parent.Name
-    sCtrL = cRstAreaCtrL.Name
+    sCtrl = cRstAreaCtrL.Name
                                   
-If gBbDepurandoLv01c Then MsgBox "----- pbSub51_RstAreaDictBuild -------------------------------------------------" & vbCr & vbCr & "Recupera os parâmetros de [ " & sCtrL & " ] pra inclusão" & vbCr & "em [ dictFrmResetAreas(sForM) ]" & vbCr & " " & vbCr & " "
+If gBbDepurandoLv01c Then MsgBox "----- pbSub51_RstAreaDictBuild -------------------------------------------------" & vbCr & vbCr & "Recupera os parâmetros de [ " & sCtrl & " ] pra inclusão" & vbCr & "em [ dictFrmResetAreas(sForM) ]" & vbCr & " " & vbCr & " "
 If gBbDepurandoLv01c Then Stop
 
     'Separa [ vTagSection ] em matriz de único elemento, com o parâmetro
@@ -2445,7 +2451,7 @@ If gBbDepurandoLv01c Then Stop
     '-----------------------------------------------------------------------------------------------------------------
 
 
-If gBbDepurandoLv01c Then MsgBox "----- pbSub51_RstAreaDictBuild -------------------------------------------------" & vbCr & vbCr & "Avalia [ " & sCtrL & " ] " & vbCr & "ResetArea [ " & sRstAr & " ] " & " " & vbCr & " "
+If gBbDepurandoLv01c Then MsgBox "----- pbSub51_RstAreaDictBuild -------------------------------------------------" & vbCr & vbCr & "Avalia [ " & sCtrl & " ] " & vbCr & "ResetArea [ " & sRstAr & " ] " & " " & vbCr & " "
 If gBbDepurandoLv01c Then Stop
 'Stop
     
@@ -2458,9 +2464,9 @@ If gBbDepurandoLv01c Then Stop
     ' caso negativo significa que o controle ora avaliado não é um [ Trigger ]
     If IsObject(dictTrggCtrlsInForm(sForM)) Then
         
-        If dictTrggCtrlsInForm(sForM).Exists(sCtrL) Then
+        If dictTrggCtrlsInForm(sForM).Exists(sCtrl) Then
 'Stop
-            Set clObjFilGrpsByForm = dictTrggCtrlsInForm(sForM)(sCtrL)
+            Set clObjFilGrpsByForm = dictTrggCtrlsInForm(sForM)(sCtrl)
             sFilGrp = clObjFilGrpsByForm.sFilGrpToFilter
             
             If Not clObjRstAreaParams.dictRstArFilGrps.Exists(sFilGrp) Then
@@ -2479,20 +2485,20 @@ If gBbDepurandoLv01c Then Stop
     '-----------------------------------------------------------------------------------------------------------------
     '-------------------------------------------
 
-If gBbDepurandoLv01c Then MsgBox "----- pbSub51_RstAreaDictBuild -------------------------------------------------" & vbCr & vbCr & "Adiciona os itens ao dicionário" & vbCr & " Ctrl [ " & sCtrL & " ] " & vbCr & " Grp [ " & sFilGrp & " ] " & vbCr & " RstAr" & " [ " & sRstAr & " ]"
+If gBbDepurandoLv01c Then MsgBox "----- pbSub51_RstAreaDictBuild -------------------------------------------------" & vbCr & vbCr & "Adiciona os itens ao dicionário" & vbCr & " Ctrl [ " & sCtrl & " ] " & vbCr & " Grp [ " & sFilGrp & " ] " & vbCr & " RstAr" & " [ " & sRstAr & " ]"
 If gBbDepurandoLv01c Then Stop
 'Stop
     
     '-----------------------------------------------------------------------------------------------------------------
     'Cria no Dict [ dictRstArCtrls ], interno à classe [ clObjRstAreaParams ],
     ' um item referente a [ sCtrL ] pra guardar seu nome
-    If clObjRstAreaParams.dictRstArCtrls.Exists(sCtrL) Then
-        Set clObjLckdStatusParam = clObjRstAreaParams.dictRstArCtrls(sCtrL)
+    If clObjRstAreaParams.dictRstArCtrls.Exists(sCtrl) Then
+        Set clObjLckdStatusParam = clObjRstAreaParams.dictRstArCtrls(sCtrl)
     
     Else
 'Stop
         'Set clObjLckdStatusParam = New cls_07bLckdStatusParams
-        clObjRstAreaParams.dictRstArCtrls.Add sCtrL, sCtrL
+        clObjRstAreaParams.dictRstArCtrls.Add sCtrl, sCtrl
 
     End If
     '-----------------------------------------------------------------------------------------------------------------
@@ -2508,12 +2514,12 @@ Public Sub pbSub52_RstAreaBTNsDictBuild(sTagSection As String, cCtrL As Control)
     Dim sParam As String
     Dim sStR1 As String, sStR2 As String
     Dim sForM As String
-    Dim sCtrL As String
+    Dim sCtrl As String
     Dim sBTNresetArea As String
     Dim sLoadLogWarn As String
     
     
-    sCtrL = cCtrL.Name
+    sCtrl = cCtrL.Name
     sForM = cCtrL.Parent.Name
     
 'MsgBox "----- pbSub52_RstAreaBTNsDictBuild ---------------------------------------------" & vbCr & vbCr & "Confirma se o botão [ " & sCtrL & " ] está configurado" & vbCr & "como [ Reset ]"
@@ -2582,7 +2588,7 @@ If gBbDepurandoLv01c Then Stop
 'Stop
                 'Inclui o erro no dict de Logs de Carga do sistema
                 sLoadLogWarn = "Não há controles associados à área de reset [ " & sBTNresetArea & " ], indicada nos botões a seguir." & vbCrLf & "Esses botões não irão esvaziar nenhum controle:"
-                Call FormStatusBar01_Bld(sForM, "NoCtrlsInRstAr" & "_" & sBTNresetArea, sLoadLogWarn, sCtrL) 'NoCtrlsInRstAr
+                Call FormStatusBar01_Bld(sForM, "NoCtrlsInRstAr" & "_" & sBTNresetArea, sLoadLogWarn, sCtrl) 'NoCtrlsInRstAr
             
                 Exit Sub
             
@@ -2594,12 +2600,12 @@ If gBbDepurandoLv01c Then Stop
         
        
        'Inclui o botão de Reset no dict [ dictRstArBTNsByNr(sForM) ]
-        dictRstArBTNsByNr(sForM).Add sBTNresetArea, sCtrL
+        dictRstArBTNsByNr(sForM).Add sBTNresetArea, sCtrl
         
         'Inclui a mesma informação no dict [ dictRstArBTNsByName(sForM) ]
         If Not IsObject(dictRstArBTNsByName(sForM)) Then Set dictRstArBTNsByName(sForM) = New Dictionary
-        If dictRstArBTNsByName(sForM).Exists(sCtrL) = False Then
-            dictRstArBTNsByName(sForM).Add sCtrL, sBTNresetArea
+        If dictRstArBTNsByName(sForM).Exists(sCtrl) = False Then
+            dictRstArBTNsByName(sForM).Add sCtrl, sBTNresetArea
         
         End If
         
@@ -2616,7 +2622,7 @@ If gBbDepurandoLv01c Then Stop
 'Stop
         'Inclui o erro no dict de Logs de Carga do sistema
         sLoadLogWarn = "Os botões a seguir foram associados em duplicidade à Área de Reset [ " & sBTNresetArea & " ]." & vbCrLf & "Esses botões não irão esvaziar nenhum controle."
-        Call FormStatusBar01_Bld(sForM, "DupBtnsForRstAr" & "_" & sBTNresetArea, sLoadLogWarn, sCtrL) 'NoCtrlsInRstAr
+        Call FormStatusBar01_Bld(sForM, "DupBtnsForRstAr" & "_" & sBTNresetArea, sLoadLogWarn, sCtrl) 'NoCtrlsInRstAr
     
     End If
     
@@ -2631,7 +2637,7 @@ Public Sub pbSub60_CtrlsEnblDsblDictStartUp(fForM As Form)
     Dim vA, vB, vC
     Dim cEnblDsblCtrl As Control
     Dim sForM As String
-    Dim sCtrL As String
+    Dim sCtrl As String
     Dim sCtrlTag As String
     Dim vSplittedTAG As Variant
     Dim sTagSection As String
@@ -2658,7 +2664,7 @@ Public Sub pbSub60_CtrlsEnblDsblDictStartUp(fForM As Form)
 'Stop
     For Each cEnblDsblCtrl In fForM.Controls
         
-        sCtrL = cEnblDsblCtrl.Name
+        sCtrl = cEnblDsblCtrl.Name
     
 'MsgBox "----- pbSub60_CtrlsEnblDsblDictStartUp -----------------------------------------" & vbCr & vbCr & "[ " & sCtrl & " ] está na categoria de [ CtrlEnblDsbl ]?" & vbCr & " " & vbCr & " "
 If gBbDepurandoLv01b Then Stop
@@ -2677,7 +2683,7 @@ If gBbDepurandoLv01b Then Stop
 'Stop
                     sCtrlTag = cEnblDsblCtrl.Tag
                     
-vA = "----- pbSub60_CtrlsEnblDsblDictStartUp -----------------------------------------" & vbCr & vbCr & "Avalia se [ " & sCtrL & " ] tem a TAG necessária pra "
+vA = "----- pbSub60_CtrlsEnblDsblDictStartUp -----------------------------------------" & vbCr & vbCr & "Avalia se [ " & sCtrl & " ] tem a TAG necessária pra "
 vB = vbCr & "inclusão no dict [ dictRstArBTNsByNr(sForm) ]" & vbCr & vbCr & "TAG [" & Chr(160) & sCtrlTag & Chr(160) & "]"
 'MsgBox vA & vB
 If gBbDepurandoLv01b Then Stop
@@ -2704,7 +2710,7 @@ If gBbDepurandoLv01b Then Stop
 
                     'End If
                     
-vA = "----- pbSub60_CtrlsEnblDsblDictStartUp -----------------------------------------" & vbCr & vbCr & "Avalia se [ " & sCtrL & " ] tem a TAG necessária pra "
+vA = "----- pbSub60_CtrlsEnblDsblDictStartUp -----------------------------------------" & vbCr & vbCr & "Avalia se [ " & sCtrl & " ] tem a TAG necessária pra "
 vB = vbCr & "inclusão no dict [ dictFormCommButtons(sForm) ]" & vbCr & vbCr & "TAG [" & Chr(160) & sCtrlTag & Chr(160) & "]"
 If gBbDepurandoLv01b Then MsgBox vA & vB
 If gBbDepurandoLv01b Then Stop
@@ -2722,7 +2728,7 @@ If gBbDepurandoLv01b Then Stop
 'Stop
                     '-----------------------------------------------------
                     'Chama a rotina pra incluir o controle no dict [ dictCtrlsEvents(sForM) ]
-                    Call pbSub10_EventsDictBuild(sForM, sCtrL)
+                    Call pbSub10_EventsDictBuild(sForM, sCtrl)
                     '-----------------------------------------------------
                 
                 End If
@@ -2733,10 +2739,10 @@ If gBbDepurandoLv01b Then Stop
     
                 'Chama a rotina pra guardar os parâmetros no Dict.
                 ' Guarda por exemplo, o tipText original do controle no caso dele ser alterado conforme situações no sistema
-                          If gBbDebugOn Then Debug.Print " " & sCtrL
+                          If gBbDebugOn Then Debug.Print " " & sCtrl
 'Stop
                     
-If gBbDepurandoLv01b Then MsgBox "----- pbSub60_CtrlsEnblDsblDictStartUp -----------------------------------------" & vbCr & vbCr & "Chama [ pbSub61_cCtrlsEnblDsblDictBuild ] pra incluir" & vbCr & "[ " & sCtrL & " ] no dict [ dictCtrlEnblDsblParams(sForM) ]" & vbCr & " " & vbCr & " "
+If gBbDepurandoLv01b Then MsgBox "----- pbSub60_CtrlsEnblDsblDictStartUp -----------------------------------------" & vbCr & vbCr & "Chama [ pbSub61_cCtrlsEnblDsblDictBuild ] pra incluir" & vbCr & "[ " & sCtrl & " ] no dict [ dictCtrlEnblDsblParams(sForM) ]" & vbCr & " " & vbCr & " "
 If gBbDepurandoLv01b Then Stop
                     
                     On Error GoTo -1
@@ -2749,7 +2755,7 @@ If gBbDepurandoLv01b Then Stop
             If cEnblDsblCtrl.Name = bBsStatusBarLabel Then
                 '-----------------------------------------------------
                 'Chama a rotina pra incluir o controle no dict [ dictCtrlsEvents(sForM) ]
-                Call pbSub10_EventsDictBuild(sForM, sCtrL)
+                Call pbSub10_EventsDictBuild(sForM, sCtrl)
                 '-----------------------------------------------------
             
             End If
@@ -2764,7 +2770,7 @@ End Sub
 Public Sub pbSub61_cCtrlsEnblDsblDictBuild(sForM As String, sCtrlTag As String, cEnblDsblCtrl As Control)
          
     Dim vA, vB, vC
-    Dim sCtrL As String
+    Dim sCtrl As String
     'Dim sForM As String
     Dim dDicT As Dictionary
     Dim sCtrlType As String
@@ -2774,10 +2780,10 @@ Public Sub pbSub61_cCtrlsEnblDsblDictBuild(sForM As String, sCtrlTag As String, 
     'Armazena no dict  [ ] os parâmetros pra Habilitar e Desabilitar os controles do sistema
     '---------------------------------------------------------------------------------------
     
-    sCtrL = cEnblDsblCtrl.Name
+    sCtrl = cEnblDsblCtrl.Name
     sCtrlType = dictCtrlTypeShort(cEnblDsblCtrl.ControlType)
     
-If gBbDepurandoLv01c Then MsgBox "----- pbSub61_cCtrlsEnblDsblDictBuild ------------------------------------------" & vbCr & vbCr & "Recupera os parâmetros de [ " & sCtrL & " ] pra inclusão" & vbCr & "em [ dictCtrlEnblDsblParams(sForM) ]"
+If gBbDepurandoLv01c Then MsgBox "----- pbSub61_cCtrlsEnblDsblDictBuild ------------------------------------------" & vbCr & vbCr & "Recupera os parâmetros de [ " & sCtrl & " ] pra inclusão" & vbCr & "em [ dictCtrlEnblDsblParams(sForM) ]"
 If gBbDepurandoLv01c Then Stop
     
 'If gBbDepurandoLv01b Then MsgBox "teste - Get Enbl/Dsbl params [ " & sCtrL & " ]"
@@ -2788,8 +2794,8 @@ If gBbDepurandoLv01b Then Stop
         
         'Na eventualidade do controle já ter sido incluído no dicionário Dict [ dictCtrlEnblDsblParams ]
         ' apenas recupera pra guardar os parâmetros
-        If dDicT.Exists(sCtrL) = True Then
-                Set clObjCtrlsEnblDsblParams = dDicT(sCtrL)
+        If dDicT.Exists(sCtrl) = True Then
+                Set clObjCtrlsEnblDsblParams = dDicT(sCtrl)
 Stop
         Else
             'O Controle ainda não foi incluído no Dict então cria um novo
@@ -2801,7 +2807,7 @@ Stop
             
         'Adiciona o Controle no dicionário [ dictCtrlEnblDsblParams ] e guarda nele o objeto [ clObjCtrlsEnblDsblParams ]
         ' com os respectivos parâmetros de Habilitação/Desabilitação definidos na classe [ cls_07aCtrlsEnblDsblParams ]
-        dDicT.Add sCtrL, clObjCtrlsEnblDsblParams
+        dDicT.Add sCtrl, clObjCtrlsEnblDsblParams
 
 'If gBbDepurandoLv01b Then MsgBox "teste - Guardar os parâmetros comuns"
 'stop
@@ -2825,7 +2831,7 @@ Stop
         
         '-------------------------------------------
         '-----------------------------------------------------------------------------------------------------------------
-        If dictCtrlEnblDsblParams(sForM)(sCtrL).dictParamByLckdStatus Is Nothing Then Set dictCtrlEnblDsblParams(sForM)(sCtrL).dictParamByLckdStatus = New Dictionary
+        If dictCtrlEnblDsblParams(sForM)(sCtrl).dictParamByLckdStatus Is Nothing Then Set dictCtrlEnblDsblParams(sForM)(sCtrl).dictParamByLckdStatus = New Dictionary
         
         '-----------------------------------------------------------------------------------------------------------------
         '-------------------------------------------

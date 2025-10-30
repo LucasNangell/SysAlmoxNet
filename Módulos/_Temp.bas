@@ -5,7 +5,7 @@ Option Explicit
 
 Public Sub MskdTxtbox_TextMask(cTrgtTxtbox As Control, sCustomFormat As String, Optional sPrefix As String, Optional iFormatMaxLen As Integer)
     Dim vA, vB, vC
-    Dim sCtrL As String
+    Dim sCtrl As String
     Dim sForM As String
     Dim sActualText As String, sOldTxt As String
     Dim iTypedCharPos As Integer
@@ -19,21 +19,21 @@ Public Sub MskdTxtbox_TextMask(cTrgtTxtbox As Control, sCustomFormat As String, 
     Dim bMskdCtrl As Boolean
     Dim sCleanTxt As String
     Dim sTxt As String
-
+    Dim sDt1 As String, sDt2 As String, sDt3 As String
 
 '------------- Chamada da Função  ---------------------------------------------
 '     Call MskdTxtbox_TextMask(ActiveControl, "P_###,###", , 6)
 '     Call MskdTxtbox_TextMask(ActiveControl, "#,###.00", "R$ ", 6)
 '------------------------------------------------------------------------------
 
-    sCtrL = cTrgtTxtbox.Name
+    sCtrl = cTrgtTxtbox.Name
     sForM = cTrgtTxtbox.Parent.Name
 
     'Confirma se o controle tem [ bMskdCtrl = TRUE ]
     ' verifica se ele existe no dict [ dictCtrlBehvrParams(sForM) ]
     If IsObject(dictCtrlBehvrParams(sForM)) Then
-        If dictCtrlBehvrParams(sForM).Exists(sCtrL) = True Then
-            Set clObjCtrlBehvrParams = dictCtrlBehvrParams(sForM)(sCtrL)
+        If dictCtrlBehvrParams(sForM).Exists(sCtrl) = True Then
+            Set clObjCtrlBehvrParams = dictCtrlBehvrParams(sForM)(sCtrl)
             bMskdCtrl = clObjCtrlBehvrParams.bMskdCtrl
         
         End If
@@ -126,30 +126,41 @@ Public Sub MskdTxtbox_TextMask(cTrgtTxtbox As Control, sCustomFormat As String, 
 
     
     Else 'Caso não se trate de uma máscara com número decimal
-    
+        
         'Limpa o controle pra deixar apenas números
         For iInT = 1 To Len(sActualText)
             sTxt = Mid(sActualText, iInT, 1)
             If IsNumeric(sTxt) Then sCleanTxt = sCleanTxt & sTxt
         
         Next iInT
-
+        
         If Len(sCleanTxt) > iFormatMaxLen Then
             'Volta ao valor anterior
             cTrgtTxtbox.Undo
-        Else
-            sActualText = sCleanTxt
-            sActualText = sPrefix & Format(sActualText, sCustomFormat)
-'Stop
-            'vA = Format(sActualText, "##/##/####")
-            
-            
-            cTrgtTxtbox.Value = sActualText
-            
+            Exit Sub
         End If
-    
+        
+        'Se for um campo de data adapta [ sCustomFormat ] de acordo com a quantidade de caracters digitados
+        If sCustomFormat = "##/##/####" Then
+            Select Case Len(sCleanTxt)
+                Case 1: sCustomFormat = IIf(Int(sCleanTxt) > 3, "0#/", "0")
+                Case 2: sCustomFormat = IIf(Right(sActualText, 1) = "/", "0#/", "0#")
+                Case 3: sCustomFormat = IIf(Int(Right(sCleanTxt, 1)) > 1, "0#/0#/", "0#/#")
+                Case 4: sCustomFormat = IIf(Right(sActualText, 1) = "/", "0#/0#/", "0#/0#")
+                Case 5: sCustomFormat = "00/00/0"
+                Case 6: sCustomFormat = IIf(Int(Right(sCleanTxt, 2)) <> 20, "0#/0#/####", "0#/0#/##"): _
+                If Int(Right(sCleanTxt, 2)) <> 20 Then sCleanTxt = Left(sCleanTxt, 4) & "20" & Right(sCleanTxt, 2)
+                Case 7: sCustomFormat = "0#/0#/###"
+                Case 8: sCustomFormat = "0#/0#/####"
+            End Select
+        End If
+
+        sActualText = sCleanTxt
+        sActualText = sPrefix & Format(sActualText, sCustomFormat)
+        
+        cTrgtTxtbox.Value = sActualText
         cTrgtTxtbox.SelStart = cTrgtTxtbox.SelLength
-       
+        
     End If
     
 End Sub

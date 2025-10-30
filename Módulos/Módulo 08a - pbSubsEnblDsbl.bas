@@ -174,7 +174,7 @@ Public Sub pbSub02_CtrlsEnblDsbl_Apply(ByVal fForM As Form, cTweakableCtrL As Co
 
     Dim vA, vB, vC
     Dim sForM As String
-    Dim sCtrL As String
+    Dim sCtrl As String
     Dim sCtrlStatus As String
     
     Dim lngLckdStatusBackColor As Long
@@ -185,7 +185,7 @@ Public Sub pbSub02_CtrlsEnblDsbl_Apply(ByVal fForM As Form, cTweakableCtrL As Co
 
 
     sForM = fForM.Name
-    If Not cTweakableCtrL Is Nothing Then sCtrL = cTweakableCtrL.Name
+    If Not cTweakableCtrL Is Nothing Then sCtrl = cTweakableCtrL.Name
 
 'MsgBox "teste - aplicando Enable/Disable para: [ " & sCtrl & " ]"
 'Stop
@@ -215,7 +215,7 @@ Public Sub pbSub02_CtrlsEnblDsbl_Apply(ByVal fForM As Form, cTweakableCtrL As Co
     Select Case sCtrlType
         Case "btn", "chk", "opb", "txt", "lst", "cmb"
             
-            Set clObjLckdStatusParam = dictCtrlEnblDsblParams(sForM)(sCtrL).dictParamByLckdStatus(sCtrlStatus)
+            Set clObjLckdStatusParam = dictCtrlEnblDsblParams(sForM)(sCtrl).dictParamByLckdStatus(sCtrlStatus)
         
             'recupera no Dict [ dictCtrlEnblDsblParams(sForM) ] os valores para os parâmetros do controle
             lngLckdStatusBackColor = clObjLckdStatusParam.lngLckdStatusBackColor

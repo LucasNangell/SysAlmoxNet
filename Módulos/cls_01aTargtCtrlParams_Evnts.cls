@@ -64,13 +64,11 @@ Public Property Set InitCtrl(cCtrL As Control)
 End Property
 
 Private Sub mListBox_BeforeUpdate(Cancel As Integer)
-    'Congela tela duranta a execução da rotina
-    LockWindowUpdate Application.hWndAccessApp
     
     Dim vA, vC, vD
     Dim vB
     Dim cCtrL As Control
-    Dim sCtrL As String
+    Dim sCtrl As String
     Dim fForM As Form
     Dim sFilGrp As String
     Dim sForM As String
@@ -87,11 +85,11 @@ Private Sub mListBox_BeforeUpdate(Cancel As Integer)
     Set cCtrL = mListBox
     Set fForM = cCtrL.Parent
     sForM = fForM.Name
-    sCtrL = cCtrL.Name
+    sCtrl = cCtrL.Name
 
 'MsgBox "teste --------------------------------------------------------------------------" & vbCr & "Aciona [ HighlightClrChange ] LostFocus, controle [ " & sCtrL & "]   "
 'Stop
-
+    If mListBox.Locked = False Then Call pbSub00_CtrlsEnblDsble_GetParams(fForM, mListBox.Name & "Select")
     'Verifica se o listbox é um [ TrggCtrl ], caso seja
     ' adiciona os valores dos campos do item selecionado ao [ dictFieldsSelectedItem ]
     If IsObject(dictTrggCtrlsInForm(sForM)(mListBox.Name)) Then
@@ -134,49 +132,20 @@ Private Sub mListBox_BeforeUpdate(Cancel As Integer)
         
         rsList.Close
         Set rsList = Nothing
-        
+    
+    Call pb_TargtCtrlUpdate03_UNIQUEupdate(fForM, cCtrL)
     End If
     'Chama a rotina de filtragem
-    Call pb_TargtCtrlUpdate03_UNIQUEupdate(fForM, cCtrL)
+    
     Call PbSubDataFields_FillFromListbox(cCtrL)
                                 
     'Libera atualização de tela
-    LockWindowUpdate 0
+
 End Sub
 
 
-Private Sub mListBox_MouseDown(Button As Integer, Shift As Integer, x As Single, Y As Single)
-    Dim vA, vB
-    Dim vKeyGrp, vKeyCtrl
-    Dim sTrgtCtrlFilGrp As String, sForM As String
-    Dim cEdtCtrl As Control
-    Dim fForM As Form
+
     
-    'Congela tela duranta a execução da rotina
-    LockWindowUpdate Application.hWndAccessApp
-    '---------------------------------------------------------------
-    ' chama pbSub00_CtrlsEnblDsble_GetParams
-    ' pra habilitar/desabilitar os controles depois que um valor é selecionado na Listbox
-    '---------------------------------------------------------------
-'Stop
-    Set fForM = mListBox.Parent
-'MsgBox "Mouse Down [ " & mListBox.Name & " ]"
-'Stop
-    'Quando um item é selecionado na listbox
-    ' habilita o botão de Edição de dados do grupo de filtragem indicado
-    ' se a lista estiver liberada pra seleção dos valores
-    ' Caso contrário nenhuma ação deve ser executada
-    If mListBox.Locked = False Then
 
-        sForM = mListBox.Parent.Name
-        
 
-        Call pbSub00_CtrlsEnblDsble_GetParams(fForM, mListBox.Name & "Select")
-        
-        
-    End If
-
-    'Libera ataulização de tela
-    LockWindowUpdate 0
-End Sub
 

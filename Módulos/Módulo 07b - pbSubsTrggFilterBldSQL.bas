@@ -150,7 +150,7 @@ Public Sub BuildSQL_ListBox(cCtrL As Control, sTargtCtrlSQLselect As String, bMs
     Dim vA, vB, vC, vD, vE
     Dim sOrigListTxt As String, sSrchTxt As String
     Dim iSrchVal As Integer
-    Dim sCtrL As String
+    Dim sCtrl As String
     
     Dim sReCntCpt As String
     Dim sReCntFullStR As String
@@ -164,7 +164,7 @@ Public Sub BuildSQL_ListBox(cCtrL As Control, sTargtCtrlSQLselect As String, bMs
     Dim lngTbeClmn As Long
     Dim sOpenBrkt As String, sCloseBrkt As String
     
-    sCtrL = cCtrL.Name
+    sCtrl = cCtrL.Name
     vB = cCtrL
     
     'vA = cCtrL.ItemData(cCtrL.ListIndex)
@@ -374,6 +374,7 @@ Public Sub BuildSQL_TextBox(cCtrL As Control, sTargtCtrlSQLselect As String, bMs
     Dim sWhere As String
     Dim iSrchWildCard As String
     Dim sOpenBrkt As String, sCloseBrkt As String
+    Dim sCondDateFilter As String
     
     vA = cCtrL.Name
     vB = cCtrL.Value
@@ -429,6 +430,7 @@ Public Sub BuildSQL_TextBox(cCtrL As Control, sTargtCtrlSQLselect As String, bMs
         
         'Recupera o Campo de pesquisa na tabela
         sCtrlQryField = clObjTriggCtrlParam.sQryField
+        sCondDateFilter = clObjTriggCtrlParam.sCondDateFilter
         '---------------------------------------------------------------------------
         '------------------------------------------------
 'Stop
@@ -447,18 +449,29 @@ Public Sub BuildSQL_TextBox(cCtrL As Control, sTargtCtrlSQLselect As String, bMs
         iSrchWildCard = clObjTriggCtrlParam.iSrchWildCard
         vB = IIf(iSrchWildCard = 1, """" & sSrchTxt & "*""", IIf(iSrchWildCard = 2, """*" & sSrchTxt & "*""", """" & sSrchTxt & """"))
         
-        sWhere = sOpenBrkt & sCtrlQryField & sCloseBrkt & " Like " & vB
-        sWhere = "(" & sWhere & ")"
-'Stop
-        'Texto a ser exibido no RecCntCpt
-        vA = IIf(iSrchWildCard = 1 Or iSrchWildCard = 2, "*", "")
-        vB = IIf(iSrchWildCard = 2, "*", "")
-        
-        vC = clObjTriggCtrlParam.sQryFieldCptClean & ": "
-        
-        sReCntCpt = clObjTriggCtrlParam.sQryFieldCptClean & ": "
-        sReCntFullStR = sReCntCpt & "[ " & vA & sSrchReCnt & vB & " ]"
-        
+        If sCondDateFilter <> "" Then
+            If Len(sSrchTxt) = 4 And InStr(sSrchTxt, "/") = 0 Then
+                sWhere = "Year(" & sOpenBrkt & sCtrlQryField & sCloseBrkt & ")" & sCondDateFilter & "=" & sSrchTxt
+                sWhere = "(" & sWhere & ")"
+            Else
+                sSrchTxt = Format(sSrchTxt, "MM/DD/YYYY")
+                sWhere = sOpenBrkt & sCtrlQryField & sCloseBrkt & sCondDateFilter & "=#" & sSrchTxt & "#"
+                sWhere = "(" & sWhere & ")"
+                If Len(sSrchTxt) < 9 Then sWhere = ""
+            End If
+        Else
+            sWhere = sOpenBrkt & sCtrlQryField & sCloseBrkt & " Like " & vB
+            sWhere = "(" & sWhere & ")"
+    'Stop
+            'Texto a ser exibido no RecCntCpt
+            vA = IIf(iSrchWildCard = 1 Or iSrchWildCard = 2, "*", "")
+            vB = IIf(iSrchWildCard = 2, "*", "")
+            
+            vC = clObjTriggCtrlParam.sQryFieldCptClean & ": "
+            
+            sReCntCpt = clObjTriggCtrlParam.sQryFieldCptClean & ": "
+            sReCntFullStR = sReCntCpt & "[ " & vA & sSrchReCnt & vB & " ]"
+        End If
         
         'Armazena os valores no objeto de classe [ clObjTriggCtrlParam ]
         clObjTriggCtrlParam.sGetSQLwhere = sWhere
